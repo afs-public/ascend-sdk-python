@@ -1,0 +1,11 @@
+# CountryDetail
+
+Country detail used for Dow Jones Profile details
+
+
+## Fields
+
+| Field                                                                                              | Type                                                                                               | Required                                                                                           | Description                                                                                        | Example                                                                                            |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `country_type`                                                                                     | *Optional[str]*                                                                                    | :heavy_minus_sign:                                                                                 | Dow Jones persons country type                                                                     | Resident of                                                                                        |
+| `region_code`                                                                                      | *Optional[str]*                                                                                    | :heavy_minus_sign:                                                                                 | Two character region code, complies with https://cldr.unicode.org/index Example values: "US", "CA" | US                                                                                                 |

@@ -1,0 +1,9 @@
+# FeesCreateFeeRequest
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `account_id`                                                                   | *str*                                                                          | :heavy_check_mark:                                                             | The account id.                                                                | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                     |
+| `transfers_fee_create`                                                         | [components.TransfersFeeCreate](../../models/components/transfersfeecreate.md) | :heavy_check_mark:                                                             | N/A                                                                            |                                                                                |

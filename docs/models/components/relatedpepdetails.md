@@ -1,0 +1,11 @@
+# RelatedPepDetails
+
+Information about the related politically exposed persons
+
+
+## Fields
+
+| Field                                                                                                 | Type                                                                                                  | Required                                                                                              | Description                                                                                           | Example                                                                                               |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `direct_or_indirect_related_peps`                                                                     | *Optional[bool]*                                                                                      | :heavy_minus_sign:                                                                                    | Indication as to whether or not an account has direct or indirect related politically exposed persons | true                                                                                                  |
+| `related_peps`                                                                                        | List[[components.RelatedPep](../../models/components/relatedpep.md)]                                  | :heavy_minus_sign:                                                                                    | Related Peps                                                                                          |                                                                                                       |

@@ -1,0 +1,10 @@
+# Delivery
+
+Object containing metadata for delivery events
+
+
+## Fields
+
+| Field                                                                                                                                                    | Type                                                                                                                                                     | Required                                                                                                                                                 | Description                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `corporate_action_general_information`                                                                                                                   | [OptionalNullable[components.EntryDeliveryCorporateActionGeneralInformation]](../../models/components/entrydeliverycorporateactiongeneralinformation.md) | :heavy_minus_sign:                                                                                                                                       | Common fields for corporate actions                                                                                                                      |

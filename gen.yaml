@@ -1,0 +1,48 @@
+configVersion: 2.0.0
+generation:
+  sdkClassName: sdk
+  maintainOpenAPIOrder: true
+  usageSnippets:
+    optionalPropertyRendering: never
+  useClassNamesForArrayFields: true
+  fixes:
+    nameResolutionDec2023: true
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+  auth:
+    oAuth2ClientCredentialsEnabled: true
+python:
+  version: 1.5.4
+  additionalDependencies:
+    dev:
+      pytz: "2024.2"
+    main:
+      PyJWT: ^2.4.0
+      cryptography: ^42.0.4
+      requests: ^2.32.3
+  authors:
+    - Apex Fintech Solutions
+  clientServerStatusCodesAsErrors: true
+  description: Python Client SDK for Apex Ascend Platform
+  enumFormat: enum
+  fixFlags:
+    responseRequiredSep2024: false
+  flattenGlobalSecurity: true
+  flattenRequests: false
+  flatteningOrder: parameters-first
+  imports:
+    option: openapi
+    paths:
+      callbacks: models/callbacks
+      errors: models/errors
+      operations: models/operations
+      shared: models/components
+      webhooks: models/webhooks
+  inputModelSuffix: input
+  license: MIT
+  maxMethodParams: 4
+  methodArguments: require-security-and-request
+  outputModelSuffix: output
+  packageName: ascend-sdk
+  responseFormat: envelope-http
+  templateVersion: v2

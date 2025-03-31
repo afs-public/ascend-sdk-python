@@ -1,0 +1,10 @@
+# BasketOrdersServiceListBasketOrdersResponse
+
+
+## Fields
+
+| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                          | [components.HTTPMetadata](../../models/components/httpmetadata.md)                                   | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
+| `list_basket_orders_response`                                                                        | [Optional[components.ListBasketOrdersResponse]](../../models/components/listbasketordersresponse.md) | :heavy_minus_sign:                                                                                   | OK                                                                                                   |
+| `status`                                                                                             | [Optional[components.Status]](../../models/components/status.md)                                     | :heavy_minus_sign:                                                                                   | INVALID_ARGUMENT: The correspondent_id or the basket_id could not be determined for the request.     |
