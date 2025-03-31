@@ -1,0 +1,11 @@
+# ListScheduleSummariesResponse
+
+Response to a search transfer schedules request
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    | Example                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `next_page_token`                                                                              | *Optional[str]*                                                                                | :heavy_minus_sign:                                                                             | The next page token                                                                            | 4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4                                                    |
+| `schedule_summaries`                                                                           | List[[components.TransferScheduleSummary](../../models/components/transferschedulesummary.md)] | :heavy_minus_sign:                                                                             | The list of transfer schedule details                                                          |                                                                                                |

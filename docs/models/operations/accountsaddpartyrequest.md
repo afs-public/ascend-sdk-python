@@ -1,0 +1,9 @@
+# AccountsAddPartyRequest
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `account_id`                                                                         | *str*                                                                                | :heavy_check_mark:                                                                   | The account id.                                                                      | 01HC3MAQ4DR9QN1V8MJ4CN1HMK                                                           |
+| `add_party_request_create`                                                           | [components.AddPartyRequestCreate](../../models/components/addpartyrequestcreate.md) | :heavy_check_mark:                                                                   | N/A                                                                                  |                                                                                      |

@@ -1,0 +1,10 @@
+# AuthenticationListSigningKeysResponse
+
+
+## Fields
+
+| Field                                                                                              | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                        | [components.HTTPMetadata](../../models/components/httpmetadata.md)                                 | :heavy_check_mark:                                                                                 | N/A                                                                                                |
+| `list_signing_keys_response`                                                                       | [Optional[components.ListSigningKeysResponse]](../../models/components/listsigningkeysresponse.md) | :heavy_minus_sign:                                                                                 | OK                                                                                                 |
+| `status`                                                                                           | [Optional[components.Status]](../../models/components/status.md)                                   | :heavy_minus_sign:                                                                                 | INTERNAL: An internal server error occurred.                                                       |

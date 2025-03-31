@@ -1,0 +1,10 @@
+# CashJournalsCheckPartyTypeResponse
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `http_meta`                                                                                      | [components.HTTPMetadata](../../models/components/httpmetadata.md)                               | :heavy_check_mark:                                                                               | N/A                                                                                              |
+| `check_party_type_response`                                                                      | [Optional[components.CheckPartyTypeResponse]](../../models/components/checkpartytyperesponse.md) | :heavy_minus_sign:                                                                               | OK                                                                                               |
+| `status`                                                                                         | [Optional[components.Status]](../../models/components/status.md)                                 | :heavy_minus_sign:                                                                               | INVALID_ARGUMENT: The request has an invalid argument.                                           |

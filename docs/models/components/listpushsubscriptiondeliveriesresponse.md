@@ -1,0 +1,11 @@
+# ListPushSubscriptionDeliveriesResponse
+
+A response to a list push subscription deliveries method
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      | Example                                                                                          |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `next_page_token`                                                                                | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | Page token used for pagination; Supplying a page token returns the next page of results          | ZXhhbXBsZQo                                                                                      |
+| `push_subscription_deliveries`                                                                   | List[[components.PushSubscriptionDelivery](../../models/components/pushsubscriptiondelivery.md)] | :heavy_minus_sign:                                                                               | The returned collection of deliveries                                                            |                                                                                                  |

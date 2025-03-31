@@ -1,0 +1,13 @@
+# BankAccountCreate
+
+A representation of a bank account.
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `account_number`                                                                     | *str*                                                                                | :heavy_check_mark:                                                                   | The bank account number. This value will be masked in responses.                     | 100100123                                                                            |
+| `owner`                                                                              | *str*                                                                                | :heavy_check_mark:                                                                   | The name of the bank account owner.                                                  | John Doe                                                                             |
+| `routing_number`                                                                     | *str*                                                                                | :heavy_check_mark:                                                                   | The bank routing number (either ABA or BIC).                                         | 1.2345678e+07                                                                        |
+| `type`                                                                               | [components.BankAccountCreateType](../../models/components/bankaccountcreatetype.md) | :heavy_check_mark:                                                                   | The bank account type.                                                               | CHECKING                                                                             |

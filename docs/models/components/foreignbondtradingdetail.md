@@ -1,0 +1,11 @@
+# ForeignBondTradingDetail
+
+Foreign bond trading detail
+
+
+## Fields
+
+| Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            | Example                                                                                                |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `percentage`                                                                                           | [OptionalNullable[components.Percentage]](../../models/components/percentage.md)                       | :heavy_minus_sign:                                                                                     | The percentage of the account's trades which will involve foreign bond                                 | 90.2                                                                                                   |
+| `region_code`                                                                                          | *Optional[str]*                                                                                        | :heavy_minus_sign:                                                                                     | The region where the foreign bond trading activity is taking place. Must be a two-character CLDR code. | CA                                                                                                     |
