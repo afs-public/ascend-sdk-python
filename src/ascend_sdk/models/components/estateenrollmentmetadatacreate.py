@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class EstateEnrollmentMetadataCreateDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -30,7 +30,7 @@ class EstateEnrollmentMetadataCreateTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EstateEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
 
 class EstateEnrollmentMetadataCreate(BaseModel):
@@ -43,4 +43,4 @@ class EstateEnrollmentMetadataCreate(BaseModel):
         Optional[EstateEnrollmentMetadataCreateDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""

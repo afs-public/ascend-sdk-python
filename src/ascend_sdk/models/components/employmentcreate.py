@@ -27,8 +27,6 @@ class EmploymentCreateTypedDict(TypedDict):
 
     employment_status: EmploymentStatus
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
-    occupation: str
-    r"""The nature of work performed at an investor's place of employment."""
     employer: NotRequired[str]
     r"""The business name of an investor's employer."""
     employer_address: NotRequired[PostalAddressCreateTypedDict]
@@ -40,6 +38,8 @@ class EmploymentCreateTypedDict(TypedDict):
 
     For more guidance on how to use this schema, please see: https://support.google.com/business/answer/6397478
     """
+    occupation: NotRequired[str]
+    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
     start_year: NotRequired[int]
     r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
 
@@ -51,9 +51,6 @@ class EmploymentCreate(BaseModel):
         EmploymentStatus, PlainValidator(validate_open_enum(False))
     ]
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
-
-    occupation: str
-    r"""The nature of work performed at an investor's place of employment."""
 
     employer: Optional[str] = None
     r"""The business name of an investor's employer."""
@@ -67,6 +64,9 @@ class EmploymentCreate(BaseModel):
 
     For more guidance on how to use this schema, please see: https://support.google.com/business/answer/6397478
     """
+
+    occupation: Optional[str] = None
+    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
 
     start_year: Optional[int] = None
     r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""

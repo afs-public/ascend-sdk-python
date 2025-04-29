@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 from .executedprice import ExecutedPrice, ExecutedPriceTypedDict
-from .fee import Fee, FeeTypedDict
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -64,93 +63,6 @@ class BasketOrderIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
     ISIN = "ISIN"
 
 
-class BasketOrderAmountTypedDict(TypedDict):
-    r"""The amount of the LOI. This is a monetary value in the same currency as the order."""
-
-    value: NotRequired[str]
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class BasketOrderAmount(BaseModel):
-    r"""The amount of the LOI. This is a monetary value in the same currency as the order."""
-
-    value: Optional[str] = None
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class BasketOrderPeriodStartDateTypedDict(TypedDict):
-    r"""The period start date, specific to the US Eastern Time Zone, of the LOI. Date range: 90 days in the past and 13 months in the future from the order_date."""
-
-    day: NotRequired[int]
-    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
-    month: NotRequired[int]
-    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
-    year: NotRequired[int]
-    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
-
-
-class BasketOrderPeriodStartDate(BaseModel):
-    r"""The period start date, specific to the US Eastern Time Zone, of the LOI. Date range: 90 days in the past and 13 months in the future from the order_date."""
-
-    day: Optional[int] = None
-    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
-
-    month: Optional[int] = None
-    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
-
-    year: Optional[int] = None
-    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
-
-
-class BasketOrderLetterOfIntentTypedDict(TypedDict):
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months. Either ROA or LOI may be specified, but not both."""
-
-    amount: NotRequired[Nullable[BasketOrderAmountTypedDict]]
-    r"""The amount of the LOI. This is a monetary value in the same currency as the order."""
-    period_start_date: NotRequired[Nullable[BasketOrderPeriodStartDateTypedDict]]
-    r"""The period start date, specific to the US Eastern Time Zone, of the LOI. Date range: 90 days in the past and 13 months in the future from the order_date."""
-
-
-class BasketOrderLetterOfIntent(BaseModel):
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months. Either ROA or LOI may be specified, but not both."""
-
-    amount: OptionalNullable[BasketOrderAmount] = UNSET
-    r"""The amount of the LOI. This is a monetary value in the same currency as the order."""
-
-    period_start_date: OptionalNullable[BasketOrderPeriodStartDate] = UNSET
-    r"""The period start date, specific to the US Eastern Time Zone, of the LOI. Date range: 90 days in the past and 13 months in the future from the order_date."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["amount", "period_start_date"]
-        nullable_fields = ["amount", "period_start_date"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in self.model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
 class BasketOrderNotionalValueTypedDict(TypedDict):
     r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. Either a quantity or notional_value MUST be specified (but not both). For Equities: currently not supported yet For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified."""
 
@@ -198,6 +110,8 @@ class BasketOrderOrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     ANOTHER_BASKET_ORDER_FOR_ACCOUNT_HAS_FAILED_RISK_CHECKS = (
         "ANOTHER_BASKET_ORDER_FOR_ACCOUNT_HAS_FAILED_RISK_CHECKS"
     )
+    INSUFFICIENT_POSITION = "INSUFFICIENT_POSITION"
+    FAILED_BUYING_POWER = "FAILED_BUYING_POWER"
 
 
 class BasketOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -230,64 +144,6 @@ class BasketOrderQuantity(BaseModel):
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class BasketOrderRightsOfAccumulationAmountTypedDict(TypedDict):
-    r"""The amount of the ROA. This is a monetary value in the same currency as the order. Only 9999999.99 is supported."""
-
-    value: NotRequired[str]
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class BasketOrderRightsOfAccumulationAmount(BaseModel):
-    r"""The amount of the ROA. This is a monetary value in the same currency as the order. Only 9999999.99 is supported."""
-
-    value: Optional[str] = None
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class BasketOrderRightsOfAccumulationTypedDict(TypedDict):
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available. Either ROA or LOI may be specified, but not both."""
-
-    amount: NotRequired[Nullable[BasketOrderRightsOfAccumulationAmountTypedDict]]
-    r"""The amount of the ROA. This is a monetary value in the same currency as the order. Only 9999999.99 is supported."""
-
-
-class BasketOrderRightsOfAccumulation(BaseModel):
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available. Either ROA or LOI may be specified, but not both."""
-
-    amount: OptionalNullable[BasketOrderRightsOfAccumulationAmount] = UNSET
-    r"""The amount of the ROA. This is a monetary value in the same currency as the order. Only 9999999.99 is supported."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["amount"]
-        nullable_fields = ["amount"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in self.model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class BasketOrderSide(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -333,8 +189,6 @@ class BasketOrderTypedDict(TypedDict):
     r"""The product of order quantity & price, summed across all fills, reported in the currency specified in the order. (This will be rounded to 2 decimal places for USD currencies). Will be absent if an order has no fill information."""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
-    fees: NotRequired[List[FeeTypedDict]]
-    r"""Fees that will be applied to this order."""
     filled_quantity: NotRequired[Nullable[BasketOrderFilledQuantityTypedDict]]
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
     identifier: NotRequired[str]
@@ -343,8 +197,6 @@ class BasketOrderTypedDict(TypedDict):
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
     r"""Time of the last order update"""
-    letter_of_intent: NotRequired[Nullable[BasketOrderLetterOfIntentTypedDict]]
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months. Either ROA or LOI may be specified, but not both."""
     name: NotRequired[str]
     r"""System generated name of the basket order."""
     notional_value: NotRequired[Nullable[BasketOrderNotionalValueTypedDict]]
@@ -357,10 +209,6 @@ class BasketOrderTypedDict(TypedDict):
     r"""The execution type of this order."""
     quantity: NotRequired[Nullable[BasketOrderQuantityTypedDict]]
     r"""Numeric quantity of the order. Either a quantity or notional_value MUST be specified (but not both). For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places."""
-    rights_of_accumulation: NotRequired[
-        Nullable[BasketOrderRightsOfAccumulationTypedDict]
-    ]
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available. Either ROA or LOI may be specified, but not both."""
     side: NotRequired[BasketOrderSide]
     r"""The side of this order."""
     time_in_force: NotRequired[BasketOrderTimeInForce]
@@ -407,9 +255,6 @@ class BasketOrder(BaseModel):
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
 
-    fees: Optional[List[Fee]] = None
-    r"""Fees that will be applied to this order."""
-
     filled_quantity: OptionalNullable[BasketOrderFilledQuantity] = UNSET
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
 
@@ -423,9 +268,6 @@ class BasketOrder(BaseModel):
 
     last_update_time: OptionalNullable[datetime] = UNSET
     r"""Time of the last order update"""
-
-    letter_of_intent: OptionalNullable[BasketOrderLetterOfIntent] = UNSET
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months. Either ROA or LOI may be specified, but not both."""
 
     name: Optional[str] = None
     r"""System generated name of the basket order."""
@@ -452,9 +294,6 @@ class BasketOrder(BaseModel):
     quantity: OptionalNullable[BasketOrderQuantity] = UNSET
     r"""Numeric quantity of the order. Either a quantity or notional_value MUST be specified (but not both). For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places."""
 
-    rights_of_accumulation: OptionalNullable[BasketOrderRightsOfAccumulation] = UNSET
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available. Either ROA or LOI may be specified, but not both."""
-
     side: Annotated[
         Optional[BasketOrderSide], PlainValidator(validate_open_enum(False))
     ] = None
@@ -478,19 +317,16 @@ class BasketOrder(BaseModel):
             "create_time",
             "cumulative_notional_value",
             "currency_code",
-            "fees",
             "filled_quantity",
             "identifier",
             "identifier_type",
             "last_update_time",
-            "letter_of_intent",
             "name",
             "notional_value",
             "order_rejected_reason",
             "order_status",
             "order_type",
             "quantity",
-            "rights_of_accumulation",
             "side",
             "time_in_force",
         ]
@@ -500,10 +336,8 @@ class BasketOrder(BaseModel):
             "cumulative_notional_value",
             "filled_quantity",
             "last_update_time",
-            "letter_of_intent",
             "notional_value",
             "quantity",
-            "rights_of_accumulation",
         ]
         null_default_fields = []
 

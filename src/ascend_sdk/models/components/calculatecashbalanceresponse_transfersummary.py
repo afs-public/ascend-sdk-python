@@ -48,6 +48,7 @@ class CalculateCashBalanceResponseTransferSummaryMechanism(
     RTP = "RTP"
     TPJ = "TPJ"
     WIRE = "WIRE"
+    EXTERNAL_ACH = "EXTERNAL_ACH"
 
 
 class CalculateCashBalanceResponseTransferSummaryTypedDict(TypedDict):

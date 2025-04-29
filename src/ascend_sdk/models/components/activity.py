@@ -2397,14 +2397,14 @@ class ActivityNameChange(BaseModel):
         return m
 
 
-class NetAmountTypedDict(TypedDict):
+class ActivityNetAmountTypedDict(TypedDict):
     r"""The monetary value of an activity, inclusive of fees, withholding, commisions, etc (Second Money)"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class NetAmount(BaseModel):
+class ActivityNetAmount(BaseModel):
     r"""The monetary value of an activity, inclusive of fees, withholding, commisions, etc (Second Money)"""
 
     value: Optional[str] = None
@@ -5669,7 +5669,7 @@ class ActivityTypedDict(TypedDict):
     r"""accounts/{account_id}/activities/{activity_id}"""
     name_change: NotRequired[Nullable[ActivityNameChangeTypedDict]]
     r"""Used to record changes in the name of a security/securities by the issuer which result in surrendering physical securities or the assigning of a new security identifier which result in new securities being issued and details related to the name changes"""
-    net_amount: NotRequired[Nullable[NetAmountTypedDict]]
+    net_amount: NotRequired[Nullable[ActivityNetAmountTypedDict]]
     r"""The monetary value of an activity, inclusive of fees, withholding, commisions, etc (Second Money)"""
     next_activity_id: NotRequired[str]
     r"""can be an empty string if there is no next activity is populated when there is a modification resulting in a new activity"""
@@ -5872,7 +5872,7 @@ class Activity(BaseModel):
     name_change: OptionalNullable[ActivityNameChange] = UNSET
     r"""Used to record changes in the name of a security/securities by the issuer which result in surrendering physical securities or the assigning of a new security identifier which result in new securities being issued and details related to the name changes"""
 
-    net_amount: OptionalNullable[NetAmount] = UNSET
+    net_amount: OptionalNullable[ActivityNetAmount] = UNSET
     r"""The monetary value of an activity, inclusive of fees, withholding, commisions, etc (Second Money)"""
 
     next_activity_id: Optional[str] = None

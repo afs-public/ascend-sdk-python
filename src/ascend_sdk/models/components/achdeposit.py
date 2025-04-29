@@ -18,14 +18,14 @@ from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class AchDepositAmountTypedDict(TypedDict):
+class AmountTypedDict(TypedDict):
     r"""The amount to deposit in USD."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class AchDepositAmount(BaseModel):
+class Amount(BaseModel):
     r"""The amount to deposit in USD."""
 
     value: Optional[str] = None
@@ -186,7 +186,7 @@ class AchDepositState(BaseModel):
 class AchDepositTypedDict(TypedDict):
     r"""A deposit transfer using the ACH mechanism."""
 
-    amount: NotRequired[Nullable[AchDepositAmountTypedDict]]
+    amount: NotRequired[Nullable[AmountTypedDict]]
     r"""The amount to deposit in USD."""
     bank_relationship: NotRequired[str]
     r"""The bank relationship to be used for the ACH deposit."""
@@ -205,7 +205,7 @@ class AchDepositTypedDict(TypedDict):
 class AchDeposit(BaseModel):
     r"""A deposit transfer using the ACH mechanism."""
 
-    amount: OptionalNullable[AchDepositAmount] = UNSET
+    amount: OptionalNullable[Amount] = UNSET
     r"""The amount to deposit in USD."""
 
     bank_relationship: Optional[str] = None

@@ -19,3 +19,4 @@ The mechanism of the transfer.
 | `RTP`                   | RTP                     |
 | `TPJ`                   | TPJ                     |
 | `WIRE`                  | WIRE                    |
+| `EXTERNAL_ACH`          | EXTERNAL_ACH            |

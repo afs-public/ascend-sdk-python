@@ -12,19 +12,15 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class StatementDeliveryPreference(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Delivery method instruction for account statements for a given Interested Party; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for account statements for a given Interested Party; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
 
-    DELIVERY_PREFERENCE_UNSPECIFIED = "DELIVERY_PREFERENCE_UNSPECIFIED"
-    DIGITAL = "DIGITAL"
     PHYSICAL = "PHYSICAL"
     SUPPRESS = "SUPPRESS"
 
 
 class TradeConfirmationDeliveryPreference(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
 
-    DELIVERY_PREFERENCE_UNSPECIFIED = "DELIVERY_PREFERENCE_UNSPECIFIED"
-    DIGITAL = "DIGITAL"
     PHYSICAL = "PHYSICAL"
     SUPPRESS = "SUPPRESS"
 
@@ -44,11 +40,11 @@ class InterestedPartyCreateTypedDict(TypedDict):
     recipient: str
     r"""The sending address name for mailings to Interested Parties The name of an Interested Party; Used for envelope/communication addressing"""
     statement_delivery_preference: NotRequired[StatementDeliveryPreference]
-    r"""Delivery method instruction for account statements for a given Interested Party; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for account statements for a given Interested Party; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
     trade_confirmation_delivery_preference: NotRequired[
         TradeConfirmationDeliveryPreference
     ]
-    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
 
 
 class InterestedPartyCreate(BaseModel):
@@ -70,10 +66,10 @@ class InterestedPartyCreate(BaseModel):
     statement_delivery_preference: Annotated[
         Optional[StatementDeliveryPreference], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Delivery method instruction for account statements for a given Interested Party; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for account statements for a given Interested Party; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
 
     trade_confirmation_delivery_preference: Annotated[
         Optional[TradeConfirmationDeliveryPreference],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `DIGITAL`, `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""
+    r"""Delivery method instruction for trade confirmations for a given Interested Party record; Can be `PHYSICAL`, `SUPPRESS`; Defaults to `PHYSICAL` on party creation"""

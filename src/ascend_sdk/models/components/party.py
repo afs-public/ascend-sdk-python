@@ -641,7 +641,7 @@ class PartyLegalEntityTypedDict(TypedDict):
     exempt_customer_reason: NotRequired[PartyExemptCustomerReason]
     r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
     exempt_verifying_beneficial_owners: NotRequired[bool]
-    r"""Indicates whether the entity is exempt from verifying beneficial owners. By default, this is set to `false`."""
+    r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""
     for_the_benefit_of: NotRequired[str]
     r"""If the legal entity is a trust, they may set this field to convey ownership and value to a trustee."""
     foreign_entity: NotRequired[bool]
@@ -737,7 +737,7 @@ class PartyLegalEntity(BaseModel):
     r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
 
     exempt_verifying_beneficial_owners: Optional[bool] = None
-    r"""Indicates whether the entity is exempt from verifying beneficial owners. By default, this is set to `false`."""
+    r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""
 
     for_the_benefit_of: Optional[str] = None
     r"""If the legal entity is a trust, they may set this field to convey ownership and value to a trustee."""
@@ -1064,7 +1064,7 @@ class PartyEmploymentTypedDict(TypedDict):
     employment_status: NotRequired[PartyEmploymentStatus]
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
     occupation: NotRequired[str]
-    r"""The nature of work performed at an investor's place of employment."""
+    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
     start_year: NotRequired[int]
     r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
 
@@ -1093,7 +1093,7 @@ class PartyEmployment(BaseModel):
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
 
     occupation: Optional[str] = None
-    r"""The nature of work performed at an investor's place of employment."""
+    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
 
     start_year: Optional[int] = None
     r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
@@ -2566,8 +2566,6 @@ class PartyRelationType(str, Enum, metaclass=utils.OpenEnumMeta):
     PRIMARY_OWNER = "PRIMARY_OWNER"
     JOINT_OWNER = "JOINT_OWNER"
     CUSTODIAN = "CUSTODIAN"
-    GUARDIAN_CONSERVATOR = "GUARDIAN_CONSERVATOR"
-    POWER_OF_ATTORNEY = "POWER_OF_ATTORNEY"
     EXECUTOR = "EXECUTOR"
     AUTHORIZED_SIGNER = "AUTHORIZED_SIGNER"
     BENEFICIAL_OWNER = "BENEFICIAL_OWNER"

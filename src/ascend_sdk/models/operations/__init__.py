@@ -503,6 +503,84 @@ from .basketordersservice_submitbasket import (
     BasketOrdersServiceSubmitBasketResponse,
     BasketOrdersServiceSubmitBasketResponseTypedDict,
 )
+from .booking_cancelexecution import (
+    BookingCancelExecutionRequest,
+    BookingCancelExecutionRequestTypedDict,
+    BookingCancelExecutionResponse,
+    BookingCancelExecutionResponseTypedDict,
+)
+from .booking_canceltrade import (
+    BookingCancelTradeRequest,
+    BookingCancelTradeRequestTypedDict,
+    BookingCancelTradeResponse,
+    BookingCancelTradeResponseTypedDict,
+)
+from .booking_canceltradeallocation import (
+    BookingCancelTradeAllocationRequest,
+    BookingCancelTradeAllocationRequestTypedDict,
+    BookingCancelTradeAllocationResponse,
+    BookingCancelTradeAllocationResponseTypedDict,
+)
+from .booking_completetrade import (
+    BookingCompleteTradeRequest,
+    BookingCompleteTradeRequestTypedDict,
+    BookingCompleteTradeResponse,
+    BookingCompleteTradeResponseTypedDict,
+)
+from .booking_createexecution import (
+    BookingCreateExecutionRequest,
+    BookingCreateExecutionRequestTypedDict,
+    BookingCreateExecutionResponse,
+    BookingCreateExecutionResponseTypedDict,
+)
+from .booking_createtrade import (
+    BookingCreateTradeRequest,
+    BookingCreateTradeRequestTypedDict,
+    BookingCreateTradeResponse,
+    BookingCreateTradeResponseTypedDict,
+)
+from .booking_createtradeallocation import (
+    BookingCreateTradeAllocationRequest,
+    BookingCreateTradeAllocationRequestTypedDict,
+    BookingCreateTradeAllocationResponse,
+    BookingCreateTradeAllocationResponseTypedDict,
+)
+from .booking_getexecution import (
+    BookingGetExecutionRequest,
+    BookingGetExecutionRequestTypedDict,
+    BookingGetExecutionResponse,
+    BookingGetExecutionResponseTypedDict,
+)
+from .booking_gettrade import (
+    BookingGetTradeRequest,
+    BookingGetTradeRequestTypedDict,
+    BookingGetTradeResponse,
+    BookingGetTradeResponseTypedDict,
+)
+from .booking_gettradeallocation import (
+    BookingGetTradeAllocationRequest,
+    BookingGetTradeAllocationRequestTypedDict,
+    BookingGetTradeAllocationResponse,
+    BookingGetTradeAllocationResponseTypedDict,
+)
+from .booking_rebookexecution import (
+    BookingRebookExecutionRequest,
+    BookingRebookExecutionRequestTypedDict,
+    BookingRebookExecutionResponse,
+    BookingRebookExecutionResponseTypedDict,
+)
+from .booking_rebooktrade import (
+    BookingRebookTradeRequest,
+    BookingRebookTradeRequestTypedDict,
+    BookingRebookTradeResponse,
+    BookingRebookTradeResponseTypedDict,
+)
+from .booking_rebooktradeallocation import (
+    BookingRebookTradeAllocationRequest,
+    BookingRebookTradeAllocationRequestTypedDict,
+    BookingRebookTradeAllocationResponse,
+    BookingRebookTradeAllocationResponseTypedDict,
+)
 from .cashbalances_calculatecashbalance import (
     CashBalancesCalculateCashBalanceRequest,
     CashBalancesCalculateCashBalanceRequestTypedDict,
@@ -1256,6 +1334,58 @@ __all__ = [
     "BasketOrdersServiceSubmitBasketRequestTypedDict",
     "BasketOrdersServiceSubmitBasketResponse",
     "BasketOrdersServiceSubmitBasketResponseTypedDict",
+    "BookingCancelExecutionRequest",
+    "BookingCancelExecutionRequestTypedDict",
+    "BookingCancelExecutionResponse",
+    "BookingCancelExecutionResponseTypedDict",
+    "BookingCancelTradeAllocationRequest",
+    "BookingCancelTradeAllocationRequestTypedDict",
+    "BookingCancelTradeAllocationResponse",
+    "BookingCancelTradeAllocationResponseTypedDict",
+    "BookingCancelTradeRequest",
+    "BookingCancelTradeRequestTypedDict",
+    "BookingCancelTradeResponse",
+    "BookingCancelTradeResponseTypedDict",
+    "BookingCompleteTradeRequest",
+    "BookingCompleteTradeRequestTypedDict",
+    "BookingCompleteTradeResponse",
+    "BookingCompleteTradeResponseTypedDict",
+    "BookingCreateExecutionRequest",
+    "BookingCreateExecutionRequestTypedDict",
+    "BookingCreateExecutionResponse",
+    "BookingCreateExecutionResponseTypedDict",
+    "BookingCreateTradeAllocationRequest",
+    "BookingCreateTradeAllocationRequestTypedDict",
+    "BookingCreateTradeAllocationResponse",
+    "BookingCreateTradeAllocationResponseTypedDict",
+    "BookingCreateTradeRequest",
+    "BookingCreateTradeRequestTypedDict",
+    "BookingCreateTradeResponse",
+    "BookingCreateTradeResponseTypedDict",
+    "BookingGetExecutionRequest",
+    "BookingGetExecutionRequestTypedDict",
+    "BookingGetExecutionResponse",
+    "BookingGetExecutionResponseTypedDict",
+    "BookingGetTradeAllocationRequest",
+    "BookingGetTradeAllocationRequestTypedDict",
+    "BookingGetTradeAllocationResponse",
+    "BookingGetTradeAllocationResponseTypedDict",
+    "BookingGetTradeRequest",
+    "BookingGetTradeRequestTypedDict",
+    "BookingGetTradeResponse",
+    "BookingGetTradeResponseTypedDict",
+    "BookingRebookExecutionRequest",
+    "BookingRebookExecutionRequestTypedDict",
+    "BookingRebookExecutionResponse",
+    "BookingRebookExecutionResponseTypedDict",
+    "BookingRebookTradeAllocationRequest",
+    "BookingRebookTradeAllocationRequestTypedDict",
+    "BookingRebookTradeAllocationResponse",
+    "BookingRebookTradeAllocationResponseTypedDict",
+    "BookingRebookTradeRequest",
+    "BookingRebookTradeRequestTypedDict",
+    "BookingRebookTradeResponse",
+    "BookingRebookTradeResponseTypedDict",
     "CashBalancesCalculateCashBalanceRequest",
     "CashBalancesCalculateCashBalanceRequestTypedDict",
     "CashBalancesCalculateCashBalanceResponse",

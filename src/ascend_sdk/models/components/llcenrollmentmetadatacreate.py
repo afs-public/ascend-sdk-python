@@ -17,7 +17,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class LLCEnrollmentMetadataCreateDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -27,7 +27,7 @@ class LLCEnrollmentMetadataCreateDividendReinvestmentPlan(
 
 
 class LLCEnrollmentMetadataCreateFdicCashSweep(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -38,13 +38,13 @@ class LLCEnrollmentMetadataCreateTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         LLCEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     edd_account_enrollment_metadata: NotRequired[
         EddAccountEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for Entity Accounts"""
     fdic_cash_sweep: NotRequired[LLCEnrollmentMetadataCreateFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class LLCEnrollmentMetadataCreate(BaseModel):
@@ -52,7 +52,7 @@ class LLCEnrollmentMetadataCreate(BaseModel):
         Optional[LLCEnrollmentMetadataCreateDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     edd_account_enrollment_metadata: Optional[EddAccountEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for Entity Accounts"""
@@ -61,4 +61,4 @@ class LLCEnrollmentMetadataCreate(BaseModel):
         Optional[LLCEnrollmentMetadataCreateFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""

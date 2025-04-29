@@ -19,3 +19,4 @@ The withdraw mechanism to calculate the balance for. The mechanism determines wh
 | `RTP`                   | RTP                     |
 | `TPJ`                   | TPJ                     |
 | `WIRE`                  | WIRE                    |
+| `EXTERNAL_ACH`          | EXTERNAL_ACH            |

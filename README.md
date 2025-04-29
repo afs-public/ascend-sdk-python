@@ -510,6 +510,25 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [force_approve_cash_journal](docs/sdks/testsimulation/README.md#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](docs/sdks/testsimulation/README.md#force_reject_cash_journal) - Force Reject Cash Journal
 
+### [trade_allocation](docs/sdks/tradeallocation/README.md)
+
+* [create_trade_allocation](docs/sdks/tradeallocation/README.md#create_trade_allocation) - Create Trade Allocation
+* [get_trade_allocation](docs/sdks/tradeallocation/README.md#get_trade_allocation) - Get Trade Allocation
+* [cancel_trade_allocation](docs/sdks/tradeallocation/README.md#cancel_trade_allocation) - Cancel Trade Allocation
+* [rebook_trade_allocation](docs/sdks/tradeallocation/README.md#rebook_trade_allocation) - Rebook Trade Allocation
+
+### [trade_booking](docs/sdks/tradebooking/README.md)
+
+* [create_trade](docs/sdks/tradebooking/README.md#create_trade) - Create Trade
+* [get_trade](docs/sdks/tradebooking/README.md#get_trade) - Get Trade
+* [complete_trade](docs/sdks/tradebooking/README.md#complete_trade) - Complete Trade
+* [cancel_trade](docs/sdks/tradebooking/README.md#cancel_trade) - Cancel Trade
+* [rebook_trade](docs/sdks/tradebooking/README.md#rebook_trade) - Rebook Trade
+* [create_execution](docs/sdks/tradebooking/README.md#create_execution) - Create Execution
+* [get_execution](docs/sdks/tradebooking/README.md#get_execution) - Get Execution
+* [cancel_execution](docs/sdks/tradebooking/README.md#cancel_execution) - Cancel Execution
+* [rebook_execution](docs/sdks/tradebooking/README.md#rebook_execution) - Rebook Execution
+
 ### [wires](docs/sdks/wires/README.md)
 
 * [get_wire_deposit](docs/sdks/wires/README.md#get_wire_deposit) - Get Wire Deposit

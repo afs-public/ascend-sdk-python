@@ -41,6 +41,20 @@ class RegularAmount(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class RemainingContributionAllowedTypedDict(TypedDict):
+    r"""The remaining regular contribution amount allowed for the tax year. Calculated as the difference between the contribution limit for the account and its regular contribution total to date. This will return zero if the account has no contribution limit."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class RemainingContributionAllowed(BaseModel):
+    r"""The remaining regular contribution amount allowed for the tax year. Calculated as the difference between the contribution limit for the account and its regular contribution total to date. This will return zero if the account has no contribution limit."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class RolloverAmountTypedDict(TypedDict):
     r"""Rollover contribution amount"""
 
@@ -64,6 +78,10 @@ class ContributionSummaryTypedDict(TypedDict):
     r"""The resource name of the contribution summary"""
     regular_amount: NotRequired[Nullable[RegularAmountTypedDict]]
     r"""Summed contribution amounts throughout the year"""
+    remaining_contribution_allowed: NotRequired[
+        Nullable[RemainingContributionAllowedTypedDict]
+    ]
+    r"""The remaining regular contribution amount allowed for the tax year. Calculated as the difference between the contribution limit for the account and its regular contribution total to date. This will return zero if the account has no contribution limit."""
     rollover_amount: NotRequired[Nullable[RolloverAmountTypedDict]]
     r"""Rollover contribution amount"""
     tax_year: NotRequired[int]
@@ -82,6 +100,11 @@ class ContributionSummary(BaseModel):
     regular_amount: OptionalNullable[RegularAmount] = UNSET
     r"""Summed contribution amounts throughout the year"""
 
+    remaining_contribution_allowed: OptionalNullable[
+        RemainingContributionAllowed
+    ] = UNSET
+    r"""The remaining regular contribution amount allowed for the tax year. Calculated as the difference between the contribution limit for the account and its regular contribution total to date. This will return zero if the account has no contribution limit."""
+
     rollover_amount: OptionalNullable[RolloverAmount] = UNSET
     r"""Rollover contribution amount"""
 
@@ -94,10 +117,16 @@ class ContributionSummary(BaseModel):
             "contribution_limit",
             "name",
             "regular_amount",
+            "remaining_contribution_allowed",
             "rollover_amount",
             "tax_year",
         ]
-        nullable_fields = ["contribution_limit", "regular_amount", "rollover_amount"]
+        nullable_fields = [
+            "contribution_limit",
+            "regular_amount",
+            "remaining_contribution_allowed",
+            "rollover_amount",
+        ]
         null_default_fields = []
 
         serialized = handler(self)

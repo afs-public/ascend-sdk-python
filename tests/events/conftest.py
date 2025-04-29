@@ -7,11 +7,6 @@ import pytest
 
 
 @pytest.fixture(scope="module")
-def fixed_subscriber_id():
-    return "01JJYZ16TVYZM6A6BDJ8RJRMTQ"
-
-
-@pytest.fixture(scope="module")
 def message_id(create_sdk):
     s = create_sdk
 
@@ -51,11 +46,26 @@ def subscriber_id(create_sdk):
 
 
 @pytest.fixture(scope="module")
-def delivery_id(create_sdk, fixed_subscriber_id):
+def test_subscriber_id(create_sdk):
+    s = create_sdk
+
+    response = s.subscriber.list_push_subscriptions()
+    subscriptions = response.list_push_subscriptions_response.push_subscriptions
+    if (
+        response.http_meta.response.status_code == 200
+        and response.list_push_subscriptions_response.push_subscriptions is not None
+    ):
+        return subscriptions[0].subscription_id
+    else:
+        return None
+
+
+@pytest.fixture(scope="module")
+def delivery_id(create_sdk, test_subscriber_id):
     s = create_sdk
 
     res = s.subscriber.list_push_subscription_deliveries(
-        subscription_id=fixed_subscriber_id
+        subscription_id=test_subscriber_id
     )
 
     if (

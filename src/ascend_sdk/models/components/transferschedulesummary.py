@@ -31,7 +31,7 @@ class TransferScheduleSummaryAmount(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class TransferScheduleSummaryDirection(str, Enum, metaclass=utils.OpenEnumMeta):
+class Direction(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Flag indicating whether this is a deposit or withdrawal transfer"""
 
     DIRECTION_UNSPECIFIED = "DIRECTION_UNSPECIFIED"
@@ -512,7 +512,7 @@ class TransferScheduleSummaryTypedDict(TypedDict):
     r"""A cash amount in the format of decimal value. An unset or empty value represents a full disbursement"""
     client_schedule_id: NotRequired[str]
     r"""External identifier supplied by the API caller. Each request must have a unique pairing of client_schedule_id and account"""
-    direction: NotRequired[TransferScheduleSummaryDirection]
+    direction: NotRequired[Direction]
     r"""Flag indicating whether this is a deposit or withdrawal transfer"""
     mechanism: NotRequired[TransferScheduleSummaryMechanism]
     r"""The mechanism used for this transfer schedule"""
@@ -540,8 +540,7 @@ class TransferScheduleSummary(BaseModel):
     r"""External identifier supplied by the API caller. Each request must have a unique pairing of client_schedule_id and account"""
 
     direction: Annotated[
-        Optional[TransferScheduleSummaryDirection],
-        PlainValidator(validate_open_enum(False)),
+        Optional[Direction], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Flag indicating whether this is a deposit or withdrawal transfer"""
 

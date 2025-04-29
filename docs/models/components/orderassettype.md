@@ -1,13 +1,13 @@
 # OrderAssetType
 
-The type of the asset in this order
+The type of the asset in this order, which must be one of the following:
+ EQUITY, MUTUAL_FUND, and FIXED_INCOME.
 
 
 ## Values
 
-| Name                     | Value                    |
-| ------------------------ | ------------------------ |
-| `ASSET_TYPE_UNSPECIFIED` | ASSET_TYPE_UNSPECIFIED   |
-| `EQUITY`                 | EQUITY                   |
-| `FIXED_INCOME`           | FIXED_INCOME             |
-| `MUTUAL_FUND`            | MUTUAL_FUND              |
+| Name           | Value          |
+| -------------- | -------------- |
+| `EQUITY`       | EQUITY         |
+| `FIXED_INCOME` | FIXED_INCOME   |
+| `MUTUAL_FUND`  | MUTUAL_FUND    |

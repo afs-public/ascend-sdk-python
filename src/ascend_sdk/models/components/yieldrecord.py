@@ -31,7 +31,7 @@ class YieldPercent(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class YieldType(str, Enum, metaclass=utils.OpenEnumMeta):
+class YieldRecordYieldType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Characterization of a yield percentage"""
 
     YIELD_TYPE_UNSPECIFIED = "YIELD_TYPE_UNSPECIFIED"
@@ -46,7 +46,7 @@ class YieldRecordTypedDict(TypedDict):
 
     yield_percent: NotRequired[Nullable[YieldPercentTypedDict]]
     r"""The yield percentage at which the transaction was effected"""
-    yield_type: NotRequired[YieldType]
+    yield_type: NotRequired[YieldRecordYieldType]
     r"""Characterization of a yield percentage"""
 
 
@@ -57,7 +57,7 @@ class YieldRecord(BaseModel):
     r"""The yield percentage at which the transaction was effected"""
 
     yield_type: Annotated[
-        Optional[YieldType], PlainValidator(validate_open_enum(False))
+        Optional[YieldRecordYieldType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Characterization of a yield percentage"""
 

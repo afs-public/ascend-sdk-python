@@ -1475,7 +1475,7 @@ class PersonManagement(BaseSDK):
         :param page_size: The maximum number of legal entities to return. The service may return fewer than this value. If unspecified, at most 25 legal entities will be returned. The maximum value is 100; values above 100 will be coerced to 100.
         :param page_token: A page token, received from a previous `ListLegalEntities` call. Provide this to retrieve the subsequent page.   When paginating, all other parameters provided to `ListLegalEntities` must match the call that provided the page token.
         :param order_by: The order in which legal entities are listed.
-        :param filter_: A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  `legal_entity_id`  `investigation_id`  `exempt_customer_reason`  `exempt_verifying_beneficial_owners`
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1578,7 +1578,7 @@ class PersonManagement(BaseSDK):
         :param page_size: The maximum number of legal entities to return. The service may return fewer than this value. If unspecified, at most 25 legal entities will be returned. The maximum value is 100; values above 100 will be coerced to 100.
         :param page_token: A page token, received from a previous `ListLegalEntities` call. Provide this to retrieve the subsequent page.   When paginating, all other parameters provided to `ListLegalEntities` must match the call that provided the page token.
         :param order_by: The order in which legal entities are listed.
-        :param filter_: A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  `legal_entity_id`  `investigation_id`  `exempt_customer_reason`  `exempt_verifying_beneficial_owners`
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

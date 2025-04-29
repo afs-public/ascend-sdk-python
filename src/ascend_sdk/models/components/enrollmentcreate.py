@@ -21,6 +21,10 @@ from .foreignindividualaccountenrollmentmetadatacreate import (
     ForeignIndividualAccountEnrollmentMetadataCreate,
     ForeignIndividualAccountEnrollmentMetadataCreateTypedDict,
 )
+from .foreignjointaccountenrollmentmetadatacreate import (
+    ForeignJointAccountEnrollmentMetadataCreate,
+    ForeignJointAccountEnrollmentMetadataCreateTypedDict,
+)
 from .fpslenrollmentmetadatacreate import (
     FPSLEnrollmentMetaDataCreate,
     FPSLEnrollmentMetaDataCreateTypedDict,
@@ -77,9 +81,17 @@ from .operatingenrollmentmetadatacreate import (
     OperatingEnrollmentMetadataCreate,
     OperatingEnrollmentMetadataCreateTypedDict,
 )
+from .ordersoptionstradingenrollmentmetadatacreate import (
+    OrdersOptionsTradingEnrollmentMetadataCreate,
+    OrdersOptionsTradingEnrollmentMetadataCreateTypedDict,
+)
 from .trustenrollmentmetadatacreate import (
     TrustEnrollmentMetadataCreate,
     TrustEnrollmentMetadataCreateTypedDict,
+)
+from .virtualaccountnumberenrollmentmetadatacreate import (
+    VirtualAccountNumberEnrollmentMetadataCreate,
+    VirtualAccountNumberEnrollmentMetadataCreateTypedDict,
 )
 from ascend_sdk import utils
 from ascend_sdk.types import BaseModel
@@ -119,6 +131,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
     REGISTRATION_TRUST = "REGISTRATION_TRUST"
     REGISTRATION_CORPORATION = "REGISTRATION_CORPORATION"
+    REGISTRATION_LLC = "REGISTRATION_LLC"
     CASH_FDIC_CASH_SWEEP = "CASH_FDIC_CASH_SWEEP"
     RETIREMENT_BENEFICIARY_DESIGNATION = "RETIREMENT_BENEFICIARY_DESIGNATION"
     DIVIDEND_REINVESTMENT_PLAN = "DIVIDEND_REINVESTMENT_PLAN"
@@ -128,6 +141,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_IRA_BENEFICIARY_ROTH = "REGISTRATION_IRA_BENEFICIARY_ROTH"
     REGISTRATION_INDIVIDUAL_FOREIGN = "REGISTRATION_INDIVIDUAL_FOREIGN"
     REGISTRATION_CUSTODIAL = "REGISTRATION_CUSTODIAL"
+    VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
 
 
 class EnrollmentCreateTypedDict(TypedDict):
@@ -155,6 +169,10 @@ class EnrollmentCreateTypedDict(TypedDict):
     foreign_individual_account_enrollment_metadata: NotRequired[
         ForeignIndividualAccountEnrollmentMetadataCreateTypedDict
     ]
+    foreign_joint_account_enrollment_metadata: NotRequired[
+        ForeignJointAccountEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the FOREIGN_JOINT_WROS enrollment type"""
     fpsl_enrollment_metadata: NotRequired[FPSLEnrollmentMetaDataCreateTypedDict]
     r"""Percentages for FPSL Enrollment, must equal 100"""
     individual_enrollment_metadata: NotRequired[
@@ -202,7 +220,15 @@ class EnrollmentCreateTypedDict(TypedDict):
         OperatingEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the REGISTRATION_OPERATING enrollment type."""
+    orders_options_trading_enrollment_metadata: NotRequired[
+        OrdersOptionsTradingEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
     trust_enrollment_metadata: NotRequired[TrustEnrollmentMetadataCreateTypedDict]
+    virtual_account_number_enrollment_metadata: NotRequired[
+        VirtualAccountNumberEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the VIRTUAL_ACCOUNT_NUMBER enrollment type"""
 
 
 class EnrollmentCreate(BaseModel):
@@ -238,6 +264,11 @@ class EnrollmentCreate(BaseModel):
     foreign_individual_account_enrollment_metadata: Optional[
         ForeignIndividualAccountEnrollmentMetadataCreate
     ] = None
+
+    foreign_joint_account_enrollment_metadata: Optional[
+        ForeignJointAccountEnrollmentMetadataCreate
+    ] = None
+    r"""Enrollment metadata for the FOREIGN_JOINT_WROS enrollment type"""
 
     fpsl_enrollment_metadata: Optional[FPSLEnrollmentMetaDataCreate] = None
     r"""Percentages for FPSL Enrollment, must equal 100"""
@@ -294,4 +325,14 @@ class EnrollmentCreate(BaseModel):
     operating_enrollment_metadata: Optional[OperatingEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for the REGISTRATION_OPERATING enrollment type."""
 
+    orders_options_trading_enrollment_metadata: Optional[
+        OrdersOptionsTradingEnrollmentMetadataCreate
+    ] = None
+    r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
     trust_enrollment_metadata: Optional[TrustEnrollmentMetadataCreate] = None
+
+    virtual_account_number_enrollment_metadata: Optional[
+        VirtualAccountNumberEnrollmentMetadataCreate
+    ] = None
+    r"""Enrollment metadata for the VIRTUAL_ACCOUNT_NUMBER enrollment type"""

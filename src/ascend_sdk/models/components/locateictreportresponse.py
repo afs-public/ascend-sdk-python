@@ -18,7 +18,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class LocateIctReportResponseProcessDateTypedDict(TypedDict):
+class ProcessDateTypedDict(TypedDict):
     r"""The process date of the batch associated with the report."""
 
     day: NotRequired[int]
@@ -29,7 +29,7 @@ class LocateIctReportResponseProcessDateTypedDict(TypedDict):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
-class LocateIctReportResponseProcessDate(BaseModel):
+class ProcessDate(BaseModel):
     r"""The process date of the batch associated with the report."""
 
     day: Optional[int] = None
@@ -63,7 +63,7 @@ class LocateIctReportResponseTypedDict(TypedDict):
     r"""The timestamp when the report was created."""
     download_uri: NotRequired[str]
     r"""The signed file download uri. The link will expire after a set period of time."""
-    process_date: NotRequired[Nullable[LocateIctReportResponseProcessDateTypedDict]]
+    process_date: NotRequired[Nullable[ProcessDateTypedDict]]
     r"""The process date of the batch associated with the report."""
     program: NotRequired[LocateIctReportResponseProgram]
     r"""The ICT program associated with the report."""
@@ -81,7 +81,7 @@ class LocateIctReportResponse(BaseModel):
     download_uri: Optional[str] = None
     r"""The signed file download uri. The link will expire after a set period of time."""
 
-    process_date: OptionalNullable[LocateIctReportResponseProcessDate] = UNSET
+    process_date: OptionalNullable[ProcessDate] = UNSET
     r"""The process date of the batch associated with the report."""
 
     program: Annotated[

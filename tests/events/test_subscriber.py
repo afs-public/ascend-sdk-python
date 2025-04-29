@@ -50,14 +50,14 @@ def test_subscriber_events_list_subscription_event_deliveries_list_subscription_
 
 
 def test_subscriber_events_get_subscription_event_delivery_get_subscription_event_delivery1(
-    create_sdk, fixed_subscriber_id, delivery_id
+    create_sdk, test_subscriber_id, delivery_id
 ):
     s = create_sdk
 
     assert s is not None
 
     res = s.subscriber.get_push_subscription_delivery(
-        subscription_id=fixed_subscriber_id, delivery_id=delivery_id
+        subscription_id=test_subscriber_id, delivery_id=delivery_id
     )
     assert res.http_meta is not None
     assert res.http_meta.response is not None

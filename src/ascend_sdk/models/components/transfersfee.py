@@ -165,6 +165,8 @@ class TransfersFeeTypedDict(TypedDict):
     r"""External identifier supplied by the API caller. Each request must have a unique pairing of client_transfer_id and account"""
     description: NotRequired[str]
     r"""Optional description information that will attach to this transaction"""
+    fee_operating_account: NotRequired[str]
+    r"""Optional account field to denote where the fee amount should be deposited into. If provided, the account must be a fee operating account. In the case of multiple fee operating accounts under the same correspondent, this field must be provided. If not provided, this will be looked up asynchronously (therefore will not be in the initial response)"""
     name: NotRequired[str]
     r"""Full name of the fee resource, which contains account id and fee transaction id"""
     state: NotRequired[Nullable[TransfersFeeStateTypedDict]]
@@ -185,6 +187,9 @@ class TransfersFee(BaseModel):
     description: Optional[str] = None
     r"""Optional description information that will attach to this transaction"""
 
+    fee_operating_account: Optional[str] = None
+    r"""Optional account field to denote where the fee amount should be deposited into. If provided, the account must be a fee operating account. In the case of multiple fee operating accounts under the same correspondent, this field must be provided. If not provided, this will be looked up asynchronously (therefore will not be in the initial response)"""
+
     name: Optional[str] = None
     r"""Full name of the fee resource, which contains account id and fee transaction id"""
 
@@ -202,6 +207,7 @@ class TransfersFee(BaseModel):
             "amount",
             "client_transfer_id",
             "description",
+            "fee_operating_account",
             "name",
             "state",
             "type",

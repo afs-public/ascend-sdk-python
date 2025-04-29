@@ -2,12 +2,6 @@
 
 from __future__ import annotations
 from .decimalcreate import DecimalCreate, DecimalCreateTypedDict
-from .feecreate import FeeCreate, FeeCreateTypedDict
-from .letterofintentcreate import LetterOfIntentCreate, LetterOfIntentCreateTypedDict
-from .rightsofaccumulationcreate import (
-    RightsOfAccumulationCreate,
-    RightsOfAccumulationCreateTypedDict,
-)
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -21,7 +15,7 @@ from datetime import datetime
 from enum import Enum
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -86,10 +80,6 @@ class BasketOrderCreateTypedDict(TypedDict):
     r"""Time the order request was received by the client. Must be in the past, and must be less than 24 hours old."""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
-    fees: NotRequired[List[FeeCreateTypedDict]]
-    r"""Fees that will be applied to this order."""
-    letter_of_intent: NotRequired[LetterOfIntentCreateTypedDict]
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months."""
     notional_value: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -104,8 +94,6 @@ class BasketOrderCreateTypedDict(TypedDict):
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
-    rights_of_accumulation: NotRequired[RightsOfAccumulationCreateTypedDict]
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
 
 
 class BasketOrderCreate(BaseModel):
@@ -149,12 +137,6 @@ class BasketOrderCreate(BaseModel):
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
 
-    fees: Optional[List[FeeCreate]] = None
-    r"""Fees that will be applied to this order."""
-
-    letter_of_intent: Optional[LetterOfIntentCreate] = None
-    r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months."""
-
     notional_value: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -171,19 +153,13 @@ class BasketOrderCreate(BaseModel):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
 
-    rights_of_accumulation: Optional[RightsOfAccumulationCreate] = None
-    r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "client_order_received_time",
             "currency_code",
-            "fees",
-            "letter_of_intent",
             "notional_value",
             "quantity",
-            "rights_of_accumulation",
         ]
         nullable_fields = ["client_order_received_time"]
         null_default_fields = []
