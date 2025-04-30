@@ -56,7 +56,7 @@ class ConsentMethod(str, Enum, metaclass=utils.OpenEnumMeta):
 class EnrollmentCorporationEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -517,7 +517,7 @@ class EddAccountEnrollmentMetadata(BaseModel):
 class EnrollmentCorporationEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -530,13 +530,13 @@ class CorporationEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentCorporationEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     edd_account_enrollment_metadata: NotRequired[
         Nullable[EddAccountEnrollmentMetadataTypedDict]
     ]
     r"""Enrollment metadata for entity accounts"""
     fdic_cash_sweep: NotRequired[EnrollmentCorporationEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class CorporationEnrollmentMetadata(BaseModel):
@@ -546,7 +546,7 @@ class CorporationEnrollmentMetadata(BaseModel):
         Optional[EnrollmentCorporationEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     edd_account_enrollment_metadata: OptionalNullable[
         EddAccountEnrollmentMetadata
@@ -557,7 +557,7 @@ class CorporationEnrollmentMetadata(BaseModel):
         Optional[EnrollmentCorporationEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -595,7 +595,7 @@ class CorporationEnrollmentMetadata(BaseModel):
 
 
 class EnrollmentDividendReinvestmentPlan(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -605,7 +605,7 @@ class EnrollmentDividendReinvestmentPlan(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class EnrollmentFdicCashSweep(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -616,9 +616,9 @@ class CustodialEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_CUSTODIAL type"""
 
     dividend_reinvestment_plan: NotRequired[EnrollmentDividendReinvestmentPlan]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class CustodialEnrollmentMetadata(BaseModel):
@@ -628,18 +628,18 @@ class CustodialEnrollmentMetadata(BaseModel):
         Optional[EnrollmentDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentFdicCashSweep], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -656,7 +656,7 @@ class EstateEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
 
 class EstateEnrollmentMetadata(BaseModel):
@@ -669,13 +669,13 @@ class EstateEnrollmentMetadata(BaseModel):
         Optional[EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
 
 class EnrollmentForeignIndividualAccountEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -687,7 +687,7 @@ class EnrollmentForeignIndividualAccountEnrollmentMetadataDividendReinvestmentPl
 class EnrollmentForeignIndividualAccountEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1115,11 +1115,11 @@ class ForeignIndividualAccountEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentForeignIndividualAccountEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentForeignIndividualAccountEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
     foreign_natural_person_account_enrollment_metadata: NotRequired[
         Nullable[ForeignNaturalPersonAccountEnrollmentMetadataTypedDict]
     ]
@@ -1135,16 +1135,595 @@ class ForeignIndividualAccountEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentForeignIndividualAccountEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     foreign_natural_person_account_enrollment_metadata: OptionalNullable[
         ForeignNaturalPersonAccountEnrollmentMetadata
+    ] = UNSET
+    r"""Enrollment metadata for Accounts that have a foreign Legal Natural Person owner."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "dividend_reinvestment_plan",
+            "fdic_cash_sweep",
+            "foreign_natural_person_account_enrollment_metadata",
+        ]
+        nullable_fields = ["foreign_natural_person_account_enrollment_metadata"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataDividendReinvestmentPlan(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
+        "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
+    )
+    DIVIDEND_REINVESTMENT_ENROLL = "DIVIDEND_REINVESTMENT_ENROLL"
+    DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataFdicCashSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
+    FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
+    FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataInitialDepositAmountTypedDict(
+    TypedDict
+):
+    r"""The initial deposit amount in USD"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataInitialDepositAmount(BaseModel):
+    r"""The initial deposit amount in USD"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataDepositedFundsTypedDict(TypedDict):
+    r"""The initial amount of money placed into the account by the entity upon or after the account's establishment."""
+
+    initial_deposit_amount: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataInitialDepositAmountTypedDict
+        ]
+    ]
+    r"""The initial deposit amount in USD"""
+    initial_deposit_source: NotRequired[str]
+    r"""The source of the initial deposit"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataDepositedFunds(BaseModel):
+    r"""The initial amount of money placed into the account by the entity upon or after the account's establishment."""
+
+    initial_deposit_amount: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataInitialDepositAmount
+    ] = UNSET
+    r"""The initial deposit amount in USD"""
+
+    initial_deposit_source: Optional[str] = None
+    r"""The source of the initial deposit"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["initial_deposit_amount", "initial_deposit_source"]
+        nullable_fields = ["initial_deposit_amount"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataOtherAccountsTypedDict(TypedDict):
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    account_names: NotRequired[List[str]]
+    r"""Other account names held at Apex"""
+    account_numbers: NotRequired[List[str]]
+    r"""Other account numbers held at Apex"""
+    owner_has_other_accounts_at_apex: NotRequired[bool]
+    r"""The owner has other accounts at Apex"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataOtherAccounts(BaseModel):
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    account_names: Optional[List[str]] = None
+    r"""Other account names held at Apex"""
+
+    account_numbers: Optional[List[str]] = None
+    r"""Other account numbers held at Apex"""
+
+    owner_has_other_accounts_at_apex: Optional[bool] = None
+    r"""The owner has other accounts at Apex"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfileTypedDict(
+    TypedDict
+):
+    r"""Disclosure of the entity account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    banking_relationships: NotRequired[List[str]]
+    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
+    other_accounts: NotRequired[
+        Nullable[EnrollmentForeignJointAccountEnrollmentMetadataOtherAccountsTypedDict]
+    ]
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+    primary_source_of_deposited_funds: NotRequired[str]
+    r"""The primary source of funds that will be deposited to this account"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfile(BaseModel):
+    r"""Disclosure of the entity account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    banking_relationships: Optional[List[str]] = None
+    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
+
+    other_accounts: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataOtherAccounts
+    ] = UNSET
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    primary_source_of_deposited_funds: Optional[str] = None
+    r"""The primary source of funds that will be deposited to this account"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "banking_relationships",
+            "other_accounts",
+            "primary_source_of_deposited_funds",
+        ]
+        nullable_fields = ["other_accounts"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetailsTypedDict(
+    TypedDict
+):
+    r"""The foreign bond trading countries details"""
+
+    foreign_bond_trading: NotRequired[bool]
+    r"""Does the account anticipate trading in foreign bonds"""
+    foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
+    r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetails(
+    BaseModel
+):
+    r"""The foreign bond trading countries details"""
+
+    foreign_bond_trading: Optional[bool] = None
+    r"""Does the account anticipate trading in foreign bonds"""
+
+    foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
+    r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict(
+    TypedDict
+):
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesPercentage(
+    BaseModel
+):
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesTypedDict(
+    TypedDict
+):
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities: NotRequired[bool]
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+    low_priced_securities_percentage: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict
+        ]
+    ]
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecurities(BaseModel):
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities: Optional[bool] = None
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities_percentage: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesPercentage
+    ] = UNSET
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities_percentage"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataPrimaryAccountActivityType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""The primary account activity type"""
+
+    PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED = (
+        "PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED"
+    )
+    ACTIVE_TRADING = "ACTIVE_TRADING"
+    SHORT_TERM_INVESTING = "SHORT_TERM_INVESTING"
+    LONG_TERM_INVESTING = "LONG_TERM_INVESTING"
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataWithdrawalFrequency(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+    WITHDRAWAL_FREQUENCY_UNSPECIFIED = "WITHDRAWAL_FREQUENCY_UNSPECIFIED"
+    FREQUENT = "FREQUENT"
+    OCCASIONAL = "OCCASIONAL"
+    RARE = "RARE"
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataPlannedActivityTypedDict(
+    TypedDict
+):
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    foreign_bond_trading_details: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetailsTypedDict
+        ]
+    ]
+    r"""The foreign bond trading countries details"""
+    low_priced_securities: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesTypedDict
+        ]
+    ]
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+    primary_account_activity_type: NotRequired[
+        EnrollmentForeignJointAccountEnrollmentMetadataPrimaryAccountActivityType
+    ]
+    r"""The primary account activity type"""
+    withdrawal_frequency: NotRequired[
+        EnrollmentForeignJointAccountEnrollmentMetadataWithdrawalFrequency
+    ]
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataPlannedActivity(BaseModel):
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    foreign_bond_trading_details: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetails
+    ] = UNSET
+    r"""The foreign bond trading countries details"""
+
+    low_priced_securities: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecurities
+    ] = UNSET
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    primary_account_activity_type: Annotated[
+        Optional[
+            EnrollmentForeignJointAccountEnrollmentMetadataPrimaryAccountActivityType
+        ],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The primary account activity type"""
+
+    withdrawal_frequency: Annotated[
+        Optional[EnrollmentForeignJointAccountEnrollmentMetadataWithdrawalFrequency],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "foreign_bond_trading_details",
+            "low_priced_securities",
+            "primary_account_activity_type",
+            "withdrawal_frequency",
+        ]
+        nullable_fields = ["foreign_bond_trading_details", "low_priced_securities"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetailsTypedDict(
+    TypedDict
+):
+    r"""Information about the related politically exposed persons"""
+
+    direct_or_indirect_related_peps: NotRequired[bool]
+    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
+    related_peps: NotRequired[List[RelatedPepTypedDict]]
+    r"""Related Peps"""
+
+
+class EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetails(BaseModel):
+    r"""Information about the related politically exposed persons"""
+
+    direct_or_indirect_related_peps: Optional[bool] = None
+    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
+
+    related_peps: Optional[List[RelatedPep]] = None
+    r"""Related Peps"""
+
+
+class EnrollmentForeignNaturalPersonAccountEnrollmentMetadataTypedDict(TypedDict):
+    r"""Enrollment metadata for Accounts that have a foreign Legal Natural Person owner."""
+
+    deposited_funds: NotRequired[
+        Nullable[EnrollmentForeignJointAccountEnrollmentMetadataDepositedFundsTypedDict]
+    ]
+    r"""The initial amount of money placed into the account by the entity upon or after the account's establishment."""
+    financial_profile: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfileTypedDict
+        ]
+    ]
+    r"""Disclosure of the entity account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+    planned_activity: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataPlannedActivityTypedDict
+        ]
+    ]
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+    related_pep_details: NotRequired[
+        Nullable[
+            EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetailsTypedDict
+        ]
+    ]
+    r"""Information about the related politically exposed persons"""
+
+
+class EnrollmentForeignNaturalPersonAccountEnrollmentMetadata(BaseModel):
+    r"""Enrollment metadata for Accounts that have a foreign Legal Natural Person owner."""
+
+    deposited_funds: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataDepositedFunds
+    ] = UNSET
+    r"""The initial amount of money placed into the account by the entity upon or after the account's establishment."""
+
+    financial_profile: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfile
+    ] = UNSET
+    r"""Disclosure of the entity account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    planned_activity: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataPlannedActivity
+    ] = UNSET
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    related_pep_details: OptionalNullable[
+        EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetails
+    ] = UNSET
+    r"""Information about the related politically exposed persons"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "deposited_funds",
+            "financial_profile",
+            "planned_activity",
+            "related_pep_details",
+        ]
+        nullable_fields = [
+            "deposited_funds",
+            "financial_profile",
+            "planned_activity",
+            "related_pep_details",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class ForeignJointAccountEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the REGISTRATION_JOINT_FOREIGN_WROS type"""
+
+    dividend_reinvestment_plan: NotRequired[
+        EnrollmentForeignJointAccountEnrollmentMetadataDividendReinvestmentPlan
+    ]
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+    fdic_cash_sweep: NotRequired[
+        EnrollmentForeignJointAccountEnrollmentMetadataFdicCashSweep
+    ]
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    foreign_natural_person_account_enrollment_metadata: NotRequired[
+        Nullable[EnrollmentForeignNaturalPersonAccountEnrollmentMetadataTypedDict]
+    ]
+    r"""Enrollment metadata for Accounts that have a foreign Legal Natural Person owner."""
+
+
+class ForeignJointAccountEnrollmentMetadata(BaseModel):
+    r"""Metadata for the REGISTRATION_JOINT_FOREIGN_WROS type"""
+
+    dividend_reinvestment_plan: Annotated[
+        Optional[
+            EnrollmentForeignJointAccountEnrollmentMetadataDividendReinvestmentPlan
+        ],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    fdic_cash_sweep: Annotated[
+        Optional[EnrollmentForeignJointAccountEnrollmentMetadataFdicCashSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    foreign_natural_person_account_enrollment_metadata: OptionalNullable[
+        EnrollmentForeignNaturalPersonAccountEnrollmentMetadata
     ] = UNSET
     r"""Enrollment metadata for Accounts that have a foreign Legal Natural Person owner."""
 
@@ -1215,7 +1794,7 @@ class FpslEnrollmentMetadata(BaseModel):
 class EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1227,7 +1806,7 @@ class EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIndividualEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1240,9 +1819,9 @@ class IndividualEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentIndividualEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IndividualEnrollmentMetadata(BaseModel):
@@ -1252,19 +1831,19 @@ class IndividualEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIndividualEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentIraBeneficiaryEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in dividend reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1276,7 +1855,7 @@ class EnrollmentIraBeneficiaryEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraBeneficiaryEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1337,11 +1916,11 @@ class IraBeneficiaryEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraBeneficiaryEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in dividend reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentIraBeneficiaryEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
     inherited_from_owner_birth_date: NotRequired[
         Nullable[InheritedFromOwnerBirthDateTypedDict]
     ]
@@ -1363,13 +1942,13 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraBeneficiaryEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in dividend reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraBeneficiaryEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     inherited_from_owner_birth_date: OptionalNullable[
         InheritedFromOwnerBirthDate
@@ -1431,7 +2010,7 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
 class EnrollmentIraRolloverEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1443,7 +2022,7 @@ class EnrollmentIraRolloverEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraRolloverEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1456,9 +2035,9 @@ class IraRolloverEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraRolloverEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentIraRolloverEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IraRolloverEnrollmentMetadata(BaseModel):
@@ -1468,19 +2047,19 @@ class IraRolloverEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraRolloverEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraRolloverEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentIraRothEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1492,7 +2071,7 @@ class EnrollmentIraRothEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraRothEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1505,9 +2084,9 @@ class IraRothEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraRothEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentIraRothEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IraRothEnrollmentMetadata(BaseModel):
@@ -1517,19 +2096,19 @@ class IraRothEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraRothEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraRothEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentIraSepEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1541,7 +2120,7 @@ class EnrollmentIraSepEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraSepEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1554,9 +2133,9 @@ class IraSepEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraSepEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentIraSepEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IraSepEnrollmentMetadata(BaseModel):
@@ -1566,19 +2145,19 @@ class IraSepEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraSepEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraSepEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentIraSimpleEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1590,7 +2169,7 @@ class EnrollmentIraSimpleEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraSimpleEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1603,9 +2182,9 @@ class IraSimpleEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraSimpleEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentIraSimpleEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IraSimpleEnrollmentMetadata(BaseModel):
@@ -1615,19 +2194,19 @@ class IraSimpleEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraSimpleEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraSimpleEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentIraTraditionalEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1639,7 +2218,7 @@ class EnrollmentIraTraditionalEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentIraTraditionalEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1652,11 +2231,11 @@ class IraTraditionalEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentIraTraditionalEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentIraTraditionalEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IraTraditionalEnrollmentMetadata(BaseModel):
@@ -1666,19 +2245,19 @@ class IraTraditionalEnrollmentMetadata(BaseModel):
         Optional[EnrollmentIraTraditionalEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentIraTraditionalEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentJointCommunityPropertyEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1690,7 +2269,7 @@ class EnrollmentJointCommunityPropertyEnrollmentMetadataDividendReinvestmentPlan
 class EnrollmentJointCommunityPropertyEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1747,11 +2326,11 @@ class JointCommunityPropertyEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentJointCommunityPropertyEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentJointCommunityPropertyEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
     legal_residency_state_of_married_couple: NotRequired[
         EnrollmentJointCommunityPropertyEnrollmentMetadataLegalResidencyStateOfMarriedCouple
     ]
@@ -1767,13 +2346,13 @@ class JointCommunityPropertyEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentJointCommunityPropertyEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     legal_residency_state_of_married_couple: Annotated[
         Optional[
@@ -1787,7 +2366,7 @@ class JointCommunityPropertyEnrollmentMetadata(BaseModel):
 class EnrollmentJointTenantsByEntiretyEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1799,7 +2378,7 @@ class EnrollmentJointTenantsByEntiretyEnrollmentMetadataDividendReinvestmentPlan
 class EnrollmentJointTenantsByEntiretyEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1856,11 +2435,11 @@ class JointTenantsByEntiretyEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentJointTenantsByEntiretyEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentJointTenantsByEntiretyEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
     legal_residency_state_of_married_couple: NotRequired[
         EnrollmentLegalResidencyStateOfMarriedCouple
     ]
@@ -1876,13 +2455,13 @@ class JointTenantsByEntiretyEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentJointTenantsByEntiretyEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     legal_residency_state_of_married_couple: Annotated[
         Optional[EnrollmentLegalResidencyStateOfMarriedCouple],
@@ -1894,7 +2473,7 @@ class JointTenantsByEntiretyEnrollmentMetadata(BaseModel):
 class EnrollmentJointTenantsInCommonEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1906,7 +2485,7 @@ class EnrollmentJointTenantsInCommonEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentJointTenantsInCommonEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1919,11 +2498,11 @@ class JointTenantsInCommonEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentJointTenantsInCommonEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentJointTenantsInCommonEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class JointTenantsInCommonEnrollmentMetadata(BaseModel):
@@ -1935,19 +2514,19 @@ class JointTenantsInCommonEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentJointTenantsInCommonEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentJointWithRightsOfSurvivorshipEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -1959,7 +2538,7 @@ class EnrollmentJointWithRightsOfSurvivorshipEnrollmentMetadataDividendReinvestm
 class EnrollmentJointWithRightsOfSurvivorshipEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -1972,11 +2551,11 @@ class JointWithRightsOfSurvivorshipEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentJointWithRightsOfSurvivorshipEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         EnrollmentJointWithRightsOfSurvivorshipEnrollmentMetadataFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class JointWithRightsOfSurvivorshipEnrollmentMetadata(BaseModel):
@@ -1988,7 +2567,7 @@ class JointWithRightsOfSurvivorshipEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[
@@ -1996,13 +2575,13 @@ class JointWithRightsOfSurvivorshipEnrollmentMetadata(BaseModel):
         ],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class EnrollmentLlcEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -2489,7 +3068,7 @@ class EnrollmentEddAccountEnrollmentMetadata(BaseModel):
 class EnrollmentLlcEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -2502,13 +3081,13 @@ class LlcEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentLlcEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     edd_account_enrollment_metadata: NotRequired[
         Nullable[EnrollmentEddAccountEnrollmentMetadataTypedDict]
     ]
     r"""Enrollment metadata for entity accounts"""
     fdic_cash_sweep: NotRequired[EnrollmentLlcEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class LlcEnrollmentMetadata(BaseModel):
@@ -2518,7 +3097,7 @@ class LlcEnrollmentMetadata(BaseModel):
         Optional[EnrollmentLlcEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to `DIVIDEND_REINVESTMENT_ENROLL`"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     edd_account_enrollment_metadata: OptionalNullable[
         EnrollmentEddAccountEnrollmentMetadata
@@ -2529,7 +3108,7 @@ class LlcEnrollmentMetadata(BaseModel):
         Optional[EnrollmentLlcEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to `FDIC_CASH_SWEEP_ENROLL`"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -2737,6 +3316,129 @@ class OperatingEnrollmentMetadata(BaseModel):
         return m
 
 
+class InvestmentVehicleExperienceTypedDict(TypedDict):
+    r"""This captures a user's experience with investment vehicles. It includes details such as the user's average annual trade count for various investment vehicles"""
+
+    commodities_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of commodities"""
+    corporate_bonds_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of corporate bonds"""
+    funds_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of funds"""
+    government_bonds_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of government bonds"""
+    margin_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades in margin accounts"""
+    municipal_bonds_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of municipal bonds"""
+    options_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of options"""
+    stocks_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades of stocks"""
+    tax_shelters_average_annual_trade_count: NotRequired[int]
+    r"""The number of average annual trades in tax sheltered accounts"""
+
+
+class InvestmentVehicleExperience(BaseModel):
+    r"""This captures a user's experience with investment vehicles. It includes details such as the user's average annual trade count for various investment vehicles"""
+
+    commodities_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of commodities"""
+
+    corporate_bonds_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of corporate bonds"""
+
+    funds_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of funds"""
+
+    government_bonds_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of government bonds"""
+
+    margin_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades in margin accounts"""
+
+    municipal_bonds_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of municipal bonds"""
+
+    options_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of options"""
+
+    stocks_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades of stocks"""
+
+    tax_shelters_average_annual_trade_count: Optional[int] = None
+    r"""The number of average annual trades in tax sheltered accounts"""
+
+
+class EnrollmentOptionsLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Requested options level"""
+
+    OPTIONS_LEVEL_UNSPECIFIED = "OPTIONS_LEVEL_UNSPECIFIED"
+    LEVEL_1_BASIC_DIRECTIONAL_TRADES = "LEVEL_1_BASIC_DIRECTIONAL_TRADES"
+
+
+class OrdersOptionsTradingEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
+    investment_vehicle_experience: NotRequired[
+        Nullable[InvestmentVehicleExperienceTypedDict]
+    ]
+    r"""This captures a user's experience with investment vehicles. It includes details such as the user's average annual trade count for various investment vehicles"""
+    options_level: NotRequired[EnrollmentOptionsLevel]
+    r"""Requested options level"""
+    total_years_options_trading_experience: NotRequired[int]
+    r"""Total years of options trading experience"""
+
+
+class OrdersOptionsTradingEnrollmentMetadata(BaseModel):
+    r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
+    investment_vehicle_experience: OptionalNullable[InvestmentVehicleExperience] = UNSET
+    r"""This captures a user's experience with investment vehicles. It includes details such as the user's average annual trade count for various investment vehicles"""
+
+    options_level: Annotated[
+        Optional[EnrollmentOptionsLevel], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Requested options level"""
+
+    total_years_options_trading_experience: Optional[int] = None
+    r"""Total years of options trading experience"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "investment_vehicle_experience",
+            "options_level",
+            "total_years_options_trading_experience",
+        ]
+        nullable_fields = ["investment_vehicle_experience"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
 class EnrollmentState(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates where in the enrollment is in the process; May be `PENDING_AGREEMENT`, `ACTIVE`, `INACTIVE`, `PROCESSING`, or `EXPIRED`"""
 
@@ -2751,7 +3453,7 @@ class EnrollmentState(str, Enum, metaclass=utils.OpenEnumMeta):
 class EnrollmentTrustEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -2763,7 +3465,7 @@ class EnrollmentTrustEnrollmentMetadataDividendReinvestmentPlan(
 class EnrollmentTrustEnrollmentMetadataFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -2785,9 +3487,9 @@ class TrustEnrollmentMetadataTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         EnrollmentTrustEnrollmentMetadataDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentTrustEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
     opened_on_behalf_of: NotRequired[EnrollmentOpenedOnBehalfOf]
     r"""Trust account is opened on behalf of"""
 
@@ -2799,13 +3501,13 @@ class TrustEnrollmentMetadata(BaseModel):
         Optional[EnrollmentTrustEnrollmentMetadataDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[EnrollmentTrustEnrollmentMetadataFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     opened_on_behalf_of: Annotated[
         Optional[EnrollmentOpenedOnBehalfOf], PlainValidator(validate_open_enum(False))
@@ -2832,6 +3534,7 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
     REGISTRATION_TRUST = "REGISTRATION_TRUST"
     REGISTRATION_CORPORATION = "REGISTRATION_CORPORATION"
+    REGISTRATION_LLC = "REGISTRATION_LLC"
     CASH_FDIC_CASH_SWEEP = "CASH_FDIC_CASH_SWEEP"
     RETIREMENT_BENEFICIARY_DESIGNATION = "RETIREMENT_BENEFICIARY_DESIGNATION"
     DIVIDEND_REINVESTMENT_PLAN = "DIVIDEND_REINVESTMENT_PLAN"
@@ -2841,6 +3544,26 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_IRA_BENEFICIARY_ROTH = "REGISTRATION_IRA_BENEFICIARY_ROTH"
     REGISTRATION_INDIVIDUAL_FOREIGN = "REGISTRATION_INDIVIDUAL_FOREIGN"
     REGISTRATION_CUSTODIAL = "REGISTRATION_CUSTODIAL"
+    VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
+
+
+class VirtualAccountNumberEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the VIRTUAL_ACCOUNT_NUMBER type"""
+
+    routing_number: NotRequired[str]
+    r"""The routing number for the account. This value is system-generated"""
+    virtual_account_number: NotRequired[str]
+    r"""The virtual account number for the account. This value is system-generated"""
+
+
+class VirtualAccountNumberEnrollmentMetadata(BaseModel):
+    r"""Metadata for the VIRTUAL_ACCOUNT_NUMBER type"""
+
+    routing_number: Optional[str] = None
+    r"""The routing number for the account. This value is system-generated"""
+
+    virtual_account_number: Optional[str] = None
+    r"""The virtual account number for the account. This value is system-generated"""
 
 
 class EnrollmentTypedDict(TypedDict):
@@ -2870,6 +3593,10 @@ class EnrollmentTypedDict(TypedDict):
         Nullable[ForeignIndividualAccountEnrollmentMetadataTypedDict]
     ]
     r"""Metadata for the REGISTRATION_INDIVIDUAL_FOREIGN type"""
+    foreign_joint_account_enrollment_metadata: NotRequired[
+        Nullable[ForeignJointAccountEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the REGISTRATION_JOINT_FOREIGN_WROS type"""
     fpsl_enrollment_metadata: NotRequired[Nullable[FpslEnrollmentMetadataTypedDict]]
     r"""Metadata for the FULLY_PAID_STOCK_LENDING enrollment type"""
     individual_enrollment_metadata: NotRequired[
@@ -2924,6 +3651,10 @@ class EnrollmentTypedDict(TypedDict):
         Nullable[OperatingEnrollmentMetadataTypedDict]
     ]
     r"""Metadata for the REGISTRATION_OPERATING enrollment type."""
+    orders_options_trading_enrollment_metadata: NotRequired[
+        Nullable[OrdersOptionsTradingEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
     principal_approver_id: NotRequired[str]
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
     state: NotRequired[EnrollmentState]
@@ -2934,6 +3665,10 @@ class EnrollmentTypedDict(TypedDict):
     r"""Describes the name of the enrollment; Expressed as an enum"""
     unenrollment_time: NotRequired[Nullable[datetime]]
     r"""The time an unenrollment request was processed and the enrollment transitioned to `INACTIVE`"""
+    virtual_account_number_enrollment_metadata: NotRequired[
+        Nullable[VirtualAccountNumberEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the VIRTUAL_ACCOUNT_NUMBER type"""
 
 
 class Enrollment(BaseModel):
@@ -2970,6 +3705,11 @@ class Enrollment(BaseModel):
         ForeignIndividualAccountEnrollmentMetadata
     ] = UNSET
     r"""Metadata for the REGISTRATION_INDIVIDUAL_FOREIGN type"""
+
+    foreign_joint_account_enrollment_metadata: OptionalNullable[
+        ForeignJointAccountEnrollmentMetadata
+    ] = UNSET
+    r"""Metadata for the REGISTRATION_JOINT_FOREIGN_WROS type"""
 
     fpsl_enrollment_metadata: OptionalNullable[FpslEnrollmentMetadata] = UNSET
     r"""Metadata for the FULLY_PAID_STOCK_LENDING enrollment type"""
@@ -3034,6 +3774,11 @@ class Enrollment(BaseModel):
     operating_enrollment_metadata: OptionalNullable[OperatingEnrollmentMetadata] = UNSET
     r"""Metadata for the REGISTRATION_OPERATING enrollment type."""
 
+    orders_options_trading_enrollment_metadata: OptionalNullable[
+        OrdersOptionsTradingEnrollmentMetadata
+    ] = UNSET
+    r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
     principal_approver_id: Optional[str] = None
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
 
@@ -3053,6 +3798,11 @@ class Enrollment(BaseModel):
     unenrollment_time: OptionalNullable[datetime] = UNSET
     r"""The time an unenrollment request was processed and the enrollment transitioned to `INACTIVE`"""
 
+    virtual_account_number_enrollment_metadata: OptionalNullable[
+        VirtualAccountNumberEnrollmentMetadata
+    ] = UNSET
+    r"""Metadata for the VIRTUAL_ACCOUNT_NUMBER type"""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -3064,6 +3814,7 @@ class Enrollment(BaseModel):
             "enrollment_time",
             "estate_enrollment_metadata",
             "foreign_individual_account_enrollment_metadata",
+            "foreign_joint_account_enrollment_metadata",
             "fpsl_enrollment_metadata",
             "individual_enrollment_metadata",
             "ira_beneficiary_enrollment_metadata",
@@ -3079,11 +3830,13 @@ class Enrollment(BaseModel):
             "llc_enrollment_metadata",
             "name",
             "operating_enrollment_metadata",
+            "orders_options_trading_enrollment_metadata",
             "principal_approver_id",
             "state",
             "trust_enrollment_metadata",
             "type",
             "unenrollment_time",
+            "virtual_account_number_enrollment_metadata",
         ]
         nullable_fields = [
             "beneficiary_enrollment_metadata",
@@ -3092,6 +3845,7 @@ class Enrollment(BaseModel):
             "enrollment_time",
             "estate_enrollment_metadata",
             "foreign_individual_account_enrollment_metadata",
+            "foreign_joint_account_enrollment_metadata",
             "fpsl_enrollment_metadata",
             "individual_enrollment_metadata",
             "ira_beneficiary_enrollment_metadata",
@@ -3106,8 +3860,10 @@ class Enrollment(BaseModel):
             "joint_with_rights_of_survivorship_enrollment_metadata",
             "llc_enrollment_metadata",
             "operating_enrollment_metadata",
+            "orders_options_trading_enrollment_metadata",
             "trust_enrollment_metadata",
             "unenrollment_time",
+            "virtual_account_number_enrollment_metadata",
         ]
         null_default_fields = []
 

@@ -22,9 +22,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OrderAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
 
-    ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
@@ -660,7 +661,9 @@ class OrderTypedDict(TypedDict):
     asset_id: NotRequired[str]
     r"""Apex Asset ID for this asset. This will not be returned in the initial CreateOrder response and will be available after an order completes validation. If the provided identifier does not match any Apex asset available for trading, an OrderRejectReason of \"UNKNOWN_SECURITY\" will be returned and the asset_id will not be set."""
     asset_type: NotRequired[OrderAssetType]
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
     average_prices: NotRequired[List[ExecutedPriceTypedDict]]
     r"""The average prices, as weighted averages, across all executions in this order. Will be absent if an order has no executions.
 
@@ -689,7 +692,7 @@ class OrderTypedDict(TypedDict):
     executions: NotRequired[List[ExecutionsTypedDict]]
     r"""The execution-level details that compose this order"""
     fees: NotRequired[List[FeeTypedDict]]
-    r"""Fees that will be applied to this order."""
+    r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
     filled_quantity: NotRequired[Nullable[FilledQuantityTypedDict]]
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
     identifier: NotRequired[str]
@@ -751,7 +754,9 @@ class Order(BaseModel):
     asset_type: Annotated[
         Optional[OrderAssetType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
 
     average_prices: Optional[List[ExecutedPrice]] = None
     r"""The average prices, as weighted averages, across all executions in this order. Will be absent if an order has no executions.
@@ -796,7 +801,7 @@ class Order(BaseModel):
     r"""The execution-level details that compose this order"""
 
     fees: Optional[List[Fee]] = None
-    r"""Fees that will be applied to this order."""
+    r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
 
     filled_quantity: OptionalNullable[FilledQuantity] = UNSET
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""

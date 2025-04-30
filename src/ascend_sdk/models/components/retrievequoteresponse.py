@@ -54,6 +54,7 @@ class RetrieveQuoteResponseAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
     EQUITY = "EQUITY"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
+    OPTION = "OPTION"
 
 
 class BidMinimumQuantityTypedDict(TypedDict):

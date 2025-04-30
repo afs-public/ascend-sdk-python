@@ -1,0 +1,18 @@
+# InvestmentVehicleExperience
+
+This captures a user's experience with investment vehicles. It includes details such as the user's average annual trade count for various investment vehicles
+
+
+## Fields
+
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `commodities_average_annual_trade_count`                      | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of commodities            | 500                                                           |
+| `corporate_bonds_average_annual_trade_count`                  | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of corporate bonds        | 500                                                           |
+| `funds_average_annual_trade_count`                            | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of funds                  | 500                                                           |
+| `government_bonds_average_annual_trade_count`                 | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of government bonds       | 500                                                           |
+| `margin_average_annual_trade_count`                           | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades in margin accounts        | 500                                                           |
+| `municipal_bonds_average_annual_trade_count`                  | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of municipal bonds        | 0                                                             |
+| `options_average_annual_trade_count`                          | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of options                | 500                                                           |
+| `stocks_average_annual_trade_count`                           | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades of stocks                 | 0                                                             |
+| `tax_shelters_average_annual_trade_count`                     | *Optional[int]*                                               | :heavy_minus_sign:                                            | The number of average annual trades in tax sheltered accounts | 500                                                           |

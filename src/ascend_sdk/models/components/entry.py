@@ -1440,35 +1440,35 @@ class EntryFlipPrevailingMarketPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentAmountTypedDict(TypedDict):
+class EntryFlipPriceAdjustmentAmountTypedDict(TypedDict):
     r"""Total monetary value of the price_adjustment"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentAmount(BaseModel):
+class EntryFlipPriceAdjustmentAmount(BaseModel):
     r"""Total monetary value of the price_adjustment"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentPercentTypedDict(TypedDict):
+class EntryFlipPriceAdjustmentPercentTypedDict(TypedDict):
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentPercent(BaseModel):
+class EntryFlipPriceAdjustmentPercent(BaseModel):
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntryFlipPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
     PRICE_ADJUSTMENT_TYPE_UNSPECIFIED = "PRICE_ADJUSTMENT_TYPE_UNSPECIFIED"
@@ -1477,30 +1477,33 @@ class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
     SALES_LOAD = "SALES_LOAD"
 
 
-class EntryPriceAdjustmentRecordTypedDict(TypedDict):
+class EntryFlipPriceAdjustmentRecordTypedDict(TypedDict):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: NotRequired[Nullable[EntryPriceAdjustmentAmountTypedDict]]
+    price_adjustment_amount: NotRequired[
+        Nullable[EntryFlipPriceAdjustmentAmountTypedDict]
+    ]
     r"""Total monetary value of the price_adjustment"""
     price_adjustment_percent: NotRequired[
-        Nullable[EntryPriceAdjustmentPercentTypedDict]
+        Nullable[EntryFlipPriceAdjustmentPercentTypedDict]
     ]
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
-    price_adjustment_type: NotRequired[EntryPriceAdjustmentType]
+    price_adjustment_type: NotRequired[EntryFlipPriceAdjustmentType]
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
 
-class EntryPriceAdjustmentRecord(BaseModel):
+class EntryFlipPriceAdjustmentRecord(BaseModel):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: OptionalNullable[EntryPriceAdjustmentAmount] = UNSET
+    price_adjustment_amount: OptionalNullable[EntryFlipPriceAdjustmentAmount] = UNSET
     r"""Total monetary value of the price_adjustment"""
 
-    price_adjustment_percent: OptionalNullable[EntryPriceAdjustmentPercent] = UNSET
+    price_adjustment_percent: OptionalNullable[EntryFlipPriceAdjustmentPercent] = UNSET
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     price_adjustment_type: Annotated[
-        Optional[EntryPriceAdjustmentType], PlainValidator(validate_open_enum(False))
+        Optional[EntryFlipPriceAdjustmentType],
+        PlainValidator(validate_open_enum(False)),
     ] = None
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
@@ -1586,7 +1589,9 @@ class DetailTypedDict(TypedDict):
         Nullable[EntryFlipPrevailingMarketPriceTypedDict]
     ]
     r"""The price for the instrument that is prevailing in the market"""
-    price_adjustment_record: NotRequired[Nullable[EntryPriceAdjustmentRecordTypedDict]]
+    price_adjustment_record: NotRequired[
+        Nullable[EntryFlipPriceAdjustmentRecordTypedDict]
+    ]
     r"""Information about any price adjustments applied to the security"""
     route: NotRequired[str]
     r"""The execution route Apex used for this trade"""
@@ -1666,7 +1671,7 @@ class Detail(BaseModel):
     prevailing_market_price: OptionalNullable[EntryFlipPrevailingMarketPrice] = UNSET
     r"""The price for the instrument that is prevailing in the market"""
 
-    price_adjustment_record: OptionalNullable[EntryPriceAdjustmentRecord] = UNSET
+    price_adjustment_record: OptionalNullable[EntryFlipPriceAdjustmentRecord] = UNSET
     r"""Information about any price adjustments applied to the security"""
 
     route: Optional[str] = None
@@ -1807,14 +1812,14 @@ class Fpsl(BaseModel):
     r"""Indicates whether shares are being allocated or deallocated"""
 
 
-class GrossAmountTypedDict(TypedDict):
+class EntryGrossAmountTypedDict(TypedDict):
     r"""The monetary value of an activity, exclusive of any fees (First money)"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class GrossAmount(BaseModel):
+class EntryGrossAmount(BaseModel):
     r"""The monetary value of an activity, exclusive of any fees (First money)"""
 
     value: Optional[str] = None
@@ -3246,7 +3251,7 @@ class EntryPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class ProcessDateTypedDict(TypedDict):
+class EntryProcessDateTypedDict(TypedDict):
     r"""The date that the entry was booked on"""
 
     day: NotRequired[int]
@@ -3257,7 +3262,7 @@ class ProcessDateTypedDict(TypedDict):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
-class ProcessDate(BaseModel):
+class EntryProcessDate(BaseModel):
     r"""The date that the entry was booked on"""
 
     day: Optional[int] = None
@@ -4457,7 +4462,7 @@ class EntrySide(str, Enum, metaclass=utils.OpenEnumMeta):
     SELL = "SELL"
 
 
-class SideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntrySideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
 
     SIDE_MODIFIER_UNSPECIFIED = "SIDE_MODIFIER_UNSPECIFIED"
@@ -5276,35 +5281,35 @@ class EntryPrevailingMarketPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class PriceAdjustmentAmountTypedDict(TypedDict):
+class EntryPriceAdjustmentAmountTypedDict(TypedDict):
     r"""Total monetary value of the price_adjustment"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class PriceAdjustmentAmount(BaseModel):
+class EntryPriceAdjustmentAmount(BaseModel):
     r"""Total monetary value of the price_adjustment"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class PriceAdjustmentPercentTypedDict(TypedDict):
+class EntryPriceAdjustmentPercentTypedDict(TypedDict):
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class PriceAdjustmentPercent(BaseModel):
+class EntryPriceAdjustmentPercent(BaseModel):
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class PriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
     PRICE_ADJUSTMENT_TYPE_UNSPECIFIED = "PRICE_ADJUSTMENT_TYPE_UNSPECIFIED"
@@ -5313,28 +5318,30 @@ class PriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
     SALES_LOAD = "SALES_LOAD"
 
 
-class PriceAdjustmentRecordTypedDict(TypedDict):
+class EntryPriceAdjustmentRecordTypedDict(TypedDict):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: NotRequired[Nullable[PriceAdjustmentAmountTypedDict]]
+    price_adjustment_amount: NotRequired[Nullable[EntryPriceAdjustmentAmountTypedDict]]
     r"""Total monetary value of the price_adjustment"""
-    price_adjustment_percent: NotRequired[Nullable[PriceAdjustmentPercentTypedDict]]
+    price_adjustment_percent: NotRequired[
+        Nullable[EntryPriceAdjustmentPercentTypedDict]
+    ]
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
-    price_adjustment_type: NotRequired[PriceAdjustmentType]
+    price_adjustment_type: NotRequired[EntryPriceAdjustmentType]
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
 
-class PriceAdjustmentRecord(BaseModel):
+class EntryPriceAdjustmentRecord(BaseModel):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: OptionalNullable[PriceAdjustmentAmount] = UNSET
+    price_adjustment_amount: OptionalNullable[EntryPriceAdjustmentAmount] = UNSET
     r"""Total monetary value of the price_adjustment"""
 
-    price_adjustment_percent: OptionalNullable[PriceAdjustmentPercent] = UNSET
+    price_adjustment_percent: OptionalNullable[EntryPriceAdjustmentPercent] = UNSET
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     price_adjustment_type: Annotated[
-        Optional[PriceAdjustmentType], PlainValidator(validate_open_enum(False))
+        Optional[EntryPriceAdjustmentType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
@@ -5373,7 +5380,7 @@ class PriceAdjustmentRecord(BaseModel):
         return m
 
 
-class TradeTypedDict(TypedDict):
+class EntryTradeTypedDict(TypedDict):
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
 
     additional_instructions: NotRequired[List[str]]
@@ -5418,7 +5425,7 @@ class TradeTypedDict(TypedDict):
     r"""Max Length 50 characters. Internally generated order id that is returned to client on exec reports"""
     prevailing_market_price: NotRequired[Nullable[EntryPrevailingMarketPriceTypedDict]]
     r"""The price for the instrument that is prevailing in the market"""
-    price_adjustment_record: NotRequired[Nullable[PriceAdjustmentRecordTypedDict]]
+    price_adjustment_record: NotRequired[Nullable[EntryPriceAdjustmentRecordTypedDict]]
     r"""Information about any price adjustments applied to the security"""
     route: NotRequired[str]
     r"""The execution route Apex used for this trade"""
@@ -5430,7 +5437,7 @@ class TradeTypedDict(TypedDict):
     r"""The yields associated with a fixed income trade Only valid if the SecurityType is FIXED_INCOME"""
 
 
-class Trade(BaseModel):
+class EntryTrade(BaseModel):
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
 
     additional_instructions: Optional[List[str]] = None
@@ -5498,7 +5505,7 @@ class Trade(BaseModel):
     prevailing_market_price: OptionalNullable[EntryPrevailingMarketPrice] = UNSET
     r"""The price for the instrument that is prevailing in the market"""
 
-    price_adjustment_record: OptionalNullable[PriceAdjustmentRecord] = UNSET
+    price_adjustment_record: OptionalNullable[EntryPriceAdjustmentRecord] = UNSET
     r"""Information about any price adjustments applied to the security"""
 
     route: Optional[str] = None
@@ -6330,7 +6337,7 @@ class EntryTypedDict(TypedDict):
     r"""Object containing metadata for a Flip"""
     fpsl: NotRequired[Nullable[FpslTypedDict]]
     r"""Used to record the movements of shares to/ from the fpsl memo location and details related to the fpsl memo"""
-    gross_amount: NotRequired[Nullable[GrossAmountTypedDict]]
+    gross_amount: NotRequired[Nullable[EntryGrossAmountTypedDict]]
     r"""The monetary value of an activity, exclusive of any fees (First money)"""
     interest: NotRequired[Nullable[InterestTypedDict]]
     r"""Used to record the payment of interest to accounts that have maintained a cash balance or the charging of interest to accounts that have used margin and details related to the interest"""
@@ -6354,7 +6361,7 @@ class EntryTypedDict(TypedDict):
     r"""Used to record payments on interest-bearing securities where the payment is made in additional securities rather than cash and details related to the payment"""
     price: NotRequired[Nullable[EntryPriceTypedDict]]
     r"""The monetary value paid for a given security in a trade Required, except for currency movements"""
-    process_date: NotRequired[Nullable[ProcessDateTypedDict]]
+    process_date: NotRequired[Nullable[EntryProcessDateTypedDict]]
     r"""The date that the entry was booked on"""
     quantity: NotRequired[Nullable[EntryQuantityTypedDict]]
     r"""The quantity of shares bought, sold, or moved. For entries/ activities involving Fixed Income assets, quantity is expressed as par value Required for trades and memos, optional for movements."""
@@ -6380,7 +6387,7 @@ class EntryTypedDict(TypedDict):
     r"""The date a given entry/ activity will officially settle"""
     side: NotRequired[EntrySide]
     r"""Denotes whether the trade is a buy or sell"""
-    side_modifier: NotRequired[SideModifier]
+    side_modifier: NotRequired[EntrySideModifier]
     r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
     spin_off: NotRequired[Nullable[SpinOffTypedDict]]
     r"""Used to record a distribution of subsidiary securities to the shareholders of the parent company without a surrender of securities or payment and details related to the spinoff. A spin-off represents a form of divestiture resulting in an independent company"""
@@ -6396,7 +6403,7 @@ class EntryTypedDict(TypedDict):
     r"""Used to record sweeps from a cash balance to an alternative asset or vice versa and details related to the sweep"""
     tender_offer: NotRequired[Nullable[TenderOfferTypedDict]]
     r"""Used to record the sale of securities for a specified price due to an offer from the issuer or a third party and details related to the tender offer"""
-    trade: NotRequired[Nullable[TradeTypedDict]]
+    trade: NotRequired[Nullable[EntryTradeTypedDict]]
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
     transfer: NotRequired[Nullable[TransferTypedDict]]
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
@@ -6501,7 +6508,7 @@ class Entry(BaseModel):
     fpsl: OptionalNullable[Fpsl] = UNSET
     r"""Used to record the movements of shares to/ from the fpsl memo location and details related to the fpsl memo"""
 
-    gross_amount: OptionalNullable[GrossAmount] = UNSET
+    gross_amount: OptionalNullable[EntryGrossAmount] = UNSET
     r"""The monetary value of an activity, exclusive of any fees (First money)"""
 
     interest: OptionalNullable[Interest] = UNSET
@@ -6537,7 +6544,7 @@ class Entry(BaseModel):
     price: OptionalNullable[EntryPrice] = UNSET
     r"""The monetary value paid for a given security in a trade Required, except for currency movements"""
 
-    process_date: OptionalNullable[ProcessDate] = UNSET
+    process_date: OptionalNullable[EntryProcessDate] = UNSET
     r"""The date that the entry was booked on"""
 
     quantity: OptionalNullable[EntryQuantity] = UNSET
@@ -6579,7 +6586,7 @@ class Entry(BaseModel):
     r"""Denotes whether the trade is a buy or sell"""
 
     side_modifier: Annotated[
-        Optional[SideModifier], PlainValidator(validate_open_enum(False))
+        Optional[EntrySideModifier], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
 
@@ -6606,7 +6613,7 @@ class Entry(BaseModel):
     tender_offer: OptionalNullable[TenderOffer] = UNSET
     r"""Used to record the sale of securities for a specified price due to an offer from the issuer or a third party and details related to the tender offer"""
 
-    trade: OptionalNullable[Trade] = UNSET
+    trade: OptionalNullable[EntryTrade] = UNSET
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
 
     transfer: OptionalNullable[Transfer] = UNSET

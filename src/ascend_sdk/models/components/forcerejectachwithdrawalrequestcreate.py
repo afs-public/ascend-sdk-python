@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from ascend_sdk.types import BaseModel
-from typing_extensions import TypedDict
+from typing import Optional
+from typing_extensions import NotRequired, TypedDict
 
 
 class ForceRejectAchWithdrawalRequestCreateTypedDict(TypedDict):
@@ -10,6 +11,8 @@ class ForceRejectAchWithdrawalRequestCreateTypedDict(TypedDict):
 
     name: str
     r"""The name of the ACH withdrawal to force reject."""
+    reason: NotRequired[str]
+    r"""Reason why the ACH withdrawal is being rejected."""
 
 
 class ForceRejectAchWithdrawalRequestCreate(BaseModel):
@@ -17,3 +20,6 @@ class ForceRejectAchWithdrawalRequestCreate(BaseModel):
 
     name: str
     r"""The name of the ACH withdrawal to force reject."""
+
+    reason: Optional[str] = None
+    r"""Reason why the ACH withdrawal is being rejected."""

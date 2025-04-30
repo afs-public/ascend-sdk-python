@@ -29,6 +29,7 @@ class Mechanism(str, Enum):
     RTP = "RTP"
     TPJ = "TPJ"
     WIRE = "WIRE"
+    EXTERNAL_ACH = "EXTERNAL_ACH"
 
 
 class CashBalancesCalculateCashBalanceRequestTypedDict(TypedDict):

@@ -31,3 +31,5 @@ When an order has the REJECTED status, this will be populated with a system code
 | `STOCK_TRADES_DISABLED`                                     | STOCK_TRADES_DISABLED                                       |
 | `ASSET_NOT_SET_UP_TO_TRADE`                                 | ASSET_NOT_SET_UP_TO_TRADE                                   |
 | `ANOTHER_BASKET_ORDER_FOR_ACCOUNT_HAS_FAILED_RISK_CHECKS`   | ANOTHER_BASKET_ORDER_FOR_ACCOUNT_HAS_FAILED_RISK_CHECKS     |
+| `INSUFFICIENT_POSITION`                                     | INSUFFICIENT_POSITION                                       |
+| `FAILED_BUYING_POWER`                                       | FAILED_BUYING_POWER                                         |

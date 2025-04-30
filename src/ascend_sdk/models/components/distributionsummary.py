@@ -69,6 +69,20 @@ class PriorYearEndAccountBalance(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class RemainingDistributionRequiredTypedDict(TypedDict):
+    r"""The remaining amount required to be distributed for the tax year. Calculated as the difference between the RMD for the account and its regular distribution total to date. This will return zero if the account is not required to make a distribution during the tax year or has already met its distribution requirement."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class RemainingDistributionRequired(BaseModel):
+    r"""The remaining amount required to be distributed for the tax year. Calculated as the difference between the RMD for the account and its regular distribution total to date. This will return zero if the account is not required to make a distribution during the tax year or has already met its distribution requirement."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class RequiredMinimumDistributionTypedDict(TypedDict):
     r"""The required minimum distribution (RMD). Will be unset if the account is not required to make a distribution during the tax year. Distributions are only required for some account registrations and when the account owner reaches a certain age."""
 
@@ -80,6 +94,10 @@ class RequiredMinimumDistributionTypedDict(TypedDict):
         Nullable[PriorYearEndAccountBalanceTypedDict]
     ]
     r"""The account balance at the end of the prior year in USD. This value is used to calculate the RMD amount."""
+    remaining_distribution_required: NotRequired[
+        Nullable[RemainingDistributionRequiredTypedDict]
+    ]
+    r"""The remaining amount required to be distributed for the tax year. Calculated as the difference between the RMD for the account and its regular distribution total to date. This will return zero if the account is not required to make a distribution during the tax year or has already met its distribution requirement."""
 
 
 class RequiredMinimumDistribution(BaseModel):
@@ -94,17 +112,24 @@ class RequiredMinimumDistribution(BaseModel):
     prior_year_end_account_balance: OptionalNullable[PriorYearEndAccountBalance] = UNSET
     r"""The account balance at the end of the prior year in USD. This value is used to calculate the RMD amount."""
 
+    remaining_distribution_required: OptionalNullable[
+        RemainingDistributionRequired
+    ] = UNSET
+    r"""The remaining amount required to be distributed for the tax year. Calculated as the difference between the RMD for the account and its regular distribution total to date. This will return zero if the account is not required to make a distribution during the tax year or has already met its distribution requirement."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "amount",
             "life_expectancy_factor",
             "prior_year_end_account_balance",
+            "remaining_distribution_required",
         ]
         nullable_fields = [
             "amount",
             "life_expectancy_factor",
             "prior_year_end_account_balance",
+            "remaining_distribution_required",
         ]
         null_default_fields = []
 

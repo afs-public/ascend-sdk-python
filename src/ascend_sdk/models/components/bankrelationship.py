@@ -144,7 +144,6 @@ class BankRelationshipVerificationMethod(str, Enum, metaclass=utils.OpenEnumMeta
     GIACT = "GIACT"
     SYNAPSE = "SYNAPSE"
     SOPHTRON = "SOPHTRON"
-    USE_EXISTING = "USE_EXISTING"
     INTERNAL_BANK = "INTERNAL_BANK"
     MX = "MX"
     FISERV = "FISERV"

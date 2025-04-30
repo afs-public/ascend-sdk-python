@@ -646,7 +646,7 @@ class LegalEntityTypedDict(TypedDict):
     exempt_customer_reason: NotRequired[LegalEntityExemptCustomerReason]
     r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
     exempt_verifying_beneficial_owners: NotRequired[bool]
-    r"""Indicates whether the entity is exempt from verifying beneficial owners. By default, this is set to `false`."""
+    r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""
     for_the_benefit_of: NotRequired[str]
     r"""If the legal entity is a trust, they may set this field to convey ownership and value to a trustee."""
     foreign_entity: NotRequired[bool]
@@ -744,7 +744,7 @@ class LegalEntity(BaseModel):
     r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
 
     exempt_verifying_beneficial_owners: Optional[bool] = None
-    r"""Indicates whether the entity is exempt from verifying beneficial owners. By default, this is set to `false`."""
+    r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""
 
     for_the_benefit_of: Optional[str] = None
     r"""If the legal entity is a trust, they may set this field to convey ownership and value to a trustee."""

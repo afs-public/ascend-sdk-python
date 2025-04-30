@@ -24,7 +24,12 @@ class AccountsListLegalEntitiesRequestTypedDict(TypedDict):
     order_by: NotRequired[str]
     r"""The order in which legal entities are listed."""
     filter_: NotRequired[str]
-    r"""A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;"""
+    r"""A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:
+    `legal_entity_id`
+    `investigation_id`
+    `exempt_customer_reason`
+    `exempt_verifying_beneficial_owners`
+    """
 
 
 class AccountsListLegalEntitiesRequest(BaseModel):
@@ -54,7 +59,12 @@ class AccountsListLegalEntitiesRequest(BaseModel):
         pydantic.Field(alias="filter"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;"""
+    r"""A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `entity_name.upperAscii()==\"AcMe,InC\".upperAscii()`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:
+    `legal_entity_id`
+    `investigation_id`
+    `exempt_customer_reason`
+    `exempt_verifying_beneficial_owners`
+    """
 
 
 class AccountsListLegalEntitiesResponseTypedDict(TypedDict):

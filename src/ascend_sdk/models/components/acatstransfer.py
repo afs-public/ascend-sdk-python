@@ -92,7 +92,7 @@ class Deliverer(BaseModel):
         return m
 
 
-class Direction(str, Enum, metaclass=utils.OpenEnumMeta):
+class AcatsTransferDirection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The direction of the transfer"""
 
     DIRECTION_UNSPECIFIED = "DIRECTION_UNSPECIFIED"
@@ -274,7 +274,7 @@ class AcatsTransferTypedDict(TypedDict):
     r"""The transfer creation timestamp"""
     deliverer: NotRequired[Nullable[DelivererTypedDict]]
     r"""The delivering party information"""
-    direction: NotRequired[Direction]
+    direction: NotRequired[AcatsTransferDirection]
     r"""The direction of the transfer"""
     name: NotRequired[str]
     r"""The service generated name of the transfer. Format: correspondents/{correspondent_id}/accounts/{account_id}/transfers/{transfer_id}"""
@@ -311,7 +311,7 @@ class AcatsTransfer(BaseModel):
     r"""The delivering party information"""
 
     direction: Annotated[
-        Optional[Direction], PlainValidator(validate_open_enum(False))
+        Optional[AcatsTransferDirection], PlainValidator(validate_open_enum(False))
     ] = None
     r"""The direction of the transfer"""
 

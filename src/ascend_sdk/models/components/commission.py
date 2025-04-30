@@ -13,14 +13,14 @@ from typing import Optional
 from typing_extensions import NotRequired, TypedDict
 
 
-class CommissionAmountTypedDict(TypedDict):
+class CommissionAmount1TypedDict(TypedDict):
     r"""Monetary amount associated with the commission"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class CommissionAmount(BaseModel):
+class CommissionAmount1(BaseModel):
     r"""Monetary amount associated with the commission"""
 
     value: Optional[str] = None
@@ -28,12 +28,12 @@ class CommissionAmount(BaseModel):
 
 
 class CommissionTypedDict(TypedDict):
-    amount: NotRequired[Nullable[CommissionAmountTypedDict]]
+    amount: NotRequired[Nullable[CommissionAmount1TypedDict]]
     r"""Monetary amount associated with the commission"""
 
 
 class Commission(BaseModel):
-    amount: OptionalNullable[CommissionAmount] = UNSET
+    amount: OptionalNullable[CommissionAmount1] = UNSET
     r"""Monetary amount associated with the commission"""
 
     @model_serializer(mode="wrap")

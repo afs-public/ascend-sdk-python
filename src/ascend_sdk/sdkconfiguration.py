@@ -35,11 +35,11 @@ class SDKConfiguration:
     server_url: Optional[str] = ""
     server: Optional[str] = ""
     language: str = "python"
-    openapi_doc_version: str = "v1:20250314:uat:ca7557d0f350"
-    sdk_version: str = "1.5.4"
+    openapi_doc_version: str = "v1:20250425:uat:4e9cbfb617ca"
+    sdk_version: str = "1.5.5"
     gen_version: str = "2.437.1"
     user_agent: str = (
-        "speakeasy-sdk/python 1.5.4 2.437.1 v1:20250314:uat:ca7557d0f350 ascend-sdk"
+        "speakeasy-sdk/python 1.5.5 2.437.1 v1:20250425:uat:4e9cbfb617ca ascend-sdk"
     )
     retry_config: OptionalNullable[RetryConfig] = Field(default_factory=lambda: UNSET)
     timeout_ms: Optional[int] = None

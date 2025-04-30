@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class IRARothEnrollmentMetadataCreateDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -25,7 +25,7 @@ class IRARothEnrollmentMetadataCreateDividendReinvestmentPlan(
 class IRARothEnrollmentMetadataCreateFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -38,9 +38,9 @@ class IRARothEnrollmentMetadataCreateTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         IRARothEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[IRARothEnrollmentMetadataCreateFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class IRARothEnrollmentMetadataCreate(BaseModel):
@@ -50,10 +50,10 @@ class IRARothEnrollmentMetadataCreate(BaseModel):
         Optional[IRARothEnrollmentMetadataCreateDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[IRARothEnrollmentMetadataCreateFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""

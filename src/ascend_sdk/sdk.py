@@ -34,6 +34,8 @@ from ascend_sdk.retirements import Retirements
 from ascend_sdk.schedule_transfers import ScheduleTransfers
 from ascend_sdk.subscriber import Subscriber
 from ascend_sdk.test_simulation import TestSimulation
+from ascend_sdk.trade_allocation import TradeAllocation
+from ascend_sdk.trade_booking import TradeBooking
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.wires import Wires
 import httpx
@@ -41,6 +43,8 @@ from typing import Callable, Dict, Optional, Union
 
 
 class SDK(BaseSDK):
+    r"""Ascend OpenAPI: Combined Ascend OpenAPI spec for SDK generation"""
+
     authentication: Authentication
     reader: Reader
     subscriber: Subscriber
@@ -49,15 +53,6 @@ class SDK(BaseSDK):
     account_management: AccountManagement
     enrollments_and_agreements: EnrollmentsAndAgreements
     investigations: Investigations
-    account_transfers: AccountTransfers
-    create_order: CreateOrder
-    fixed_income_pricing: FixedIncomePricing
-    basket_orders: BasketOrders
-    assets: Assets
-    ledger: Ledger
-    investor_docs: InvestorDocs
-    data_retrieval: DataRetrieval
-    margins: Margins
     bank_relationships: BankRelationships
     ach_transfers: ACHTransfers
     instant_cash_transfer_ict: InstantCashTransferICT
@@ -68,6 +63,17 @@ class SDK(BaseSDK):
     cash_balances: CashBalances
     fees_and_credits: FeesAndCredits
     test_simulation: TestSimulation
+    account_transfers: AccountTransfers
+    create_order: CreateOrder
+    fixed_income_pricing: FixedIncomePricing
+    basket_orders: BasketOrders
+    trade_booking: TradeBooking
+    trade_allocation: TradeAllocation
+    assets: Assets
+    ledger: Ledger
+    margins: Margins
+    investor_docs: InvestorDocs
+    data_retrieval: DataRetrieval
 
     def __init__(
         self,
@@ -154,15 +160,6 @@ class SDK(BaseSDK):
             self.sdk_configuration
         )
         self.investigations = Investigations(self.sdk_configuration)
-        self.account_transfers = AccountTransfers(self.sdk_configuration)
-        self.create_order = CreateOrder(self.sdk_configuration)
-        self.fixed_income_pricing = FixedIncomePricing(self.sdk_configuration)
-        self.basket_orders = BasketOrders(self.sdk_configuration)
-        self.assets = Assets(self.sdk_configuration)
-        self.ledger = Ledger(self.sdk_configuration)
-        self.investor_docs = InvestorDocs(self.sdk_configuration)
-        self.data_retrieval = DataRetrieval(self.sdk_configuration)
-        self.margins = Margins(self.sdk_configuration)
         self.bank_relationships = BankRelationships(self.sdk_configuration)
         self.ach_transfers = ACHTransfers(self.sdk_configuration)
         self.instant_cash_transfer_ict = InstantCashTransferICT(self.sdk_configuration)
@@ -173,3 +170,14 @@ class SDK(BaseSDK):
         self.cash_balances = CashBalances(self.sdk_configuration)
         self.fees_and_credits = FeesAndCredits(self.sdk_configuration)
         self.test_simulation = TestSimulation(self.sdk_configuration)
+        self.account_transfers = AccountTransfers(self.sdk_configuration)
+        self.create_order = CreateOrder(self.sdk_configuration)
+        self.fixed_income_pricing = FixedIncomePricing(self.sdk_configuration)
+        self.basket_orders = BasketOrders(self.sdk_configuration)
+        self.trade_booking = TradeBooking(self.sdk_configuration)
+        self.trade_allocation = TradeAllocation(self.sdk_configuration)
+        self.assets = Assets(self.sdk_configuration)
+        self.ledger = Ledger(self.sdk_configuration)
+        self.margins = Margins(self.sdk_configuration)
+        self.investor_docs = InvestorDocs(self.sdk_configuration)
+        self.data_retrieval = DataRetrieval(self.sdk_configuration)

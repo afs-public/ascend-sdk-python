@@ -1,6 +1,6 @@
 # PriceAdjustmentType
 
-The type of price adjustment being applied by the broker to the net price of the security
+The type of price adjustment being applied by the broker to the net price of the security.
 
 
 ## Values
@@ -10,4 +10,4 @@ The type of price adjustment being applied by the broker to the net price of the
 | `PRICE_ADJUSTMENT_TYPE_UNSPECIFIED` | PRICE_ADJUSTMENT_TYPE_UNSPECIFIED   |
 | `MARKUP`                            | MARKUP                              |
 | `MARKDOWN`                          | MARKDOWN                            |
-| `SALES_LOAD`                        | SALES_LOAD                          |
+| `GROSS_CREDIT`                      | GROSS_CREDIT                        |

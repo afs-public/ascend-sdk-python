@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from ascend_sdk.types import BaseModel
-from typing_extensions import TypedDict
+from typing import Optional
+from typing_extensions import NotRequired, TypedDict
 
 
 class ForceRejectIctWithdrawalRequestCreateTypedDict(TypedDict):
@@ -10,6 +11,8 @@ class ForceRejectIctWithdrawalRequestCreateTypedDict(TypedDict):
 
     name: str
     r"""Full name of the ICT withdrawal resource to force a rejection on. Contains account id and ICT withdrawal id."""
+    reason: NotRequired[str]
+    r"""Reason why the ICT withdrawal is being rejected"""
 
 
 class ForceRejectIctWithdrawalRequestCreate(BaseModel):
@@ -17,3 +20,6 @@ class ForceRejectIctWithdrawalRequestCreate(BaseModel):
 
     name: str
     r"""Full name of the ICT withdrawal resource to force a rejection on. Contains account id and ICT withdrawal id."""
+
+    reason: Optional[str] = None
+    r"""Reason why the ICT withdrawal is being rejected"""

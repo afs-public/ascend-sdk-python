@@ -27,7 +27,7 @@ class LotPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class MoneyTypedDict(TypedDict):
+class LotMoneyTypedDict(TypedDict):
     r"""Object containing currency/ price information for the trade lot"""
 
     currency_code: NotRequired[str]
@@ -36,7 +36,7 @@ class MoneyTypedDict(TypedDict):
     r"""Price of the trade lot"""
 
 
-class Money(BaseModel):
+class LotMoney(BaseModel):
     r"""Object containing currency/ price information for the trade lot"""
 
     currency_code: Optional[str] = None
@@ -117,7 +117,7 @@ class TradeDate(BaseModel):
 class LotTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Client supplied id"""
-    money: NotRequired[Nullable[MoneyTypedDict]]
+    money: NotRequired[Nullable[LotMoneyTypedDict]]
     r"""Object containing currency/ price information for the trade lot"""
     quantity: NotRequired[Nullable[LotQuantityTypedDict]]
     r"""Quantity of the trade lot"""
@@ -129,7 +129,7 @@ class Lot(BaseModel):
     id: Optional[str] = None
     r"""Client supplied id"""
 
-    money: OptionalNullable[Money] = UNSET
+    money: OptionalNullable[LotMoney] = UNSET
     r"""Object containing currency/ price information for the trade lot"""
 
     quantity: OptionalNullable[LotQuantity] = UNSET

@@ -13,14 +13,14 @@ from typing import Optional
 from typing_extensions import NotRequired, TypedDict
 
 
-class CalculateCashBalanceResponseTradeSummaryNetAmountTypedDict(TypedDict):
+class NetAmountTypedDict(TypedDict):
     r"""The net amount of the trade in USD. This value is always positive."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class CalculateCashBalanceResponseTradeSummaryNetAmount(BaseModel):
+class NetAmount(BaseModel):
     r"""The net amount of the trade in USD. This value is always positive."""
 
     value: Optional[str] = None
@@ -34,9 +34,7 @@ class CalculateCashBalanceResponseTradeSummaryTypedDict(TypedDict):
     r"""The ledger activity for the trade."""
     asset: NotRequired[str]
     r"""The asset that was traded."""
-    net_amount: NotRequired[
-        Nullable[CalculateCashBalanceResponseTradeSummaryNetAmountTypedDict]
-    ]
+    net_amount: NotRequired[Nullable[NetAmountTypedDict]]
     r"""The net amount of the trade in USD. This value is always positive."""
 
 
@@ -49,9 +47,7 @@ class CalculateCashBalanceResponseTradeSummary(BaseModel):
     asset: Optional[str] = None
     r"""The asset that was traded."""
 
-    net_amount: OptionalNullable[
-        CalculateCashBalanceResponseTradeSummaryNetAmount
-    ] = UNSET
+    net_amount: OptionalNullable[NetAmount] = UNSET
     r"""The net amount of the trade in USD. This value is always positive."""
 
     @model_serializer(mode="wrap")

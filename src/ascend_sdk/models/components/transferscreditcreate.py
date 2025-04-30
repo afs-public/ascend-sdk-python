@@ -36,6 +36,8 @@ class TransfersCreditCreateTypedDict(TypedDict):
     r"""The type of the credit being issued"""
     description: NotRequired[str]
     r"""Optional description information that will attach to this transaction"""
+    fee_operating_account: NotRequired[str]
+    r"""Optional account field to denote where the credit amount should be withdrawn from. If provided, the account must be a fee operating account. In the case of multiple fee operating accounts under the same correspondent, this field must be provided. If not provided, this will be looked up asynchronously (therefore will not be in the initial response)"""
 
 
 class TransfersCreditCreate(BaseModel):
@@ -59,3 +61,6 @@ class TransfersCreditCreate(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description information that will attach to this transaction"""
+
+    fee_operating_account: Optional[str] = None
+    r"""Optional account field to denote where the credit amount should be withdrawn from. If provided, the account must be a fee operating account. In the case of multiple fee operating accounts under the same correspondent, this field must be provided. If not provided, this will be looked up asynchronously (therefore will not be in the initial response)"""

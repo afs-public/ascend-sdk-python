@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from ascend_sdk.types import BaseModel
-from typing_extensions import TypedDict
+from typing import Optional
+from typing_extensions import NotRequired, TypedDict
 
 
 class ForceRejectIctDepositRequestCreateTypedDict(TypedDict):
@@ -10,6 +11,8 @@ class ForceRejectIctDepositRequestCreateTypedDict(TypedDict):
 
     name: str
     r"""Full name of the ICT deposit resource to force a rejection on. Contains account id and ICT deposit id."""
+    reason: NotRequired[str]
+    r"""Reason why the ICT deposit is being rejected"""
 
 
 class ForceRejectIctDepositRequestCreate(BaseModel):
@@ -17,3 +20,6 @@ class ForceRejectIctDepositRequestCreate(BaseModel):
 
     name: str
     r"""Full name of the ICT deposit resource to force a rejection on. Contains account id and ICT deposit id."""
+
+    reason: Optional[str] = None
+    r"""Reason why the ICT deposit is being rejected"""

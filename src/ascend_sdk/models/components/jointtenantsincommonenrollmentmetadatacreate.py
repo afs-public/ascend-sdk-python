@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class JointTenantsInCommonEnrollmentMetadataCreateDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
         "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
@@ -25,7 +25,7 @@ class JointTenantsInCommonEnrollmentMetadataCreateDividendReinvestmentPlan(
 class JointTenantsInCommonEnrollmentMetadataCreateFdicCashSweep(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
     FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
@@ -38,11 +38,11 @@ class JointTenantsInCommonEnrollmentMetadataCreateTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[
         JointTenantsInCommonEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[
         JointTenantsInCommonEnrollmentMetadataCreateFdicCashSweep
     ]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
 class JointTenantsInCommonEnrollmentMetadataCreate(BaseModel):
@@ -52,10 +52,10 @@ class JointTenantsInCommonEnrollmentMetadataCreate(BaseModel):
         Optional[JointTenantsInCommonEnrollmentMetadataCreateDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to true"""
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
     fdic_cash_sweep: Annotated[
         Optional[JointTenantsInCommonEnrollmentMetadataCreateFdicCashSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to true"""
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""

@@ -30,9 +30,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
 
-    ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
@@ -111,7 +112,9 @@ class OrderCreateTypedDict(TypedDict):
     r"""The message describing an order"""
 
     asset_type: AssetType
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
     client_order_id: str
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     identifier: str
@@ -140,7 +143,7 @@ class OrderCreateTypedDict(TypedDict):
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
     fees: NotRequired[List[FeeCreateTypedDict]]
-    r"""Fees that will be applied to this order."""
+    r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
     identifier_issuing_region_code: NotRequired[str]
     r"""A string attribute denoting the country of issuance or where the asset is trading. Only available for Mutual Fund orders. Defaults to US, when trading non US mutual funds this field must be provided Complies with ISO-3166 Alpha-2 Codes"""
     letter_of_intent: NotRequired[LetterOfIntentCreateTypedDict]
@@ -180,7 +183,9 @@ class OrderCreate(BaseModel):
     r"""The message describing an order"""
 
     asset_type: Annotated[AssetType, PlainValidator(validate_open_enum(False))]
-    r"""The type of the asset in this order"""
+    r"""The type of the asset in this order, which must be one of the following:
+    EQUITY, MUTUAL_FUND, and FIXED_INCOME.
+    """
 
     client_order_id: str
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
@@ -225,7 +230,7 @@ class OrderCreate(BaseModel):
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
 
     fees: Optional[List[FeeCreate]] = None
-    r"""Fees that will be applied to this order."""
+    r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
 
     identifier_issuing_region_code: Optional[str] = None
     r"""A string attribute denoting the country of issuance or where the asset is trading. Only available for Mutual Fund orders. Defaults to US, when trading non US mutual funds this field must be provided Complies with ISO-3166 Alpha-2 Codes"""
