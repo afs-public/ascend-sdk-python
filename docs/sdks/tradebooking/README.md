@@ -71,7 +71,7 @@ res = s.trade_booking.create_trade(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trad
     "source_application": "Trading-App",
 })
 
-if res.trade is not None:
+if res.booking_trade is not None:
     # handle response
     pass
 
@@ -122,7 +122,7 @@ s = SDK(
 
 res = s.trade_booking.get_trade(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_id="01FAKETRADEIDPROVIDEDFROMCREATETRADE")
 
-if res.trade is not None:
+if res.booking_trade is not None:
     # handle response
     pass
 

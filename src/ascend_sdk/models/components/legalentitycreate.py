@@ -58,7 +58,14 @@ class EntityType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class ExemptCustomerReason(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
+    r"""**Field Dependencies:**
+
+    Exempt entities must set `exempt_verifying_beneficial_owners` to `true` and provide an `exempt_customer_reason` on the owner record.
+
+    Required if `exempt_verifying_beneficial_owners` is `true`.
+
+    Otherwise, must be empty.
+    """
 
     EXEMPT_REASON_UNSPECIFIED = "EXEMPT_REASON_UNSPECIFIED"
     REGULATED_FINANCIAL_INSTITUTION = "REGULATED_FINANCIAL_INSTITUTION"
@@ -137,7 +144,14 @@ class LegalEntityCreateTypedDict(TypedDict):
     entity_due_diligence: NotRequired[EntityDueDiligenceCreateTypedDict]
     r"""Due Diligence for Legal Entities required when a Legal Entity is the Primary Owner on an Account."""
     exempt_customer_reason: NotRequired[ExemptCustomerReason]
-    r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
+    r"""**Field Dependencies:**
+
+    Exempt entities must set `exempt_verifying_beneficial_owners` to `true` and provide an `exempt_customer_reason` on the owner record.
+
+    Required if `exempt_verifying_beneficial_owners` is `true`.
+
+    Otherwise, must be empty.
+    """
     exempt_verifying_beneficial_owners: NotRequired[bool]
     r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""
     for_the_benefit_of: NotRequired[str]
@@ -234,7 +248,14 @@ class LegalEntityCreate(BaseModel):
     exempt_customer_reason: Annotated[
         Optional[ExemptCustomerReason], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The reason the customer is exempt from verifying beneficial owners, if applicable."""
+    r"""**Field Dependencies:**
+
+    Exempt entities must set `exempt_verifying_beneficial_owners` to `true` and provide an `exempt_customer_reason` on the owner record.
+
+    Required if `exempt_verifying_beneficial_owners` is `true`.
+
+    Otherwise, must be empty.
+    """
 
     exempt_verifying_beneficial_owners: Optional[bool] = None
     r"""Indicates whether the entity is exempt from verifying beneficial owners and Enhanced Due Diligence. By default, this is set to `false`"""

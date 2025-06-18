@@ -4,8 +4,8 @@ from .basesdk import BaseSDK
 from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
-from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional, Union
+from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
+from typing import Any, Optional, Union, cast
 
 
 class InstantCashTransferICT(BaseSDK):
@@ -1260,14 +1260,10 @@ class InstantCashTransferICT(BaseSDK):
     def locate_ict_report(
         self,
         *,
-        correspondent_id: str,
-        batch_id: Optional[str] = None,
-        program_date_filter_program: Optional[
-            operations.ProgramDateFilterProgram
-        ] = None,
-        program_date_filter_process_date: Optional[
-            Union[components.DateCreate, components.DateCreateTypedDict]
-        ] = None,
+        request: Union[
+            operations.IctReconReportsLocateIctReportRequest,
+            operations.IctReconReportsLocateIctReportRequestTypedDict,
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1276,10 +1272,7 @@ class InstantCashTransferICT(BaseSDK):
 
         Returns a signed link pointing to a recon report file for a specific ICT batch.
 
-        :param correspondent_id: The correspondent id.
-        :param batch_id: The id of the ICT batch for which to locate the report.
-        :param program_date_filter_program: The ICT program for which to locate the report.
-        :param program_date_filter_process_date: The process date for which to locate the report.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1292,14 +1285,11 @@ class InstantCashTransferICT(BaseSDK):
         if server_url is not None:
             base_url = server_url
 
-        request = operations.IctReconReportsLocateIctReportRequest(
-            correspondent_id=correspondent_id,
-            batch_id=batch_id,
-            program_date_filter_program=program_date_filter_program,
-            program_date_filter_process_date=utils.get_pydantic_model(
-                program_date_filter_process_date, Optional[components.DateCreate]
-            ),
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request, operations.IctReconReportsLocateIctReportRequest
+            )
+        request = cast(operations.IctReconReportsLocateIctReportRequest, request)
 
         req = self.build_request(
             method="GET",
@@ -1367,14 +1357,10 @@ class InstantCashTransferICT(BaseSDK):
     async def locate_ict_report_async(
         self,
         *,
-        correspondent_id: str,
-        batch_id: Optional[str] = None,
-        program_date_filter_program: Optional[
-            operations.ProgramDateFilterProgram
-        ] = None,
-        program_date_filter_process_date: Optional[
-            Union[components.DateCreate, components.DateCreateTypedDict]
-        ] = None,
+        request: Union[
+            operations.IctReconReportsLocateIctReportRequest,
+            operations.IctReconReportsLocateIctReportRequestTypedDict,
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1383,10 +1369,7 @@ class InstantCashTransferICT(BaseSDK):
 
         Returns a signed link pointing to a recon report file for a specific ICT batch.
 
-        :param correspondent_id: The correspondent id.
-        :param batch_id: The id of the ICT batch for which to locate the report.
-        :param program_date_filter_program: The ICT program for which to locate the report.
-        :param program_date_filter_process_date: The process date for which to locate the report.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1399,14 +1382,11 @@ class InstantCashTransferICT(BaseSDK):
         if server_url is not None:
             base_url = server_url
 
-        request = operations.IctReconReportsLocateIctReportRequest(
-            correspondent_id=correspondent_id,
-            batch_id=batch_id,
-            program_date_filter_program=program_date_filter_program,
-            program_date_filter_process_date=utils.get_pydantic_model(
-                program_date_filter_process_date, Optional[components.DateCreate]
-            ),
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request, operations.IctReconReportsLocateIctReportRequest
+            )
+        request = cast(operations.IctReconReportsLocateIctReportRequest, request)
 
         req = self.build_request_async(
             method="GET",

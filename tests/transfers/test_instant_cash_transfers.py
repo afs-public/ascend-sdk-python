@@ -105,9 +105,16 @@ def test_instant_cash_transfer_transfers_locate_ict_report_locate_ict_report1(
 
     assert s is not None
 
-    res = s.instant_cash_transfer_ict.locate_ict_report(
+    request = operations.IctReconReportsLocateIctReportRequest(
         correspondent_id=os.getenv("CORRESPONDENT_ID"),
         program_date_filter_program=operations.ProgramDateFilterProgram.BROKER_PARTNER,
+        program_date_filter_process_date_year=2025,
+        program_date_filter_process_date_month=5,
+        program_date_filter_process_date_day=28,
+    )
+
+    res = s.instant_cash_transfer_ict.locate_ict_report(
+        request=request,
     )
     assert res.http_meta is not None
     assert res.http_meta.response is not None

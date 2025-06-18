@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from .bondyieldcreate import BondYieldCreate, BondYieldCreateTypedDict
+from .bookingfeecreate import BookingFeeCreate, BookingFeeCreateTypedDict
 from .datecreate import DateCreate, DateCreateTypedDict
 from .decimalcreate import DecimalCreate, DecimalCreateTypedDict
-from .feecreate import FeeCreate, FeeCreateTypedDict
 from .lotcreate import LotCreate, LotCreateTypedDict
 from .priceadjustmentcreate import PriceAdjustmentCreate, PriceAdjustmentCreateTypedDict
 from ascend_sdk import utils
@@ -177,7 +177,7 @@ class TradeAllocationCreateTypedDict(TypedDict):
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
-    fees: NotRequired[List[FeeCreateTypedDict]]
+    fees: NotRequired[List[BookingFeeCreateTypedDict]]
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
     gross_amount: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
@@ -294,7 +294,7 @@ class TradeAllocationCreate(BaseModel):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
 
-    fees: Optional[List[FeeCreate]] = None
+    fees: Optional[List[BookingFeeCreate]] = None
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
 
     gross_amount: Optional[DecimalCreate] = None

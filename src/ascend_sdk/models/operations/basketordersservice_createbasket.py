@@ -37,7 +37,7 @@ class BasketOrdersServiceCreateBasketResponseTypedDict(TypedDict):
     basket: NotRequired[components_basket.BasketTypedDict]
     r"""OK"""
     status: NotRequired[components_status.StatusTypedDict]
-    r"""INVALID_ARGUMENT: There was an issue with one or more fields in the request.  The message field will contain details about which field failed validation and why."""
+    r"""INVALID_ARGUMENT: Either the correspondent doesn't have a valid average price account, or there was an issue with one or more fields in the request.  In the latter case, the message field will contain details about which field failed validation and why."""
 
 
 class BasketOrdersServiceCreateBasketResponse(BaseModel):
@@ -49,4 +49,4 @@ class BasketOrdersServiceCreateBasketResponse(BaseModel):
     r"""OK"""
 
     status: Optional[components_status.Status] = None
-    r"""INVALID_ARGUMENT: There was an issue with one or more fields in the request.  The message field will contain details about which field failed validation and why."""
+    r"""INVALID_ARGUMENT: Either the correspondent doesn't have a valid average price account, or there was an issue with one or more fields in the request.  In the latter case, the message field will contain details about which field failed validation and why."""

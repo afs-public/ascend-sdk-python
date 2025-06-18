@@ -245,7 +245,7 @@ class AcatsTransferState(str, Enum, metaclass=utils.OpenEnumMeta):
     PURGED = "PURGED"
 
 
-class TransferType(str, Enum):
+class TransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of transfer"""
 
     TRANSFER_TYPE_UNSPECIFIED = "TRANSFER_TYPE_UNSPECIFIED"
@@ -288,6 +288,8 @@ class AcatsTransferTypedDict(TypedDict):
     r"""The reject code"""
     state: NotRequired[AcatsTransferState]
     r"""The transfer state"""
+    state_reason: NotRequired[str]
+    r"""A reason for the state if applicable"""
     transfer_type: NotRequired[TransferType]
     r"""The type of transfer"""
 
@@ -339,7 +341,12 @@ class AcatsTransfer(BaseModel):
     ] = None
     r"""The transfer state"""
 
-    transfer_type: Optional[TransferType] = None
+    state_reason: Optional[str] = None
+    r"""A reason for the state if applicable"""
+
+    transfer_type: Annotated[
+        Optional[TransferType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The type of transfer"""
 
     @model_serializer(mode="wrap")
@@ -357,6 +364,7 @@ class AcatsTransfer(BaseModel):
             "receiver",
             "reject_code",
             "state",
+            "state_reason",
             "transfer_type",
         ]
         nullable_fields = ["create_time", "deliverer", "receiver"]

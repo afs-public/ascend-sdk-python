@@ -15,7 +15,7 @@ from datetime import datetime
 from enum import Enum
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -48,6 +48,17 @@ class BasketOrderCreateSide(str, Enum, metaclass=utils.OpenEnumMeta):
     SIDE_UNSPECIFIED = "SIDE_UNSPECIFIED"
     BUY = "BUY"
     SELL = "SELL"
+
+
+class BasketOrderCreateSpecialReportingInstructions(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    SPECIAL_REPORTING_INSTRUCTIONS_UNSPECIFIED = (
+        "SPECIAL_REPORTING_INSTRUCTIONS_UNSPECIFIED"
+    )
+    SOLICITED = "SOLICITED"
+    UNSOLICITED = "UNSOLICITED"
+    ROUND_UP = "ROUND_UP"
 
 
 class BasketOrderCreateTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -94,6 +105,10 @@ class BasketOrderCreateTypedDict(TypedDict):
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
+    special_reporting_instructions: NotRequired[
+        List[BasketOrderCreateSpecialReportingInstructions]
+    ]
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
 
 
 class BasketOrderCreate(BaseModel):
@@ -153,6 +168,16 @@ class BasketOrderCreate(BaseModel):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
 
+    special_reporting_instructions: Optional[
+        List[
+            Annotated[
+                BasketOrderCreateSpecialReportingInstructions,
+                PlainValidator(validate_open_enum(False)),
+            ]
+        ]
+    ] = None
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -160,6 +185,7 @@ class BasketOrderCreate(BaseModel):
             "currency_code",
             "notional_value",
             "quantity",
+            "special_reporting_instructions",
         ]
         nullable_fields = ["client_order_received_time"]
         null_default_fields = []

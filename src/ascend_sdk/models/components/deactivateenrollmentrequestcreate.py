@@ -13,7 +13,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class DeactivateEnrollmentRequestCreateEnrollmentType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Describes the name of the enrollment; Expressed as an enum"""
+    r"""**Field Dependencies:**
+
+    Required if `enrollment_id` is not present.
+
+    Otherwise, must be empty.
+    """
 
     ENROLLMENT_TYPE_UNSPECIFIED = "ENROLLMENT_TYPE_UNSPECIFIED"
     REGISTRATION_INDIVIDUAL = "REGISTRATION_INDIVIDUAL"
@@ -48,19 +53,39 @@ class DeactivateEnrollmentRequestCreateTypedDict(TypedDict):
     r"""The request for deactivating an Enrollment on an account."""
 
     enrollment_id: NotRequired[str]
-    r"""A system-generated unique identifier referencing a single instance of an enrollment;"""
+    r"""**Field Dependencies:**
+
+    Required if `enrollment_type` is not present.
+
+    Otherwise, must be empty.
+    """
     enrollment_type: NotRequired[DeactivateEnrollmentRequestCreateEnrollmentType]
-    r"""Describes the name of the enrollment; Expressed as an enum"""
+    r"""**Field Dependencies:**
+
+    Required if `enrollment_id` is not present.
+
+    Otherwise, must be empty.
+    """
 
 
 class DeactivateEnrollmentRequestCreate(BaseModel):
     r"""The request for deactivating an Enrollment on an account."""
 
     enrollment_id: Optional[str] = None
-    r"""A system-generated unique identifier referencing a single instance of an enrollment;"""
+    r"""**Field Dependencies:**
+
+    Required if `enrollment_type` is not present.
+
+    Otherwise, must be empty.
+    """
 
     enrollment_type: Annotated[
         Optional[DeactivateEnrollmentRequestCreateEnrollmentType],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Describes the name of the enrollment; Expressed as an enum"""
+    r"""**Field Dependencies:**
+
+    Required if `enrollment_id` is not present.
+
+    Otherwise, must be empty.
+    """

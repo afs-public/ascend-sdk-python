@@ -36,7 +36,6 @@ class IDDocumentUploadRequestCreateDocumentType(
     EXECUTOR_CERTIFICATION = "EXECUTOR_CERTIFICATION"
     TRUSTEE_CERTIFICATION = "TRUSTEE_CERTIFICATION"
     SELFIE = "SELFIE"
-    ARTICLES_OF_ORGANISATION = "ARTICLES_OF_ORGANISATION"
     CERT_OF_SOLE_OFFICER = "CERT_OF_SOLE_OFFICER"
     CERTIFICATION_CORRESPONDENT_ACCOUNTS = "CERTIFICATION_CORRESPONDENT_ACCOUNTS"
     CERTIFICATION_FOREIGN_BANKS = "CERTIFICATION_FOREIGN_BANKS"
@@ -51,6 +50,7 @@ class IDDocumentUploadRequestCreateDocumentType(
     CORPORATE_BYLAWS = "CORPORATE_BYLAWS"
     SHAREHOLDER_AGREEMENT = "SHAREHOLDER_AGREEMENT"
     CORPORATE_RECORDS = "CORPORATE_RECORDS"
+    ARTICLES_OF_ORGANIZATION = "ARTICLES_OF_ORGANIZATION"
 
 
 class IDDocumentUploadRequestCreateTypedDict(TypedDict):
@@ -61,7 +61,7 @@ class IDDocumentUploadRequestCreateTypedDict(TypedDict):
     document_type: IDDocumentUploadRequestCreateDocumentType
     r"""Describes the contents of a document and how it is used; Required for all identity documents"""
     legal_natural_person_id: str
-    r"""Identifies the legal natural person relevant to the document"""
+    r"""Identifies the legal natural person or legal entity relevant to the document"""
 
 
 class IDDocumentUploadRequestCreate(BaseModel):
@@ -77,4 +77,4 @@ class IDDocumentUploadRequestCreate(BaseModel):
     r"""Describes the contents of a document and how it is used; Required for all identity documents"""
 
     legal_natural_person_id: str
-    r"""Identifies the legal natural person relevant to the document"""
+    r"""Identifies the legal natural person or legal entity relevant to the document"""

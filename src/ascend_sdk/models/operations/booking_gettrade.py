@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from ascend_sdk.models.components import (
+    bookingtrade as components_bookingtrade,
     httpmetadata as components_httpmetadata,
     status as components_status,
-    trade as components_trade,
 )
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, PathParamMetadata
@@ -34,7 +34,7 @@ class BookingGetTradeRequest(BaseModel):
 
 class BookingGetTradeResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
-    trade: NotRequired[components_trade.TradeTypedDict]
+    booking_trade: NotRequired[components_bookingtrade.BookingTradeTypedDict]
     r"""OK"""
     status: NotRequired[components_status.StatusTypedDict]
     r"""INVALID_ARGUMENT: The request is not valid."""
@@ -45,7 +45,7 @@ class BookingGetTradeResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    trade: Optional[components_trade.Trade] = None
+    booking_trade: Optional[components_bookingtrade.BookingTrade] = None
     r"""OK"""
 
     status: Optional[components_status.Status] = None

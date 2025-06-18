@@ -68,7 +68,9 @@ class InvestigationServiceUpdateInvestigationResponseTypedDict(TypedDict):
     investigation: NotRequired[components_investigation.InvestigationTypedDict]
     r"""OK"""
     status: NotRequired[components_status.StatusTypedDict]
-    r"""INVALID_ARGUMENT: The request is not valid, additional information may be present in the BadRequest details."""
+    r"""INVALID_ARGUMENT: The request is not valid, additional information may be present in the BadRequest details.
+    FAILED_PRECONDITION: The request is not valid, additional information may be present in the BadRequest details.
+    """
 
 
 class InvestigationServiceUpdateInvestigationResponse(BaseModel):
@@ -80,4 +82,6 @@ class InvestigationServiceUpdateInvestigationResponse(BaseModel):
     r"""OK"""
 
     status: Optional[components_status.Status] = None
-    r"""INVALID_ARGUMENT: The request is not valid, additional information may be present in the BadRequest details."""
+    r"""INVALID_ARGUMENT: The request is not valid, additional information may be present in the BadRequest details.
+    FAILED_PRECONDITION: The request is not valid, additional information may be present in the BadRequest details.
+    """

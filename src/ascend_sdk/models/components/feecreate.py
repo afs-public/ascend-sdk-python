@@ -7,47 +7,35 @@ from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class FeeCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The type of fee"""
+    r"""The type of fee being specified. Only the type of \"BROKER_FEE\" is supported."""
 
     FEE_TYPE_UNSPECIFIED = "FEE_TYPE_UNSPECIFIED"
-    CLIENT_CLEARING = "CLIENT_CLEARING"
-    LIQUIDITY = "LIQUIDITY"
-    TRADE_ACTIVITY = "TRADE_ACTIVITY"
-    FINANCIAL_TRANSACTION_TAX = "FINANCIAL_TRANSACTION_TAX"
-    INDEX_OPTION_FEE = "INDEX_OPTION_FEE"
-    SEC_FEE = "SEC_FEE"
-    OPTIONS_REGULATORY = "OPTIONS_REGULATORY"
-    GENERAL_PURPOSE_FEE = "GENERAL_PURPOSE_FEE"
     BROKER_FEE = "BROKER_FEE"
     CONTRACT_FEE = "CONTRACT_FEE"
-    OCC_FEE = "OCC_FEE"
 
 
 class FeeCreateTypedDict(TypedDict):
-    r"""Fee message includes both fee type as well as the fee amount"""
+    r"""A fee that applies to an order"""
 
-    amount: NotRequired[DecimalCreateTypedDict]
+    amount: DecimalCreateTypedDict
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
     [BigDecimal]:
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
-    suppress_fee: NotRequired[bool]
-    r"""Indicates whether to explicitly suppress this fee type. If the trade would normally calculate fees (e.g., for TRADE_ACTIVITY), the client can add a fee with this boolean value set to true, and the Booking Service will not calculate or assess that fee on the trade."""
-    type: NotRequired[FeeCreateType]
-    r"""The type of fee"""
+    type: FeeCreateType
+    r"""The type of fee being specified. Only the type of \"BROKER_FEE\" is supported."""
 
 
 class FeeCreate(BaseModel):
-    r"""Fee message includes both fee type as well as the fee amount"""
+    r"""A fee that applies to an order"""
 
-    amount: Optional[DecimalCreate] = None
+    amount: DecimalCreate
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
     [BigDecimal]:
@@ -55,10 +43,5 @@ class FeeCreate(BaseModel):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
 
-    suppress_fee: Optional[bool] = None
-    r"""Indicates whether to explicitly suppress this fee type. If the trade would normally calculate fees (e.g., for TRADE_ACTIVITY), the client can add a fee with this boolean value set to true, and the Booking Service will not calculate or assess that fee on the trade."""
-
-    type: Annotated[
-        Optional[FeeCreateType], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The type of fee"""
+    type: Annotated[FeeCreateType, PlainValidator(validate_open_enum(False))]
+    r"""The type of fee being specified. Only the type of \"BROKER_FEE\" is supported."""

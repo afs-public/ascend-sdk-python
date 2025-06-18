@@ -117,3 +117,5 @@ Describes the contents of a document and how it is used; Required for all accoun
 | `WIRE_REQUEST_FORM`                            | WIRE_REQUEST_FORM                              |
 | `WORTHLESS_SECURITIES`                         | WORTHLESS_SECURITIES                           |
 | `CHANGE_OF_ADDRESS_REQUEST`                    | CHANGE_OF_ADDRESS_REQUEST                      |
+| `OPTIONS_AGREEMENT`                            | OPTIONS_AGREEMENT                              |
+| `STATE_WAIVER_FORM`                            | STATE_WAIVER_FORM                              |

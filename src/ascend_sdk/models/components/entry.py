@@ -245,6 +245,246 @@ class ActivityDate(BaseModel):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
+class EntryBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The execution route Apex used for this trade"""
+
+    CAPACITY_UNSPECIFIED = "CAPACITY_UNSPECIFIED"
+    AGENCY = "AGENCY"
+    PRINCIPAL = "PRINCIPAL"
+    MIXED = "MIXED"
+
+
+class EntryPrevailingMarketPriceTypedDict(TypedDict):
+    r"""The price for the instrument that is prevailing in the market"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryPrevailingMarketPrice(BaseModel):
+    r"""The price for the instrument that is prevailing in the market"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryPriceAdjustmentAmountTypedDict(TypedDict):
+    r"""Total monetary value of the price_adjustment"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryPriceAdjustmentAmount(BaseModel):
+    r"""Total monetary value of the price_adjustment"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class PriceAdjustmentPercentTypedDict(TypedDict):
+    r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class PriceAdjustmentPercent(BaseModel):
+    r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The type of price adjustment being applied by the broker to the net price of the security"""
+
+    PRICE_ADJUSTMENT_TYPE_UNSPECIFIED = "PRICE_ADJUSTMENT_TYPE_UNSPECIFIED"
+    MARKUP = "MARKUP"
+    MARKDOWN = "MARKDOWN"
+    SALES_LOAD = "SALES_LOAD"
+
+
+class PriceAdjustmentRecordTypedDict(TypedDict):
+    r"""Information about any price adjustments applied to the security"""
+
+    price_adjustment_amount: NotRequired[Nullable[EntryPriceAdjustmentAmountTypedDict]]
+    r"""Total monetary value of the price_adjustment"""
+    price_adjustment_percent: NotRequired[Nullable[PriceAdjustmentPercentTypedDict]]
+    r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
+    price_adjustment_type: NotRequired[EntryPriceAdjustmentType]
+    r"""The type of price adjustment being applied by the broker to the net price of the security"""
+
+
+class PriceAdjustmentRecord(BaseModel):
+    r"""Information about any price adjustments applied to the security"""
+
+    price_adjustment_amount: OptionalNullable[EntryPriceAdjustmentAmount] = UNSET
+    r"""Total monetary value of the price_adjustment"""
+
+    price_adjustment_percent: OptionalNullable[PriceAdjustmentPercent] = UNSET
+    r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
+
+    price_adjustment_type: Annotated[
+        Optional[EntryPriceAdjustmentType], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""The type of price adjustment being applied by the broker to the net price of the security"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "price_adjustment_amount",
+            "price_adjustment_percent",
+            "price_adjustment_type",
+        ]
+        nullable_fields = ["price_adjustment_amount", "price_adjustment_percent"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class AllocationTypedDict(TypedDict):
+    r"""Object containing metadata for trade allocation"""
+
+    additional_instructions: NotRequired[List[str]]
+    r"""To be populated by the submitter of the trade detail"""
+    booking_api_trade_allocation_id: NotRequired[str]
+    r"""ULID assigned by the Booking API if a trade belongs to an allocation"""
+    broker_capacity: NotRequired[EntryBrokerCapacity]
+    r"""The execution route Apex used for this trade"""
+    client_memo: NotRequired[str]
+    r"""Client usage area (intact)"""
+    client_order_id: NotRequired[str]
+    r"""Client-provided order ID present in execution reports"""
+    external_id: NotRequired[str]
+    r"""External system ID provided by a client"""
+    gateway_client_order_id: NotRequired[str]
+    r"""Order ID generated by the trading-gateway"""
+    internal_error: NotRequired[bool]
+    r"""Indicates the trade should be omitted from client billing"""
+    lots: NotRequired[List[LotTypedDict]]
+    r"""Trade lots"""
+    prevailing_market_price: NotRequired[Nullable[EntryPrevailingMarketPriceTypedDict]]
+    r"""The price for the instrument that is prevailing in the market"""
+    price_adjustment_record: NotRequired[Nullable[PriceAdjustmentRecordTypedDict]]
+    r"""Information about any price adjustments applied to the security"""
+    special_instructions: NotRequired[List[str]]
+    r"""Special instructions for the trade"""
+    yield_records: NotRequired[List[YieldRecordTypedDict]]
+    r"""The yields associated with a fixed income trade"""
+
+
+class Allocation(BaseModel):
+    r"""Object containing metadata for trade allocation"""
+
+    additional_instructions: Optional[List[str]] = None
+    r"""To be populated by the submitter of the trade detail"""
+
+    booking_api_trade_allocation_id: Optional[str] = None
+    r"""ULID assigned by the Booking API if a trade belongs to an allocation"""
+
+    broker_capacity: Annotated[
+        Optional[EntryBrokerCapacity], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""The execution route Apex used for this trade"""
+
+    client_memo: Optional[str] = None
+    r"""Client usage area (intact)"""
+
+    client_order_id: Optional[str] = None
+    r"""Client-provided order ID present in execution reports"""
+
+    external_id: Optional[str] = None
+    r"""External system ID provided by a client"""
+
+    gateway_client_order_id: Optional[str] = None
+    r"""Order ID generated by the trading-gateway"""
+
+    internal_error: Optional[bool] = None
+    r"""Indicates the trade should be omitted from client billing"""
+
+    lots: Optional[List[Lot]] = None
+    r"""Trade lots"""
+
+    prevailing_market_price: OptionalNullable[EntryPrevailingMarketPrice] = UNSET
+    r"""The price for the instrument that is prevailing in the market"""
+
+    price_adjustment_record: OptionalNullable[PriceAdjustmentRecord] = UNSET
+    r"""Information about any price adjustments applied to the security"""
+
+    special_instructions: Optional[List[str]] = None
+    r"""Special instructions for the trade"""
+
+    yield_records: Optional[List[YieldRecord]] = None
+    r"""The yields associated with a fixed income trade"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "additional_instructions",
+            "booking_api_trade_allocation_id",
+            "broker_capacity",
+            "client_memo",
+            "client_order_id",
+            "external_id",
+            "gateway_client_order_id",
+            "internal_error",
+            "lots",
+            "prevailing_market_price",
+            "price_adjustment_record",
+            "special_instructions",
+            "yield_records",
+        ]
+        nullable_fields = ["prevailing_market_price", "price_adjustment_record"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
 class CashRateTypedDict(TypedDict):
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
 
@@ -327,6 +567,175 @@ class PaymentDate(BaseModel):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
+class EntryBondDefaultQuantityTypedDict(TypedDict):
+    r"""Corresponds to the position's trade quantity"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryBondDefaultQuantity(BaseModel):
+    r"""Corresponds to the position's trade quantity"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class BondDefaultTypedDict(TypedDict):
+    r"""Object containing metadata for bond defaults"""
+
+    cash_rate: NotRequired[Nullable[CashRateTypedDict]]
+    r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
+    corporate_action_general_information: NotRequired[
+        Nullable[EntryCorporateActionGeneralInformationTypedDict]
+    ]
+    r"""Common fields for corporate actions"""
+    payment_date: NotRequired[Nullable[PaymentDateTypedDict]]
+    r"""The anticipated payment date at the depository"""
+    quantity: NotRequired[Nullable[EntryBondDefaultQuantityTypedDict]]
+    r"""Corresponds to the position's trade quantity"""
+
+
+class BondDefault(BaseModel):
+    r"""Object containing metadata for bond defaults"""
+
+    cash_rate: OptionalNullable[CashRate] = UNSET
+    r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
+
+    corporate_action_general_information: OptionalNullable[
+        EntryCorporateActionGeneralInformation
+    ] = UNSET
+    r"""Common fields for corporate actions"""
+
+    payment_date: OptionalNullable[PaymentDate] = UNSET
+    r"""The anticipated payment date at the depository"""
+
+    quantity: OptionalNullable[EntryBondDefaultQuantity] = UNSET
+    r"""Corresponds to the position's trade quantity"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "cash_rate",
+            "corporate_action_general_information",
+            "payment_date",
+            "quantity",
+        ]
+        nullable_fields = [
+            "cash_rate",
+            "corporate_action_general_information",
+            "payment_date",
+            "quantity",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EntryCashRateTypedDict(TypedDict):
+    r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryCashRate(BaseModel):
+    r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EntryCapitalGainsCorporateActionGeneralInformationTypedDict(TypedDict):
+    r"""Common fields for corporate actions"""
+
+    corporate_action_id: NotRequired[str]
+    r"""A unique alphanumeric value that is assigned to uniquely identify each corporate action event"""
+    disbursed_asset_id: NotRequired[str]
+    r"""Asset Id of the new security after the corporate action event is processed"""
+    disbursed_cusip: NotRequired[str]
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+    disbursed_symbol_description: NotRequired[str]
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+    target_asset_id: NotRequired[str]
+    r"""Asset Id of the existing security before the corporate action event is processed"""
+    target_cusip: NotRequired[str]
+    r"""External Identifier of the existing security before the corporate action event is processed"""
+    target_symbol_description: NotRequired[str]
+    r"""Name of the issuer of a security and additional descriptive information about the existing security before the corporate action event is processed"""
+
+
+class EntryCapitalGainsCorporateActionGeneralInformation(BaseModel):
+    r"""Common fields for corporate actions"""
+
+    corporate_action_id: Optional[str] = None
+    r"""A unique alphanumeric value that is assigned to uniquely identify each corporate action event"""
+
+    disbursed_asset_id: Optional[str] = None
+    r"""Asset Id of the new security after the corporate action event is processed"""
+
+    disbursed_cusip: Optional[str] = None
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+
+    disbursed_symbol_description: Optional[str] = None
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+
+    target_asset_id: Optional[str] = None
+    r"""Asset Id of the existing security before the corporate action event is processed"""
+
+    target_cusip: Optional[str] = None
+    r"""External Identifier of the existing security before the corporate action event is processed"""
+
+    target_symbol_description: Optional[str] = None
+    r"""Name of the issuer of a security and additional descriptive information about the existing security before the corporate action event is processed"""
+
+
+class EntryPaymentDateTypedDict(TypedDict):
+    r"""The anticipated payment date at the depository"""
+
+    day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+    month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
+class EntryPaymentDate(BaseModel):
+    r"""The anticipated payment date at the depository"""
+
+    day: Optional[int] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+
+    month: Optional[int] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    year: Optional[int] = None
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
 class EntryCapitalGainsQuantityTypedDict(TypedDict):
     r"""Corresponds to the position's trade quantity"""
 
@@ -368,15 +777,15 @@ class RecordDate(BaseModel):
 class CapitalGainsTypedDict(TypedDict):
     r"""Used to record a distribution of cash that an issuer has determined will be declared as income financed from capital gains and not ordinary income and details related to the capital gain"""
 
-    cash_rate: NotRequired[Nullable[CashRateTypedDict]]
+    cash_rate: NotRequired[Nullable[EntryCashRateTypedDict]]
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
     corporate_action_general_information: NotRequired[
-        Nullable[EntryCorporateActionGeneralInformationTypedDict]
+        Nullable[EntryCapitalGainsCorporateActionGeneralInformationTypedDict]
     ]
     r"""Common fields for corporate actions"""
     long_term_gain: NotRequired[bool]
     r"""Corresponds to corporateactions.announcement.capital_gains"""
-    payment_date: NotRequired[Nullable[PaymentDateTypedDict]]
+    payment_date: NotRequired[Nullable[EntryPaymentDateTypedDict]]
     r"""The anticipated payment date at the depository"""
     qualified: NotRequired[bool]
     r"""Identifies whether dividend income is potentially qualified for the lower maximum individual federal tax rate under the Jobs and Growth Tax Relief Reconciliation Act of 2003"""
@@ -391,18 +800,18 @@ class CapitalGainsTypedDict(TypedDict):
 class CapitalGains(BaseModel):
     r"""Used to record a distribution of cash that an issuer has determined will be declared as income financed from capital gains and not ordinary income and details related to the capital gain"""
 
-    cash_rate: OptionalNullable[CashRate] = UNSET
+    cash_rate: OptionalNullable[EntryCashRate] = UNSET
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
 
     corporate_action_general_information: OptionalNullable[
-        EntryCorporateActionGeneralInformation
+        EntryCapitalGainsCorporateActionGeneralInformation
     ] = UNSET
     r"""Common fields for corporate actions"""
 
     long_term_gain: Optional[bool] = None
     r"""Corresponds to corporateactions.announcement.capital_gains"""
 
-    payment_date: OptionalNullable[PaymentDate] = UNSET
+    payment_date: OptionalNullable[EntryPaymentDate] = UNSET
     r"""The anticipated payment date at the depository"""
 
     qualified: Optional[bool] = None
@@ -463,14 +872,14 @@ class CapitalGains(BaseModel):
         return m
 
 
-class EntryCashRateTypedDict(TypedDict):
+class EntryCashDividendCashRateTypedDict(TypedDict):
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryCashRate(BaseModel):
+class EntryCashDividendCashRate(BaseModel):
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
 
     value: Optional[str] = None
@@ -549,7 +958,7 @@ class EntryFree(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPaymentDateTypedDict(TypedDict):
+class EntryCashDividendPaymentDateTypedDict(TypedDict):
     r"""The anticipated payment date at the depository"""
 
     day: NotRequired[int]
@@ -560,7 +969,7 @@ class EntryPaymentDateTypedDict(TypedDict):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
-class EntryPaymentDate(BaseModel):
+class EntryCashDividendPaymentDate(BaseModel):
     r"""The anticipated payment date at the depository"""
 
     day: Optional[int] = None
@@ -666,7 +1075,7 @@ class Subtype(str, Enum, metaclass=utils.OpenEnumMeta):
 class CashDividendTypedDict(TypedDict):
     r"""Used to record the distribution of cash to shareholders, paid by the issuer, usually based upon current earnings and/or accumulated profits as declared by the board of directors and details related to the cash dividend"""
 
-    cash_rate: NotRequired[Nullable[EntryCashRateTypedDict]]
+    cash_rate: NotRequired[Nullable[EntryCashDividendCashRateTypedDict]]
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
     corporate_action_general_information: NotRequired[
         Nullable[EntryCashDividendCorporateActionGeneralInformationTypedDict]
@@ -678,7 +1087,7 @@ class CashDividendTypedDict(TypedDict):
     r"""Corresponds to the raw bucket value that denotes a position is allocated to the \"free\" memo location"""
     long_term_gain: NotRequired[bool]
     r"""Corresponds to corporateactions.announcement.capital_gains"""
-    payment_date: NotRequired[Nullable[EntryPaymentDateTypedDict]]
+    payment_date: NotRequired[Nullable[EntryCashDividendPaymentDateTypedDict]]
     r"""The anticipated payment date at the depository"""
     qualified: NotRequired[bool]
     r"""Identifies whether dividend income is potentially qualified for the lower maximum individual federal tax rate under the Jobs and Growth Tax Relief Reconciliation Act of 2003"""
@@ -699,7 +1108,7 @@ class CashDividendTypedDict(TypedDict):
 class CashDividend(BaseModel):
     r"""Used to record the distribution of cash to shareholders, paid by the issuer, usually based upon current earnings and/or accumulated profits as declared by the board of directors and details related to the cash dividend"""
 
-    cash_rate: OptionalNullable[EntryCashRate] = UNSET
+    cash_rate: OptionalNullable[EntryCashDividendCashRate] = UNSET
     r"""The rate (raw value, not a percentage, example: 50% will be .5 in this field) at which cash will be disbursed to the shareholder"""
 
     corporate_action_general_information: OptionalNullable[
@@ -716,7 +1125,7 @@ class CashDividend(BaseModel):
     long_term_gain: Optional[bool] = None
     r"""Corresponds to corporateactions.announcement.capital_gains"""
 
-    payment_date: OptionalNullable[EntryPaymentDate] = UNSET
+    payment_date: OptionalNullable[EntryCashDividendPaymentDate] = UNSET
     r"""The anticipated payment date at the depository"""
 
     qualified: Optional[bool] = None
@@ -769,6 +1178,98 @@ class CashDividend(BaseModel):
             "record_date",
             "settled",
         ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EntryCashInLieuCorporateActionGeneralInformationTypedDict(TypedDict):
+    r"""Common fields for corporate actions"""
+
+    corporate_action_id: NotRequired[str]
+    r"""A unique alphanumeric value that is assigned to uniquely identify each corporate action event"""
+    disbursed_asset_id: NotRequired[str]
+    r"""Asset Id of the new security after the corporate action event is processed"""
+    disbursed_cusip: NotRequired[str]
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+    disbursed_symbol_description: NotRequired[str]
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+    target_asset_id: NotRequired[str]
+    r"""Asset Id of the existing security before the corporate action event is processed"""
+    target_cusip: NotRequired[str]
+    r"""External Identifier of the existing security before the corporate action event is processed"""
+    target_symbol_description: NotRequired[str]
+    r"""Name of the issuer of a security and additional descriptive information about the existing security before the corporate action event is processed"""
+
+
+class EntryCashInLieuCorporateActionGeneralInformation(BaseModel):
+    r"""Common fields for corporate actions"""
+
+    corporate_action_id: Optional[str] = None
+    r"""A unique alphanumeric value that is assigned to uniquely identify each corporate action event"""
+
+    disbursed_asset_id: Optional[str] = None
+    r"""Asset Id of the new security after the corporate action event is processed"""
+
+    disbursed_cusip: Optional[str] = None
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+
+    disbursed_symbol_description: Optional[str] = None
+    r"""When populated, the name of the issuer of a security and additional descriptive information about the new security after the corporate action event is processed"""
+
+    target_asset_id: Optional[str] = None
+    r"""Asset Id of the existing security before the corporate action event is processed"""
+
+    target_cusip: Optional[str] = None
+    r"""External Identifier of the existing security before the corporate action event is processed"""
+
+    target_symbol_description: Optional[str] = None
+    r"""Name of the issuer of a security and additional descriptive information about the existing security before the corporate action event is processed"""
+
+
+class CashInLieuTypedDict(TypedDict):
+    r"""Object containing metadata for cash in lieu"""
+
+    corporate_action_general_information: NotRequired[
+        Nullable[EntryCashInLieuCorporateActionGeneralInformationTypedDict]
+    ]
+    r"""Common fields for corporate actions"""
+
+
+class CashInLieu(BaseModel):
+    r"""Object containing metadata for cash in lieu"""
+
+    corporate_action_general_information: OptionalNullable[
+        EntryCashInLieuCorporateActionGeneralInformation
+    ] = UNSET
+    r"""Common fields for corporate actions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["corporate_action_general_information"]
+        nullable_fields = ["corporate_action_general_information"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1136,6 +1637,7 @@ class EntryDepositType(str, Enum, metaclass=utils.OpenEnumMeta):
     RTP = "RTP"
     ICT = "ICT"
     JOURNAL = "JOURNAL"
+    EXTERNAL_ACH = "EXTERNAL_ACH"
 
 
 class DepositTypedDict(TypedDict):
@@ -1368,7 +1870,6 @@ class EntryFeeType(str, Enum, metaclass=utils.OpenEnumMeta):
     LIQUIDITY = "LIQUIDITY"
     GENERAL_PURPOSE = "GENERAL_PURPOSE"
     COMMISSION = "COMMISSION"
-    ORF = "ORF"
     TAF = "TAF"
     SEC = "SEC"
     ACCOUNT_CLOSING = "ACCOUNT_CLOSING"
@@ -1394,6 +1895,10 @@ class EntryFeeType(str, Enum, metaclass=utils.OpenEnumMeta):
     INTERNATIONAL_WIRE_DEPOSIT_FEE = "INTERNATIONAL_WIRE_DEPOSIT_FEE"
     INTERNATIONAL_WIRE_WITHDRAWAL_FEE = "INTERNATIONAL_WIRE_WITHDRAWAL_FEE"
     BROKER_FEE = "BROKER_FEE"
+    OCC_FEE = "OCC_FEE"
+    CONTRACT_FEE = "CONTRACT_FEE"
+    OPTIONS_REGULATORY = "OPTIONS_REGULATORY"
+    FINANCIAL_TRANSACTION_TAX = "FINANCIAL_TRANSACTION_TAX"
 
 
 class EntryFeeTypedDict(TypedDict):
@@ -4463,7 +4968,7 @@ class EntrySide(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class EntrySideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
+    r"""Indicates whether the trade is opening a new position or closing an existing position Should be populated if possible for trades; the side modifier for the trade"""
 
     SIDE_MODIFIER_UNSPECIFIED = "SIDE_MODIFIER_UNSPECIFIED"
     SHORT = "SHORT"
@@ -5205,6 +5710,14 @@ class EntryTenderOfferCorporateActionGeneralInformation(BaseModel):
     r"""Name of the issuer of a security and additional descriptive information about the existing security before the corporate action event is processed"""
 
 
+class TenderOfferType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""the type of tender offer"""
+
+    TENDER_OFFER_TYPE_UNSPECIFIED = "TENDER_OFFER_TYPE_UNSPECIFIED"
+    ODD_LOT_TENDER = "ODD_LOT_TENDER"
+    DUTCH_AUCTION = "DUTCH_AUCTION"
+
+
 class TenderOfferTypedDict(TypedDict):
     r"""Used to record the sale of securities for a specified price due to an offer from the issuer or a third party and details related to the tender offer"""
 
@@ -5214,6 +5727,8 @@ class TenderOfferTypedDict(TypedDict):
         Nullable[EntryTenderOfferCorporateActionGeneralInformationTypedDict]
     ]
     r"""Common fields for corporate actions"""
+    tender_offer_type: NotRequired[TenderOfferType]
+    r"""the type of tender offer"""
 
 
 class TenderOffer(BaseModel):
@@ -5227,9 +5742,18 @@ class TenderOffer(BaseModel):
     ] = UNSET
     r"""Common fields for corporate actions"""
 
+    tender_offer_type: Annotated[
+        Optional[TenderOfferType], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""the type of tender offer"""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["cash_rate", "corporate_action_general_information"]
+        optional_fields = [
+            "cash_rate",
+            "corporate_action_general_information",
+            "tender_offer_type",
+        ]
         nullable_fields = ["cash_rate", "corporate_action_general_information"]
         null_default_fields = []
 
@@ -5258,7 +5782,7 @@ class TenderOffer(BaseModel):
         return m
 
 
-class EntryBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntryTradeBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Used to calculate broadridge blotter code"""
 
     CAPACITY_UNSPECIFIED = "CAPACITY_UNSPECIFIED"
@@ -5267,28 +5791,28 @@ class EntryBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
     MIXED = "MIXED"
 
 
-class EntryPrevailingMarketPriceTypedDict(TypedDict):
+class EntryTradePrevailingMarketPriceTypedDict(TypedDict):
     r"""The price for the instrument that is prevailing in the market"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPrevailingMarketPrice(BaseModel):
+class EntryTradePrevailingMarketPrice(BaseModel):
     r"""The price for the instrument that is prevailing in the market"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentAmountTypedDict(TypedDict):
+class EntryTradePriceAdjustmentAmountTypedDict(TypedDict):
     r"""Total monetary value of the price_adjustment"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentAmount(BaseModel):
+class EntryTradePriceAdjustmentAmount(BaseModel):
     r"""Total monetary value of the price_adjustment"""
 
     value: Optional[str] = None
@@ -5309,7 +5833,7 @@ class EntryPriceAdjustmentPercent(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntryTradePriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
     PRICE_ADJUSTMENT_TYPE_UNSPECIFIED = "PRICE_ADJUSTMENT_TYPE_UNSPECIFIED"
@@ -5321,27 +5845,30 @@ class EntryPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
 class EntryPriceAdjustmentRecordTypedDict(TypedDict):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: NotRequired[Nullable[EntryPriceAdjustmentAmountTypedDict]]
+    price_adjustment_amount: NotRequired[
+        Nullable[EntryTradePriceAdjustmentAmountTypedDict]
+    ]
     r"""Total monetary value of the price_adjustment"""
     price_adjustment_percent: NotRequired[
         Nullable[EntryPriceAdjustmentPercentTypedDict]
     ]
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
-    price_adjustment_type: NotRequired[EntryPriceAdjustmentType]
+    price_adjustment_type: NotRequired[EntryTradePriceAdjustmentType]
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
 
 class EntryPriceAdjustmentRecord(BaseModel):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: OptionalNullable[EntryPriceAdjustmentAmount] = UNSET
+    price_adjustment_amount: OptionalNullable[EntryTradePriceAdjustmentAmount] = UNSET
     r"""Total monetary value of the price_adjustment"""
 
     price_adjustment_percent: OptionalNullable[EntryPriceAdjustmentPercent] = UNSET
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     price_adjustment_type: Annotated[
-        Optional[EntryPriceAdjustmentType], PlainValidator(validate_open_enum(False))
+        Optional[EntryTradePriceAdjustmentType],
+        PlainValidator(validate_open_enum(False)),
     ] = None
     r"""The type of price adjustment being applied by the broker to the net price of the security"""
 
@@ -5395,7 +5922,7 @@ class EntryTradeTypedDict(TypedDict):
     r"""base64 encoded value assigned by the Booking API to all trades"""
     broker: NotRequired[str]
     r"""Executing broker of the trade"""
-    broker_capacity: NotRequired[EntryBrokerCapacity]
+    broker_capacity: NotRequired[EntryTradeBrokerCapacity]
     r"""Used to calculate broadridge blotter code"""
     client_memo: NotRequired[str]
     r"""client usage area (intact). len 20"""
@@ -5423,7 +5950,9 @@ class EntryTradeTypedDict(TypedDict):
     r"""\"MMAP\" for multi market average price, \"UNKN\" for unknown"""
     order_id: NotRequired[str]
     r"""Max Length 50 characters. Internally generated order id that is returned to client on exec reports"""
-    prevailing_market_price: NotRequired[Nullable[EntryPrevailingMarketPriceTypedDict]]
+    prevailing_market_price: NotRequired[
+        Nullable[EntryTradePrevailingMarketPriceTypedDict]
+    ]
     r"""The price for the instrument that is prevailing in the market"""
     price_adjustment_record: NotRequired[Nullable[EntryPriceAdjustmentRecordTypedDict]]
     r"""Information about any price adjustments applied to the security"""
@@ -5459,7 +5988,7 @@ class EntryTrade(BaseModel):
     r"""Executing broker of the trade"""
 
     broker_capacity: Annotated[
-        Optional[EntryBrokerCapacity], PlainValidator(validate_open_enum(False))
+        Optional[EntryTradeBrokerCapacity], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Used to calculate broadridge blotter code"""
 
@@ -5502,7 +6031,7 @@ class EntryTrade(BaseModel):
     order_id: Optional[str] = None
     r"""Max Length 50 characters. Internally generated order id that is returned to client on exec reports"""
 
-    prevailing_market_price: OptionalNullable[EntryPrevailingMarketPrice] = UNSET
+    prevailing_market_price: OptionalNullable[EntryTradePrevailingMarketPrice] = UNSET
     r"""The price for the instrument that is prevailing in the market"""
 
     price_adjustment_record: OptionalNullable[EntryPriceAdjustmentRecord] = UNSET
@@ -5589,7 +6118,7 @@ class EntryTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     INTERNAL_CONVERSION = "INTERNAL_CONVERSION"
 
 
-class TransferTypedDict(TypedDict):
+class EntryTransferTypedDict(TypedDict):
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
 
     additional_instructions: NotRequired[str]
@@ -5600,7 +6129,7 @@ class TransferTypedDict(TypedDict):
     r"""Provides more detail on the type of transfer"""
 
 
-class Transfer(BaseModel):
+class EntryTransfer(BaseModel):
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
 
     additional_instructions: Optional[str] = None
@@ -5882,6 +6411,7 @@ class EntryWithdrawalType(str, Enum, metaclass=utils.OpenEnumMeta):
     RTP = "RTP"
     ICT = "ICT"
     JOURNAL = "JOURNAL"
+    EXTERNAL_ACH = "EXTERNAL_ACH"
 
 
 class WithdrawalTypedDict(TypedDict):
@@ -5906,6 +6436,8 @@ class WithdrawalTypedDict(TypedDict):
     periodic: NotRequired[bool]
     retirement_type: NotRequired[RetirementType]
     r"""Used for descriptive purposes only. Indicates the type of retirement account"""
+    total_distribution: NotRequired[bool]
+    r"""Indicates whether or a not a distribution is a full liquidation of a tax-advantaged account"""
     type: NotRequired[EntryWithdrawalType]
     r"""Provides information on the method through which a deposit/ withdrawal was initiated"""
 
@@ -5945,6 +6477,9 @@ class Withdrawal(BaseModel):
         Optional[RetirementType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Used for descriptive purposes only. Indicates the type of retirement account"""
+
+    total_distribution: Optional[bool] = None
+    r"""Indicates whether or a not a distribution is a full liquidation of a tax-advantaged account"""
 
     type: Annotated[
         Optional[EntryWithdrawalType], PlainValidator(validate_open_enum(False))
@@ -6301,12 +6836,18 @@ class EntryTypedDict(TypedDict):
     r"""Apex-generated unique activity identifier"""
     activity_time: NotRequired[Nullable[datetime]]
     r"""Activity time refers to the precise moment, recorded in Coordinated Universal Time (UTC), when a financial transaction is executed as reported to Apex"""
+    allocation: NotRequired[Nullable[AllocationTypedDict]]
+    r"""Object containing metadata for trade allocation"""
     asset_id: NotRequired[str]
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas Required, except for currency movements which should instead have a currency_asset_id"""
+    bond_default: NotRequired[Nullable[BondDefaultTypedDict]]
+    r"""Object containing metadata for bond defaults"""
     capital_gains: NotRequired[Nullable[CapitalGainsTypedDict]]
     r"""Used to record a distribution of cash that an issuer has determined will be declared as income financed from capital gains and not ordinary income and details related to the capital gain"""
     cash_dividend: NotRequired[Nullable[CashDividendTypedDict]]
     r"""Used to record the distribution of cash to shareholders, paid by the issuer, usually based upon current earnings and/or accumulated profits as declared by the board of directors and details related to the cash dividend"""
+    cash_in_lieu: NotRequired[Nullable[CashInLieuTypedDict]]
+    r"""Object containing metadata for cash in lieu"""
     commission: NotRequired[Nullable[EntryCommissionTypedDict]]
     r"""Indicates that the entry references commission charged by brokers or financial intermediaries for executing financial transactions on behalf of clients"""
     conversion: NotRequired[Nullable[ConversionTypedDict]]
@@ -6388,7 +6929,7 @@ class EntryTypedDict(TypedDict):
     side: NotRequired[EntrySide]
     r"""Denotes whether the trade is a buy or sell"""
     side_modifier: NotRequired[EntrySideModifier]
-    r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
+    r"""Indicates whether the trade is opening a new position or closing an existing position Should be populated if possible for trades; the side modifier for the trade"""
     spin_off: NotRequired[Nullable[SpinOffTypedDict]]
     r"""Used to record a distribution of subsidiary securities to the shareholders of the parent company without a surrender of securities or payment and details related to the spinoff. A spin-off represents a form of divestiture resulting in an independent company"""
     state: NotRequired[EntryState]
@@ -6405,7 +6946,7 @@ class EntryTypedDict(TypedDict):
     r"""Used to record the sale of securities for a specified price due to an offer from the issuer or a third party and details related to the tender offer"""
     trade: NotRequired[Nullable[EntryTradeTypedDict]]
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
-    transfer: NotRequired[Nullable[TransferTypedDict]]
+    transfer: NotRequired[Nullable[EntryTransferTypedDict]]
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
     type: NotRequired[EntryType]
     r"""The Type of the entry; determines the set of mandatory fields as well as informing downstream processes how to handle this record"""
@@ -6455,14 +6996,23 @@ class Entry(BaseModel):
     activity_time: OptionalNullable[datetime] = UNSET
     r"""Activity time refers to the precise moment, recorded in Coordinated Universal Time (UTC), when a financial transaction is executed as reported to Apex"""
 
+    allocation: OptionalNullable[Allocation] = UNSET
+    r"""Object containing metadata for trade allocation"""
+
     asset_id: Optional[str] = None
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas Required, except for currency movements which should instead have a currency_asset_id"""
+
+    bond_default: OptionalNullable[BondDefault] = UNSET
+    r"""Object containing metadata for bond defaults"""
 
     capital_gains: OptionalNullable[CapitalGains] = UNSET
     r"""Used to record a distribution of cash that an issuer has determined will be declared as income financed from capital gains and not ordinary income and details related to the capital gain"""
 
     cash_dividend: OptionalNullable[CashDividend] = UNSET
     r"""Used to record the distribution of cash to shareholders, paid by the issuer, usually based upon current earnings and/or accumulated profits as declared by the board of directors and details related to the cash dividend"""
+
+    cash_in_lieu: OptionalNullable[CashInLieu] = UNSET
+    r"""Object containing metadata for cash in lieu"""
 
     commission: OptionalNullable[EntryCommission] = UNSET
     r"""Indicates that the entry references commission charged by brokers or financial intermediaries for executing financial transactions on behalf of clients"""
@@ -6588,7 +7138,7 @@ class Entry(BaseModel):
     side_modifier: Annotated[
         Optional[EntrySideModifier], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Additional information about a trade Should be populated if possible for trades; the side modifier for the trade"""
+    r"""Indicates whether the trade is opening a new position or closing an existing position Should be populated if possible for trades; the side modifier for the trade"""
 
     spin_off: OptionalNullable[SpinOff] = UNSET
     r"""Used to record a distribution of subsidiary securities to the shareholders of the parent company without a surrender of securities or payment and details related to the spinoff. A spin-off represents a form of divestiture resulting in an independent company"""
@@ -6616,7 +7166,7 @@ class Entry(BaseModel):
     trade: OptionalNullable[EntryTrade] = UNSET
     r"""Used to record the the execution of a buy or sell transaction resulting in the transfer of securities and corresponding payment and details related to the trade"""
 
-    transfer: OptionalNullable[Transfer] = UNSET
+    transfer: OptionalNullable[EntryTransfer] = UNSET
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
 
     type: Annotated[
@@ -6654,9 +7204,12 @@ class Entry(BaseModel):
             "activity_date",
             "activity_id",
             "activity_time",
+            "allocation",
             "asset_id",
+            "bond_default",
             "capital_gains",
             "cash_dividend",
+            "cash_in_lieu",
             "commission",
             "conversion",
             "corporate_action_memo_adjustment",
@@ -6721,8 +7274,11 @@ class Entry(BaseModel):
             "acquisition",
             "activity_date",
             "activity_time",
+            "allocation",
+            "bond_default",
             "capital_gains",
             "cash_dividend",
+            "cash_in_lieu",
             "commission",
             "conversion",
             "corporate_action_memo_adjustment",

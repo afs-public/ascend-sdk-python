@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from ascend_sdk.models.components import (
+    bookingtrade as components_bookingtrade,
     httpmetadata as components_httpmetadata,
     status as components_status,
-    trade as components_trade,
     tradecreate as components_tradecreate,
 )
 from ascend_sdk.types import BaseModel
@@ -34,7 +34,7 @@ class BookingCreateTradeRequest(BaseModel):
 
 class BookingCreateTradeResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
-    trade: NotRequired[components_trade.TradeTypedDict]
+    booking_trade: NotRequired[components_bookingtrade.BookingTradeTypedDict]
     r"""OK"""
     status: NotRequired[components_status.StatusTypedDict]
     r"""FAILED_PRECONDITION: The operation was rejected because the system is not in a state required for the operation's processing.
@@ -47,7 +47,7 @@ class BookingCreateTradeResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    trade: Optional[components_trade.Trade] = None
+    booking_trade: Optional[components_bookingtrade.BookingTrade] = None
     r"""OK"""
 
     status: Optional[components_status.Status] = None

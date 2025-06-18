@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 from ascend_sdk.models.components import (
-    datecreate as components_datecreate,
     httpmetadata as components_httpmetadata,
     locateictreportresponse as components_locateictreportresponse,
     status as components_status,
@@ -22,7 +21,6 @@ class ProgramDateFilterProgram(str, Enum):
     BROKER_PARTNER = "BROKER_PARTNER"
     DEPOSIT_ONLY = "DEPOSIT_ONLY"
     BANKING_PARTNER = "BANKING_PARTNER"
-    MONEY_TRANSMITTER = "MONEY_TRANSMITTER"
     WITHDRAWAL_ONLY = "WITHDRAWAL_ONLY"
     DIGITAL_PARTNER = "DIGITAL_PARTNER"
 
@@ -34,10 +32,12 @@ class IctReconReportsLocateIctReportRequestTypedDict(TypedDict):
     r"""The id of the ICT batch for which to locate the report."""
     program_date_filter_program: NotRequired[ProgramDateFilterProgram]
     r"""The ICT program for which to locate the report."""
-    program_date_filter_process_date: NotRequired[
-        components_datecreate.DateCreateTypedDict
-    ]
-    r"""The process date for which to locate the report."""
+    program_date_filter_process_date_year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+    program_date_filter_process_date_month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    program_date_filter_process_date_day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
 
 
 class IctReconReportsLocateIctReportRequest(BaseModel):
@@ -59,12 +59,26 @@ class IctReconReportsLocateIctReportRequest(BaseModel):
     ] = None
     r"""The ICT program for which to locate the report."""
 
-    program_date_filter_process_date: Annotated[
-        Optional[components_datecreate.DateCreate],
-        pydantic.Field(alias="program_date_filter.process_date"),
+    program_date_filter_process_date_year: Annotated[
+        Optional[int],
+        pydantic.Field(alias="program_date_filter.process_date.year"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The process date for which to locate the report."""
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+    program_date_filter_process_date_month: Annotated[
+        Optional[int],
+        pydantic.Field(alias="program_date_filter.process_date.month"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    program_date_filter_process_date_day: Annotated[
+        Optional[int],
+        pydantic.Field(alias="program_date_filter.process_date.day"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
 
 
 class IctReconReportsLocateIctReportResponseTypedDict(TypedDict):

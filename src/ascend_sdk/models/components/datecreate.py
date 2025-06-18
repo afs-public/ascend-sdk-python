@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 from ascend_sdk.types import BaseModel
-from ascend_sdk.utils import FieldMetadata
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class DateCreateTypedDict(TypedDict):
@@ -31,11 +30,11 @@ class DateCreate(BaseModel):
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
 
-    day: Annotated[Optional[int], FieldMetadata(query=True)] = None
+    day: Optional[int] = None
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
 
-    month: Annotated[Optional[int], FieldMetadata(query=True)] = None
+    month: Optional[int] = None
     r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
 
-    year: Annotated[Optional[int], FieldMetadata(query=True)] = None
+    year: Optional[int] = None
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""

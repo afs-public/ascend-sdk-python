@@ -657,6 +657,14 @@ class FixedIncome(BaseModel):
         return m
 
 
+class IndexTypedDict(TypedDict):
+    r"""Index specific asset details"""
+
+
+class Index(BaseModel):
+    r"""Index specific asset details"""
+
+
 class LargeOrderNotificationAmountTypedDict(TypedDict):
     r"""The threshold at which Apex would need to notify the fund family of an incoming large order."""
 
@@ -1223,6 +1231,7 @@ class AssetType1(str, Enum, metaclass=utils.OpenEnumMeta):
     FDIC_SYNTHETIC = "FDIC_SYNTHETIC"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
+    INDEX = "INDEX"
 
 
 class AssetTypedDict(TypedDict):
@@ -1240,6 +1249,8 @@ class AssetTypedDict(TypedDict):
     r"""Equity specific asset details"""
     fixed_income: NotRequired[Nullable[FixedIncomeTypedDict]]
     r"""FixedIncome specific asset details"""
+    index: NotRequired[Nullable[IndexTypedDict]]
+    r"""Index specific asset details"""
     isin: NotRequired[str]
     r"""isin is the International Securities Identification Number"""
     issuing_region_code: NotRequired[str]
@@ -1281,6 +1292,9 @@ class Asset(BaseModel):
     fixed_income: OptionalNullable[FixedIncome] = UNSET
     r"""FixedIncome specific asset details"""
 
+    index: OptionalNullable[Index] = UNSET
+    r"""Index specific asset details"""
+
     isin: Optional[str] = None
     r"""isin is the International Securities Identification Number"""
 
@@ -1319,6 +1333,7 @@ class Asset(BaseModel):
             "description",
             "equity",
             "fixed_income",
+            "index",
             "isin",
             "issuing_region_code",
             "mutual_fund",
@@ -1333,6 +1348,7 @@ class Asset(BaseModel):
             "currency",
             "equity",
             "fixed_income",
+            "index",
             "mutual_fund",
             "option",
         ]
