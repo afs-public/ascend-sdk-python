@@ -38,6 +38,16 @@ class MatchState(str, Enum, metaclass=utils.OpenEnumMeta):
     INCONCLUSIVE = "INCONCLUSIVE"
 
 
+class MatchTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    MATCH_TYPE_UNSPECIFIED = "MATCH_TYPE_UNSPECIFIED"
+    NON_OFAC_SANCTIONS = "NON_OFAC_SANCTIONS"
+    RELATIVE_OR_CLOSE_ASSOCIATE = "RELATIVE_OR_CLOSE_ASSOCIATE"
+    OFAC_SANCTIONS = "OFAC_SANCTIONS"
+    POLITICALLY_EXPOSED_PERSON = "POLITICALLY_EXPOSED_PERSON"
+    DNDB = "DNDB"
+    NEGATIVE_NEWS = "NEGATIVE_NEWS"
+
+
 class WatchlistMatchTypedDict(TypedDict):
     r"""Matched profile details"""
 
@@ -51,6 +61,8 @@ class WatchlistMatchTypedDict(TypedDict):
     r"""The attributes used to identify this watchlist match"""
     match_state: NotRequired[MatchState]
     r"""Match state - whether or not the match is confirmed"""
+    match_types: NotRequired[List[MatchTypes]]
+    r"""The types of watchlist matches"""
     updated_at: NotRequired[Nullable[datetime]]
     r"""The time the watchlist match was last updated"""
     watchlist_id: NotRequired[str]
@@ -81,6 +93,11 @@ class WatchlistMatch(BaseModel):
     ] = None
     r"""Match state - whether or not the match is confirmed"""
 
+    match_types: Optional[
+        List[Annotated[MatchTypes, PlainValidator(validate_open_enum(False))]]
+    ] = None
+    r"""The types of watchlist matches"""
+
     updated_at: OptionalNullable[datetime] = UNSET
     r"""The time the watchlist match was last updated"""
 
@@ -98,6 +115,7 @@ class WatchlistMatch(BaseModel):
             "exclude_from_screening",
             "match_attributes",
             "match_state",
+            "match_types",
             "updated_at",
             "watchlist_id",
             "watchlist_item_id",

@@ -90,7 +90,7 @@ class LotQuantity(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class TradeDateTypedDict(TypedDict):
+class LotTradeDateTypedDict(TypedDict):
     r"""Trade date of the trade lot"""
 
     day: NotRequired[int]
@@ -101,7 +101,7 @@ class TradeDateTypedDict(TypedDict):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
-class TradeDate(BaseModel):
+class LotTradeDate(BaseModel):
     r"""Trade date of the trade lot"""
 
     day: Optional[int] = None
@@ -121,7 +121,7 @@ class LotTypedDict(TypedDict):
     r"""Object containing currency/ price information for the trade lot"""
     quantity: NotRequired[Nullable[LotQuantityTypedDict]]
     r"""Quantity of the trade lot"""
-    trade_date: NotRequired[Nullable[TradeDateTypedDict]]
+    trade_date: NotRequired[Nullable[LotTradeDateTypedDict]]
     r"""Trade date of the trade lot"""
 
 
@@ -135,7 +135,7 @@ class Lot(BaseModel):
     quantity: OptionalNullable[LotQuantity] = UNSET
     r"""Quantity of the trade lot"""
 
-    trade_date: OptionalNullable[TradeDate] = UNSET
+    trade_date: OptionalNullable[LotTradeDate] = UNSET
     r"""Trade date of the trade lot"""
 
     @model_serializer(mode="wrap")

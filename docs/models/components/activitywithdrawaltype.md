@@ -15,3 +15,4 @@ The mechanism by which the funds will be withdrawn
 | `RTP`                                | RTP                                  |
 | `ICT`                                | ICT                                  |
 | `JOURNAL`                            | JOURNAL                              |
+| `EXTERNAL_ACH`                       | EXTERNAL_ACH                         |

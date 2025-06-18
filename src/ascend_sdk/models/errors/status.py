@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 from ascend_sdk import utils
-from ascend_sdk.models.components import (
-    googleprotobufany as components_googleprotobufany,
-)
+from ascend_sdk.models.components import any as components_any
 from ascend_sdk.types import BaseModel
 from typing import List, Optional
 
@@ -13,7 +11,7 @@ class StatusData(BaseModel):
     code: Optional[int] = None
     r"""The code field contains an enum value of google.rpc.Code."""
 
-    details: Optional[List[components_googleprotobufany.GoogleProtobufAny]] = None
+    details: Optional[List[components_any.AnyT]] = None
     r"""The details field contains one or more technical error details."""
 
     message: Optional[str] = None

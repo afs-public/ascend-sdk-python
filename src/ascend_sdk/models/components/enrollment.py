@@ -3168,6 +3168,8 @@ class EnrollmentOperatingPurpose(str, Enum, metaclass=utils.OpenEnumMeta):
     TAX_WITHHOLDING = "TAX_WITHHOLDING"
     FEE = "FEE"
     PRINCIPAL_TRADING = "PRINCIPAL_TRADING"
+    SAFEKEEPING_BOOK_ENTITY_DOMESTIC = "SAFEKEEPING_BOOK_ENTITY_DOMESTIC"
+    FAIL = "FAIL"
 
 
 class EnrollmentTaxAuthority(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3374,7 +3376,7 @@ class EnrollmentOptionsLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Requested options level"""
 
     OPTIONS_LEVEL_UNSPECIFIED = "OPTIONS_LEVEL_UNSPECIFIED"
-    LEVEL_1_BASIC_DIRECTIONAL_TRADES = "LEVEL_1_BASIC_DIRECTIONAL_TRADES"
+    OPTIONS_LEVEL_2_LONG_OPTIONS = "OPTIONS_LEVEL_2_LONG_OPTIONS"
 
 
 class OrdersOptionsTradingEnrollmentMetadataTypedDict(TypedDict):

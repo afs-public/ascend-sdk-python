@@ -83,7 +83,9 @@ class TradeBooking(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BookingCreateTradeResponse(
-                trade=utils.unmarshal_json(http_res.text, Optional[components.Trade]),
+                booking_trade=utils.unmarshal_json(
+                    http_res.text, Optional[components.BookingTrade]
+                ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
@@ -183,7 +185,9 @@ class TradeBooking(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BookingCreateTradeResponse(
-                trade=utils.unmarshal_json(http_res.text, Optional[components.Trade]),
+                booking_trade=utils.unmarshal_json(
+                    http_res.text, Optional[components.BookingTrade]
+                ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
@@ -280,7 +284,9 @@ class TradeBooking(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BookingGetTradeResponse(
-                trade=utils.unmarshal_json(http_res.text, Optional[components.Trade]),
+                booking_trade=utils.unmarshal_json(
+                    http_res.text, Optional[components.BookingTrade]
+                ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
@@ -377,7 +383,9 @@ class TradeBooking(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BookingGetTradeResponse(
-                trade=utils.unmarshal_json(http_res.text, Optional[components.Trade]),
+                booking_trade=utils.unmarshal_json(
+                    http_res.text, Optional[components.BookingTrade]
+                ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(

@@ -105,7 +105,7 @@ class AcatsAssetPosition(BaseModel):
         return m
 
 
-class AcatsAssetType(str, Enum):
+class AcatsAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The asset identifier type"""
 
     IDENTIFIER_TYPE_UNSPECIFIED = "IDENTIFIER_TYPE_UNSPECIFIED"
@@ -148,7 +148,9 @@ class AcatsAsset(BaseModel):
     position: OptionalNullable[AcatsAssetPosition] = UNSET
     r"""The position or amount of the asset"""
 
-    type: Optional[AcatsAssetType] = None
+    type: Annotated[
+        Optional[AcatsAssetType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The asset identifier type"""
 
     @model_serializer(mode="wrap")

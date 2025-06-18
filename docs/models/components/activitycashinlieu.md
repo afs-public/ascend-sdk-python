@@ -1,0 +1,10 @@
+# ActivityCashInLieu
+
+Object containing metadata for cash in lieu
+
+
+## Fields
+
+| Field                                                                                                                                                              | Type                                                                                                                                                               | Required                                                                                                                                                           | Description                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `corporate_action_general_information`                                                                                                                             | [OptionalNullable[components.ActivityCashInLieuCorporateActionGeneralInformation]](../../models/components/activitycashinlieucorporateactiongeneralinformation.md) | :heavy_minus_sign:                                                                                                                                                 | Common fields for corporate actions                                                                                                                                |

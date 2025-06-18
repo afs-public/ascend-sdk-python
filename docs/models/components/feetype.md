@@ -12,7 +12,6 @@ The type of fee being assessed
 | `LIQUIDITY`                         | LIQUIDITY                           |
 | `GENERAL_PURPOSE`                   | GENERAL_PURPOSE                     |
 | `COMMISSION`                        | COMMISSION                          |
-| `ORF`                               | ORF                                 |
 | `TAF`                               | TAF                                 |
 | `SEC`                               | SEC                                 |
 | `ACCOUNT_CLOSING`                   | ACCOUNT_CLOSING                     |
@@ -38,3 +37,7 @@ The type of fee being assessed
 | `INTERNATIONAL_WIRE_DEPOSIT_FEE`    | INTERNATIONAL_WIRE_DEPOSIT_FEE      |
 | `INTERNATIONAL_WIRE_WITHDRAWAL_FEE` | INTERNATIONAL_WIRE_WITHDRAWAL_FEE   |
 | `BROKER_FEE`                        | BROKER_FEE                          |
+| `OCC_FEE`                           | OCC_FEE                             |
+| `CONTRACT_FEE`                      | CONTRACT_FEE                        |
+| `OPTIONS_REGULATORY`                | OPTIONS_REGULATORY                  |
+| `FINANCIAL_TRANSACTION_TAX`         | FINANCIAL_TRANSACTION_TAX           |

@@ -108,6 +108,12 @@ class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     DAY = "DAY"
 
 
+class TradingStrategy(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+
+    CORE = "CORE"
+
+
 class OrderCreateTypedDict(TypedDict):
     r"""The message describing an order"""
 
@@ -177,6 +183,8 @@ class OrderCreateTypedDict(TypedDict):
     r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
     stop_price: NotRequired[StopPriceCreateTypedDict]
     r"""A stop price definition"""
+    trading_strategy: NotRequired[TradingStrategy]
+    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
 
 class OrderCreate(BaseModel):
@@ -280,6 +288,11 @@ class OrderCreate(BaseModel):
     stop_price: Optional[StopPriceCreate] = None
     r"""A stop price definition"""
 
+    trading_strategy: Annotated[
+        Optional[TradingStrategy], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -297,6 +310,7 @@ class OrderCreate(BaseModel):
             "rights_of_accumulation",
             "special_reporting_instructions",
             "stop_price",
+            "trading_strategy",
         ]
         nullable_fields = ["client_received_time"]
         null_default_fields = []

@@ -111,12 +111,16 @@ class CustomerIdentificationResultTypedDict(TypedDict):
 
     birth_date_verified: NotRequired[BirthDateVerified]
     r"""Whether or not the customer birth date was verified"""
+    completed: NotRequired[bool]
+    r"""Whether or not the result is completed Must be true to be linked to an Investigation or used to Create/Update an LegalNaturalPerson"""
     document_authenticity_verified: NotRequired[DocumentAuthenticityVerified]
     r"""Whether or not the document authenticity is verified or not Will be NOT_IN_SCOPE if the check being done is not documentary"""
     document_expiry_status: NotRequired[DocumentExpiryStatus]
     r"""Whether or not the document expiry was verified This is only in scope for document verification checks If document is expired this will be set to EXPIRED"""
     document_verification_ids: NotRequired[List[str]]
-    r"""One or more ULIDs from the documents api of the image(s) of the document that relates to the identification check"""
+    r"""One or more ULIDs from the documents api of the image(s) of the document that relates to the identification check for a DOCUMENTARY check, these will be the images provided in the session"""
+    documentary_session_uri: NotRequired[str]
+    r"""The URI to complete documentary session Will be populated if the CheckType is DOCUMENTARY"""
     email_verified: NotRequired[EmailVerified]
     r"""Whether or not the customer email was verified"""
     external_vendor: NotRequired[str]
@@ -147,6 +151,9 @@ class CustomerIdentificationResult(BaseModel):
     ] = None
     r"""Whether or not the customer birth date was verified"""
 
+    completed: Optional[bool] = None
+    r"""Whether or not the result is completed Must be true to be linked to an Investigation or used to Create/Update an LegalNaturalPerson"""
+
     document_authenticity_verified: Annotated[
         Optional[DocumentAuthenticityVerified],
         PlainValidator(validate_open_enum(False)),
@@ -159,7 +166,10 @@ class CustomerIdentificationResult(BaseModel):
     r"""Whether or not the document expiry was verified This is only in scope for document verification checks If document is expired this will be set to EXPIRED"""
 
     document_verification_ids: Optional[List[str]] = None
-    r"""One or more ULIDs from the documents api of the image(s) of the document that relates to the identification check"""
+    r"""One or more ULIDs from the documents api of the image(s) of the document that relates to the identification check for a DOCUMENTARY check, these will be the images provided in the session"""
+
+    documentary_session_uri: Optional[str] = None
+    r"""The URI to complete documentary session Will be populated if the CheckType is DOCUMENTARY"""
 
     email_verified: Annotated[
         Optional[EmailVerified], PlainValidator(validate_open_enum(False))

@@ -29,7 +29,6 @@ Describes the contents of a document and how it is used; Required for all identi
 | `EXECUTOR_CERTIFICATION`               | EXECUTOR_CERTIFICATION                 |
 | `TRUSTEE_CERTIFICATION`                | TRUSTEE_CERTIFICATION                  |
 | `SELFIE`                               | SELFIE                                 |
-| `ARTICLES_OF_ORGANISATION`             | ARTICLES_OF_ORGANISATION               |
 | `CERT_OF_SOLE_OFFICER`                 | CERT_OF_SOLE_OFFICER                   |
 | `CERTIFICATION_CORRESPONDENT_ACCOUNTS` | CERTIFICATION_CORRESPONDENT_ACCOUNTS   |
 | `CERTIFICATION_FOREIGN_BANKS`          | CERTIFICATION_FOREIGN_BANKS            |
@@ -44,3 +43,4 @@ Describes the contents of a document and how it is used; Required for all identi
 | `CORPORATE_BYLAWS`                     | CORPORATE_BYLAWS                       |
 | `SHAREHOLDER_AGREEMENT`                | SHAREHOLDER_AGREEMENT                  |
 | `CORPORATE_RECORDS`                    | CORPORATE_RECORDS                      |
+| `ARTICLES_OF_ORGANIZATION`             | ARTICLES_OF_ORGANIZATION               |

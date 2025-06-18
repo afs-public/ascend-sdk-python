@@ -89,14 +89,14 @@ class ExecutionPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class ExecutionPriceAdjustmentAmountTypedDict(TypedDict):
+class PriceAdjustmentAmountTypedDict(TypedDict):
     r"""Total monetary value of the price_adjustment"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class ExecutionPriceAdjustmentAmount(BaseModel):
+class PriceAdjustmentAmount(BaseModel):
     r"""Total monetary value of the price_adjustment"""
 
     value: Optional[str] = None
@@ -115,9 +115,7 @@ class ExecutionPriceAdjustmentType(str, Enum, metaclass=utils.OpenEnumMeta):
 class PriceAdjustmentTypedDict(TypedDict):
     r"""Price adjustment that will be applied to the net price of the security."""
 
-    price_adjustment_amount: NotRequired[
-        Nullable[ExecutionPriceAdjustmentAmountTypedDict]
-    ]
+    price_adjustment_amount: NotRequired[Nullable[PriceAdjustmentAmountTypedDict]]
     r"""Total monetary value of the price_adjustment"""
     price_adjustment_type: NotRequired[ExecutionPriceAdjustmentType]
     r"""The type of price adjustment being applied by the broker to the net price of the security."""
@@ -126,7 +124,7 @@ class PriceAdjustmentTypedDict(TypedDict):
 class PriceAdjustment(BaseModel):
     r"""Price adjustment that will be applied to the net price of the security."""
 
-    price_adjustment_amount: OptionalNullable[ExecutionPriceAdjustmentAmount] = UNSET
+    price_adjustment_amount: OptionalNullable[PriceAdjustmentAmount] = UNSET
     r"""Total monetary value of the price_adjustment"""
 
     price_adjustment_type: Annotated[

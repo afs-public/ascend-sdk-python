@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 from .bondyield import BondYield, BondYieldTypedDict
-from .fee import Fee, FeeTypedDict
-from .lot import Lot, LotTypedDict
+from .bookingfee import BookingFee, BookingFeeTypedDict
+from .bookinglot import BookingLot, BookingLotTypedDict
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -358,7 +358,7 @@ class NewTradeAllocationTypedDict(TypedDict):
     r"""Commission amount of the trade allocation that will only be applied to the to_account_id."""
     execution_time: NotRequired[Nullable[datetime]]
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
-    fees: NotRequired[List[FeeTypedDict]]
+    fees: NotRequired[List[BookingFeeTypedDict]]
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
     from_account_id: NotRequired[str]
     r"""The ULID formatted account_id that the positions will be moved from."""
@@ -374,7 +374,7 @@ class NewTradeAllocationTypedDict(TypedDict):
     r"""Identifier type for the asset being traded."""
     issuing_region_code: NotRequired[str]
     r"""Unicode CLDR region code. Issuing Region Code is required for some `identifier_type`s, especially CUSIP."""
-    lot_matching_instructions: NotRequired[List[LotTypedDict]]
+    lot_matching_instructions: NotRequired[List[BookingLotTypedDict]]
     r"""One or many lot matching instructions for the trade allocation."""
     memo: NotRequired[str]
     r"""Caller provided but can be used for booking-service to note original trade details when booking into the error account or using the error asset."""
@@ -455,7 +455,7 @@ class NewTradeAllocation(BaseModel):
     execution_time: OptionalNullable[datetime] = UNSET
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
 
-    fees: Optional[List[Fee]] = None
+    fees: Optional[List[BookingFee]] = None
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
 
     from_account_id: Optional[str] = None
@@ -479,7 +479,7 @@ class NewTradeAllocation(BaseModel):
     issuing_region_code: Optional[str] = None
     r"""Unicode CLDR region code. Issuing Region Code is required for some `identifier_type`s, especially CUSIP."""
 
-    lot_matching_instructions: Optional[List[Lot]] = None
+    lot_matching_instructions: Optional[List[BookingLot]] = None
     r"""One or many lot matching instructions for the trade allocation."""
 
     memo: Optional[str] = None
@@ -1008,7 +1008,7 @@ class OriginalTradeAllocationTypedDict(TypedDict):
     r"""Commission amount of the trade allocation that will only be applied to the to_account_id."""
     execution_time: NotRequired[Nullable[datetime]]
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
-    fees: NotRequired[List[FeeTypedDict]]
+    fees: NotRequired[List[BookingFeeTypedDict]]
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
     from_account_id: NotRequired[str]
     r"""The ULID formatted account_id that the positions will be moved from."""
@@ -1028,7 +1028,7 @@ class OriginalTradeAllocationTypedDict(TypedDict):
     r"""Identifier type for the asset being traded."""
     issuing_region_code: NotRequired[str]
     r"""Unicode CLDR region code. Issuing Region Code is required for some `identifier_type`s, especially CUSIP."""
-    lot_matching_instructions: NotRequired[List[LotTypedDict]]
+    lot_matching_instructions: NotRequired[List[BookingLotTypedDict]]
     r"""One or many lot matching instructions for the trade allocation."""
     memo: NotRequired[str]
     r"""Caller provided but can be used for booking-service to note original trade details when booking into the error account or using the error asset."""
@@ -1123,7 +1123,7 @@ class OriginalTradeAllocation(BaseModel):
     execution_time: OptionalNullable[datetime] = UNSET
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
 
-    fees: Optional[List[Fee]] = None
+    fees: Optional[List[BookingFee]] = None
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
 
     from_account_id: Optional[str] = None
@@ -1149,7 +1149,7 @@ class OriginalTradeAllocation(BaseModel):
     issuing_region_code: Optional[str] = None
     r"""Unicode CLDR region code. Issuing Region Code is required for some `identifier_type`s, especially CUSIP."""
 
-    lot_matching_instructions: Optional[List[Lot]] = None
+    lot_matching_instructions: Optional[List[BookingLot]] = None
     r"""One or many lot matching instructions for the trade allocation."""
 
     memo: Optional[str] = None

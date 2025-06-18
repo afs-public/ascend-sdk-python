@@ -307,6 +307,9 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ### [account_transfers](docs/sdks/accounttransfers/README.md)
 
 * [create_transfer](docs/sdks/accounttransfers/README.md#create_transfer) - Create Transfer
+* [list_transfers](docs/sdks/accounttransfers/README.md#list_transfers) - List Transfers
+* [accept_transfer](docs/sdks/accounttransfers/README.md#accept_transfer) - Accept Transfer
+* [reject_transfer](docs/sdks/accounttransfers/README.md#reject_transfer) - Reject Transfer
 * [get_transfer](docs/sdks/accounttransfers/README.md#get_transfer) - Get Transfer
 
 ### [ach_transfers](docs/sdks/achtransfers/README.md)
