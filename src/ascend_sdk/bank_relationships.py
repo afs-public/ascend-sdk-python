@@ -1506,3 +1506,219 @@ class BankRelationships(BaseSDK):
             http_res.text,
             http_res,
         )
+
+    def reuse_bank_relationship(
+        self,
+        *,
+        account_id: str,
+        reuse_bank_relationship_request_create: Union[
+            components.ReuseBankRelationshipRequestCreate,
+            components.ReuseBankRelationshipRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+    ) -> operations.BankRelationshipsReuseBankRelationshipResponse:
+        r"""Reuse Bank Relationship
+
+        Reuses an existing bank relationship for a new account. The source bank relationship must be approved. The new account must be related to the parent account of the `source_bank_relationship`. The new relationship will be created with the `USE_EXISTING` verification method in place of the source bank relationship's verification method.
+
+        :param account_id: The account id.
+        :param reuse_bank_relationship_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+
+        request = operations.BankRelationshipsReuseBankRelationshipRequest(
+            account_id=account_id,
+            reuse_bank_relationship_request_create=utils.get_pydantic_model(
+                reuse_bank_relationship_request_create,
+                components.ReuseBankRelationshipRequestCreate,
+            ),
+        )
+
+        req = self.build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/bankRelationships:reuse",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.reuse_bank_relationship_request_create,
+                False,
+                False,
+                "json",
+                components.ReuseBankRelationshipRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                operation_id="BankRelationships_ReuseBankRelationship",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.BankRelationshipsReuseBankRelationshipResponse(
+                bank_relationship=utils.unmarshal_json(
+                    http_res.text, Optional[components.BankRelationship]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            data = utils.unmarshal_json(http_res.text, errors.StatusData)
+            raise errors.Status(data=data)
+        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res.text, http_res
+            )
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.BankRelationshipsReuseBankRelationshipResponse(
+                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        content_type = http_res.headers.get("Content-Type")
+        raise errors.SDKError(
+            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
+            http_res.status_code,
+            http_res.text,
+            http_res,
+        )
+
+    async def reuse_bank_relationship_async(
+        self,
+        *,
+        account_id: str,
+        reuse_bank_relationship_request_create: Union[
+            components.ReuseBankRelationshipRequestCreate,
+            components.ReuseBankRelationshipRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+    ) -> operations.BankRelationshipsReuseBankRelationshipResponse:
+        r"""Reuse Bank Relationship
+
+        Reuses an existing bank relationship for a new account. The source bank relationship must be approved. The new account must be related to the parent account of the `source_bank_relationship`. The new relationship will be created with the `USE_EXISTING` verification method in place of the source bank relationship's verification method.
+
+        :param account_id: The account id.
+        :param reuse_bank_relationship_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+
+        request = operations.BankRelationshipsReuseBankRelationshipRequest(
+            account_id=account_id,
+            reuse_bank_relationship_request_create=utils.get_pydantic_model(
+                reuse_bank_relationship_request_create,
+                components.ReuseBankRelationshipRequestCreate,
+            ),
+        )
+
+        req = self.build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/bankRelationships:reuse",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.reuse_bank_relationship_request_create,
+                False,
+                False,
+                "json",
+                components.ReuseBankRelationshipRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                operation_id="BankRelationships_ReuseBankRelationship",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.BankRelationshipsReuseBankRelationshipResponse(
+                bank_relationship=utils.unmarshal_json(
+                    http_res.text, Optional[components.BankRelationship]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            data = utils.unmarshal_json(http_res.text, errors.StatusData)
+            raise errors.Status(data=data)
+        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res.text, http_res
+            )
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.BankRelationshipsReuseBankRelationshipResponse(
+                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        content_type = http_res.headers.get("Content-Type")
+        raise errors.SDKError(
+            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
+            http_res.status_code,
+            http_res.text,
+            http_res,
+        )

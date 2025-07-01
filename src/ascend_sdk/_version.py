@@ -3,7 +3,7 @@
 import importlib.metadata
 
 __title__: str = "ascend-sdk"
-__version__: str = "1.5.6"
+__version__: str = "1.5.7"
 
 try:
     if __package__ is not None:

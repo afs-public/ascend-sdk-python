@@ -3308,6 +3308,10 @@ from .retrievequoteresponse import (
     RetrieveQuoteResponseIdentifierType,
     RetrieveQuoteResponseTypedDict,
 )
+from .reusebankrelationshiprequestcreate import (
+    ReuseBankRelationshipRequestCreate,
+    ReuseBankRelationshipRequestCreateTypedDict,
+)
 from .rightsofaccumulationcreate import (
     RightsOfAccumulationCreate,
     RightsOfAccumulationCreateTypedDict,
@@ -6495,6 +6499,8 @@ __all__ = [
     "RetrieveQuoteResponseBrokerCapacity",
     "RetrieveQuoteResponseIdentifierType",
     "RetrieveQuoteResponseTypedDict",
+    "ReuseBankRelationshipRequestCreate",
+    "ReuseBankRelationshipRequestCreateTypedDict",
     "ReverseStockSplit",
     "ReverseStockSplitTypedDict",
     "Review",

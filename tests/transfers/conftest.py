@@ -1,4 +1,5 @@
 import datetime
+import os
 import random
 import time
 import uuid
@@ -658,5 +659,39 @@ def create_wire_withdrawal_schedule_id(create_sdk, enrolled_account_id):
 
     if res.http_meta.response.status_code == 200:
         return res.wire_withdrawal_schedule.name.split("/")[3]
+    else:
+        return None
+
+
+@pytest.fixture
+def create_reuse_account_id(create_sdk, create_legal_natural_person_id):
+    s = create_sdk
+
+    request = components.AccountRequestCreate(
+        account_group_id=os.getenv("ACCOUNT_GROUP_ID"),
+        correspondent_id=os.getenv("CORRESPONDENT_ID"),
+        parties=[
+            components.PartyRequestCreate(
+                legal_natural_person_id=create_legal_natural_person_id,
+                relation_type=components.RelationType.PRIMARY_OWNER,
+                email_address="mail@example.com",
+                phone_number=components.PhoneNumberCreate(
+                    e164_number="+14155552671",
+                    extension="123",
+                ),
+                mailing_address=components.PostalAddressCreate(
+                    address_lines=["1 Main Street"],
+                    region_code="US",
+                    postal_code="12345",
+                    administrative_area="NY",
+                    locality="New York",
+                ),
+            )
+        ],
+    )
+
+    res = s.account_creation.create_account(request=request)
+    if res.http_meta.response.status_code == 200:
+        return res.account.account_id
     else:
         return None

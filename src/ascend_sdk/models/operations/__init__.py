@@ -473,6 +473,12 @@ from .bankrelationships_reissuemicrodeposits import (
     BankRelationshipsReissueMicroDepositsResponse,
     BankRelationshipsReissueMicroDepositsResponseTypedDict,
 )
+from .bankrelationships_reusebankrelationship import (
+    BankRelationshipsReuseBankRelationshipRequest,
+    BankRelationshipsReuseBankRelationshipRequestTypedDict,
+    BankRelationshipsReuseBankRelationshipResponse,
+    BankRelationshipsReuseBankRelationshipResponseTypedDict,
+)
 from .bankrelationships_updatebankrelationship import (
     BankRelationshipsUpdateBankRelationshipRequest,
     BankRelationshipsUpdateBankRelationshipRequestTypedDict,
@@ -1332,6 +1338,10 @@ __all__ = [
     "BankRelationshipsReissueMicroDepositsRequestTypedDict",
     "BankRelationshipsReissueMicroDepositsResponse",
     "BankRelationshipsReissueMicroDepositsResponseTypedDict",
+    "BankRelationshipsReuseBankRelationshipRequest",
+    "BankRelationshipsReuseBankRelationshipRequestTypedDict",
+    "BankRelationshipsReuseBankRelationshipResponse",
+    "BankRelationshipsReuseBankRelationshipResponseTypedDict",
     "BankRelationshipsUpdateBankRelationshipRequest",
     "BankRelationshipsUpdateBankRelationshipRequestTypedDict",
     "BankRelationshipsUpdateBankRelationshipResponse",
