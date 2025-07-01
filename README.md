@@ -342,6 +342,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [cancel_bank_relationship](docs/sdks/bankrelationships/README.md#cancel_bank_relationship) - Cancel Bank Relationship
 * [verify_micro_deposits](docs/sdks/bankrelationships/README.md#verify_micro_deposits) - Verify Micro Deposits
 * [reissue_micro_deposits](docs/sdks/bankrelationships/README.md#reissue_micro_deposits) - Reissue Micro Deposits
+* [reuse_bank_relationship](docs/sdks/bankrelationships/README.md#reuse_bank_relationship) - Reuse Bank Relationship
 
 ### [basket_orders](docs/sdks/basketorders/README.md)
 

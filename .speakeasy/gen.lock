@@ -1,11 +1,11 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 5ce91c7251a156c72b6a6bfd31bbe361
-  docVersion: v1:20250617:uat:6f66f0a5cade
+  docChecksum: d3f8dd362b603f2fa8400d49a4984779
+  docVersion: v1:20250630:uat:8b6dcb722a6f
   speakeasyVersion: 1.414.1
   generationVersion: 2.437.1
-  releaseVersion: 1.5.6
+  releaseVersion: 1.5.7
   configChecksum: 19af0af185011d1a1bf6beacb7cfe1fc
 features:
   python:
@@ -1700,6 +1700,7 @@ generatedFiles:
   - docs/models/components/retrievequoteresponseassettype.md
   - docs/models/components/retrievequoteresponsebrokercapacity.md
   - docs/models/components/retrievequoteresponseidentifiertype.md
+  - docs/models/components/reusebankrelationshiprequestcreate.md
   - docs/models/components/reversestocksplit.md
   - docs/models/components/review.md
   - docs/models/components/rightsdistribution.md
@@ -2123,6 +2124,8 @@ generatedFiles:
   - docs/models/operations/bankrelationshipslistbankrelationshipsresponse.md
   - docs/models/operations/bankrelationshipsreissuemicrodepositsrequest.md
   - docs/models/operations/bankrelationshipsreissuemicrodepositsresponse.md
+  - docs/models/operations/bankrelationshipsreusebankrelationshiprequest.md
+  - docs/models/operations/bankrelationshipsreusebankrelationshipresponse.md
   - docs/models/operations/bankrelationshipsupdatebankrelationshiprequest.md
   - docs/models/operations/bankrelationshipsupdatebankrelationshipresponse.md
   - docs/models/operations/bankrelationshipsverifymicrodepositsrequest.md
@@ -2705,6 +2708,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/retrievefixedincomemarksresponse_assetmark.py
   - src/ascend_sdk/models/components/retrievequoterequestcreate.py
   - src/ascend_sdk/models/components/retrievequoteresponse.py
+  - src/ascend_sdk/models/components/reusebankrelationshiprequestcreate.py
   - src/ascend_sdk/models/components/rightsofaccumulationcreate.py
   - src/ascend_sdk/models/components/roledetail.py
   - src/ascend_sdk/models/components/sanctionslistdetail.py
@@ -2841,6 +2845,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/bankrelationships_getmicrodepositamounts.py
   - src/ascend_sdk/models/operations/bankrelationships_listbankrelationships.py
   - src/ascend_sdk/models/operations/bankrelationships_reissuemicrodeposits.py
+  - src/ascend_sdk/models/operations/bankrelationships_reusebankrelationship.py
   - src/ascend_sdk/models/operations/bankrelationships_updatebankrelationship.py
   - src/ascend_sdk/models/operations/bankrelationships_verifymicrodeposits.py
   - src/ascend_sdk/models/operations/basketordersservice_addorders.py
@@ -4214,3 +4219,10 @@ examples:
           externalAchDeposit_id: "20230817000319"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/externalAchDeposits/20230817000319"}
+  BankRelationships_ReuseBankRelationship:
+    "":
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Z"
+      requestBody:
+        application/json: {"parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z", "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}

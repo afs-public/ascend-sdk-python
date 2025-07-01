@@ -12,6 +12,7 @@
 * [cancel_bank_relationship](#cancel_bank_relationship) - Cancel Bank Relationship
 * [verify_micro_deposits](#verify_micro_deposits) - Verify Micro Deposits
 * [reissue_micro_deposits](#reissue_micro_deposits) - Reissue Micro Deposits
+* [reuse_bank_relationship](#reuse_bank_relationship) - Reuse Bank Relationship
 
 ## create_bank_relationship
 
@@ -369,6 +370,58 @@ if res.bank_relationship is not None:
 ### Response
 
 **[operations.BankRelationshipsReissueMicroDepositsResponse](../../models/operations/bankrelationshipsreissuemicrodepositsresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## reuse_bank_relationship
+
+Reuses an existing bank relationship for a new account. The source bank relationship must be approved. The new account must be related to the parent account of the `source_bank_relationship`. The new relationship will be created with the `USE_EXISTING` verification method in place of the source bank relationship's verification method.
+
+### Example Usage
+
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+s = SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+)
+
+res = s.bank_relationships.reuse_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Z", reuse_bank_relationship_request_create={
+    "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z",
+    "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+})
+
+if res.bank_relationship is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    | Example                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                   | *str*                                                                                                          | :heavy_check_mark:                                                                                             | The account id.                                                                                                | 01H8FB90ZRRFWXB4XC2JPJ1D4Z                                                                                     |
+| `reuse_bank_relationship_request_create`                                                                       | [components.ReuseBankRelationshipRequestCreate](../../models/components/reusebankrelationshiprequestcreate.md) | :heavy_check_mark:                                                                                             | N/A                                                                                                            |                                                                                                                |
+| `retries`                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                               | :heavy_minus_sign:                                                                                             | Configuration to override the default retry behavior of the client.                                            |                                                                                                                |
+
+### Response
+
+**[operations.BankRelationshipsReuseBankRelationshipResponse](../../models/operations/bankrelationshipsreusebankrelationshipresponse.md)**
 
 ### Errors
 
