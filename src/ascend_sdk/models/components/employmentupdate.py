@@ -39,9 +39,21 @@ class EmploymentUpdateTypedDict(TypedDict):
     employment_status: NotRequired[EmploymentUpdateEmploymentStatus]
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
     occupation: NotRequired[str]
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
     start_year: NotRequired[int]
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """
 
 
 class EmploymentUpdate(BaseModel):
@@ -67,7 +79,19 @@ class EmploymentUpdate(BaseModel):
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
 
     occupation: Optional[str] = None
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
 
     start_year: Optional[int] = None
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """

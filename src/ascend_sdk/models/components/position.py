@@ -231,6 +231,8 @@ class PositionTypedDict(TypedDict):
     r"""Quantity/ amount of asset restricted due to an outgoing acat request"""
     pending_withdrawal: NotRequired[Nullable[PendingWithdrawalTypedDict]]
     r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
+    position_version: NotRequired[str]
+    r"""The position version for an asset/account combo. This number only increases, such that larger `position_version`s are newer than lower ones."""
     settled: NotRequired[Nullable[SettledTypedDict]]
     r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
     trade: NotRequired[Nullable[PositionTradeTypedDict]]
@@ -281,6 +283,9 @@ class Position(BaseModel):
     pending_withdrawal: OptionalNullable[PendingWithdrawal] = UNSET
     r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
 
+    position_version: Optional[str] = None
+    r"""The position version for an asset/account combo. This number only increases, such that larger `position_version`s are newer than lower ones."""
+
     settled: OptionalNullable[Settled] = UNSET
     r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
 
@@ -306,6 +311,7 @@ class Position(BaseModel):
             "pending_drip",
             "pending_outgoing_acat",
             "pending_withdrawal",
+            "position_version",
             "settled",
             "trade",
             "unrestricted",

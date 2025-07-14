@@ -39,9 +39,21 @@ class EmploymentCreateTypedDict(TypedDict):
     For more guidance on how to use this schema, please see: https://support.google.com/business/answer/6397478
     """
     occupation: NotRequired[str]
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
     start_year: NotRequired[int]
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """
 
 
 class EmploymentCreate(BaseModel):
@@ -66,7 +78,19 @@ class EmploymentCreate(BaseModel):
     """
 
     occupation: Optional[str] = None
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
 
     start_year: Optional[int] = None
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """

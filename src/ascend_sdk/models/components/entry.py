@@ -50,6 +50,20 @@ class AccountMemo(str, Enum, metaclass=utils.OpenEnumMeta):
     PENDING_WITHDRAWAL = "PENDING_WITHDRAWAL"
 
 
+class AccountTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The type of asset movement being performed within the lifecycle of an account transfer process"""
+
+    ACCOUNT_TRANSFER_TYPE_UNSPECIFIED = "ACCOUNT_TRANSFER_TYPE_UNSPECIFIED"
+    PARTIAL_TRANSFER_RECEIVER = "PARTIAL_TRANSFER_RECEIVER"
+    PARTIAL_TRANSFER_DELIVERER = "PARTIAL_TRANSFER_DELIVERER"
+    FULL_ACCOUNT_TRANSFER = "FULL_ACCOUNT_TRANSFER"
+    RESIDUAL_CREDIT = "RESIDUAL_CREDIT"
+    MUTUAL_FUND_CLEANUP = "MUTUAL_FUND_CLEANUP"
+    FAIL_REVERSAL = "FAIL_REVERSAL"
+    RECLAIM = "RECLAIM"
+    POSITION_TRANSFER_FUND = "POSITION_TRANSFER_FUND"
+
+
 class Action(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates whether the account transfer is incoming or outgoing"""
 
@@ -75,6 +89,8 @@ class AccountTransferTypedDict(TypedDict):
     r"""sequence number assigned by the DTCC ACATS transfer system for each asset transferred"""
     acats_control_number: NotRequired[str]
     r"""the unique transfer Identifier assigned by NSCC"""
+    account_transfer_type: NotRequired[AccountTransferType]
+    r"""The type of asset movement being performed within the lifecycle of an account transfer process"""
     action: NotRequired[Action]
     r"""Indicates whether the account transfer is incoming or outgoing"""
     additional_instructions: NotRequired[str]
@@ -97,6 +113,11 @@ class AccountTransfer(BaseModel):
 
     acats_control_number: Optional[str] = None
     r"""the unique transfer Identifier assigned by NSCC"""
+
+    account_transfer_type: Annotated[
+        Optional[AccountTransferType], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""The type of asset movement being performed within the lifecycle of an account transfer process"""
 
     action: Annotated[
         Optional[Action], PlainValidator(validate_open_enum(False))
