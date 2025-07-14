@@ -200,9 +200,21 @@ class EmploymentTypedDict(TypedDict):
     employment_status: NotRequired[LegalNaturalPersonEmploymentStatus]
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
     occupation: NotRequired[str]
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
     start_year: NotRequired[int]
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """
 
 
 class Employment(BaseModel):
@@ -230,10 +242,22 @@ class Employment(BaseModel):
     r"""Classifies in what capacity (or if) the underlying natural person holds a job"""
 
     occupation: Optional[str] = None
-    r"""The nature of work performed at an investor's place of employment. Required if the employment_status is `EMPLOYED` or `SELF_EMPLOYED`."""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+    """
 
     start_year: Optional[int] = None
-    r"""The start year of employment related to a person's stated employer Must be from birth year to current year, or 0 to clear start year value"""
+    r"""**Field Dependencies:**
+
+    Required if `employment_status` is one of:
+    - `EMPLOYED`
+    - `SELF_EMPLOYED`
+
+    Otherwise, must be empty.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -331,7 +355,12 @@ class LegalNaturalPersonType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class ForeignIdentificationTypedDict(TypedDict):
-    r"""Foreign identification. Must be provided if the person does not have a U.S. tax ID"""
+    r"""**Field Dependencies:**
+
+    Required if `irs_form_type` is `W_8BEN`.
+
+    Otherwise, must be empty.
+    """
 
     expiration_date: NotRequired[Nullable[ExpirationDateTypedDict]]
     r"""Identification expiration date"""
@@ -348,7 +377,12 @@ class ForeignIdentificationTypedDict(TypedDict):
 
 
 class ForeignIdentification(BaseModel):
-    r"""Foreign identification. Must be provided if the person does not have a U.S. tax ID"""
+    r"""**Field Dependencies:**
+
+    Required if `irs_form_type` is `W_8BEN`.
+
+    Otherwise, must be empty.
+    """
 
     expiration_date: OptionalNullable[ExpirationDate] = UNSET
     r"""Identification expiration date"""
@@ -1181,6 +1215,8 @@ class LegalNaturalPersonTypedDict(TypedDict):
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
     custodian_employee: NotRequired[bool]
     r"""A flag to indicate whether this person is an employee of the correspondent."""
+    customer_identification_id: NotRequired[str]
+    r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
     death_date: NotRequired[Nullable[DeathDateTypedDict]]
     r"""The day, month, and year of death of a legal natural person"""
     doing_business_as: NotRequired[List[str]]
@@ -1192,7 +1228,12 @@ class LegalNaturalPersonTypedDict(TypedDict):
     finra_associated_entity: NotRequired[str]
     r"""The name of the FINRA-associated entity the underlying natural person is affiliated with."""
     foreign_identification: NotRequired[Nullable[ForeignIdentificationTypedDict]]
-    r"""Foreign identification. Must be provided if the person does not have a U.S. tax ID"""
+    r"""**Field Dependencies:**
+
+    Required if `irs_form_type` is `W_8BEN`.
+
+    Otherwise, must be empty.
+    """
     given_name: NotRequired[str]
     r"""The given name of a natural person; Conventionally known as 'first name' in most English-speaking countries."""
     global_person_id: NotRequired[str]
@@ -1204,7 +1245,7 @@ class LegalNaturalPersonTypedDict(TypedDict):
     institutional_customer: NotRequired[bool]
     r"""Indicates whether the person is an institutional customer"""
     investigation_id: NotRequired[str]
-    r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""
+    r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""
     large_trader: NotRequired[Nullable[LegalNaturalPersonLargeTraderTypedDict]]
     r"""Indicates if the person is recognized as a \"Large Trader\" by the SEC."""
     legal_natural_person_id: NotRequired[str]
@@ -1270,6 +1311,9 @@ class LegalNaturalPerson(BaseModel):
     custodian_employee: Optional[bool] = None
     r"""A flag to indicate whether this person is an employee of the correspondent."""
 
+    customer_identification_id: Optional[str] = None
+    r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
+
     death_date: OptionalNullable[DeathDate] = UNSET
     r"""The day, month, and year of death of a legal natural person"""
 
@@ -1286,7 +1330,12 @@ class LegalNaturalPerson(BaseModel):
     r"""The name of the FINRA-associated entity the underlying natural person is affiliated with."""
 
     foreign_identification: OptionalNullable[ForeignIdentification] = UNSET
-    r"""Foreign identification. Must be provided if the person does not have a U.S. tax ID"""
+    r"""**Field Dependencies:**
+
+    Required if `irs_form_type` is `W_8BEN`.
+
+    Otherwise, must be empty.
+    """
 
     given_name: Optional[str] = None
     r"""The given name of a natural person; Conventionally known as 'first name' in most English-speaking countries."""
@@ -1303,7 +1352,7 @@ class LegalNaturalPerson(BaseModel):
     r"""Indicates whether the person is an institutional customer"""
 
     investigation_id: Optional[str] = None
-    r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""
+    r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""
 
     large_trader: OptionalNullable[LegalNaturalPersonLargeTrader] = UNSET
     r"""Indicates if the person is recognized as a \"Large Trader\" by the SEC."""
@@ -1375,6 +1424,7 @@ class LegalNaturalPerson(BaseModel):
             "correspondent_employee",
             "correspondent_id",
             "custodian_employee",
+            "customer_identification_id",
             "death_date",
             "doing_business_as",
             "employment",

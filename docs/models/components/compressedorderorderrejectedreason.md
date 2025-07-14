@@ -21,6 +21,7 @@ When an order has the REJECTED status, this will be populated with a system code
 | `BLOCKING_CORPORATE_ACTION`                                 | BLOCKING_CORPORATE_ACTION                                   |
 | `UNAVAILABLE_PRICE_QUOTE`                                   | UNAVAILABLE_PRICE_QUOTE                                     |
 | `EXECUTION_MISCONFIGURED_CLIENT`                            | EXECUTION_MISCONFIGURED_CLIENT                              |
+| `NOTIONAL_QUANTITY_NOT_ALLOWED_FOR_SECURITY`                | NOTIONAL_QUANTITY_NOT_ALLOWED_FOR_SECURITY                  |
 | `FRACTIONAL_QUANTITY_NOT_ALLOWED_FOR_SECURITY`              | FRACTIONAL_QUANTITY_NOT_ALLOWED_FOR_SECURITY                |
 | `ONLY_FRACTIONAL_SELL_OR_WHOLE_ORDERS_ALLOWED_FOR_SECURITY` | ONLY_FRACTIONAL_SELL_OR_WHOLE_ORDERS_ALLOWED_FOR_SECURITY   |
 | `SYMBOL_NOT_TRADEABLE`                                      | SYMBOL_NOT_TRADEABLE                                        |
