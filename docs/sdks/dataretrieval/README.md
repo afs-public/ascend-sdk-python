@@ -13,11 +13,13 @@ Returns details of a list of snapshots.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Snapshots_ListSnapshots" method="get" path="/analytics/v1/snapshots" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -27,13 +29,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.data_retrieval.list_snapshots()
+    res = sdk.data_retrieval.list_snapshots(filter_="snapshot_type==\"daily_accounts\"&&process_date==date(\"2023-09-30\")", page_size=500, page_token="M_-BAwEBCVBhZ2VUb2tlbgH_ggABAgEMUnVubmluZ1RvdGFsAQQAAQZGaWx0ZXIBDAAAAAX_ggEyAA==")
 
-if res.list_snapshots_response is not None:
-    # handle response
-    pass
+    assert res.list_snapshots_response is not None
+
+    # Handle response
+    print(res.list_snapshots_response)
 
 ```
 
@@ -54,5 +57,6 @@ if res.list_snapshots_response is not None:
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
-| errors.Status    | 400, 403, 500    | application/json |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500              | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |

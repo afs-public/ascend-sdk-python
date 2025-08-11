@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional, Union
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union
 
 
 class Investigations(BaseSDK):
@@ -16,6 +17,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceGetInvestigationResponse:
         r"""Get Investigations
 
@@ -25,6 +27,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -33,12 +36,14 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceGetInvestigationRequest(
             investigation_id=investigation_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/investigations/v1/investigations/{investigation_id}",
             base_url=base_url,
@@ -49,6 +54,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -63,6 +69,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_GetInvestigation",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -72,36 +80,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceGetInvestigationResponse(
-                investigation=utils.unmarshal_json(
-                    http_res.text, Optional[components.Investigation]
+                investigation=unmarshal_json_response(
+                    Optional[components.Investigation], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceGetInvestigationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_investigation_async(
         self,
@@ -110,6 +115,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceGetInvestigationResponse:
         r"""Get Investigations
 
@@ -119,6 +125,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -127,12 +134,14 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceGetInvestigationRequest(
             investigation_id=investigation_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/investigations/v1/investigations/{investigation_id}",
             base_url=base_url,
@@ -143,6 +152,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -157,6 +167,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_GetInvestigation",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -166,36 +178,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceGetInvestigationResponse(
-                investigation=utils.unmarshal_json(
-                    http_res.text, Optional[components.Investigation]
+                investigation=unmarshal_json_response(
+                    Optional[components.Investigation], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceGetInvestigationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def update_investigation(
         self,
@@ -208,6 +217,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceUpdateInvestigationResponse:
         r"""Update Investigation
 
@@ -219,6 +229,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -227,6 +238,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceUpdateInvestigationRequest(
             investigation_id=investigation_id,
@@ -236,7 +249,7 @@ class Investigations(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="PATCH",
             path="/investigations/v1/investigations/{investigation_id}",
             base_url=base_url,
@@ -247,6 +260,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.investigation_update,
@@ -268,6 +282,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_UpdateInvestigation",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -277,36 +293,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceUpdateInvestigationResponse(
-                investigation=utils.unmarshal_json(
-                    http_res.text, Optional[components.Investigation]
+                investigation=unmarshal_json_response(
+                    Optional[components.Investigation], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceUpdateInvestigationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def update_investigation_async(
         self,
@@ -319,6 +332,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceUpdateInvestigationResponse:
         r"""Update Investigation
 
@@ -330,6 +344,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -338,6 +353,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceUpdateInvestigationRequest(
             investigation_id=investigation_id,
@@ -347,7 +364,7 @@ class Investigations(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="PATCH",
             path="/investigations/v1/investigations/{investigation_id}",
             base_url=base_url,
@@ -358,6 +375,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.investigation_update,
@@ -379,6 +397,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_UpdateInvestigation",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -388,36 +408,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceUpdateInvestigationResponse(
-                investigation=utils.unmarshal_json(
-                    http_res.text, Optional[components.Investigation]
+                investigation=unmarshal_json_response(
+                    Optional[components.Investigation], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceUpdateInvestigationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_investigations(
         self,
@@ -425,9 +442,11 @@ class Investigations(BaseSDK):
         page_size: Optional[int] = None,
         page_token: Optional[str] = None,
         filter_: Optional[str] = None,
+        order_by: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceListInvestigationsResponse:
         r"""List Investigations
 
@@ -436,9 +455,11 @@ class Investigations(BaseSDK):
         :param page_size: The maximum number of records to return. Default is 50 The maximum is 200, values exceeding this will be set to 200
         :param page_token: The page token used to request a specific page of the search results
         :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  ListInvestigationStatesResponse.investigation_states
+        :param order_by: The order in which investigations are listed. Only one field and direction can be specified. Supported fields (followed by 'asc' or 'desc'; 'asc' is default if left blank):   - investigation_request_state   - correspondent_id   - scope   - identity_verification   - watchlist_screen   - person.given_name   - person.family_name   - entity.legal_name   - created_at   - updated_at
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -447,14 +468,17 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceListInvestigationsRequest(
             page_size=page_size,
             page_token=page_token,
             filter_=filter_,
+            order_by=order_by,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/investigations/v1/investigations",
             base_url=base_url,
@@ -465,6 +489,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -479,6 +504,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_ListInvestigations",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -488,36 +515,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
-                list_investigations_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListInvestigationsResponse]
+                list_investigations_response=unmarshal_json_response(
+                    Optional[components.ListInvestigationsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_investigations_async(
         self,
@@ -525,9 +549,11 @@ class Investigations(BaseSDK):
         page_size: Optional[int] = None,
         page_token: Optional[str] = None,
         filter_: Optional[str] = None,
+        order_by: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceListInvestigationsResponse:
         r"""List Investigations
 
@@ -536,9 +562,11 @@ class Investigations(BaseSDK):
         :param page_size: The maximum number of records to return. Default is 50 The maximum is 200, values exceeding this will be set to 200
         :param page_token: The page token used to request a specific page of the search results
         :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  ListInvestigationStatesResponse.investigation_states
+        :param order_by: The order in which investigations are listed. Only one field and direction can be specified. Supported fields (followed by 'asc' or 'desc'; 'asc' is default if left blank):   - investigation_request_state   - correspondent_id   - scope   - identity_verification   - watchlist_screen   - person.given_name   - person.family_name   - entity.legal_name   - created_at   - updated_at
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -547,14 +575,17 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceListInvestigationsRequest(
             page_size=page_size,
             page_token=page_token,
             filter_=filter_,
+            order_by=order_by,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/investigations/v1/investigations",
             base_url=base_url,
@@ -565,6 +596,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -579,6 +611,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_ListInvestigations",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -588,36 +622,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
-                list_investigations_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListInvestigationsResponse]
+                list_investigations_response=unmarshal_json_response(
+                    Optional[components.ListInvestigationsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def link_documents(
         self,
@@ -630,6 +661,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceLinkDocumentsResponse:
         r"""Link Documents
 
@@ -640,6 +672,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -648,6 +681,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceLinkDocumentsRequest(
             investigation_id=investigation_id,
@@ -656,7 +691,7 @@ class Investigations(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/investigations/v1/investigations/{investigation_id}:linkDocuments",
             base_url=base_url,
@@ -667,6 +702,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.link_documents_request_create,
@@ -688,6 +724,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_LinkDocuments",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -697,36 +735,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceLinkDocumentsResponse(
-                link_documents_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.LinkDocumentsResponse]
+                link_documents_response=unmarshal_json_response(
+                    Optional[components.LinkDocumentsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceLinkDocumentsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def link_documents_async(
         self,
@@ -739,6 +774,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.InvestigationServiceLinkDocumentsResponse:
         r"""Link Documents
 
@@ -749,6 +785,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -757,6 +794,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.InvestigationServiceLinkDocumentsRequest(
             investigation_id=investigation_id,
@@ -765,7 +804,7 @@ class Investigations(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/investigations/v1/investigations/{investigation_id}:linkDocuments",
             base_url=base_url,
@@ -776,6 +815,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.link_documents_request_create,
@@ -797,6 +837,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="InvestigationService_LinkDocuments",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -806,36 +848,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceLinkDocumentsResponse(
-                link_documents_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.LinkDocumentsResponse]
+                link_documents_response=unmarshal_json_response(
+                    Optional[components.LinkDocumentsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.InvestigationServiceLinkDocumentsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_watchlist_item(
         self,
@@ -845,6 +884,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WatchlistServiceGetWatchlistItemResponse:
         r"""Get Watchlist Item
 
@@ -855,6 +895,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -863,13 +904,15 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WatchlistServiceGetWatchlistItemRequest(
             watchlist_id=watchlist_id,
             item_id=item_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/investigations/v1/watchlists/{watchlist_id}/items/{item_id}",
             base_url=base_url,
@@ -880,6 +923,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -894,6 +938,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WatchlistService_GetWatchlistItem",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -903,36 +949,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.WatchlistServiceGetWatchlistItemResponse(
-                watchlist_item=utils.unmarshal_json(
-                    http_res.text, Optional[components.WatchlistItem]
+                watchlist_item=unmarshal_json_response(
+                    Optional[components.WatchlistItem], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.WatchlistServiceGetWatchlistItemResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_watchlist_item_async(
         self,
@@ -942,6 +985,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WatchlistServiceGetWatchlistItemResponse:
         r"""Get Watchlist Item
 
@@ -952,6 +996,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -960,13 +1005,15 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WatchlistServiceGetWatchlistItemRequest(
             watchlist_id=watchlist_id,
             item_id=item_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/investigations/v1/watchlists/{watchlist_id}/items/{item_id}",
             base_url=base_url,
@@ -977,6 +1024,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -991,6 +1039,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WatchlistService_GetWatchlistItem",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1000,36 +1050,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.WatchlistServiceGetWatchlistItemResponse(
-                watchlist_item=utils.unmarshal_json(
-                    http_res.text, Optional[components.WatchlistItem]
+                watchlist_item=unmarshal_json_response(
+                    Optional[components.WatchlistItem], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.WatchlistServiceGetWatchlistItemResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_customer_identification(
         self,
@@ -1042,6 +1089,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> (
         operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse
     ):
@@ -1055,6 +1103,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1063,6 +1112,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CustomerIdentificationResultServiceGetCustomerIdentificationRequest(
             correspondent_id=correspondent_id,
@@ -1070,7 +1121,7 @@ class Investigations(BaseSDK):
             view=view,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/cip/v1/correspondents/{correspondent_id}/customerIdentifications/{customerIdentification_id}",
             base_url=base_url,
@@ -1081,6 +1132,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1095,6 +1147,8 @@ class Investigations(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CustomerIdentificationResultService_GetCustomerIdentification",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1104,36 +1158,33 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse(
-                customer_identification=utils.unmarshal_json(
-                    http_res.text, Optional[components.CustomerIdentification]
+                customer_identification=unmarshal_json_response(
+                    Optional[components.CustomerIdentification], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_customer_identification_async(
         self,
@@ -1146,6 +1197,7 @@ class Investigations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> (
         operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse
     ):
@@ -1159,6 +1211,7 @@ class Investigations(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1167,6 +1220,8 @@ class Investigations(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CustomerIdentificationResultServiceGetCustomerIdentificationRequest(
             correspondent_id=correspondent_id,
@@ -1174,7 +1229,7 @@ class Investigations(BaseSDK):
             view=view,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/cip/v1/correspondents/{correspondent_id}/customerIdentifications/{customerIdentification_id}",
             base_url=base_url,
@@ -1185,6 +1240,7 @@ class Investigations(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1199,6 +1255,8 @@ class Investigations(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CustomerIdentificationResultService_GetCustomerIdentification",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1208,33 +1266,30 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse(
-                customer_identification=utils.unmarshal_json(
-                    http_res.text, Optional[components.CustomerIdentification]
+                customer_identification=unmarshal_json_response(
+                    Optional[components.CustomerIdentification], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "404", "500", "503"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CustomerIdentificationResultServiceGetCustomerIdentificationResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

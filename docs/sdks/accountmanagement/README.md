@@ -28,11 +28,13 @@ Gets a list of Accounts based on search criteria.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListAccounts" method="get" path="/accounts/v1/accounts" -->
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -42,13 +44,20 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.list_accounts(request={})
+    res = sdk.account_management.list_accounts(request={
+        "page_size": 25,
+        "page_token": "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4",
+        "order_by": "state",
+        "filter_": "account_number == \"R9AHY8P\"",
+        "view": operations.View.FULL,
+    })
 
-if res.list_accounts_response is not None:
-    # handle response
-    pass
+    assert res.list_accounts_response is not None
+
+    # Handle response
+    print(res.list_accounts_response)
 
 ```
 
@@ -65,10 +74,11 @@ if res.list_accounts_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_account
 
@@ -76,11 +86,13 @@ UPDATE Updates an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateAccount" method="patch" path="/accounts/v1/accounts/{account_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -90,13 +102,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.update_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", account_request_update={})
+    res = sdk.account_management.update_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", account_request_update={})
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
 
@@ -115,10 +128,11 @@ if res.account is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## add_party
 
@@ -126,11 +140,13 @@ Adds a party to an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_AddParty" method="post" path="/accounts/v1/accounts/{account_id}/parties:add" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -140,21 +156,22 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.add_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", add_party_request_create={
-    "parent": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK",
-    "party": {
-        "email_address": "example@domain.com",
-        "mailing_address": {},
-        "phone_number": {},
-        "relation_type": components.RelationType.PRIMARY_OWNER,
-    },
-})
+    res = sdk.account_management.add_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", add_party_request_create={
+        "parent": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK",
+        "party": {
+            "email_address": "example@domain.com",
+            "mailing_address": {},
+            "phone_number": {},
+            "relation_type": components.RelationType.PRIMARY_OWNER,
+        },
+    })
 
-if res.party is not None:
-    # handle response
-    pass
+    assert res.party is not None
+
+    # Handle response
+    print(res.party)
 
 ```
 
@@ -172,10 +189,11 @@ if res.party is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_party
 
@@ -183,11 +201,13 @@ Updates a Party.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateParty" method="patch" path="/accounts/v1/accounts/{account_id}/parties/{party_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -197,13 +217,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.update_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="a58ddb02-3954-4249-a7d5-1d408def12cf", party_request_update={})
+    res = sdk.account_management.update_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="a58ddb02-3954-4249-a7d5-1d408def12cf", party_request_update={})
 
-if res.party is not None:
-    # handle response
-    pass
+    assert res.party is not None
+
+    # Handle response
+    print(res.party)
 
 ```
 
@@ -223,10 +244,11 @@ if res.party is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## replace_party
 
@@ -234,11 +256,13 @@ Replaces a party on an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ReplaceParty" method="post" path="/accounts/v1/accounts/{account_id}/parties/{party_id}:replace" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -248,21 +272,22 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.replace_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", replace_party_request_create={
-    "name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea",
-    "party": {
-        "email_address": "example@domain.com",
-        "mailing_address": {},
-        "phone_number": {},
-        "relation_type": components.RelationType.PRIMARY_OWNER,
-    },
-})
+    res = sdk.account_management.replace_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", replace_party_request_create={
+        "name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea",
+        "party": {
+            "email_address": "example@domain.com",
+            "mailing_address": {},
+            "phone_number": {},
+            "relation_type": components.RelationType.PRIMARY_OWNER,
+        },
+    })
 
-if res.party is not None:
-    # handle response
-    pass
+    assert res.party is not None
+
+    # Handle response
+    print(res.party)
 
 ```
 
@@ -281,10 +306,11 @@ if res.party is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## remove_party
 
@@ -292,11 +318,13 @@ Remove a party from an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_RemoveParty" method="post" path="/accounts/v1/accounts/{account_id}/parties/{party_id}:remove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -306,15 +334,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.remove_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", remove_party_request_create={
-    "name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea",
-})
+    res = sdk.account_management.remove_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", remove_party_request_create={
+        "name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -333,10 +362,11 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## close_account
 
@@ -344,11 +374,13 @@ CUSTOM Places an ACCT_MAINT_CLOSURE_PREP_BY_CORRESPONDENT restriction on the Acc
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CloseAccount" method="post" path="/accounts/v1/accounts/{account_id}:close" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -358,13 +390,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.close_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", close_account_request_create={})
+    res = sdk.account_management.close_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", close_account_request_create={})
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
 
@@ -382,10 +415,11 @@ if res.account is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 409, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 403, 404, 409 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## create_trusted_contact
 
@@ -393,11 +427,13 @@ Creates a new Trusted Contact for an account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateTrustedContact" method="post" path="/accounts/v1/accounts/{account_id}/trustedContacts" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -407,16 +443,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.create_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_create={
-    "family_name": "Doe",
-    "given_name": "John",
-})
+    res = sdk.account_management.create_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_create={
+        "family_name": "Doe",
+        "given_name": "John",
+    })
 
-if res.trusted_contact is not None:
-    # handle response
-    pass
+    assert res.trusted_contact is not None
+
+    # Handle response
+    print(res.trusted_contact)
 
 ```
 
@@ -434,10 +471,11 @@ if res.trusted_contact is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_trusted_contact
 
@@ -445,11 +483,13 @@ Updates a Trusted Contact.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateTrustedContact" method="patch" path="/accounts/v1/accounts/{account_id}/trustedContacts/{trustedContact_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -459,13 +499,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.update_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", trusted_contact_update={})
+    res = sdk.account_management.update_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea", trusted_contact_update={})
 
-if res.trusted_contact is not None:
-    # handle response
-    pass
+    assert res.trusted_contact is not None
+
+    # Handle response
+    print(res.trusted_contact)
 
 ```
 
@@ -485,10 +526,11 @@ if res.trusted_contact is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## delete_trusted_contact
 
@@ -496,11 +538,13 @@ DELETE Deletes a Trusted Contact for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_DeleteTrustedContact" method="delete" path="/accounts/v1/accounts/{account_id}/trustedContacts/{trustedContact_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -510,13 +554,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.delete_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea")
+    res = sdk.account_management.delete_trusted_contact(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", trusted_contact_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -534,10 +579,11 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## create_interested_party
 
@@ -545,11 +591,13 @@ Creates an Interested Party record for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateInterestedParty" method="post" path="/accounts/v1/accounts/{account_id}/interestedParties" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -559,16 +607,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.create_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_create={
-    "mailing_address": {},
-    "recipient": "John Dough",
-})
+    res = sdk.account_management.create_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_create={
+        "mailing_address": {},
+        "recipient": "John Dough",
+    })
 
-if res.interested_party is not None:
-    # handle response
-    pass
+    assert res.interested_party is not None
+
+    # Handle response
+    print(res.interested_party)
 
 ```
 
@@ -586,10 +635,11 @@ if res.interested_party is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_interested_party
 
@@ -597,11 +647,13 @@ Updates an Interested Party.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateInterestedParty" method="patch" path="/accounts/v1/accounts/{account_id}/interestedParties/{interestedParty_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -611,13 +663,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.update_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_id="ecf44f2f-7030-48ed-b937-c40891ee10c8", interested_party_update={})
+    res = sdk.account_management.update_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_id="ecf44f2f-7030-48ed-b937-c40891ee10c8", interested_party_update={})
 
-if res.interested_party is not None:
-    # handle response
-    pass
+    assert res.interested_party is not None
+
+    # Handle response
+    print(res.interested_party)
 
 ```
 
@@ -637,10 +690,11 @@ if res.interested_party is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## delete_interested_party
 
@@ -648,11 +702,13 @@ Deletes an Interested Party associated from an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_DeleteInterestedParty" method="delete" path="/accounts/v1/accounts/{account_id}/interestedParties/{interestedParty_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -662,13 +718,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.delete_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea")
+    res = sdk.account_management.delete_interested_party(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", interested_party_id="8096110d-fb55-4f9d-b883-b84f0b70d3ea")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -686,10 +743,11 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_available_restrictions
 
@@ -697,11 +755,13 @@ Gets a list of possible Restrictions that can be placed on an Account based on E
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListAvailableRestrictions" method="get" path="/accounts/v1/accounts/{account_id}/availableRestrictions" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -711,13 +771,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.list_available_restrictions(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.account_management.list_available_restrictions(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
 
-if res.list_available_restrictions_response is not None:
-    # handle response
-    pass
+    assert res.list_available_restrictions_response is not None
+
+    # Handle response
+    print(res.list_available_restrictions_response)
 
 ```
 
@@ -734,10 +795,11 @@ if res.list_available_restrictions_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## create_restriction
 
@@ -745,11 +807,13 @@ Applies a Restriction to an account that suspends one or more Entitlements.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateRestriction" method="post" path="/accounts/v1/accounts/{account_id}/restrictions" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -759,16 +823,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.create_restriction(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", restriction_create={
-    "create_reason": "Some reason for creating",
-    "restriction_code": "MARGIN_CALL_VIOLATION_REG_T",
-})
+    res = sdk.account_management.create_restriction(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", restriction_create={
+        "create_reason": "Some reason for creating",
+        "restriction_code": "MARGIN_CALL_VIOLATION_REG_T",
+    })
 
-if res.restriction is not None:
-    # handle response
-    pass
+    assert res.restriction is not None
+
+    # Handle response
+    print(res.restriction)
 
 ```
 
@@ -786,10 +851,11 @@ if res.restriction is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 409, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 409    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## end_restriction
 
@@ -797,11 +863,13 @@ Ends a Restriction on an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_EndRestriction" method="post" path="/accounts/v1/accounts/{account_id}/restrictions/{restriction_id}:end" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -811,15 +879,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_management.end_restriction(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", restriction_id="FRAUD_SUSPENDED_BY_CORRESPONDENT", end_restriction_request_create={
-    "reason": "Reason for ending the restriction",
-})
+    res = sdk.account_management.end_restriction(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", restriction_id="FRAUD_SUSPENDED_BY_CORRESPONDENT", end_restriction_request_create={
+        "reason": "Reason for ending the restriction",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -838,7 +907,8 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

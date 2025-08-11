@@ -12,7 +12,15 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InvestigationUpdateIdentityVerification(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     SCREEN_STATE_UNSPECIFIED = "SCREEN_STATE_UNSPECIFIED"
     PENDING = "PENDING"
@@ -26,7 +34,11 @@ class InvestigationUpdateIdentityVerification(str, Enum, metaclass=utils.OpenEnu
 class InvestigationUpdateInvestigationRequestState(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
 
     INVESTIGATION_REQUEST_STATE_UNSPECIFIED = "INVESTIGATION_REQUEST_STATE_UNSPECIFIED"
     OPEN = "OPEN"
@@ -36,20 +48,37 @@ class InvestigationUpdateInvestigationRequestState(
 class InvestigationUpdateTypedDict(TypedDict):
     r"""Contains investigation details of corresponding investigation"""
 
+    client_id: NotRequired[str]
+    r"""A unique identifier referencing a client The client ID serves as the unique identifier for the apex client positioned above the correspondent within the apex client configurator hierarchy. Moving forward, the account service will internally assign the client ID for all investigations."""
     comment: NotRequired[str]
     r"""Comment relating to why the investigation state was updated"""
     identity_verification: NotRequired[InvestigationUpdateIdentityVerification]
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
     investigation_request_state: NotRequired[
         InvestigationUpdateInvestigationRequestState
     ]
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
     watchlist_matches: NotRequired[List[WatchlistMatchUpdateTypedDict]]
     r"""A list of watchlist entries matched against the investigation"""
 
 
 class InvestigationUpdate(BaseModel):
     r"""Contains investigation details of corresponding investigation"""
+
+    client_id: Optional[str] = None
+    r"""A unique identifier referencing a client The client ID serves as the unique identifier for the apex client positioned above the correspondent within the apex client configurator hierarchy. Moving forward, the account service will internally assign the client ID for all investigations."""
 
     comment: Optional[str] = None
     r"""Comment relating to why the investigation state was updated"""
@@ -58,13 +87,25 @@ class InvestigationUpdate(BaseModel):
         Optional[InvestigationUpdateIdentityVerification],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     investigation_request_state: Annotated[
         Optional[InvestigationUpdateInvestigationRequestState],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
 
     watchlist_matches: Optional[List[WatchlistMatchUpdate]] = None
     r"""A list of watchlist entries matched against the investigation"""

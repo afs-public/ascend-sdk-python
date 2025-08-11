@@ -14,6 +14,8 @@ class ListInvestigationsResponseTypedDict(TypedDict):
     r"""List of investigations matching request search criteria"""
     next_page_token: NotRequired[str]
     r"""The next pagination token in the Search response; an empty value means no more results"""
+    total_size: NotRequired[int]
+    r"""The total number of investigations matching the search criteria. This is the total number of results available across all pages of the query, not the number of investigations returned in the current page. For example, if the search query matches 1,000 investigations but only 50 results are returned per page, `total_size` will be 1,000."""
 
 
 class ListInvestigationsResponse(BaseModel):
@@ -24,3 +26,6 @@ class ListInvestigationsResponse(BaseModel):
 
     next_page_token: Optional[str] = None
     r"""The next pagination token in the Search response; an empty value means no more results"""
+
+    total_size: Optional[int] = None
+    r"""The total number of investigations matching the search criteria. This is the total number of results available across all pages of the query, not the number of investigations returned in the current page. For example, if the search query matches 1,000 investigations but only 50 results are returned per page, `total_size` will be 1,000."""

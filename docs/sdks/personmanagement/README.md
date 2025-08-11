@@ -24,11 +24,13 @@ Creates a Legal Natural Person.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateLegalNaturalPerson" method="post" path="/accounts/v1/legalNaturalPersons" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -38,32 +40,33 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.create_legal_natural_person(request={
-    "birth_date": {},
-    "citizenship_countries": [
-        "US",
-        "CA",
-    ],
-    "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
-    "employment": {
-        "employment_status": components.EmploymentStatus.EMPLOYED,
-    },
-    "family_name": "Doe",
-    "given_name": "John",
-    "personal_address": {},
-    "tax_profile": {
-        "federal_tax_classification": components.FederalTaxClassification.C_CORPORATION,
-        "irs_form_type": components.IrsFormType.W_9,
-        "legal_tax_region_code": "US",
-        "us_tin_status": components.UsTinStatus.PASSING,
-    },
-})
+    res = sdk.person_management.create_legal_natural_person(request=components.LegalNaturalPersonCreate(
+        birth_date=components.DateCreate(),
+        citizenship_countries=[
+            "US",
+            "CA",
+        ],
+        correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP",
+        employment=components.EmploymentCreate(
+            employment_status=components.EmploymentStatus.EMPLOYED,
+        ),
+        family_name="Doe",
+        given_name="John",
+        personal_address=components.PostalAddressCreate(),
+        tax_profile=components.TaxProfileCreate(
+            federal_tax_classification=components.FederalTaxClassification.C_CORPORATION,
+            irs_form_type=components.IrsFormType.IRS_FORM_TYPE_UNSPECIFIED,
+            legal_tax_region_code="US",
+            us_tin_status=components.UsTinStatus.PASSING,
+        ),
+    ))
 
-if res.legal_natural_person is not None:
-    # handle response
-    pass
+    assert res.legal_natural_person is not None
+
+    # Handle response
+    print(res.legal_natural_person)
 
 ```
 
@@ -80,10 +83,11 @@ if res.legal_natural_person is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_legal_natural_persons
 
@@ -91,11 +95,13 @@ Gets a list of Legal Natural Person records based on search criteria.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListLegalNaturalPersons" method="get" path="/accounts/v1/legalNaturalPersons" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -105,13 +111,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.list_legal_natural_persons()
+    res = sdk.person_management.list_legal_natural_persons(page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", filter_="legal_natural_person_id == \"e6716139-da77-46d1-9f15-13599161db0b\"")
 
-if res.list_legal_natural_persons_response is not None:
-    # handle response
-    pass
+    assert res.list_legal_natural_persons_response is not None
+
+    # Handle response
+    print(res.list_legal_natural_persons_response)
 
 ```
 
@@ -131,10 +138,11 @@ if res.list_legal_natural_persons_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_legal_natural_person
 
@@ -142,11 +150,13 @@ Get Legal Natural Person
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_GetLegalNaturalPerson" method="get" path="/accounts/v1/legalNaturalPersons/{legalNaturalPerson_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -156,13 +166,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.get_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b")
+    res = sdk.person_management.get_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b")
 
-if res.legal_natural_person is not None:
-    # handle response
-    pass
+    assert res.legal_natural_person is not None
+
+    # Handle response
+    print(res.legal_natural_person)
 
 ```
 
@@ -179,10 +190,11 @@ if res.legal_natural_person is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_legal_natural_person
 
@@ -190,11 +202,13 @@ Updates a Legal Natural Person.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateLegalNaturalPerson" method="patch" path="/accounts/v1/legalNaturalPersons/{legalNaturalPerson_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -204,13 +218,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.update_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", legal_natural_person_update={})
+    res = sdk.person_management.update_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", legal_natural_person_update=components.LegalNaturalPersonUpdate())
 
-if res.legal_natural_person is not None:
-    # handle response
-    pass
+    assert res.legal_natural_person is not None
+
+    # Handle response
+    print(res.legal_natural_person)
 
 ```
 
@@ -229,10 +244,11 @@ if res.legal_natural_person is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## assign_large_trader
 
@@ -240,11 +256,13 @@ Assigns a person's Large Trader ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_AssignLargeTrader" method="post" path="/accounts/v1/legalNaturalPersons/{legalNaturalPerson_id}/largeTrader:assign" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -254,15 +272,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.assign_large_trader(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", assign_large_trader_request_create={
-    "large_trader_id": "1234567890",
-})
+    res = sdk.person_management.assign_large_trader(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", assign_large_trader_request_create={
+        "large_trader_id": "1234567890",
+    })
 
-if res.large_trader is not None:
-    # handle response
-    pass
+    assert res.large_trader is not None
+
+    # Handle response
+    print(res.large_trader)
 
 ```
 
@@ -280,10 +299,11 @@ if res.large_trader is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## end_large_trader_legal_natural_person
 
@@ -291,11 +311,13 @@ Removes a person's Large Trader ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_EndLargeTrader_LegalNaturalPerson" method="post" path="/accounts/v1/legalNaturalPersons/{legalNaturalPerson_id}/largeTrader:remove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -305,15 +327,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.end_large_trader_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", end_large_trader_request_create={
-    "end_reason": components.EndReason.EVENT_REASON_OTHER,
-})
+    res = sdk.person_management.end_large_trader_legal_natural_person(legal_natural_person_id="e6716139-da77-46d1-9f15-13599161db0b", end_large_trader_request_create={
+        "end_reason": components.EndReason.EVENT_REASON_ENDED,
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -331,10 +354,11 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## create_legal_entity
 
@@ -342,11 +366,13 @@ Creates a Legal Entity.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateLegalEntity" method="post" path="/accounts/v1/legalEntities" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -356,31 +382,32 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.create_legal_entity(request={
-    "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
-    "entity_name": "Acme, Inc",
-    "entity_type": components.EntityType.CORPORATION,
-    "legal_address": {},
-    "operating_regions": [
-        "US",
-        "CA",
-    ],
-    "registration_region": "US",
-    "tax_id": "987-65-4321",
-    "tax_id_type": components.LegalEntityCreateTaxIDType.TAX_ID_TYPE_ITIN,
-    "tax_profile": {
-        "federal_tax_classification": components.FederalTaxClassification.C_CORPORATION,
-        "irs_form_type": components.IrsFormType.W_9,
-        "legal_tax_region_code": "US",
-        "us_tin_status": components.UsTinStatus.PASSING,
-    },
-})
+    res = sdk.person_management.create_legal_entity(request=components.LegalEntityCreate(
+        correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP",
+        entity_name="Acme, Inc",
+        entity_type=components.EntityType.CORPORATION,
+        legal_address=components.PostalAddressCreate(),
+        operating_regions=[
+            "US",
+            "CA",
+        ],
+        registration_region="US",
+        tax_id="987-65-4321",
+        tax_id_type=components.LegalEntityCreateTaxIDType.TAX_ID_TYPE_SSN,
+        tax_profile=components.TaxProfileCreate(
+            federal_tax_classification=components.FederalTaxClassification.C_CORPORATION,
+            irs_form_type=components.IrsFormType.IRS_FORM_TYPE_UNSPECIFIED,
+            legal_tax_region_code="US",
+            us_tin_status=components.UsTinStatus.PASSING,
+        ),
+    ))
 
-if res.legal_entity is not None:
-    # handle response
-    pass
+    assert res.legal_entity is not None
+
+    # Handle response
+    print(res.legal_entity)
 
 ```
 
@@ -397,10 +424,11 @@ if res.legal_entity is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_legal_entities
 
@@ -408,11 +436,13 @@ Gets a list of Legal Entity records based on search criteria.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListLegalEntities" method="get" path="/accounts/v1/legalEntities" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -422,13 +452,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.list_legal_entities()
+    res = sdk.person_management.list_legal_entities(page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", order_by="", filter_="")
 
-if res.list_legal_entities_response is not None:
-    # handle response
-    pass
+    assert res.list_legal_entities_response is not None
+
+    # Handle response
+    print(res.list_legal_entities_response)
 
 ```
 
@@ -448,10 +479,11 @@ if res.list_legal_entities_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_legal_entity
 
@@ -459,11 +491,13 @@ Get Legal Entity
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_GetLegalEntity" method="get" path="/accounts/v1/legalEntities/{legalEntity_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -473,13 +507,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.get_legal_entity(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b")
+    res = sdk.person_management.get_legal_entity(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b")
 
-if res.legal_entity is not None:
-    # handle response
-    pass
+    assert res.legal_entity is not None
+
+    # Handle response
+    print(res.legal_entity)
 
 ```
 
@@ -496,10 +531,11 @@ if res.legal_entity is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## update_legal_entity
 
@@ -507,11 +543,13 @@ Updates a Legal Entity.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_UpdateLegalEntity" method="patch" path="/accounts/v1/legalEntities/{legalEntity_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -521,13 +559,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.update_legal_entity(legal_entity_id="42567868-9373-4872-9d24-2e33f6c19b75", legal_entity_update={})
+    res = sdk.person_management.update_legal_entity(legal_entity_id="42567868-9373-4872-9d24-2e33f6c19b75", legal_entity_update=components.LegalEntityUpdate())
 
-if res.legal_entity is not None:
-    # handle response
-    pass
+    assert res.legal_entity is not None
+
+    # Handle response
+    print(res.legal_entity)
 
 ```
 
@@ -546,10 +585,11 @@ if res.legal_entity is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## assign_large_trader_legal_entity
 
@@ -557,11 +597,13 @@ Assigns a person's Large Trader ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_AssignLargeTrader_LegalEntity" method="post" path="/accounts/v1/legalEntities/{legalEntity_id}/largeTrader:assign" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -571,15 +613,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.assign_large_trader_legal_entity(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b", assign_large_trader_request_create={
-    "large_trader_id": "1234567890",
-})
+    res = sdk.person_management.assign_large_trader_legal_entity(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b", assign_large_trader_request_create={
+        "large_trader_id": "1234567890",
+    })
 
-if res.large_trader is not None:
-    # handle response
-    pass
+    assert res.large_trader is not None
+
+    # Handle response
+    print(res.large_trader)
 
 ```
 
@@ -597,10 +640,11 @@ if res.large_trader is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## end_large_trader
 
@@ -608,11 +652,13 @@ Removes a person's Large Trader ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_EndLargeTrader_1" method="post" path="/accounts/v1/legalEntities/{legalEntity_id}/largeTrader:remove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -622,15 +668,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.person_management.end_large_trader(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b", end_large_trader_request_create={
-    "end_reason": components.EndReason.EVENT_REASON_CREATED,
-})
+    res = sdk.person_management.end_large_trader(legal_entity_id="e6716139-da77-46d1-9f15-13599161db0b", end_large_trader_request_create={
+        "end_reason": components.EndReason.EVENT_REASON_ENDED,
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -648,7 +695,8 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

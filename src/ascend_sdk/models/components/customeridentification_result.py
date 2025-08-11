@@ -123,6 +123,8 @@ class CustomerIdentificationResultTypedDict(TypedDict):
     r"""The URI to complete documentary session Will be populated if the CheckType is DOCUMENTARY"""
     email_verified: NotRequired[EmailVerified]
     r"""Whether or not the customer email was verified"""
+    expired: NotRequired[bool]
+    r"""Whether or not the result is expired An expired result will cause all `VerificationState`'s to be `UNVERIFIED`, the `ExpirationState` will be `EXPIRED` Will always be `false` for synchronous checks such as `DATABASE` Will be `true` when an asynchronous check such as `DOCUMENTARY` hasn't been completed within the timeframe If `true` the `completed` field will be `false` since a check was never completed"""
     external_vendor: NotRequired[str]
     r"""The name of the external vendor"""
     external_vendor_id: NotRequired[str]
@@ -175,6 +177,9 @@ class CustomerIdentificationResult(BaseModel):
         Optional[EmailVerified], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Whether or not the customer email was verified"""
+
+    expired: Optional[bool] = None
+    r"""Whether or not the result is expired An expired result will cause all `VerificationState`'s to be `UNVERIFIED`, the `ExpirationState` will be `EXPIRED` Will always be `false` for synchronous checks such as `DATABASE` Will be `true` when an asynchronous check such as `DOCUMENTARY` hasn't been completed within the timeframe If `true` the `completed` field will be `false` since a check was never completed"""
 
     external_vendor: Optional[str] = None
     r"""The name of the external vendor"""

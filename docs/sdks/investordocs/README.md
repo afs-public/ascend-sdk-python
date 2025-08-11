@@ -14,11 +14,13 @@ Create a batch of signed links that can be used to upload files.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="InvestorCommunicationService_BatchCreateUploadLinks" method="post" path="/investordocs/v1/uploadLinks:batchCreate" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -28,13 +30,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.investor_docs.batch_create_upload_links(request={})
+    res = sdk.investor_docs.batch_create_upload_links(request={})
 
-if res.batch_create_upload_links_response is not None:
-    # handle response
-    pass
+    assert res.batch_create_upload_links_response is not None
+
+    # Handle response
+    print(res.batch_create_upload_links_response)
 
 ```
 
@@ -51,10 +54,11 @@ if res.batch_create_upload_links_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 401, 403, 500 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 401, 403    | application/json |
+| errors.Status    | 500              | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_documents
 
@@ -62,11 +66,13 @@ List documents that match search parameters.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="InvestorCommunicationService_ListDocuments" method="get" path="/investordocs/v1/documents" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -76,13 +82,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.investor_docs.list_documents()
+    res = sdk.investor_docs.list_documents()
 
-if res.list_documents_response is not None:
-    # handle response
-    pass
+    assert res.list_documents_response is not None
+
+    # Handle response
+    print(res.list_documents_response)
 
 ```
 
@@ -101,7 +108,8 @@ if res.list_documents_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 401, 403, 500 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 401, 403    | application/json |
+| errors.Status    | 500              | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

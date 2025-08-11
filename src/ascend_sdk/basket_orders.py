@@ -4,8 +4,9 @@ from .basesdk import BaseSDK
 from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
-from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional, Union
+from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class BasketOrders(BaseSDK):
@@ -17,6 +18,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceCreateBasketResponse:
         r"""Create Basket
 
@@ -29,6 +31,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -37,6 +40,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceCreateBasketRequest(
             correspondent_id=correspondent_id,
@@ -45,7 +50,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets",
             base_url=base_url,
@@ -56,6 +61,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.basket_create, False, False, "json", components.BasketCreate
@@ -73,6 +79,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_CreateBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -82,34 +90,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceCreateBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "409", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "409"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceCreateBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_basket_async(
         self,
@@ -119,6 +126,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceCreateBasketResponse:
         r"""Create Basket
 
@@ -131,6 +139,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -139,6 +148,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceCreateBasketRequest(
             correspondent_id=correspondent_id,
@@ -147,7 +158,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets",
             base_url=base_url,
@@ -158,6 +169,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.basket_create, False, False, "json", components.BasketCreate
@@ -175,6 +187,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_CreateBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -184,34 +198,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceCreateBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "409", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "409"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceCreateBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def add_orders(
         self,
@@ -225,6 +238,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceAddOrdersResponse:
         r"""Add Orders
 
@@ -238,6 +252,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -246,6 +261,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceAddOrdersRequest(
             correspondent_id=correspondent_id,
@@ -255,7 +272,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:addOrders",
             base_url=base_url,
@@ -266,6 +283,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.add_orders_request_create,
@@ -287,6 +305,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_AddOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -306,36 +326,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceAddOrdersResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res,
-            ["400", "401", "403", "404", "409", "500", "503"],
-            "application/json",
+            http_res, ["400", "401", "403", "404", "409"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceAddOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def add_orders_async(
         self,
@@ -349,6 +366,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceAddOrdersResponse:
         r"""Add Orders
 
@@ -362,6 +380,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -370,6 +389,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceAddOrdersRequest(
             correspondent_id=correspondent_id,
@@ -379,7 +400,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:addOrders",
             base_url=base_url,
@@ -390,6 +411,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.add_orders_request_create,
@@ -411,6 +433,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_AddOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -430,36 +454,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceAddOrdersResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res,
-            ["400", "401", "403", "404", "409", "500", "503"],
-            "application/json",
+            http_res, ["400", "401", "403", "404", "409"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceAddOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_basket(
         self,
@@ -469,6 +490,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceGetBasketResponse:
         r"""Get Basket
 
@@ -481,6 +503,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -489,13 +512,15 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceGetBasketRequest(
             correspondent_id=correspondent_id,
             basket_id=basket_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}",
             base_url=base_url,
@@ -506,6 +531,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -520,6 +546,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_GetBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -529,34 +557,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceGetBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceGetBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_basket_async(
         self,
@@ -566,6 +593,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceGetBasketResponse:
         r"""Get Basket
 
@@ -578,6 +606,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -586,13 +615,15 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceGetBasketRequest(
             correspondent_id=correspondent_id,
             basket_id=basket_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}",
             base_url=base_url,
@@ -603,6 +634,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -617,6 +649,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_GetBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -626,34 +660,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceGetBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceGetBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def submit_basket(
         self,
@@ -667,6 +700,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceSubmitBasketResponse:
         r"""Submit Basket
 
@@ -680,6 +714,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -688,6 +723,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceSubmitBasketRequest(
             correspondent_id=correspondent_id,
@@ -697,7 +734,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:submit",
             base_url=base_url,
@@ -708,6 +745,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.submit_basket_request_create,
@@ -729,6 +767,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_SubmitBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -738,34 +778,33 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceSubmitBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceSubmitBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def submit_basket_async(
         self,
@@ -779,6 +818,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceSubmitBasketResponse:
         r"""Submit Basket
 
@@ -792,6 +832,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -800,6 +841,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceSubmitBasketRequest(
             correspondent_id=correspondent_id,
@@ -809,7 +852,7 @@ class BasketOrders(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:submit",
             base_url=base_url,
@@ -820,6 +863,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.submit_basket_request_create,
@@ -841,6 +885,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_SubmitBasket",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -850,45 +896,45 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceSubmitBasketResponse(
-                basket=utils.unmarshal_json(http_res.text, Optional[components.Basket]),
+                basket=unmarshal_json_response(Optional[components.Basket], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceSubmitBasketResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_basket_orders(
         self,
         *,
-        correspondent_id: str,
-        basket_id: str,
-        page_size: Optional[int] = None,
-        page_token: Optional[str] = None,
+        request: Union[
+            operations.BasketOrdersServiceListBasketOrdersRequest,
+            operations.BasketOrdersServiceListBasketOrdersRequestTypedDict,
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceListBasketOrdersResponse:
         r"""List Basket Orders
 
@@ -896,13 +942,11 @@ class BasketOrders(BaseSDK):
 
         Upon successful submission, returns a list of basket orders for the basket. If the list of basket orders becomes too large, a token is returned to retrieve the next page of basket orders.
 
-        :param correspondent_id: The correspondent id.
-        :param basket_id: The basket id.
-        :param page_size: The maximum number of basket orders to return. The service may return fewer than this value. If unspecified, at most 1000 basket orders will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.
-        :param page_token: A page token, received from a previous `ListBasketOrders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBasketOrders` must match the call that provided the page token.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -911,15 +955,16 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
-        request = operations.BasketOrdersServiceListBasketOrdersRequest(
-            correspondent_id=correspondent_id,
-            basket_id=basket_id,
-            page_size=page_size,
-            page_token=page_token,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request, operations.BasketOrdersServiceListBasketOrdersRequest
+            )
+        request = cast(operations.BasketOrdersServiceListBasketOrdersRequest, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/basketOrders",
             base_url=base_url,
@@ -930,6 +975,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -944,6 +990,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_ListBasketOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -953,47 +1001,47 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
-                list_basket_orders_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListBasketOrdersResponse]
+                list_basket_orders_response=unmarshal_json_response(
+                    Optional[components.ListBasketOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_basket_orders_async(
         self,
         *,
-        correspondent_id: str,
-        basket_id: str,
-        page_size: Optional[int] = None,
-        page_token: Optional[str] = None,
+        request: Union[
+            operations.BasketOrdersServiceListBasketOrdersRequest,
+            operations.BasketOrdersServiceListBasketOrdersRequestTypedDict,
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceListBasketOrdersResponse:
         r"""List Basket Orders
 
@@ -1001,13 +1049,11 @@ class BasketOrders(BaseSDK):
 
         Upon successful submission, returns a list of basket orders for the basket. If the list of basket orders becomes too large, a token is returned to retrieve the next page of basket orders.
 
-        :param correspondent_id: The correspondent id.
-        :param basket_id: The basket id.
-        :param page_size: The maximum number of basket orders to return. The service may return fewer than this value. If unspecified, at most 1000 basket orders will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.
-        :param page_token: A page token, received from a previous `ListBasketOrders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBasketOrders` must match the call that provided the page token.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1016,15 +1062,16 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
-        request = operations.BasketOrdersServiceListBasketOrdersRequest(
-            correspondent_id=correspondent_id,
-            basket_id=basket_id,
-            page_size=page_size,
-            page_token=page_token,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request, operations.BasketOrdersServiceListBasketOrdersRequest
+            )
+        request = cast(operations.BasketOrdersServiceListBasketOrdersRequest, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/basketOrders",
             base_url=base_url,
@@ -1035,6 +1082,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1049,6 +1097,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_ListBasketOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1058,36 +1108,35 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
-                list_basket_orders_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListBasketOrdersResponse]
+                list_basket_orders_response=unmarshal_json_response(
+                    Optional[components.ListBasketOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_compressed_orders(
         self,
@@ -1099,6 +1148,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceListCompressedOrdersResponse:
         r"""List Compressed Orders
 
@@ -1113,6 +1163,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1121,6 +1172,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceListCompressedOrdersRequest(
             correspondent_id=correspondent_id,
@@ -1129,7 +1182,7 @@ class BasketOrders(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/compressedOrders",
             base_url=base_url,
@@ -1140,6 +1193,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1154,6 +1208,8 @@ class BasketOrders(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_ListCompressedOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1163,36 +1219,35 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
-                list_compressed_orders_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListCompressedOrdersResponse]
+                list_compressed_orders_response=unmarshal_json_response(
+                    Optional[components.ListCompressedOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_compressed_orders_async(
         self,
@@ -1204,6 +1259,7 @@ class BasketOrders(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.BasketOrdersServiceListCompressedOrdersResponse:
         r"""List Compressed Orders
 
@@ -1218,6 +1274,7 @@ class BasketOrders(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1226,6 +1283,8 @@ class BasketOrders(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.BasketOrdersServiceListCompressedOrdersRequest(
             correspondent_id=correspondent_id,
@@ -1234,7 +1293,7 @@ class BasketOrders(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/compressedOrders",
             base_url=base_url,
@@ -1245,6 +1304,7 @@ class BasketOrders(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1259,6 +1319,8 @@ class BasketOrders(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="BasketOrdersService_ListCompressedOrders",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1268,33 +1330,32 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
-                list_compressed_orders_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListCompressedOrdersResponse]
+                list_compressed_orders_response=unmarshal_json_response(
+                    Optional[components.ListCompressedOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "404", "500", "503"], "application/json"
+            http_res, ["400", "401", "403", "404"], "application/json"
         ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

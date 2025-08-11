@@ -16,11 +16,13 @@ Gets an existing wire deposit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireDeposits_GetWireDeposit" method="get" path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -30,13 +32,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.wires.get_wire_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_deposit_id="20230817000319")
+    res = sdk.wires.get_wire_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_deposit_id="20230817000319")
 
-if res.wire_deposit is not None:
-    # handle response
-    pass
+    assert res.wire_deposit is not None
+
+    # Handle response
+    print(res.wire_deposit)
 
 ```
 
@@ -65,11 +68,13 @@ Creates a wire withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawals_CreateWireWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawals" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -79,24 +84,25 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.wires.create_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_create={
-    "beneficiary": {
-        "account": "73849218650987",
-    },
-    "client_transfer_id": "ABC-123",
-    "recipient_bank": {
-        "bank_id": {
-            "id": "ABNANL2AXXX",
-            "type": components.RecipientBankBankIDCreateType.BIC,
-        },
-    },
-})
+    res = sdk.wires.create_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_create=components.WireWithdrawalCreate(
+        beneficiary=components.WireWithdrawalBeneficiaryCreate(
+            account="73849218650987",
+        ),
+        client_transfer_id="ABC-123",
+        recipient_bank=components.WireWithdrawalRecipientBankCreate(
+            bank_id=components.RecipientBankBankIDCreate(
+                id="ABNANL2AXXX",
+                type=components.RecipientBankBankIDCreateType.BIC,
+            ),
+        ),
+    ))
 
-if res.wire_withdrawal is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal is not None
+
+    # Handle response
+    print(res.wire_withdrawal)
 
 ```
 
@@ -125,11 +131,13 @@ Gets an existing wire withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawals_GetWireWithdrawal" method="get" path="/transfers/v1/accounts/{account_id}/wireWithdrawals/{wireWithdrawal_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -139,13 +147,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.wires.get_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319")
+    res = sdk.wires.get_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319")
 
-if res.wire_withdrawal is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal is not None
+
+    # Handle response
+    print(res.wire_withdrawal)
 
 ```
 
@@ -174,11 +183,13 @@ Cancels an existing wire withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawals_CancelWireWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawals/{wireWithdrawal_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -188,15 +199,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.wires.cancel_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", cancel_wire_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
-})
+    res = sdk.wires.cancel_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", cancel_wire_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
+    })
 
-if res.wire_withdrawal is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal is not None
+
+    # Handle response
+    print(res.wire_withdrawal)
 
 ```
 

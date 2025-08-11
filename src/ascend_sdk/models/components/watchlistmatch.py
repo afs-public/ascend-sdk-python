@@ -29,7 +29,13 @@ class MatchAttributes(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class MatchState(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Match state - whether or not the match is confirmed"""
+    r"""The match state for a profile, one of:
+    - `MATCH_UNSPECIFIED` - Default/Null value.
+    - `CONFIRMED_MATCH` - Match is confirmed.
+    - `POTENTIAL_MATCH` - Match is a potential.
+    - `NO_MATCH` - Match is confirmed not to be a match.
+    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
+    """
 
     MATCH_UNSPECIFIED = "MATCH_UNSPECIFIED"
     CONFIRMED_MATCH = "CONFIRMED_MATCH"
@@ -58,11 +64,33 @@ class WatchlistMatchTypedDict(TypedDict):
     exclude_from_screening: NotRequired[bool]
     r"""Identifies that a confirmed watchlist match can be excluded when calculating the related screen state"""
     match_attributes: NotRequired[List[MatchAttributes]]
-    r"""The attributes used to identify this watchlist match"""
+    r"""The attributes used in watchlist screening, one of:
+    - `MATCH_ATTRIBUTE_UNSPECIFIED` - Default/Null value.
+    - `NAME` - Matched on name.
+    - `PHONE_NUMBER` - Matched on phone number.
+    - `BIRTH_DATE` - Matched on birth date.
+    - `IDENTIFICATION` - Matched on identification.
+    - `EMAIL` - Matched on email.
+    - `ADDRESS` - Matched on address.
+    """
     match_state: NotRequired[MatchState]
-    r"""Match state - whether or not the match is confirmed"""
+    r"""The match state for a profile, one of:
+    - `MATCH_UNSPECIFIED` - Default/Null value.
+    - `CONFIRMED_MATCH` - Match is confirmed.
+    - `POTENTIAL_MATCH` - Match is a potential.
+    - `NO_MATCH` - Match is confirmed not to be a match.
+    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
+    """
     match_types: NotRequired[List[MatchTypes]]
-    r"""The types of watchlist matches"""
+    r"""The type of watchlist match, one of:
+    - `MATCH_TYPE_UNSPECIFIED` - Default/Null value.
+    - `NON_OFAC_SANCTIONS` - Matched on a non OFAC sanctions list.
+    - `RELATIVE_OR_CLOSE_ASSOCIATE` - Matched on a relative or close associate.
+    - `OFAC_SANCTIONS` - Matched on a OFAC sanctions list.
+    - `POLITICALLY_EXPOSED_PERSON` - Matched on a politically exposed person list.
+    - `DNDB` - Matched on a do not do business list.
+    - `NEGATIVE_NEWS` - Matched on a negative news list.
+    """
     updated_at: NotRequired[Nullable[datetime]]
     r"""The time the watchlist match was last updated"""
     watchlist_id: NotRequired[str]
@@ -86,17 +114,39 @@ class WatchlistMatch(BaseModel):
     match_attributes: Optional[
         List[Annotated[MatchAttributes, PlainValidator(validate_open_enum(False))]]
     ] = None
-    r"""The attributes used to identify this watchlist match"""
+    r"""The attributes used in watchlist screening, one of:
+    - `MATCH_ATTRIBUTE_UNSPECIFIED` - Default/Null value.
+    - `NAME` - Matched on name.
+    - `PHONE_NUMBER` - Matched on phone number.
+    - `BIRTH_DATE` - Matched on birth date.
+    - `IDENTIFICATION` - Matched on identification.
+    - `EMAIL` - Matched on email.
+    - `ADDRESS` - Matched on address.
+    """
 
     match_state: Annotated[
         Optional[MatchState], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Match state - whether or not the match is confirmed"""
+    r"""The match state for a profile, one of:
+    - `MATCH_UNSPECIFIED` - Default/Null value.
+    - `CONFIRMED_MATCH` - Match is confirmed.
+    - `POTENTIAL_MATCH` - Match is a potential.
+    - `NO_MATCH` - Match is confirmed not to be a match.
+    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
+    """
 
     match_types: Optional[
         List[Annotated[MatchTypes, PlainValidator(validate_open_enum(False))]]
     ] = None
-    r"""The types of watchlist matches"""
+    r"""The type of watchlist match, one of:
+    - `MATCH_TYPE_UNSPECIFIED` - Default/Null value.
+    - `NON_OFAC_SANCTIONS` - Matched on a non OFAC sanctions list.
+    - `RELATIVE_OR_CLOSE_ASSOCIATE` - Matched on a relative or close associate.
+    - `OFAC_SANCTIONS` - Matched on a OFAC sanctions list.
+    - `POLITICALLY_EXPOSED_PERSON` - Matched on a politically exposed person list.
+    - `DNDB` - Matched on a do not do business list.
+    - `NEGATIVE_NEWS` - Matched on a negative news list.
+    """
 
     updated_at: OptionalNullable[datetime] = UNSET
     r"""The time the watchlist match was last updated"""
@@ -127,7 +177,7 @@ class WatchlistMatch(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

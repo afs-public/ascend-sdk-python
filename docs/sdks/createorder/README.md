@@ -19,11 +19,13 @@ Creates a new order for equity or fixed income securities.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="OrderService_CreateOrder" method="post" path="/trading/v1/accounts/{account_id}/orders" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -33,22 +35,23 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.create_order.create_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_create={
-    "asset_type": components.AssetType.EQUITY,
-    "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a",
-    "identifier": "SBUX",
-    "identifier_type": components.IdentifierType.SYMBOL,
-    "order_date": {},
-    "order_type": components.OrderType.MARKET,
-    "side": components.Side.BUY,
-    "time_in_force": components.TimeInForce.DAY,
-})
+    res = sdk.create_order.create_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_create=components.OrderCreate(
+        asset_type=components.AssetType.EQUITY,
+        client_order_id="a6d5258b-6b23-478a-8145-98e79d60427a",
+        identifier="SBUX",
+        identifier_type=components.IdentifierType.SYMBOL,
+        order_date=components.DateCreate(),
+        order_type=components.OrderType.MARKET,
+        side=components.Side.BUY,
+        time_in_force=components.TimeInForce.DAY,
+    ))
 
-if res.order is not None:
-    # handle response
-    pass
+    assert res.order is not None
+
+    # Handle response
+    print(res.order)
 
 ```
 
@@ -66,10 +69,11 @@ if res.order is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 409, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 409 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## get_order
 
@@ -79,11 +83,13 @@ Gets an order by order ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="OrderService_GetOrder" method="get" path="/trading/v1/accounts/{account_id}/orders/{order_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -93,13 +99,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.create_order.get_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706")
+    res = sdk.create_order.get_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706")
 
-if res.order is not None:
-    # handle response
-    pass
+    assert res.order is not None
+
+    # Handle response
+    print(res.order)
 
 ```
 
@@ -117,10 +124,11 @@ if res.order is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## cancel_order
 
@@ -130,11 +138,13 @@ Submits an order cancellation request by order ID. Confirmation of order cancell
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="OrderService_CancelOrder" method="post" path="/trading/v1/accounts/{account_id}/orders/{order_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -144,15 +154,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.create_order.cancel_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", cancel_order_request_create={
-    "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
-})
+    res = sdk.create_order.cancel_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", cancel_order_request_create={
+        "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
+    })
 
-if res.order is not None:
-    # handle response
-    pass
+    assert res.order is not None
+
+    # Handle response
+    print(res.order)
 
 ```
 
@@ -171,7 +182,8 @@ if res.order is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |

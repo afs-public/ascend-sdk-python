@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
-from typing import Any, Optional, Union, cast
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class InstantCashTransferICT(BaseSDK):
@@ -19,6 +20,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsCreateIctDepositResponse:
         r"""Create ICT Deposit
 
@@ -29,6 +31,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -37,6 +40,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsCreateIctDepositRequest(
             account_id=account_id,
@@ -45,7 +50,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictDeposits",
             base_url=base_url,
@@ -56,6 +61,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ict_deposit_create,
@@ -77,6 +83,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_CreateIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -86,34 +94,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsCreateIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsCreateIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_ict_deposit_async(
         self,
@@ -125,6 +129,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsCreateIctDepositResponse:
         r"""Create ICT Deposit
 
@@ -135,6 +140,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -143,6 +149,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsCreateIctDepositRequest(
             account_id=account_id,
@@ -151,7 +159,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictDeposits",
             base_url=base_url,
@@ -162,6 +170,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ict_deposit_create,
@@ -183,6 +192,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_CreateIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -192,34 +203,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsCreateIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsCreateIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_ict_deposit(
         self,
@@ -229,6 +236,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsGetIctDepositResponse:
         r"""Get ICT Deposit
 
@@ -239,6 +247,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -247,13 +256,15 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsGetIctDepositRequest(
             account_id=account_id,
             ict_deposit_id=ict_deposit_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}",
             base_url=base_url,
@@ -264,6 +275,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -278,6 +290,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_GetIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -287,34 +301,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsGetIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsGetIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_ict_deposit_async(
         self,
@@ -324,6 +334,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsGetIctDepositResponse:
         r"""Get ICT Deposit
 
@@ -334,6 +345,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -342,13 +354,15 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsGetIctDepositRequest(
             account_id=account_id,
             ict_deposit_id=ict_deposit_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}",
             base_url=base_url,
@@ -359,6 +373,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -373,6 +388,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_GetIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -382,34 +399,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsGetIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsGetIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_ict_deposit(
         self,
@@ -423,6 +436,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsCancelIctDepositResponse:
         r"""Cancel ICT Deposit
 
@@ -434,6 +448,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -442,6 +457,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsCancelIctDepositRequest(
             account_id=account_id,
@@ -452,7 +469,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}:cancel",
             base_url=base_url,
@@ -463,6 +480,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ict_deposit_request_create,
@@ -484,6 +502,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_CancelIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -493,34 +513,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsCancelIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsCancelIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_ict_deposit_async(
         self,
@@ -534,6 +550,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctDepositsCancelIctDepositResponse:
         r"""Cancel ICT Deposit
 
@@ -545,6 +562,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -553,6 +571,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctDepositsCancelIctDepositRequest(
             account_id=account_id,
@@ -563,7 +583,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}:cancel",
             base_url=base_url,
@@ -574,6 +594,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ict_deposit_request_create,
@@ -595,6 +616,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctDeposits_CancelIctDeposit",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -604,34 +627,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctDepositsCancelIctDepositResponse(
-                ict_deposit=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctDeposit]
+                ict_deposit=unmarshal_json_response(
+                    Optional[components.IctDeposit], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctDepositsCancelIctDepositResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def create_ict_withdrawal(
         self,
@@ -643,6 +662,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsCreateIctWithdrawalResponse:
         r"""Create ICT Withdrawal
 
@@ -653,6 +673,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -661,6 +682,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsCreateIctWithdrawalRequest(
             account_id=account_id,
@@ -669,7 +692,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals",
             base_url=base_url,
@@ -680,6 +703,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ict_withdrawal_create,
@@ -701,6 +725,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_CreateIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -710,34 +736,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsCreateIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsCreateIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_ict_withdrawal_async(
         self,
@@ -749,6 +771,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsCreateIctWithdrawalResponse:
         r"""Create ICT Withdrawal
 
@@ -759,6 +782,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -767,6 +791,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsCreateIctWithdrawalRequest(
             account_id=account_id,
@@ -775,7 +801,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals",
             base_url=base_url,
@@ -786,6 +812,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ict_withdrawal_create,
@@ -807,6 +834,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_CreateIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -816,34 +845,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsCreateIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsCreateIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_ict_withdrawal(
         self,
@@ -853,6 +878,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsGetIctWithdrawalResponse:
         r"""Get ICT Withdrawal
 
@@ -863,6 +889,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -871,13 +898,15 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsGetIctWithdrawalRequest(
             account_id=account_id,
             ict_withdrawal_id=ict_withdrawal_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}",
             base_url=base_url,
@@ -888,6 +917,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -902,6 +932,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_GetIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -911,34 +943,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsGetIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsGetIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_ict_withdrawal_async(
         self,
@@ -948,6 +976,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsGetIctWithdrawalResponse:
         r"""Get ICT Withdrawal
 
@@ -958,6 +987,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -966,13 +996,15 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsGetIctWithdrawalRequest(
             account_id=account_id,
             ict_withdrawal_id=ict_withdrawal_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}",
             base_url=base_url,
@@ -983,6 +1015,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -997,6 +1030,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_GetIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1006,34 +1041,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsGetIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsGetIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_ict_withdrawal(
         self,
@@ -1047,6 +1078,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsCancelIctWithdrawalResponse:
         r"""Cancel ICT Withdrawal
 
@@ -1058,6 +1090,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1066,6 +1099,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsCancelIctWithdrawalRequest(
             account_id=account_id,
@@ -1076,7 +1111,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}:cancel",
             base_url=base_url,
@@ -1087,6 +1122,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ict_withdrawal_request_create,
@@ -1108,6 +1144,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_CancelIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1117,34 +1155,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsCancelIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsCancelIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_ict_withdrawal_async(
         self,
@@ -1158,6 +1192,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctWithdrawalsCancelIctWithdrawalResponse:
         r"""Cancel ICT Withdrawal
 
@@ -1169,6 +1204,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1177,6 +1213,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.IctWithdrawalsCancelIctWithdrawalRequest(
             account_id=account_id,
@@ -1187,7 +1225,7 @@ class InstantCashTransferICT(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}:cancel",
             base_url=base_url,
@@ -1198,6 +1236,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ict_withdrawal_request_create,
@@ -1219,6 +1258,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctWithdrawals_CancelIctWithdrawal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1228,34 +1269,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctWithdrawalsCancelIctWithdrawalResponse(
-                ict_withdrawal=utils.unmarshal_json(
-                    http_res.text, Optional[components.IctWithdrawal]
+                ict_withdrawal=unmarshal_json_response(
+                    Optional[components.IctWithdrawal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctWithdrawalsCancelIctWithdrawalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def locate_ict_report(
         self,
@@ -1267,6 +1304,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctReconReportsLocateIctReportResponse:
         r"""Locate ICT Report
 
@@ -1276,6 +1314,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1284,6 +1323,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
@@ -1291,7 +1332,7 @@ class InstantCashTransferICT(BaseSDK):
             )
         request = cast(operations.IctReconReportsLocateIctReportRequest, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/correspondents/{correspondent_id}/ictReconReports:locate",
             base_url=base_url,
@@ -1302,6 +1343,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1316,6 +1358,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctReconReports_LocateIctReport",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1325,34 +1369,30 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctReconReportsLocateIctReportResponse(
-                locate_ict_report_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.LocateIctReportResponse]
+                locate_ict_report_response=unmarshal_json_response(
+                    Optional[components.LocateIctReportResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctReconReportsLocateIctReportResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def locate_ict_report_async(
         self,
@@ -1364,6 +1404,7 @@ class InstantCashTransferICT(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.IctReconReportsLocateIctReportResponse:
         r"""Locate ICT Report
 
@@ -1373,6 +1414,7 @@ class InstantCashTransferICT(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1381,6 +1423,8 @@ class InstantCashTransferICT(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
@@ -1388,7 +1432,7 @@ class InstantCashTransferICT(BaseSDK):
             )
         request = cast(operations.IctReconReportsLocateIctReportRequest, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/correspondents/{correspondent_id}/ictReconReports:locate",
             base_url=base_url,
@@ -1399,6 +1443,7 @@ class InstantCashTransferICT(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1413,6 +1458,8 @@ class InstantCashTransferICT(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="IctReconReports_LocateIctReport",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1422,31 +1469,27 @@ class InstantCashTransferICT(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.IctReconReportsLocateIctReportResponse(
-                locate_ict_report_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.LocateIctReportResponse]
+                locate_ict_report_response=unmarshal_json_response(
+                    Optional[components.LocateIctReportResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.IctReconReportsLocateIctReportResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

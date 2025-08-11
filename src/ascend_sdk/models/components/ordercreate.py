@@ -56,12 +56,10 @@ class IdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
-    ORDER_TYPE_UNSPECIFIED = "ORDER_TYPE_UNSPECIFIED"
     LIMIT = "LIMIT"
     MARKET = "MARKET"
-    STOP = "STOP"
 
 
 class Side(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -104,14 +102,19 @@ class SpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
 class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
-    TIME_IN_FORCE_UNSPECIFIED = "TIME_IN_FORCE_UNSPECIFIED"
     DAY = "DAY"
 
 
-class TradingStrategy(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+class TradingSession(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
+    TRADING_SESSION_UNSPECIFIED = "TRADING_SESSION_UNSPECIFIED"
     CORE = "CORE"
+    PRE = "PRE"
+    POST = "POST"
+    OVERNIGHT = "OVERNIGHT"
+    APEX24 = "APEX24"
+    GTX = "GTX"
 
 
 class OrderCreateTypedDict(TypedDict):
@@ -135,7 +138,7 @@ class OrderCreateTypedDict(TypedDict):
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
     order_type: OrderType
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
     side: Side
     r"""The side of this order."""
     time_in_force: TimeInForce
@@ -183,8 +186,8 @@ class OrderCreateTypedDict(TypedDict):
     r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
     stop_price: NotRequired[StopPriceCreateTypedDict]
     r"""A stop price definition"""
-    trading_strategy: NotRequired[TradingStrategy]
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+    trading_session: NotRequired[TradingSession]
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
 
 class OrderCreate(BaseModel):
@@ -215,7 +218,7 @@ class OrderCreate(BaseModel):
     """
 
     order_type: Annotated[OrderType, PlainValidator(validate_open_enum(False))]
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     side: Annotated[Side, PlainValidator(validate_open_enum(False))]
     r"""The side of this order."""
@@ -288,10 +291,10 @@ class OrderCreate(BaseModel):
     stop_price: Optional[StopPriceCreate] = None
     r"""A stop price definition"""
 
-    trading_strategy: Annotated[
-        Optional[TradingStrategy], PlainValidator(validate_open_enum(False))
+    trading_session: Annotated[
+        Optional[TradingSession], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -310,7 +313,7 @@ class OrderCreate(BaseModel):
             "rights_of_accumulation",
             "special_reporting_instructions",
             "stop_price",
-            "trading_strategy",
+            "trading_session",
         ]
         nullable_fields = ["client_received_time"]
         null_default_fields = []
@@ -319,7 +322,7 @@ class OrderCreate(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

@@ -11,7 +11,15 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PersonIdentificationType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Tax id type (e.g. ssn)"""
+    r"""The identification type for a person, one of:
+    - `ID_TYPE_UNSPECIFIED` - Default/Null value.
+    - `SSN` - SSN tax type.
+    - `ITIN` - ITIN tax type.
+    - `FTIN` - FTIN (foreign tax id) type.
+    - `NATIONAL_ID` - National id type.
+    - `PASSPORT` - Passport id type.
+    - `DRIVING_LICENSE` - Drivers license id type.
+    """
 
     ID_TYPE_UNSPECIFIED = "ID_TYPE_UNSPECIFIED"
     SSN = "SSN"
@@ -32,7 +40,15 @@ class PersonIdentificationTypedDict(TypedDict):
     region_code: NotRequired[str]
     r"""Country that issued identification Two character region code, complies with https://cldr.unicode.org/index"""
     type: NotRequired[PersonIdentificationType]
-    r"""Tax id type (e.g. ssn)"""
+    r"""The identification type for a person, one of:
+    - `ID_TYPE_UNSPECIFIED` - Default/Null value.
+    - `SSN` - SSN tax type.
+    - `ITIN` - ITIN tax type.
+    - `FTIN` - FTIN (foreign tax id) type.
+    - `NATIONAL_ID` - National id type.
+    - `PASSPORT` - Passport id type.
+    - `DRIVING_LICENSE` - Drivers license id type.
+    """
     value: NotRequired[str]
     r"""Tax id value"""
 
@@ -52,7 +68,15 @@ class PersonIdentification(BaseModel):
     type: Annotated[
         Optional[PersonIdentificationType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Tax id type (e.g. ssn)"""
+    r"""The identification type for a person, one of:
+    - `ID_TYPE_UNSPECIFIED` - Default/Null value.
+    - `SSN` - SSN tax type.
+    - `ITIN` - ITIN tax type.
+    - `FTIN` - FTIN (foreign tax id) type.
+    - `NATIONAL_ID` - National id type.
+    - `PASSPORT` - Passport id type.
+    - `DRIVING_LICENSE` - Drivers license id type.
+    """
 
     value: Optional[str] = None
     r"""Tax id value"""

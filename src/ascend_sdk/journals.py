@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
-from typing import Any, Optional, Union, cast
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class Journals(BaseSDK):
@@ -19,6 +20,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse:
         r"""Retrieve Cash Journal Constraints
 
@@ -28,6 +30,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -36,6 +39,8 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
@@ -43,7 +48,7 @@ class Journals(BaseSDK):
             )
         request = cast(components.RetrieveCashJournalConstraintsRequestCreate, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/cashJournals:retrieveCashJournalConstraints",
             base_url=base_url,
@@ -54,6 +59,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request,
@@ -75,6 +81,8 @@ class Journals(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveCashJournalConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -84,40 +92,36 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse(
-                    cash_journal_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.CashJournalConstraints]
+                    cash_journal_constraints=unmarshal_json_response(
+                        Optional[components.CashJournalConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def retrieve_cash_journal_constraints_async(
         self,
@@ -129,6 +133,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse:
         r"""Retrieve Cash Journal Constraints
 
@@ -138,6 +143,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -146,6 +152,8 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
@@ -153,7 +161,7 @@ class Journals(BaseSDK):
             )
         request = cast(components.RetrieveCashJournalConstraintsRequestCreate, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/cashJournals:retrieveCashJournalConstraints",
             base_url=base_url,
@@ -164,6 +172,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request,
@@ -185,6 +194,8 @@ class Journals(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveCashJournalConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -194,40 +205,36 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse(
-                    cash_journal_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.CashJournalConstraints]
+                    cash_journal_constraints=unmarshal_json_response(
+                        Optional[components.CashJournalConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveCashJournalConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def create_cash_journal(
         self,
@@ -238,6 +245,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCreateCashJournalResponse:
         r"""Create Cash Journal
 
@@ -247,6 +255,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -255,12 +264,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, components.CashJournalCreate)
         request = cast(components.CashJournalCreate, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/cashJournals",
             base_url=base_url,
@@ -271,6 +282,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.CashJournalCreate
@@ -288,6 +300,8 @@ class Journals(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CreateCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -297,34 +311,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCreateCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCreateCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_cash_journal_async(
         self,
@@ -335,6 +345,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCreateCashJournalResponse:
         r"""Create Cash Journal
 
@@ -344,6 +355,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -352,12 +364,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, components.CashJournalCreate)
         request = cast(components.CashJournalCreate, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/cashJournals",
             base_url=base_url,
@@ -368,6 +382,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.CashJournalCreate
@@ -385,6 +400,8 @@ class Journals(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CreateCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -394,34 +411,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCreateCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCreateCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_cash_journal(
         self,
@@ -430,6 +443,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsGetCashJournalResponse:
         r"""Get Cash Journal
 
@@ -439,6 +453,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -447,12 +462,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CashJournalsGetCashJournalRequest(
             cash_journal_id=cash_journal_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/cashJournals/{cashJournal_id}",
             base_url=base_url,
@@ -463,6 +480,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -477,6 +495,8 @@ class Journals(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_GetCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -486,34 +506,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsGetCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsGetCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_cash_journal_async(
         self,
@@ -522,6 +538,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsGetCashJournalResponse:
         r"""Get Cash Journal
 
@@ -531,6 +548,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -539,12 +557,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CashJournalsGetCashJournalRequest(
             cash_journal_id=cash_journal_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/cashJournals/{cashJournal_id}",
             base_url=base_url,
@@ -555,6 +575,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -569,6 +590,8 @@ class Journals(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_GetCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -578,34 +601,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsGetCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsGetCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_cash_journal(
         self,
@@ -618,6 +637,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCancelCashJournalResponse:
         r"""Cancel Cash Journal
 
@@ -628,6 +648,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -636,6 +657,8 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CashJournalsCancelCashJournalRequest(
             cash_journal_id=cash_journal_id,
@@ -645,7 +668,7 @@ class Journals(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/cashJournals/{cashJournal_id}:cancel",
             base_url=base_url,
@@ -656,6 +679,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_cash_journal_request_create,
@@ -677,6 +701,8 @@ class Journals(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CancelCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -686,34 +712,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCancelCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCancelCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_cash_journal_async(
         self,
@@ -726,6 +748,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCancelCashJournalResponse:
         r"""Cancel Cash Journal
 
@@ -736,6 +759,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -744,6 +768,8 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.CashJournalsCancelCashJournalRequest(
             cash_journal_id=cash_journal_id,
@@ -753,7 +779,7 @@ class Journals(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/cashJournals/{cashJournal_id}:cancel",
             base_url=base_url,
@@ -764,6 +790,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_cash_journal_request_create,
@@ -785,6 +812,8 @@ class Journals(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CancelCashJournal",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -794,34 +823,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCancelCashJournalResponse(
-                cash_journal=utils.unmarshal_json(
-                    http_res.text, Optional[components.CashJournal]
+                cash_journal=unmarshal_json_response(
+                    Optional[components.CashJournal], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCancelCashJournalResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def check_party_type(
         self,
@@ -833,6 +858,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCheckPartyTypeResponse:
         r"""Retrieve Cash Journal Party
 
@@ -842,6 +868,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -850,12 +877,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, components.CheckPartyTypeRequestCreate)
         request = cast(components.CheckPartyTypeRequestCreate, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/cashJournals:checkPartyType",
             base_url=base_url,
@@ -866,6 +895,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.CheckPartyTypeRequestCreate
@@ -883,6 +913,8 @@ class Journals(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CheckPartyType",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -892,34 +924,30 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCheckPartyTypeResponse(
-                check_party_type_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.CheckPartyTypeResponse]
+                check_party_type_response=unmarshal_json_response(
+                    Optional[components.CheckPartyTypeResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCheckPartyTypeResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def check_party_type_async(
         self,
@@ -931,6 +959,7 @@ class Journals(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CashJournalsCheckPartyTypeResponse:
         r"""Retrieve Cash Journal Party
 
@@ -940,6 +969,7 @@ class Journals(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -948,12 +978,14 @@ class Journals(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, components.CheckPartyTypeRequestCreate)
         request = cast(components.CheckPartyTypeRequestCreate, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/cashJournals:checkPartyType",
             base_url=base_url,
@@ -964,6 +996,7 @@ class Journals(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.CheckPartyTypeRequestCreate
@@ -981,6 +1014,8 @@ class Journals(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="CashJournals_CheckPartyType",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -990,31 +1025,27 @@ class Journals(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.CashJournalsCheckPartyTypeResponse(
-                check_party_type_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.CheckPartyTypeResponse]
+                check_party_type_response=unmarshal_json_response(
+                    Optional[components.CheckPartyTypeResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CashJournalsCheckPartyTypeResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

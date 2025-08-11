@@ -17,11 +17,13 @@ List all Entries based on a filter
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Ledger_ListEntries" method="get" path="/ledger/v1/accounts/{account_id}/entries" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -31,13 +33,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ledger.list_entries(account_id="01FAKEACCOUNT1TYKWEYRH8S2K")
+    res = sdk.ledger.list_entries(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", page_size=0, page_token="v-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfzbNG7ZAS8xZWYyMmM3ZS01NjdmLTBhYzgtYjZmZi1kNzYwNDI3YmI3N2Q6MjAyNC0wNi0wMgA=", filter_="process_date == date('2024-05-11') && account_id == '01HBRQ5BW6ZAY4BNWP4GWRD80X'")
 
-if res.list_entries_response is not None:
-    # handle response
-    pass
+    assert res.list_entries_response is not None
+
+    # Handle response
+    print(res.list_entries_response)
 
 ```
 
@@ -57,10 +60,11 @@ if res.list_entries_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 500, 503, 504 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_activities
 
@@ -68,11 +72,13 @@ List all Completed Activities based on a filter
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Ledger_ListActivities" method="get" path="/ledger/v1/accounts/{account_id}/activities" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -82,13 +88,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ledger.list_activities(account_id="01FAKEACCOUNT1TYKWEYRH8S2K")
+    res = sdk.ledger.list_activities(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAI_-CAfwVsHF9ARgyMDI0LTA2LTA0OjFGQTA1MDExOjUwMDEA", filter_="subtype_category == 'TRADE' && process_date >= date('2023-07-31') && settle_date >= date('2023-08-18') && side == 'BUY' &&  activity_date >= date('2023-09-15') && asset_id == 8395")
 
-if res.list_activities_response is not None:
-    # handle response
-    pass
+    assert res.list_activities_response is not None
+
+    # Handle response
+    print(res.list_activities_response)
 
 ```
 
@@ -108,10 +115,11 @@ if res.list_activities_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 500, 503, 504 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_positions
 
@@ -119,11 +127,13 @@ List positions based on a filter
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Ledger_ListPositions" method="get" path="/ledger/v1/accounts/{account_id}/positions" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -133,13 +143,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ledger.list_positions(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X")
+    res = sdk.ledger.list_positions(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", page_size=20, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfwFIZG3AS8xZWYyMmM4Ny0zNDI5LTAyYzItODRjNC03ODdmNTJlNDY1MTE6MjAyNC0wNi0wMgA=", filter_="date >= date('2023-08-31') && asset_id == 8395")
 
-if res.list_positions_response is not None:
-    # handle response
-    pass
+    assert res.list_positions_response is not None
+
+    # Handle response
+    print(res.list_positions_response)
 
 ```
 
@@ -159,10 +170,11 @@ if res.list_positions_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 500, 503, 504 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_activity
 
@@ -170,11 +182,13 @@ Get an activity
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Ledger_GetActivity" method="get" path="/ledger/v1/accounts/{account_id}/activities/{activity_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -184,13 +198,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ledger.get_activity(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", activity_id="FAKEACTIVITYID")
+    res = sdk.ledger.get_activity(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", activity_id="FAKEACTIVITYID")
 
-if res.activity is not None:
-    # handle response
-    pass
+    assert res.activity is not None
+
+    # Handle response
+    print(res.activity)
 
 ```
 
@@ -208,10 +223,11 @@ if res.activity is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 500, 503, 504 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_entry
 
@@ -219,11 +235,13 @@ Get an entry
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Ledger_GetEntry" method="get" path="/ledger/v1/accounts/{account_id}/entries/{entry_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -233,13 +251,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ledger.get_entry(account_id="{\"account_id\":\"\"}", entry_id="{\"entry_id\":\"\"}")
+    res = sdk.ledger.get_entry(account_id="[object Object]", entry_id="[object Object]")
 
-if res.entry is not None:
-    # handle response
-    pass
+    assert res.entry is not None
+
+    # Handle response
+    print(res.entry)
 
 ```
 
@@ -257,7 +276,8 @@ if res.entry is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 500, 503, 504 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

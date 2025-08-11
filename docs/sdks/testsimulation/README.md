@@ -29,11 +29,13 @@ Forces approval of an existing ACH deposit that is pending review. FOR TESTING O
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_ForceApproveAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -43,15 +45,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_approve_ach_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
-})
+    res = sdk.test_simulation.force_approve_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_approve_ach_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -81,11 +84,13 @@ Forces a Nacha notice of change (NOC) on a completed ACH deposit. FOR TESTING ON
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_ForceNocAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}:forceNoc" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -95,18 +100,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_noc_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_noc_ach_deposit_request_create={
-    "nacha_noc": {
-        "code": components.Code.C01,
-    },
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
-})
+    res = sdk.test_simulation.force_noc_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_noc_ach_deposit_request_create={
+        "nacha_noc": {
+            "code": components.Code.C01,
+        },
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -136,11 +142,13 @@ Forces rejection of an existing ACH deposit that is pending review. FOR TESTING 
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_ForceRejectAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -150,15 +158,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_reject_ach_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
-})
+    res = sdk.test_simulation.force_reject_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_reject_ach_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -188,11 +197,13 @@ Forces a Nacha return on a completed ACH deposit. FOR TESTING ONLY!
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_ForceReturnAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}:forceReturn" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -202,18 +213,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_return_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_return_ach_deposit_request_create={
-    "nacha_return": {
-        "code": components.NachaReturnCreateCode.R34,
-    },
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
-})
+    res = sdk.test_simulation.force_return_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", force_return_ach_deposit_request_create={
+        "nacha_return": {
+            "code": components.NachaReturnCreateCode.R13,
+        },
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -243,11 +255,13 @@ Forces approval of an existing ACH withdrawal that is pending review. FOR TESTIN
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_ForceApproveAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -257,15 +271,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_approve_ach_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
-})
+    res = sdk.test_simulation.force_approve_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_approve_ach_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
+    })
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -295,11 +310,13 @@ Forces a Nacha notice of change (NOC) on a completed ACH withdrawal. FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_ForceNocAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}:forceNoc" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -309,18 +326,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_noc_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_noc_ach_withdrawal_request_create={
-    "nacha_noc": {
-        "code": components.Code.C01,
-    },
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
-})
+    res = sdk.test_simulation.force_noc_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_noc_ach_withdrawal_request_create={
+        "nacha_noc": {
+            "code": components.Code.C01,
+        },
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
+    })
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -350,11 +368,13 @@ Forces rejection of an existing ACH withdrawal that is pending review. FOR TESTI
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_ForceRejectAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -364,15 +384,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_reject_ach_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
-})
+    res = sdk.test_simulation.force_reject_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_reject_ach_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
+    })
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -402,11 +423,13 @@ Forces a Nacha return on a completed ACH withdrawal. FOR TESTING ONLY!
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_ForceReturnAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}:forceReturn" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -416,18 +439,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_return_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_return_ach_withdrawal_request_create={
-    "nacha_return": {
-        "code": components.NachaReturnCreateCode.R28,
-    },
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
-})
+    res = sdk.test_simulation.force_return_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", force_return_ach_withdrawal_request_create={
+        "nacha_return": {
+            "code": components.NachaReturnCreateCode.R15,
+        },
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
+    })
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -457,11 +481,13 @@ Gets micro deposit amounts for bank relationships with the `MICRO_DEPOSIT` verif
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_GetMicroDepositAmounts" method="get" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}:getMicroDepositAmounts" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -471,13 +497,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.get_micro_deposit_amounts(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e")
+    res = sdk.test_simulation.get_micro_deposit_amounts(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e")
 
-if res.micro_deposit_amounts is not None:
-    # handle response
-    pass
+    assert res.micro_deposit_amounts is not None
+
+    # Handle response
+    print(res.micro_deposit_amounts)
 
 ```
 
@@ -506,11 +533,13 @@ Forces an approval on an existing ICT deposit pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctDeposits_ForceApproveIctDeposit" method="post" path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -520,15 +549,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", force_approve_ict_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
-})
+    res = sdk.test_simulation.force_approve_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", force_approve_ict_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
+    })
 
-if res.ict_deposit is not None:
-    # handle response
-    pass
+    assert res.ict_deposit is not None
+
+    # Handle response
+    print(res.ict_deposit)
 
 ```
 
@@ -558,11 +588,13 @@ Forces a rejection on an existing ICT deposit pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctDeposits_ForceRejectIctDeposit" method="post" path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -572,15 +604,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", force_reject_ict_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
-})
+    res = sdk.test_simulation.force_reject_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", force_reject_ict_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
+    })
 
-if res.ict_deposit is not None:
-    # handle response
-    pass
+    assert res.ict_deposit is not None
+
+    # Handle response
+    print(res.ict_deposit)
 
 ```
 
@@ -610,11 +643,13 @@ Forces an approval on an existing ICT withdrawal pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctWithdrawals_ForceApproveIctWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -624,15 +659,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", force_approve_ict_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
-})
+    res = sdk.test_simulation.force_approve_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", force_approve_ict_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
+    })
 
-if res.ict_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ict_withdrawal is not None
+
+    # Handle response
+    print(res.ict_withdrawal)
 
 ```
 
@@ -662,11 +698,13 @@ Forces a rejection on an existing ICT withdrawal pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctWithdrawals_ForceRejectIctWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -676,15 +714,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", force_reject_ict_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
-})
+    res = sdk.test_simulation.force_reject_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", force_reject_ict_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
+    })
 
-if res.ict_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ict_withdrawal is not None
+
+    # Handle response
+    print(res.ict_withdrawal)
 
 ```
 
@@ -714,11 +753,13 @@ Forces an approval on an existing wire withdrawal pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawals_ForceApproveWireWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawals/{wireWithdrawal_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -728,15 +769,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", force_approve_wire_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
-})
+    res = sdk.test_simulation.force_approve_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", force_approve_wire_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
+    })
 
-if res.wire_withdrawal is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal is not None
+
+    # Handle response
+    print(res.wire_withdrawal)
 
 ```
 
@@ -766,11 +808,13 @@ Forces a rejection on an existing wire withdrawal pending review - FOR TESTING
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawals_ForceRejectWireWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawals/{wireWithdrawal_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -780,15 +824,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", force_reject_wire_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
-})
+    res = sdk.test_simulation.force_reject_wire_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_id="20230817000319", force_reject_wire_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319",
+    })
 
-if res.wire_withdrawal is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal is not None
+
+    # Handle response
+    print(res.wire_withdrawal)
 
 ```
 
@@ -818,11 +863,13 @@ Forces approval of an existing cash journal that is pending review FOR TESTING O
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_ForceApproveCashJournal" method="post" path="/transfers/v1/cashJournals/{cashJournal_id}:forceApprove" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -832,15 +879,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_approve_cash_journal(cash_journal_id="20230817000319", force_approve_cash_journal_request_create={
-    "name": "cashJournals/20230817000319",
-})
+    res = sdk.test_simulation.force_approve_cash_journal(cash_journal_id="20230817000319", force_approve_cash_journal_request_create={
+        "name": "cashJournals/20230817000319",
+    })
 
-if res.cash_journal is not None:
-    # handle response
-    pass
+    assert res.cash_journal is not None
+
+    # Handle response
+    print(res.cash_journal)
 
 ```
 
@@ -869,11 +917,13 @@ Forces rejection of an existing cash journal that is pending review FOR TESTING 
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_ForceRejectCashJournal" method="post" path="/transfers/v1/cashJournals/{cashJournal_id}:forceReject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -883,15 +933,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.test_simulation.force_reject_cash_journal(cash_journal_id="20230817000319", force_reject_cash_journal_request_create={
-    "name": "cashJournals/20230817000319",
-})
+    res = sdk.test_simulation.force_reject_cash_journal(cash_journal_id="20230817000319", force_reject_cash_journal_request_create={
+        "name": "cashJournals/20230817000319",
+    })
 
-if res.cash_journal is not None:
-    # handle response
-    pass
+    assert res.cash_journal is not None
+
+    # Handle response
+    print(res.cash_journal)
 
 ```
 

@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional
 
 
 class Ledger(BaseSDK):
@@ -19,6 +20,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListEntriesResponse:
         r"""List Entries
 
@@ -31,6 +33,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -39,6 +42,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListEntriesRequest(
             account_id=account_id,
@@ -47,7 +52,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/entries",
             base_url=base_url,
@@ -58,6 +63,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -72,6 +78,8 @@ class Ledger(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListEntries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -81,36 +89,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListEntriesResponse(
-                list_entries_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListEntriesResponse]
+                list_entries_response=unmarshal_json_response(
+                    Optional[components.ListEntriesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListEntriesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_entries_async(
         self,
@@ -122,6 +127,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListEntriesResponse:
         r"""List Entries
 
@@ -134,6 +140,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -142,6 +149,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListEntriesRequest(
             account_id=account_id,
@@ -150,7 +159,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/entries",
             base_url=base_url,
@@ -161,6 +170,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -175,6 +185,8 @@ class Ledger(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListEntries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -184,36 +196,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListEntriesResponse(
-                list_entries_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListEntriesResponse]
+                list_entries_response=unmarshal_json_response(
+                    Optional[components.ListEntriesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListEntriesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_activities(
         self,
@@ -225,6 +234,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListActivitiesResponse:
         r"""List Activities
 
@@ -237,6 +247,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -245,6 +256,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListActivitiesRequest(
             account_id=account_id,
@@ -253,7 +266,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/activities",
             base_url=base_url,
@@ -264,6 +277,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -278,6 +292,8 @@ class Ledger(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListActivities",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -287,36 +303,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListActivitiesResponse(
-                list_activities_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListActivitiesResponse]
+                list_activities_response=unmarshal_json_response(
+                    Optional[components.ListActivitiesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListActivitiesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_activities_async(
         self,
@@ -328,6 +341,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListActivitiesResponse:
         r"""List Activities
 
@@ -340,6 +354,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -348,6 +363,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListActivitiesRequest(
             account_id=account_id,
@@ -356,7 +373,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/activities",
             base_url=base_url,
@@ -367,6 +384,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -381,6 +399,8 @@ class Ledger(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListActivities",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -390,36 +410,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListActivitiesResponse(
-                list_activities_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListActivitiesResponse]
+                list_activities_response=unmarshal_json_response(
+                    Optional[components.ListActivitiesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListActivitiesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_positions(
         self,
@@ -431,6 +448,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListPositionsResponse:
         r"""List Positions
 
@@ -443,6 +461,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -451,6 +470,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListPositionsRequest(
             account_id=account_id,
@@ -459,7 +480,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/positions",
             base_url=base_url,
@@ -470,6 +491,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -484,6 +506,8 @@ class Ledger(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListPositions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -493,36 +517,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListPositionsResponse(
-                list_positions_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListPositionsResponse]
+                list_positions_response=unmarshal_json_response(
+                    Optional[components.ListPositionsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListPositionsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_positions_async(
         self,
@@ -534,6 +555,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerListPositionsResponse:
         r"""List Positions
 
@@ -546,6 +568,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -554,6 +577,8 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerListPositionsRequest(
             account_id=account_id,
@@ -562,7 +587,7 @@ class Ledger(BaseSDK):
             filter_=filter_,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/positions",
             base_url=base_url,
@@ -573,6 +598,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -587,6 +613,8 @@ class Ledger(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_ListPositions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -596,36 +624,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListPositionsResponse(
-                list_positions_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListPositionsResponse]
+                list_positions_response=unmarshal_json_response(
+                    Optional[components.ListPositionsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerListPositionsResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_activity(
         self,
@@ -635,6 +660,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerGetActivityResponse:
         r"""Get Activity
 
@@ -645,6 +671,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -653,13 +680,15 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerGetActivityRequest(
             account_id=account_id,
             activity_id=activity_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/activities/{activity_id}",
             base_url=base_url,
@@ -670,6 +699,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -684,6 +714,8 @@ class Ledger(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_GetActivity",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -693,36 +725,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerGetActivityResponse(
-                activity=utils.unmarshal_json(
-                    http_res.text, Optional[components.Activity]
+                activity=unmarshal_json_response(
+                    Optional[components.Activity], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerGetActivityResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_activity_async(
         self,
@@ -732,6 +761,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerGetActivityResponse:
         r"""Get Activity
 
@@ -742,6 +772,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -750,13 +781,15 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerGetActivityRequest(
             account_id=account_id,
             activity_id=activity_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/activities/{activity_id}",
             base_url=base_url,
@@ -767,6 +800,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -781,6 +815,8 @@ class Ledger(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_GetActivity",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -790,36 +826,33 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerGetActivityResponse(
-                activity=utils.unmarshal_json(
-                    http_res.text, Optional[components.Activity]
+                activity=unmarshal_json_response(
+                    Optional[components.Activity], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerGetActivityResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_entry(
         self,
@@ -829,6 +862,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerGetEntryResponse:
         r"""Get Entry
 
@@ -839,6 +873,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -847,13 +882,15 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerGetEntryRequest(
             account_id=account_id,
             entry_id=entry_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/entries/{entry_id}",
             base_url=base_url,
@@ -864,6 +901,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -878,6 +916,8 @@ class Ledger(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_GetEntry",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -887,34 +927,31 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerGetEntryResponse(
-                entry=utils.unmarshal_json(http_res.text, Optional[components.Entry]),
+                entry=unmarshal_json_response(Optional[components.Entry], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerGetEntryResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_entry_async(
         self,
@@ -924,6 +961,7 @@ class Ledger(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.LedgerGetEntryResponse:
         r"""Get Entry
 
@@ -934,6 +972,7 @@ class Ledger(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -942,13 +981,15 @@ class Ledger(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.LedgerGetEntryRequest(
             account_id=account_id,
             entry_id=entry_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/ledger/v1/accounts/{account_id}/entries/{entry_id}",
             base_url=base_url,
@@ -959,6 +1000,7 @@ class Ledger(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -973,6 +1015,8 @@ class Ledger(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="Ledger_GetEntry",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -982,31 +1026,28 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerGetEntryResponse(
-                entry=utils.unmarshal_json(http_res.text, Optional[components.Entry]),
+                entry=unmarshal_json_response(Optional[components.Entry], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(
-            http_res, ["400", "403", "500", "503", "504"], "application/json"
-        ):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, ["500", "503", "504"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.LedgerGetEntryResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

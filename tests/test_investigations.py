@@ -3,71 +3,84 @@
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 import os
+from tests.test_client import create_test_http_client
 
 
-def test_investigations_investigation_service_get_investigation_get_investigation1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+def test_investigations_investigation_service_get_investigation():
+    test_http_client = create_test_http_client("InvestigationService_GetInvestigation")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
+
+        res = sdk.investigations.get_investigation(
+            investigation_id="01JHGRJG62CZ0TV805CSWYHJ31"
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+
+
+def test_investigations_investigation_service_list_investigations():
+    test_http_client = create_test_http_client(
+        "InvestigationService_ListInvestigations"
     )
 
-    assert s is not None
-
-    res = s.investigations.get_investigation(
-        investigation_id="01JHGRJG62CZ0TV805CSWYHJ31"
-    )
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
-
-
-def test_investigations_investigation_service_list_investigations_list_investigations1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
-    )
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
 
-    assert s is not None
+        res = sdk.investigations.list_investigations(
+            page_size=25, page_token="", filter_="", order_by="person.given_name desc"
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
 
-    res = s.investigations.list_investigations()
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
 
+def test_investigations_watchlist_service_get_watchlist_item():
+    test_http_client = create_test_http_client("WatchlistService_GetWatchlistItem")
 
-def test_investigations_watchlist_service_get_watchlist_item_get_watchlist_item1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
-    )
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
 
-    assert s is not None
-
-    res = s.investigations.get_watchlist_item(watchlist_id="DOWJONES", item_id="123456")
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
+        res = sdk.investigations.get_watchlist_item(
+            watchlist_id="DOWJONES", item_id="123456"
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200

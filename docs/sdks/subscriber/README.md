@@ -19,11 +19,13 @@ Creates a new push subscription for event notifications.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_CreatePushSubscription" method="post" path="/events/v1/subscriptions" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -33,18 +35,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.create_push_subscription(request={
-    "display_name": "This is an example HTTP configuration.",
-    "event_types": [
-        "position.v1.updated",
-    ],
-})
+    res = sdk.subscriber.create_push_subscription(request={
+        "display_name": "This is an example HTTP configuration.",
+        "event_types": [
+            "position.v1.updated",
+        ],
+    })
 
-if res.push_subscription is not None:
-    # handle response
-    pass
+    assert res.push_subscription is not None
+
+    # Handle response
+    print(res.push_subscription)
 
 ```
 
@@ -61,10 +64,11 @@ if res.push_subscription is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 409, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 409 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## list_push_subscriptions
 
@@ -72,11 +76,13 @@ Gets a list of push subscriptions.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_ListPushSubscriptions" method="get" path="/events/v1/subscriptions" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -86,13 +92,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.list_push_subscriptions()
+    res = sdk.subscriber.list_push_subscriptions(filter_="correspondent_id==\"01H8MCDXH4HYJJAV921BDKCC83\"", page_size=50, page_token="ZXhhbXBsZQo")
 
-if res.list_push_subscriptions_response is not None:
-    # handle response
-    pass
+    assert res.list_push_subscriptions_response is not None
+
+    # Handle response
+    print(res.list_push_subscriptions_response)
 
 ```
 
@@ -111,10 +118,11 @@ if res.list_push_subscriptions_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 401, 403, 500 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 401, 403    | application/json |
+| errors.Status    | 500              | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_push_subscription
 
@@ -122,11 +130,13 @@ Gets the details of a specific push subscription.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_GetPushSubscription" method="get" path="/events/v1/subscriptions/{subscription_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -136,13 +146,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.get_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907")
+    res = sdk.subscriber.get_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907")
 
-if res.push_subscription is not None:
-    # handle response
-    pass
+    assert res.push_subscription is not None
+
+    # Handle response
+    print(res.push_subscription)
 
 ```
 
@@ -159,10 +170,11 @@ if res.push_subscription is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## update_push_subscription
 
@@ -170,11 +182,13 @@ Updates the details of a push subscription.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_UpdatePushSubscription" method="patch" path="/events/v1/subscriptions/{subscription_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -184,13 +198,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.update_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", push_subscription_update={})
+    res = sdk.subscriber.update_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", push_subscription_update={})
 
-if res.push_subscription is not None:
-    # handle response
-    pass
+    assert res.push_subscription is not None
+
+    # Handle response
+    print(res.push_subscription)
 
 ```
 
@@ -209,10 +224,11 @@ if res.push_subscription is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## delete_push_subscription
 
@@ -220,11 +236,13 @@ Stops receiving events from a push subscription, and then deletes it.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_DeletePushSubscription" method="delete" path="/events/v1/subscriptions/{subscription_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -234,13 +252,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.delete_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907")
+    res = sdk.subscriber.delete_push_subscription(subscription_id="01H8MCDXH4JVH7KVNB2YY42907")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -257,10 +276,11 @@ if res is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## get_push_subscription_delivery
 
@@ -268,11 +288,13 @@ Gets the details of a specific push subscription delivery.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_GetPushSubscriptionDelivery" method="get" path="/events/v1/subscriptions/{subscription_id}/deliveries/{delivery_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -282,13 +304,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.get_push_subscription_delivery(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", delivery_id="01H8MCDXH415BJ962YDN4B02JK")
+    res = sdk.subscriber.get_push_subscription_delivery(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", delivery_id="01H8MCDXH415BJ962YDN4B02JK")
 
-if res.push_subscription_delivery is not None:
-    # handle response
-    pass
+    assert res.push_subscription_delivery is not None
+
+    # Handle response
+    print(res.push_subscription_delivery)
 
 ```
 
@@ -306,10 +329,11 @@ if res.push_subscription_delivery is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## list_push_subscription_deliveries
 
@@ -317,11 +341,13 @@ Gets a list of a push subscription's event deliveries.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Subscriber_ListPushSubscriptionDeliveries" method="get" path="/events/v1/subscriptions/{subscription_id}/deliveries" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -331,13 +357,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.subscriber.list_push_subscription_deliveries(subscription_id="01H8MCDXH4JVH7KVNB2YY42907")
+    res = sdk.subscriber.list_push_subscription_deliveries(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", filter_="event_publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")", page_size=50, page_token="ZXhhbXBsZQo")
 
-if res.list_push_subscription_deliveries_response is not None:
-    # handle response
-    pass
+    assert res.list_push_subscription_deliveries_response is not None
+
+    # Handle response
+    print(res.list_push_subscription_deliveries_response)
 
 ```
 
@@ -357,7 +384,8 @@ if res.list_push_subscription_deliveries_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |

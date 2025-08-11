@@ -194,7 +194,7 @@ class Entity(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -216,7 +216,15 @@ class Entity(BaseModel):
 
 
 class IdentityVerification(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     SCREEN_STATE_UNSPECIFIED = "SCREEN_STATE_UNSPECIFIED"
     PENDING = "PENDING"
@@ -228,7 +236,11 @@ class IdentityVerification(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class IdentityVerificationScope(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Used to determine who is responsible for running identity verification checks"""
+    r"""Used to determine who is responsible for running identity verification checks, one of:
+    - `IDENTITY_VERIFICATION_SCOPE_UNSPECIFIED` - Default/Null value.
+    - `PERFORMED_BY_APEX` - Run CIP and CDD checks.
+    - `PROVIDED_BY_CLIENT` - Run CDD checks with CIP provided in request.
+    """
 
     IDENTITY_VERIFICATION_SCOPE_UNSPECIFIED = "IDENTITY_VERIFICATION_SCOPE_UNSPECIFIED"
     PERFORMED_BY_APEX = "PERFORMED_BY_APEX"
@@ -236,7 +248,11 @@ class IdentityVerificationScope(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InvestigationRequestState(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
 
     INVESTIGATION_REQUEST_STATE_UNSPECIFIED = "INVESTIGATION_REQUEST_STATE_UNSPECIFIED"
     OPEN = "OPEN"
@@ -362,7 +378,14 @@ class InvestigationPersonLegalAddress(BaseModel):
 
 
 class InvestigationNameSuffix(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Suffix of the person's name"""
+    r"""The name suffix for individuals, one of:
+    - `NAME_SUFFIX_UNSPECIFIED` - Default/Null value.
+    - `SR` - Senior.
+    - `JR` - Junior.
+    - `III` - The third.
+    - `IV` - The fourth.
+    - `V` - The fifth.
+    """
 
     NAME_SUFFIX_UNSPECIFIED = "NAME_SUFFIX_UNSPECIFIED"
     SR = "SR"
@@ -475,7 +498,7 @@ class ProvidedIdentityVerification(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -522,7 +545,14 @@ class PersonTypedDict(TypedDict):
     middle_names: NotRequired[str]
     r"""Middle names"""
     name_suffix: NotRequired[InvestigationNameSuffix]
-    r"""Suffix of the person's name"""
+    r"""The name suffix for individuals, one of:
+    - `NAME_SUFFIX_UNSPECIFIED` - Default/Null value.
+    - `SR` - Senior.
+    - `JR` - Junior.
+    - `III` - The third.
+    - `IV` - The fourth.
+    - `V` - The fifth.
+    """
     phone_numbers: NotRequired[List[str]]
     r"""phone numbers related to this person"""
     provided_identity_verification: NotRequired[
@@ -570,7 +600,14 @@ class Person(BaseModel):
     name_suffix: Annotated[
         Optional[InvestigationNameSuffix], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Suffix of the person's name"""
+    r"""The name suffix for individuals, one of:
+    - `NAME_SUFFIX_UNSPECIFIED` - Default/Null value.
+    - `SR` - Senior.
+    - `JR` - Junior.
+    - `III` - The third.
+    - `IV` - The fourth.
+    - `V` - The fifth.
+    """
 
     phone_numbers: Optional[List[str]] = None
     r"""phone numbers related to this person"""
@@ -609,7 +646,7 @@ class Person(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -631,7 +668,15 @@ class Person(BaseModel):
 
 
 class WatchlistScreen(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Indicates the current state of the watchlist screen"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     SCREEN_STATE_UNSPECIFIED = "SCREEN_STATE_UNSPECIFIED"
     PENDING = "PENDING"
@@ -647,6 +692,8 @@ class InvestigationTypedDict(TypedDict):
 
     audit_trail: NotRequired[List[AuditTrailTypedDict]]
     r"""Audit trail of an investigation"""
+    client_id: NotRequired[str]
+    r"""A unique identifier referencing a client The client ID serves as the unique identifier for the apex client positioned above the correspondent within the apex client configurator hierarchy. Moving forward, the account service will internally assign the client ID for all investigations."""
     correspondent_id: NotRequired[str]
     r"""A unique identifier referencing a Correspondent"""
     create_time: NotRequired[Nullable[datetime]]
@@ -654,15 +701,31 @@ class InvestigationTypedDict(TypedDict):
     entity: NotRequired[Nullable[EntityTypedDict]]
     r"""investigation details on an entity"""
     identity_verification: NotRequired[IdentityVerification]
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
     identity_verification_results: NotRequired[
         List[IdentityVerificationResultTypedDict]
     ]
     r"""The results of the identity verification check"""
     identity_verification_scope: NotRequired[IdentityVerificationScope]
-    r"""Used to determine who is responsible for running identity verification checks"""
+    r"""Used to determine who is responsible for running identity verification checks, one of:
+    - `IDENTITY_VERIFICATION_SCOPE_UNSPECIFIED` - Default/Null value.
+    - `PERFORMED_BY_APEX` - Run CIP and CDD checks.
+    - `PROVIDED_BY_CLIENT` - Run CDD checks with CIP provided in request.
+    """
     investigation_request_state: NotRequired[InvestigationRequestState]
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
     name: NotRequired[str]
     r"""Required: The ID for an open investigation The format is \"investigations/{investigation}\" """
     person: NotRequired[Nullable[PersonTypedDict]]
@@ -672,7 +735,15 @@ class InvestigationTypedDict(TypedDict):
     watchlist_matches: NotRequired[List[WatchlistMatchTypedDict]]
     r"""A list of watchlist entries matched against the investigation"""
     watchlist_screen: NotRequired[WatchlistScreen]
-    r"""Indicates the current state of the watchlist screen"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
 
 class Investigation(BaseModel):
@@ -680,6 +751,9 @@ class Investigation(BaseModel):
 
     audit_trail: Optional[List[AuditTrail]] = None
     r"""Audit trail of an investigation"""
+
+    client_id: Optional[str] = None
+    r"""A unique identifier referencing a client The client ID serves as the unique identifier for the apex client positioned above the correspondent within the apex client configurator hierarchy. Moving forward, the account service will internally assign the client ID for all investigations."""
 
     correspondent_id: Optional[str] = None
     r"""A unique identifier referencing a Correspondent"""
@@ -693,7 +767,15 @@ class Investigation(BaseModel):
     identity_verification: Annotated[
         Optional[IdentityVerification], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Indicates the current state of identity verification"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     identity_verification_results: Optional[List[IdentityVerificationResult]] = None
     r"""The results of the identity verification check"""
@@ -701,12 +783,20 @@ class Investigation(BaseModel):
     identity_verification_scope: Annotated[
         Optional[IdentityVerificationScope], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Used to determine who is responsible for running identity verification checks"""
+    r"""Used to determine who is responsible for running identity verification checks, one of:
+    - `IDENTITY_VERIFICATION_SCOPE_UNSPECIFIED` - Default/Null value.
+    - `PERFORMED_BY_APEX` - Run CIP and CDD checks.
+    - `PROVIDED_BY_CLIENT` - Run CDD checks with CIP provided in request.
+    """
 
     investigation_request_state: Annotated[
         Optional[InvestigationRequestState], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Current state of investigation request"""
+    r"""The state of an investigation request, one of:
+    - `INVESTIGATION_REQUEST_STATE_UNSPECIFIED` - Default/Null value.
+    - `OPEN` - The investigation request is open.
+    - `CLOSED` - The investigation request is closed.
+    """
 
     name: Optional[str] = None
     r"""Required: The ID for an open investigation The format is \"investigations/{investigation}\" """
@@ -723,12 +813,21 @@ class Investigation(BaseModel):
     watchlist_screen: Annotated[
         Optional[WatchlistScreen], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Indicates the current state of the watchlist screen"""
+    r"""The screen state of one screening within an investigation, one of:
+    - `SCREEN_STATE_UNSPECIFIED` - Default/Null value.
+    - `PENDING` - Screen result is pending.
+    - `PASSED` - Screen result has passed.
+    - `FAILED` - Screen result has failed.
+    - `NEEDS_REVIEW` - Screen result needs manual review.
+    - `DEFERRED_REVIEW` - Screen result is deferred for review at a later date.
+    - `OUT_OF_SCOPE` - Screen state is out of scope for this investigation type.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "audit_trail",
+            "client_id",
             "correspondent_id",
             "create_time",
             "entity",
@@ -749,7 +848,7 @@ class Investigation(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

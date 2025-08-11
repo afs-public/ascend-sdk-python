@@ -19,11 +19,13 @@ Creates an ICT deposit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctDeposits_CreateIctDeposit" method="post" path="/transfers/v1/accounts/{account_id}/ictDeposits" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -33,23 +35,24 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.create_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_create={
-    "amount": {},
-    "client_transfer_id": "ABC-123",
-    "program": components.Program.DEPOSIT_ONLY,
-    "travel_rule": {
-        "originating_institution": {
-            "account_id": "<id>",
-            "title": "<value>",
-        },
-    },
-})
+    res = sdk.instant_cash_transfer_ict.create_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_create=components.IctDepositCreate(
+        amount=components.DecimalCreate(),
+        client_transfer_id="ABC-123",
+        program=components.Program.DEPOSIT_ONLY,
+        travel_rule=components.IctDepositTravelRuleCreate(
+            originating_institution=components.InstitutionCreate(
+                account_id="<id>",
+                title="<value>",
+            ),
+        ),
+    ))
 
-if res.ict_deposit is not None:
-    # handle response
-    pass
+    assert res.ict_deposit is not None
+
+    # Handle response
+    print(res.ict_deposit)
 
 ```
 
@@ -78,11 +81,13 @@ Gets an existing ICT deposit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctDeposits_GetIctDeposit" method="get" path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -92,13 +97,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.get_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472")
+    res = sdk.instant_cash_transfer_ict.get_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472")
 
-if res.ict_deposit is not None:
-    # handle response
-    pass
+    assert res.ict_deposit is not None
+
+    # Handle response
+    print(res.ict_deposit)
 
 ```
 
@@ -127,11 +133,13 @@ Cancels an existing ICT deposit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctDeposits_CancelIctDeposit" method="post" path="/transfers/v1/accounts/{account_id}/ictDeposits/{ictDeposit_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -141,15 +149,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.cancel_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", cancel_ict_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
-})
+    res = sdk.instant_cash_transfer_ict.cancel_ict_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_deposit_id="20240321000472", cancel_ict_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472",
+    })
 
-if res.ict_deposit is not None:
-    # handle response
-    pass
+    assert res.ict_deposit is not None
+
+    # Handle response
+    print(res.ict_deposit)
 
 ```
 
@@ -179,11 +188,13 @@ Creates an ICT withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctWithdrawals_CreateIctWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/ictWithdrawals" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -193,22 +204,23 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.create_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_create={
-    "client_transfer_id": "20230817000319",
-    "program": components.IctWithdrawalCreateProgram.BROKER_PARTNER,
-    "travel_rule": {
-        "recipient_institution": {
-            "account_id": "<id>",
-            "title": "<value>",
-        },
-    },
-})
+    res = sdk.instant_cash_transfer_ict.create_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_create=components.IctWithdrawalCreate(
+        client_transfer_id="20230817000319",
+        program=components.IctWithdrawalCreateProgram.BROKER_PARTNER,
+        travel_rule=components.IctWithdrawalTravelRuleCreate(
+            recipient_institution=components.InstitutionCreate(
+                account_id="<id>",
+                title="<value>",
+            ),
+        ),
+    ))
 
-if res.ict_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ict_withdrawal is not None
+
+    # Handle response
+    print(res.ict_withdrawal)
 
 ```
 
@@ -237,11 +249,13 @@ Gets an existing ICT withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctWithdrawals_GetIctWithdrawal" method="get" path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -251,13 +265,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.get_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472")
+    res = sdk.instant_cash_transfer_ict.get_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472")
 
-if res.ict_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ict_withdrawal is not None
+
+    # Handle response
+    print(res.ict_withdrawal)
 
 ```
 
@@ -286,11 +301,13 @@ Cancels an existing ICT withdrawal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctWithdrawals_CancelIctWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/ictWithdrawals/{ictWithdrawal_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -300,15 +317,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.cancel_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", cancel_ict_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
-})
+    res = sdk.instant_cash_transfer_ict.cancel_ict_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ict_withdrawal_id="20240321000472", cancel_ict_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472",
+    })
 
-if res.ict_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ict_withdrawal is not None
+
+    # Handle response
+    print(res.ict_withdrawal)
 
 ```
 
@@ -338,11 +356,13 @@ Returns a signed link pointing to a recon report file for a specific ICT batch.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="IctReconReports_LocateIctReport" method="get" path="/transfers/v1/correspondents/{correspondent_id}/ictReconReports:locate" -->
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -352,15 +372,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.instant_cash_transfer_ict.locate_ict_report(request={
-    "correspondent_id": "01H8MCDXH4HYJJAV921BDKCC83",
-})
+    res = sdk.instant_cash_transfer_ict.locate_ict_report(request={
+        "correspondent_id": "01H8MCDXH4HYJJAV921BDKCC83",
+        "batch_id": "24114.108.2b2c1.001",
+        "program_date_filter_program": operations.ProgramDateFilterProgram.BROKER_PARTNER,
+    })
 
-if res.locate_ict_report_response is not None:
-    # handle response
-    pass
+    assert res.locate_ict_report_response is not None
+
+    # Handle response
+    print(res.locate_ict_report_response)
 
 ```
 

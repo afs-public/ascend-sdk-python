@@ -17,11 +17,13 @@ Retrieves retirement contribution and distribution constraints for a cash journa
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="RetirementConstraints_RetrieveCashJournalConstraints" method="post" path="/transfers/v1/cashJournals:retrieveCashJournalConstraints" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -31,16 +33,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.journals.retrieve_cash_journal_constraints(request={
-    "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
-    "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
-})
+    res = sdk.journals.retrieve_cash_journal_constraints(request={
+        "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+        "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
+    })
 
-if res.cash_journal_constraints is not None:
-    # handle response
-    pass
+    assert res.cash_journal_constraints is not None
+
+    # Handle response
+    print(res.cash_journal_constraints)
 
 ```
 
@@ -68,11 +71,13 @@ Creates a cash journal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_CreateCashJournal" method="post" path="/transfers/v1/cashJournals" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -82,17 +87,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.journals.create_cash_journal(request={
-    "client_transfer_id": "113bw03-49f8-4525-934c-560fb39dg2kd",
-    "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
-    "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
-})
+    res = sdk.journals.create_cash_journal(request=components.CashJournalCreate(
+        client_transfer_id="113bw03-49f8-4525-934c-560fb39dg2kd",
+        destination_account="accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+        source_account="accounts/01H8FM6EXVH77SAW3TC8KAWMES",
+    ))
 
-if res.cash_journal is not None:
-    # handle response
-    pass
+    assert res.cash_journal is not None
+
+    # Handle response
+    print(res.cash_journal)
 
 ```
 
@@ -120,11 +126,13 @@ Gets an existing cash journal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_GetCashJournal" method="get" path="/transfers/v1/cashJournals/{cashJournal_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -134,13 +142,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.journals.get_cash_journal(cash_journal_id="20230817000319")
+    res = sdk.journals.get_cash_journal(cash_journal_id="20230817000319")
 
-if res.cash_journal is not None:
-    # handle response
-    pass
+    assert res.cash_journal is not None
+
+    # Handle response
+    print(res.cash_journal)
 
 ```
 
@@ -168,11 +177,13 @@ Cancels an existing cash journal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_CancelCashJournal" method="post" path="/transfers/v1/cashJournals/{cashJournal_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -182,15 +193,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.journals.cancel_cash_journal(cash_journal_id="20240717000319", cancel_cash_journal_request_create={
-    "name": "cashJournals/20240717000319",
-})
+    res = sdk.journals.cancel_cash_journal(cash_journal_id="20240717000319", cancel_cash_journal_request_create={
+        "name": "cashJournals/20240717000319",
+    })
 
-if res.cash_journal is not None:
-    # handle response
-    pass
+    assert res.cash_journal is not None
+
+    # Handle response
+    print(res.cash_journal)
 
 ```
 
@@ -219,11 +231,13 @@ Determines whether a potential cash journal will be considered first party or th
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashJournals_CheckPartyType" method="post" path="/transfers/v1/cashJournals:checkPartyType" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -233,16 +247,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.journals.check_party_type(request={
-    "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
-    "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
-})
+    res = sdk.journals.check_party_type(request={
+        "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+        "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
+    })
 
-if res.check_party_type_response is not None:
-    # handle response
-    pass
+    assert res.check_party_type_response is not None
+
+    # Handle response
+    print(res.check_party_type_response)
 
 ```
 

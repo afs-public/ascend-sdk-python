@@ -13,11 +13,13 @@ Gets the buying power for an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="MarginsRealTime_GetBuyingPower" method="get" path="/buyingpower/v1/accounts/{account_id}/buyingPower" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -27,13 +29,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.margins.get_buying_power(account_id="01HMS9S15AKBHBD8GPW33P2PMH")
+    res = sdk.margins.get_buying_power(account_id="01HMS9S15AKBHBD8GPW33P2PMH")
 
-if res.buying_power is not None:
-    # handle response
-    pass
+    assert res.buying_power is not None
+
+    # Handle response
+    print(res.buying_power)
 
 ```
 
@@ -50,7 +53,8 @@ if res.buying_power is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |

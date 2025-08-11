@@ -16,11 +16,13 @@ Lists the aggregated retirement contribution summaries by tax year
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="RetirementConstraints_ListContributionSummaries" method="get" path="/transfers/v1/accounts/{account_id}/contributionSummaries" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -30,13 +32,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.retirements.list_contribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.retirements.list_contribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=2, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh")
 
-if res.list_contribution_summaries_response is not None:
-    # handle response
-    pass
+    assert res.list_contribution_summaries_response is not None
+
+    # Handle response
+    print(res.list_contribution_summaries_response)
 
 ```
 
@@ -66,11 +69,13 @@ Retrieves retirement contribution constraints for an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="RetirementConstraints_RetrieveContributionConstraints" method="post" path="/transfers/v1/accounts/{account_id}:retrieveContributionConstraints" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -80,16 +85,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.retirements.retrieve_contribution_constraints(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", retrieve_contribution_constraints_request_create={
-    "mechanism": components.Mechanism.ACH,
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
-})
+    res = sdk.retirements.retrieve_contribution_constraints(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", retrieve_contribution_constraints_request_create={
+        "mechanism": components.Mechanism.ACH,
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+    })
 
-if res.contribution_constraints is not None:
-    # handle response
-    pass
+    assert res.contribution_constraints is not None
+
+    # Handle response
+    print(res.contribution_constraints)
 
 ```
 
@@ -118,11 +124,13 @@ Lists the aggregated retirement distribution summaries by tax year
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="RetirementConstraints_ListDistributionSummaries" method="get" path="/transfers/v1/accounts/{account_id}/distributionSummaries" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -132,13 +140,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.retirements.list_distribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.retirements.list_distribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=2, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh")
 
-if res.list_distribution_summaries_response is not None:
-    # handle response
-    pass
+    assert res.list_distribution_summaries_response is not None
+
+    # Handle response
+    print(res.list_distribution_summaries_response)
 
 ```
 
@@ -168,11 +177,13 @@ Retrieves retirement distribution constraints for an account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="RetirementConstraints_RetrieveDistributionConstraints" method="post" path="/transfers/v1/accounts/{account_id}:retrieveDistributionConstraints" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -182,16 +193,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.retirements.retrieve_distribution_constraints(account_id="01H8FM6EXVH77SAW3TC8KAWMES", retrieve_distribution_constraints_request_create={
-    "mechanism": components.RetrieveDistributionConstraintsRequestCreateMechanism.ACH,
-    "name": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
-})
+    res = sdk.retirements.retrieve_distribution_constraints(account_id="01H8FM6EXVH77SAW3TC8KAWMES", retrieve_distribution_constraints_request_create={
+        "mechanism": components.RetrieveDistributionConstraintsRequestCreateMechanism.ACH,
+        "name": "accounts/01H8FM6EXVH77SAW3TC8KAWMES",
+    })
 
-if res.distribution_constraints is not None:
-    # handle response
-    pass
+    assert res.distribution_constraints is not None
+
+    # Handle response
+    print(res.distribution_constraints)
 
 ```
 

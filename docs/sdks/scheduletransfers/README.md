@@ -28,11 +28,13 @@ Lists transfer schedule summaries that match the filter in the request
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="TransferScheduleSummaries_ListScheduleSummaries" method="get" path="/transfers/v1/schedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -42,13 +44,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.list_schedule_summaries()
+    res = sdk.schedule_transfers.list_schedule_summaries(filter_="mechanism == 'ACH' && direction == DEPOSIT && state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_schedule_summaries_response is not None:
-    # handle response
-    pass
+    assert res.list_schedule_summaries_response is not None
+
+    # Handle response
+    print(res.list_schedule_summaries_response)
 
 ```
 
@@ -78,11 +81,13 @@ Creates an ACH deposit transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDepositSchedules_CreateAchDepositSchedule" method="post" path="/transfers/v1/accounts/{account_id}/achDepositSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -92,24 +97,25 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.create_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_create={
-    "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-    "schedule_details": {
-        "amount": {},
-        "client_schedule_id": "ABC-123",
-        "schedule_properties": {
-            "start_date": {},
-            "time_unit": components.TimeUnit.MONTH,
-            "unit_multiplier": 1,
+    res = sdk.schedule_transfers.create_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_create={
+        "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+        "schedule_details": {
+            "amount": {},
+            "client_schedule_id": "ABC-123",
+            "schedule_properties": {
+                "start_date": {},
+                "time_unit": components.TimeUnit.MONTH,
+                "unit_multiplier": 1,
+            },
         },
-    },
-})
+    })
 
-if res.ach_deposit_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_deposit_schedule is not None
+
+    # Handle response
+    print(res.ach_deposit_schedule)
 
 ```
 
@@ -138,11 +144,13 @@ Return a list of ACH deposit schedules for the specified account and filter para
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDepositSchedules_ListAchDepositSchedules" method="get" path="/transfers/v1/accounts/{account_id}/achDepositSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -152,13 +160,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.list_ach_deposit_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.schedule_transfers.list_ach_deposit_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_ach_deposit_schedules_response is not None:
-    # handle response
-    pass
+    assert res.list_ach_deposit_schedules_response is not None
+
+    # Handle response
+    print(res.list_ach_deposit_schedules_response)
 
 ```
 
@@ -189,11 +198,13 @@ Gets an ACH deposit transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDepositSchedules_GetAchDepositSchedule" method="get" path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -203,13 +214,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.get_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
+    res = sdk.schedule_transfers.get_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
 
-if res.ach_deposit_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_deposit_schedule is not None
+
+    # Handle response
+    print(res.ach_deposit_schedule)
 
 ```
 
@@ -238,11 +250,13 @@ Updates the amount of an ACH deposit transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDepositSchedules_UpdateAchDepositSchedule" method="patch" path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -252,13 +266,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.update_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", ach_deposit_schedule_update={})
+    res = sdk.schedule_transfers.update_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", ach_deposit_schedule_update={})
 
-if res.ach_deposit_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_deposit_schedule is not None
+
+    # Handle response
+    print(res.ach_deposit_schedule)
 
 ```
 
@@ -289,11 +304,13 @@ Cancels an ACH deposit transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDepositSchedules_CancelAchDepositSchedule" method="post" path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -303,15 +320,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.cancel_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_ach_deposit_schedule_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDepositSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
-})
+    res = sdk.schedule_transfers.cancel_ach_deposit_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_ach_deposit_schedule_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDepositSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
+    })
 
-if res.ach_deposit_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_deposit_schedule is not None
+
+    # Handle response
+    print(res.ach_deposit_schedule)
 
 ```
 
@@ -341,11 +359,13 @@ Creates an ACH withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawalSchedules_CreateAchWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -355,23 +375,24 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.create_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_create={
-    "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-    "schedule_details": {
-        "client_schedule_id": "ABC-123",
-        "schedule_properties": {
-            "start_date": {},
-            "time_unit": components.TimeUnit.MONTH,
-            "unit_multiplier": 1,
-        },
-    },
-})
+    res = sdk.schedule_transfers.create_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_create=components.AchWithdrawalScheduleCreate(
+        bank_relationship="accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            client_schedule_id="ABC-123",
+            schedule_properties=components.SchedulePropertiesCreate(
+                start_date=components.DateCreate(),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+    ))
 
-if res.ach_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.ach_withdrawal_schedule)
 
 ```
 
@@ -400,11 +421,13 @@ Return a list of ACH withdrawal schedules for the specified account and filter p
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawalSchedules_ListAchWithdrawalSchedules" method="get" path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -414,13 +437,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.list_ach_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.schedule_transfers.list_ach_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_ach_withdrawal_schedules_response is not None:
-    # handle response
-    pass
+    assert res.list_ach_withdrawal_schedules_response is not None
+
+    # Handle response
+    print(res.list_ach_withdrawal_schedules_response)
 
 ```
 
@@ -451,11 +475,13 @@ Gets an ACH withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawalSchedules_GetAchWithdrawalSchedule" method="get" path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -465,13 +491,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.get_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
+    res = sdk.schedule_transfers.get_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
 
-if res.ach_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.ach_withdrawal_schedule)
 
 ```
 
@@ -500,11 +527,13 @@ Updates the amount of an ACH withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawalSchedules_UpdateAchWithdrawalSchedule" method="patch" path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -514,13 +543,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.update_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", ach_withdrawal_schedule_update={})
+    res = sdk.schedule_transfers.update_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", ach_withdrawal_schedule_update={})
 
-if res.ach_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.ach_withdrawal_schedule)
 
 ```
 
@@ -551,11 +581,13 @@ Cancels an ACH withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawalSchedules_CancelAchWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -565,15 +597,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.cancel_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_ach_withdrawal_schedule_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
-})
+    res = sdk.schedule_transfers.cancel_ach_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_ach_withdrawal_schedule_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
+    })
 
-if res.ach_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.ach_withdrawal_schedule)
 
 ```
 
@@ -603,11 +636,13 @@ Creates a Wire withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawalSchedules_CreateWireWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -617,31 +652,32 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.create_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_create={
-    "beneficiary": {
-        "account": "73849218650987",
-    },
-    "recipient_bank": {
-        "bank_id": {
-            "id": "ABNANL2AXXX",
-            "type": components.RecipientBankBankIDCreateType.BIC,
-        },
-    },
-    "schedule_details": {
-        "client_schedule_id": "ABC-123",
-        "schedule_properties": {
-            "start_date": {},
-            "time_unit": components.TimeUnit.MONTH,
-            "unit_multiplier": 1,
-        },
-    },
-})
+    res = sdk.schedule_transfers.create_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_create=components.WireWithdrawalScheduleCreate(
+        beneficiary=components.WireWithdrawalBeneficiaryCreate(
+            account="73849218650987",
+        ),
+        recipient_bank=components.WireWithdrawalRecipientBankCreate(
+            bank_id=components.RecipientBankBankIDCreate(
+                id="ABNANL2AXXX",
+                type=components.RecipientBankBankIDCreateType.BIC,
+            ),
+        ),
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            client_schedule_id="ABC-123",
+            schedule_properties=components.SchedulePropertiesCreate(
+                start_date=components.DateCreate(),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+    ))
 
-if res.wire_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.wire_withdrawal_schedule)
 
 ```
 
@@ -670,11 +706,13 @@ Return a list of Wire withdrawal schedules for the specified account and filter 
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawalSchedules_ListWireWithdrawalSchedules" method="get" path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -684,13 +722,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.list_wire_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.schedule_transfers.list_wire_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_wire_withdrawal_schedules_response is not None:
-    # handle response
-    pass
+    assert res.list_wire_withdrawal_schedules_response is not None
+
+    # Handle response
+    print(res.list_wire_withdrawal_schedules_response)
 
 ```
 
@@ -721,11 +760,13 @@ Gets a Wire withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawalSchedules_GetWireWithdrawalSchedule" method="get" path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -735,13 +776,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.get_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
+    res = sdk.schedule_transfers.get_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
 
-if res.wire_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.wire_withdrawal_schedule)
 
 ```
 
@@ -770,11 +812,13 @@ Updates the amount of a Wire withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawalSchedules_UpdateWireWithdrawalSchedule" method="patch" path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -784,13 +828,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.update_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", wire_withdrawal_schedule_update={})
+    res = sdk.schedule_transfers.update_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", wire_withdrawal_schedule_update={}, update_mask="[object Object]")
 
-if res.wire_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.wire_withdrawal_schedule)
 
 ```
 
@@ -821,11 +866,13 @@ Cancels a Wire withdrawal transfer schedule
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="WireWithdrawalSchedules_CancelWireWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -835,15 +882,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.schedule_transfers.cancel_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_wire_withdrawal_schedule_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
-})
+    res = sdk.schedule_transfers.cancel_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_wire_withdrawal_schedule_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
+    })
 
-if res.wire_withdrawal_schedule is not None:
-    # handle response
-    pass
+    assert res.wire_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.wire_withdrawal_schedule)
 
 ```
 
