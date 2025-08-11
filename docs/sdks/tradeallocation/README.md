@@ -18,12 +18,14 @@ Creates a new trade allocation. These are used to allocate or distribute positio
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Booking_CreateTradeAllocation" method="post" path="/booking/v1/accounts/{account_id}/tradeAllocations" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
-import dateutil.parser
+from ascend_sdk.utils import parse_datetime
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -33,24 +35,25 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.trade_allocation.create_trade_allocation(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_allocation_create={
-    "broker_capacity": components.TradeAllocationCreateBrokerCapacity.AGENCY,
-    "execution_time": dateutil.parser.isoparse("2024-07-17T12:00:00Z"),
-    "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3",
-    "identifier": "AAPL",
-    "identifier_type": components.TradeAllocationCreateIdentifierType.SYMBOL,
-    "price": {},
-    "quantity": {},
-    "source_application": "Trading-App",
-    "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2",
-    "to_side": components.ToSide.BUY,
-})
+    res = sdk.trade_allocation.create_trade_allocation(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_allocation_create=components.TradeAllocationCreate(
+        broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
+        execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+        from_account_id="01HASWB2DTMRT3DAM45P56J2H3",
+        identifier="AAPL",
+        identifier_type=components.TradeAllocationCreateIdentifierType.SYMBOL,
+        price=components.DecimalCreate(),
+        quantity=components.DecimalCreate(),
+        source_application="Trading-App",
+        to_account_id="02HASWB2DTMRT3DAM45P56J2T2",
+        to_side=components.ToSide.BUY,
+    ), request_id="8a0d35c0-428c-439e-9b03-b611530fe06f")
 
-if res.trade_allocation is not None:
-    # handle response
-    pass
+    assert res.trade_allocation is not None
+
+    # Handle response
+    print(res.trade_allocation)
 
 ```
 
@@ -69,10 +72,11 @@ if res.trade_allocation is not None:
 
 ### Errors
 
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| errors.Status                     | 400, 403, 404, 409, 500, 503, 504 | application/json                  |
-| errors.SDKError                   | 4XX, 5XX                          | \*/\*                             |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 403, 404, 409 | application/json   |
+| errors.Status      | 500, 503, 504      | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## get_trade_allocation
 
@@ -82,11 +86,13 @@ Retrieves a trade allocation and its details.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Booking_GetTradeAllocation" method="get" path="/booking/v1/accounts/{account_id}/tradeAllocations/{tradeAllocation_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -96,13 +102,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.trade_allocation.get_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM")
+    res = sdk.trade_allocation.get_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM")
 
-if res.trade_allocation is not None:
-    # handle response
-    pass
+    assert res.trade_allocation is not None
+
+    # Handle response
+    print(res.trade_allocation)
 
 ```
 
@@ -120,10 +127,11 @@ if res.trade_allocation is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 500, 503, 504 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## cancel_trade_allocation
 
@@ -133,11 +141,13 @@ Cancel a trade allocation using the original trade_allocation_id.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Booking_CancelTradeAllocation" method="post" path="/booking/v1/accounts/{account_id}/tradeAllocations/{tradeAllocation_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -147,15 +157,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.trade_allocation.cancel_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM", cancel_trade_allocation_request_create={
-    "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM",
-})
+    res = sdk.trade_allocation.cancel_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM", cancel_trade_allocation_request_create={
+        "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM",
+    })
 
-if res.cancel_trade_allocation_response is not None:
-    # handle response
-    pass
+    assert res.cancel_trade_allocation_response is not None
+
+    # Handle response
+    print(res.cancel_trade_allocation_response)
 
 ```
 
@@ -174,10 +185,11 @@ if res.cancel_trade_allocation_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 500, 503, 504 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## rebook_trade_allocation
 
@@ -187,12 +199,14 @@ Rebook a trade allocation by the original trade_allocation_id. The allocation is
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Booking_RebookTradeAllocation" method="post" path="/booking/v1/accounts/{account_id}/tradeAllocations/{tradeAllocation_id}:rebook" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
-import dateutil.parser
+from ascend_sdk.utils import parse_datetime
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -202,28 +216,29 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.trade_allocation.rebook_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM", rebook_trade_allocation_request_create={
-    "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM",
-    "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f",
-    "trade_allocation": {
-        "broker_capacity": components.TradeAllocationCreateBrokerCapacity.AGENCY,
-        "execution_time": dateutil.parser.isoparse("2024-07-17T12:00:00Z"),
-        "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3",
-        "identifier": "AAPL",
-        "identifier_type": components.TradeAllocationCreateIdentifierType.SYMBOL,
-        "price": {},
-        "quantity": {},
-        "source_application": "Trading-App",
-        "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2",
-        "to_side": components.ToSide.BUY,
-    },
-})
+    res = sdk.trade_allocation.rebook_trade_allocation(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_allocation_id="01J0XX2KDN3M9QKFKRE2HYSCQM", rebook_trade_allocation_request_create=components.RebookTradeAllocationRequestCreate(
+        name="accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM",
+        request_id="8a0d35c0-428c-439e-9b03-b611530fe06f",
+        trade_allocation=components.TradeAllocationCreate(
+            broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
+            execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+            from_account_id="01HASWB2DTMRT3DAM45P56J2H3",
+            identifier="AAPL",
+            identifier_type=components.TradeAllocationCreateIdentifierType.SYMBOL,
+            price=components.DecimalCreate(),
+            quantity=components.DecimalCreate(),
+            source_application="Trading-App",
+            to_account_id="02HASWB2DTMRT3DAM45P56J2T2",
+            to_side=components.ToSide.BUY,
+        ),
+    ))
 
-if res.rebook_trade_allocation_response is not None:
-    # handle response
-    pass
+    assert res.rebook_trade_allocation_response is not None
+
+    # Handle response
+    print(res.rebook_trade_allocation_response)
 
 ```
 
@@ -242,7 +257,8 @@ if res.rebook_trade_allocation_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 500, 503, 504 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

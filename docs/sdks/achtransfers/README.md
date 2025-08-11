@@ -18,11 +18,13 @@ Creates an ACH deposit.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_CreateAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -32,17 +34,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.create_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_create={
-    "amount": {},
-    "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-    "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
-})
+    res = sdk.ach_transfers.create_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_create={
+        "amount": {},
+        "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+        "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -71,11 +74,13 @@ Gets an existing ACH deposit.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_GetAchDeposit" method="get" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -85,13 +90,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.get_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319")
+    res = sdk.ach_transfers.get_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319")
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -120,11 +126,13 @@ Cancels an existing ACH deposit.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchDeposits_CancelAchDeposit" method="post" path="/transfers/v1/accounts/{account_id}/achDeposits/{achDeposit_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -134,15 +142,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.cancel_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", cancel_ach_deposit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
-})
+    res = sdk.ach_transfers.cancel_ach_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_deposit_id="20230817000319", cancel_ach_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319",
+    })
 
-if res.ach_deposit is not None:
-    # handle response
-    pass
+    assert res.ach_deposit is not None
+
+    # Handle response
+    print(res.ach_deposit)
 
 ```
 
@@ -172,11 +181,13 @@ Creates an ACH withdrawal.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_CreateAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -186,16 +197,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.create_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_create={
-    "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-    "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
-})
+    res = sdk.ach_transfers.create_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_create=components.AchWithdrawalCreate(
+        bank_relationship="accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+        client_transfer_id="179dcd33-49f8-4615-989c-560fb387c4fd",
+    ))
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -224,11 +236,13 @@ Gets an existing ACH withdrawal.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_GetAchWithdrawal" method="get" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -238,13 +252,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.get_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726")
+    res = sdk.ach_transfers.get_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726")
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 
@@ -273,11 +288,13 @@ Cancels an existing ACH withdrawal.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AchWithdrawals_CancelAchWithdrawal" method="post" path="/transfers/v1/accounts/{account_id}/achWithdrawals/{achWithdrawal_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -287,15 +304,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.ach_transfers.cancel_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", cancel_ach_withdrawal_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
-})
+    res = sdk.ach_transfers.cancel_ach_withdrawal(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", ach_withdrawal_id="20230620500726", cancel_ach_withdrawal_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726",
+    })
 
-if res.ach_withdrawal is not None:
-    # handle response
-    pass
+    assert res.ach_withdrawal is not None
+
+    # Handle response
+    print(res.ach_withdrawal)
 
 ```
 

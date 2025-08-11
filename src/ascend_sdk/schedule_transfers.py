@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional, Union
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union
 
 
 class ScheduleTransfers(BaseSDK):
@@ -18,6 +19,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.TransferScheduleSummariesListScheduleSummariesResponse:
         r"""List Schedule Summaries
 
@@ -29,6 +31,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -37,6 +40,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.TransferScheduleSummariesListScheduleSummariesRequest(
             filter_=filter_,
@@ -44,7 +49,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/schedules",
             base_url=base_url,
@@ -55,6 +60,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -69,6 +75,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="TransferScheduleSummaries_ListScheduleSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -78,34 +86,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
-                list_schedule_summaries_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListScheduleSummariesResponse]
+                list_schedule_summaries_response=unmarshal_json_response(
+                    Optional[components.ListScheduleSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_schedule_summaries_async(
         self,
@@ -116,6 +120,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.TransferScheduleSummariesListScheduleSummariesResponse:
         r"""List Schedule Summaries
 
@@ -127,6 +132,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -135,6 +141,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.TransferScheduleSummariesListScheduleSummariesRequest(
             filter_=filter_,
@@ -142,7 +150,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/schedules",
             base_url=base_url,
@@ -153,6 +161,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -167,6 +176,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="TransferScheduleSummaries_ListScheduleSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -176,34 +187,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
-                list_schedule_summaries_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListScheduleSummariesResponse]
+                list_schedule_summaries_response=unmarshal_json_response(
+                    Optional[components.ListScheduleSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def create_ach_deposit_schedule(
         self,
@@ -216,6 +223,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesCreateAchDepositScheduleResponse:
         r"""Create ACH Deposit Schedule
 
@@ -226,6 +234,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -234,6 +243,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesCreateAchDepositScheduleRequest(
             account_id=account_id,
@@ -242,7 +253,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules",
             base_url=base_url,
@@ -253,6 +264,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_deposit_schedule_create,
@@ -274,6 +286,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_CreateAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -283,34 +297,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesCreateAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesCreateAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_ach_deposit_schedule_async(
         self,
@@ -323,6 +333,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesCreateAchDepositScheduleResponse:
         r"""Create ACH Deposit Schedule
 
@@ -333,6 +344,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -341,6 +353,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesCreateAchDepositScheduleRequest(
             account_id=account_id,
@@ -349,7 +363,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules",
             base_url=base_url,
@@ -360,6 +374,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_deposit_schedule_create,
@@ -381,6 +396,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_CreateAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -390,34 +407,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesCreateAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesCreateAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_ach_deposit_schedules(
         self,
@@ -429,6 +442,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesListAchDepositSchedulesResponse:
         r"""List ACH Deposit Schedules
 
@@ -441,6 +455,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -449,6 +464,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesListAchDepositSchedulesRequest(
             account_id=account_id,
@@ -457,7 +474,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules",
             base_url=base_url,
@@ -468,6 +485,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -482,6 +500,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_ListAchDepositSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -491,34 +511,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
-                list_ach_deposit_schedules_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListAchDepositSchedulesResponse]
+                list_ach_deposit_schedules_response=unmarshal_json_response(
+                    Optional[components.ListAchDepositSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_ach_deposit_schedules_async(
         self,
@@ -530,6 +546,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesListAchDepositSchedulesResponse:
         r"""List ACH Deposit Schedules
 
@@ -542,6 +559,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -550,6 +568,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesListAchDepositSchedulesRequest(
             account_id=account_id,
@@ -558,7 +578,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules",
             base_url=base_url,
@@ -569,6 +589,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -583,6 +604,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_ListAchDepositSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -592,34 +615,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
-                list_ach_deposit_schedules_response=utils.unmarshal_json(
-                    http_res.text, Optional[components.ListAchDepositSchedulesResponse]
+                list_ach_deposit_schedules_response=unmarshal_json_response(
+                    Optional[components.ListAchDepositSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_ach_deposit_schedule(
         self,
@@ -629,6 +648,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesGetAchDepositScheduleResponse:
         r"""Get ACH Deposit Schedule
 
@@ -639,6 +659,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -647,13 +668,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesGetAchDepositScheduleRequest(
             account_id=account_id,
             ach_deposit_schedule_id=ach_deposit_schedule_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}",
             base_url=base_url,
@@ -664,6 +687,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -678,6 +702,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_GetAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -687,34 +713,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesGetAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesGetAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_ach_deposit_schedule_async(
         self,
@@ -724,6 +746,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesGetAchDepositScheduleResponse:
         r"""Get ACH Deposit Schedule
 
@@ -734,6 +757,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -742,13 +766,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesGetAchDepositScheduleRequest(
             account_id=account_id,
             ach_deposit_schedule_id=ach_deposit_schedule_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}",
             base_url=base_url,
@@ -759,6 +785,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -773,6 +800,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_GetAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -782,34 +811,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesGetAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesGetAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def update_ach_deposit_schedule(
         self,
@@ -824,6 +849,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesUpdateAchDepositScheduleResponse:
         r"""Update ACH Deposit Schedules
 
@@ -836,6 +862,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -844,6 +871,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesUpdateAchDepositScheduleRequest(
             account_id=account_id,
@@ -854,7 +883,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}",
             base_url=base_url,
@@ -865,6 +894,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_deposit_schedule_update,
@@ -886,6 +916,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_UpdateAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -895,34 +927,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesUpdateAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesUpdateAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def update_ach_deposit_schedule_async(
         self,
@@ -937,6 +965,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesUpdateAchDepositScheduleResponse:
         r"""Update ACH Deposit Schedules
 
@@ -949,6 +978,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -957,6 +987,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesUpdateAchDepositScheduleRequest(
             account_id=account_id,
@@ -967,7 +999,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}",
             base_url=base_url,
@@ -978,6 +1010,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_deposit_schedule_update,
@@ -999,6 +1032,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_UpdateAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1008,34 +1043,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesUpdateAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesUpdateAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_ach_deposit_schedule(
         self,
@@ -1049,6 +1080,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesCancelAchDepositScheduleResponse:
         r"""Cancel ACH Deposit Schedule
 
@@ -1060,6 +1092,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1068,6 +1101,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesCancelAchDepositScheduleRequest(
             account_id=account_id,
@@ -1078,7 +1113,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}:cancel",
             base_url=base_url,
@@ -1089,6 +1124,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ach_deposit_schedule_request_create,
@@ -1110,6 +1146,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_CancelAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1119,34 +1157,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesCancelAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesCancelAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_ach_deposit_schedule_async(
         self,
@@ -1160,6 +1194,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchDepositSchedulesCancelAchDepositScheduleResponse:
         r"""Cancel ACH Deposit Schedule
 
@@ -1171,6 +1206,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1179,6 +1215,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchDepositSchedulesCancelAchDepositScheduleRequest(
             account_id=account_id,
@@ -1189,7 +1227,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achDepositSchedules/{achDepositSchedule_id}:cancel",
             base_url=base_url,
@@ -1200,6 +1238,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ach_deposit_schedule_request_create,
@@ -1221,6 +1260,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchDepositSchedules_CancelAchDepositSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1230,34 +1271,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesCancelAchDepositScheduleResponse(
-                ach_deposit_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchDepositSchedule]
+                ach_deposit_schedule=unmarshal_json_response(
+                    Optional[components.AchDepositSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchDepositSchedulesCancelAchDepositScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def create_ach_withdrawal_schedule(
         self,
@@ -1270,6 +1307,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse:
         r"""Create ACH Withdrawal Schedule
 
@@ -1280,6 +1318,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1288,6 +1327,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -1296,7 +1337,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules",
             base_url=base_url,
@@ -1307,6 +1348,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_withdrawal_schedule_create,
@@ -1328,6 +1370,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_CreateAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1337,34 +1381,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_ach_withdrawal_schedule_async(
         self,
@@ -1377,6 +1417,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse:
         r"""Create ACH Withdrawal Schedule
 
@@ -1387,6 +1428,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1395,6 +1437,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -1403,7 +1447,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules",
             base_url=base_url,
@@ -1414,6 +1458,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_withdrawal_schedule_create,
@@ -1435,6 +1480,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_CreateAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1444,34 +1491,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesCreateAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_ach_withdrawal_schedules(
         self,
@@ -1483,6 +1526,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse:
         r"""List ACH Withdrawal Schedules
 
@@ -1495,6 +1539,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1503,6 +1548,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesRequest(
             account_id=account_id,
@@ -1511,7 +1558,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules",
             base_url=base_url,
@@ -1522,6 +1569,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1536,6 +1584,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_ListAchWithdrawalSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1545,35 +1595,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
-                list_ach_withdrawal_schedules_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListAchWithdrawalSchedulesResponse],
+                list_ach_withdrawal_schedules_response=unmarshal_json_response(
+                    Optional[components.ListAchWithdrawalSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_ach_withdrawal_schedules_async(
         self,
@@ -1585,6 +1630,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse:
         r"""List ACH Withdrawal Schedules
 
@@ -1597,6 +1643,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1605,6 +1652,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesRequest(
             account_id=account_id,
@@ -1613,7 +1662,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules",
             base_url=base_url,
@@ -1624,6 +1673,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1638,6 +1688,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_ListAchWithdrawalSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1647,35 +1699,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
-                list_ach_withdrawal_schedules_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListAchWithdrawalSchedulesResponse],
+                list_ach_withdrawal_schedules_response=unmarshal_json_response(
+                    Optional[components.ListAchWithdrawalSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_ach_withdrawal_schedule(
         self,
@@ -1685,6 +1732,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse:
         r"""Get ACH Withdrawal Schedule
 
@@ -1695,6 +1743,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1703,13 +1752,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleRequest(
             account_id=account_id,
             ach_withdrawal_schedule_id=ach_withdrawal_schedule_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}",
             base_url=base_url,
@@ -1720,6 +1771,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1734,6 +1786,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_GetAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1743,34 +1797,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_ach_withdrawal_schedule_async(
         self,
@@ -1780,6 +1830,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse:
         r"""Get ACH Withdrawal Schedule
 
@@ -1790,6 +1841,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1798,13 +1850,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleRequest(
             account_id=account_id,
             ach_withdrawal_schedule_id=ach_withdrawal_schedule_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}",
             base_url=base_url,
@@ -1815,6 +1869,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1829,6 +1884,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_GetAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1838,34 +1895,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesGetAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def update_ach_withdrawal_schedule(
         self,
@@ -1880,6 +1933,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse:
         r"""Update ACH Withdrawal Schedule
 
@@ -1892,6 +1946,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1900,6 +1955,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -1910,7 +1967,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}",
             base_url=base_url,
@@ -1921,6 +1978,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_withdrawal_schedule_update,
@@ -1942,6 +2000,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_UpdateAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1951,34 +2011,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def update_ach_withdrawal_schedule_async(
         self,
@@ -1993,6 +2049,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse:
         r"""Update ACH Withdrawal Schedule
 
@@ -2005,6 +2062,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2013,6 +2071,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2023,7 +2083,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}",
             base_url=base_url,
@@ -2034,6 +2094,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.ach_withdrawal_schedule_update,
@@ -2055,6 +2116,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_UpdateAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2064,34 +2127,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesUpdateAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_ach_withdrawal_schedule(
         self,
@@ -2105,6 +2164,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse:
         r"""Cancel ACH Withdrawal Schedule
 
@@ -2116,6 +2176,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2124,6 +2185,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2134,7 +2197,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}:cancel",
             base_url=base_url,
@@ -2145,6 +2208,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ach_withdrawal_schedule_request_create,
@@ -2166,6 +2230,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_CancelAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2175,34 +2241,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_ach_withdrawal_schedule_async(
         self,
@@ -2216,6 +2278,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse:
         r"""Cancel ACH Withdrawal Schedule
 
@@ -2227,6 +2290,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2235,6 +2299,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2245,7 +2311,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/achWithdrawalSchedules/{achWithdrawalSchedule_id}:cancel",
             base_url=base_url,
@@ -2256,6 +2322,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_ach_withdrawal_schedule_request_create,
@@ -2277,6 +2344,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="AchWithdrawalSchedules_CancelAchWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2286,34 +2355,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(
-                ach_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.AchWithdrawalSchedule]
+                ach_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.AchWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def create_wire_withdrawal_schedule(
         self,
@@ -2326,6 +2391,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse:
         r"""Create Wire Withdrawal Schedule
 
@@ -2336,6 +2402,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2344,6 +2411,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2352,7 +2421,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules",
             base_url=base_url,
@@ -2363,6 +2432,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.wire_withdrawal_schedule_create,
@@ -2384,6 +2454,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_CreateWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2393,40 +2465,36 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def create_wire_withdrawal_schedule_async(
         self,
@@ -2439,6 +2507,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse:
         r"""Create Wire Withdrawal Schedule
 
@@ -2449,6 +2518,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2457,6 +2527,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2465,7 +2537,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules",
             base_url=base_url,
@@ -2476,6 +2548,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.wire_withdrawal_schedule_create,
@@ -2497,6 +2570,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_CreateWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2506,40 +2581,36 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCreateWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_wire_withdrawal_schedules(
         self,
@@ -2551,6 +2622,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse:
         r"""List Wire Withdrawal Schedules
 
@@ -2563,6 +2635,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2571,6 +2644,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesRequest(
             account_id=account_id,
@@ -2579,7 +2654,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules",
             base_url=base_url,
@@ -2590,6 +2665,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -2604,6 +2680,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_ListWireWithdrawalSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2613,41 +2691,37 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse(
-                    list_wire_withdrawal_schedules_response=utils.unmarshal_json(
-                        http_res.text,
+                    list_wire_withdrawal_schedules_response=unmarshal_json_response(
                         Optional[components.ListWireWithdrawalSchedulesResponse],
+                        http_res,
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_wire_withdrawal_schedules_async(
         self,
@@ -2659,6 +2733,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse:
         r"""List Wire Withdrawal Schedules
 
@@ -2671,6 +2746,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2679,6 +2755,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesRequest(
             account_id=account_id,
@@ -2687,7 +2765,7 @@ class ScheduleTransfers(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules",
             base_url=base_url,
@@ -2698,6 +2776,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -2712,6 +2791,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_ListWireWithdrawalSchedules",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2721,41 +2802,37 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse(
-                    list_wire_withdrawal_schedules_response=utils.unmarshal_json(
-                        http_res.text,
+                    list_wire_withdrawal_schedules_response=unmarshal_json_response(
                         Optional[components.ListWireWithdrawalSchedulesResponse],
+                        http_res,
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesListWireWithdrawalSchedulesResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def get_wire_withdrawal_schedule(
         self,
@@ -2765,6 +2842,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse:
         r"""Get Wire Withdrawal Schedule
 
@@ -2775,6 +2853,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2783,13 +2862,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleRequest(
             account_id=account_id,
             wire_withdrawal_schedule_id=wire_withdrawal_schedule_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}",
             base_url=base_url,
@@ -2800,6 +2881,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -2814,6 +2896,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_GetWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2823,34 +2907,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse(
-                wire_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.WireWithdrawalSchedule]
+                wire_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.WireWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def get_wire_withdrawal_schedule_async(
         self,
@@ -2860,6 +2940,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse:
         r"""Get Wire Withdrawal Schedule
 
@@ -2870,6 +2951,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2878,13 +2960,15 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleRequest(
             account_id=account_id,
             wire_withdrawal_schedule_id=wire_withdrawal_schedule_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}",
             base_url=base_url,
@@ -2895,6 +2979,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -2909,6 +2994,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_GetWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -2918,34 +3005,30 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse(
-                wire_withdrawal_schedule=utils.unmarshal_json(
-                    http_res.text, Optional[components.WireWithdrawalSchedule]
+                wire_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.WireWithdrawalSchedule], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.WireWithdrawalSchedulesGetWireWithdrawalScheduleResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def update_wire_withdrawal_schedule(
         self,
@@ -2960,6 +3043,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse:
         r"""Update Wire Withdrawal Schedule
 
@@ -2972,6 +3056,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -2980,6 +3065,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -2990,7 +3077,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}",
             base_url=base_url,
@@ -3001,6 +3088,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.wire_withdrawal_schedule_update,
@@ -3022,6 +3110,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_UpdateWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -3031,40 +3121,36 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def update_wire_withdrawal_schedule_async(
         self,
@@ -3079,6 +3165,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse:
         r"""Update Wire Withdrawal Schedule
 
@@ -3091,6 +3178,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -3099,6 +3187,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -3109,7 +3199,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="PATCH",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}",
             base_url=base_url,
@@ -3120,6 +3210,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.wire_withdrawal_schedule_update,
@@ -3141,6 +3232,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_UpdateWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -3150,40 +3243,36 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesUpdateWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def cancel_wire_withdrawal_schedule(
         self,
@@ -3197,6 +3286,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse:
         r"""Cancel Wire Withdrawal Schedule
 
@@ -3208,6 +3298,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -3216,6 +3307,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -3226,7 +3319,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}:cancel",
             base_url=base_url,
@@ -3237,6 +3330,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_wire_withdrawal_schedule_request_create,
@@ -3258,6 +3352,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_CancelWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -3267,40 +3363,36 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def cancel_wire_withdrawal_schedule_async(
         self,
@@ -3314,6 +3406,7 @@ class ScheduleTransfers(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse:
         r"""Cancel Wire Withdrawal Schedule
 
@@ -3325,6 +3418,7 @@ class ScheduleTransfers(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -3333,6 +3427,8 @@ class ScheduleTransfers(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleRequest(
             account_id=account_id,
@@ -3343,7 +3439,7 @@ class ScheduleTransfers(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}/wireWithdrawalSchedules/{wireWithdrawalSchedule_id}:cancel",
             base_url=base_url,
@@ -3354,6 +3450,7 @@ class ScheduleTransfers(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.cancel_wire_withdrawal_schedule_request_create,
@@ -3375,6 +3472,8 @@ class ScheduleTransfers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="WireWithdrawalSchedules_CancelWireWithdrawalSchedule",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -3384,37 +3483,33 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse(
-                    wire_withdrawal_schedule=utils.unmarshal_json(
-                        http_res.text, Optional[components.WireWithdrawalSchedule]
+                    wire_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.WireWithdrawalSchedule], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.WireWithdrawalSchedulesCancelWireWithdrawalScheduleResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

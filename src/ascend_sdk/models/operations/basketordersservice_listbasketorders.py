@@ -22,6 +22,8 @@ class BasketOrdersServiceListBasketOrdersRequestTypedDict(TypedDict):
     r"""The maximum number of basket orders to return. The service may return fewer than this value. If unspecified, at most 1000 basket orders will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000."""
     page_token: NotRequired[str]
     r"""A page token, received from a previous `ListBasketOrders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBasketOrders` must match the call that provided the page token."""
+    show_removed: NotRequired[bool]
+    r"""Indicates whether basket orders with a status of REMOVED_BEFORE_SUBMISSION will be included in the response. By default, removed orders are not returned."""
 
 
 class BasketOrdersServiceListBasketOrdersRequest(BaseModel):
@@ -46,6 +48,12 @@ class BasketOrdersServiceListBasketOrdersRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""A page token, received from a previous `ListBasketOrders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBasketOrders` must match the call that provided the page token."""
+
+    show_removed: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Indicates whether basket orders with a status of REMOVED_BEFORE_SUBMISSION will be included in the response. By default, removed orders are not returned."""
 
 
 class BasketOrdersServiceListBasketOrdersResponseTypedDict(TypedDict):

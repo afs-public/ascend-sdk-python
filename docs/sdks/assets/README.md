@@ -16,11 +16,13 @@ Lists assets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Assets_ListAssets_1" method="get" path="/assets/v1/assets" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -30,13 +32,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.assets.list_assets()
+    res = sdk.assets.list_assets(parent="correspondents/1234", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA==", filter_="(symbol == 'IBM' && usable) || symbol == 'USD'")
 
-if res.list_assets_response is not None:
-    # handle response
-    pass
+    assert res.list_assets_response is not None
+
+    # Handle response
+    print(res.list_assets_response)
 
 ```
 
@@ -56,10 +59,11 @@ if res.list_assets_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 500, 503, 504 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_asset
 
@@ -67,11 +71,13 @@ Gets assets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Assets_GetAsset" method="get" path="/assets/v1/assets/{asset_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -81,13 +87,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.assets.get_asset(asset_id="8395")
+    res = sdk.assets.get_asset(asset_id="8395")
 
-if res.asset is not None:
-    # handle response
-    pass
+    assert res.asset is not None
+
+    # Handle response
+    print(res.asset)
 
 ```
 
@@ -104,10 +111,11 @@ if res.asset is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_assets_correspondent
 
@@ -115,11 +123,13 @@ Lists assets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Assets_ListAssets_Correspondent" method="get" path="/assets/v1/correspondents/{correspondent_id}/assets" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -129,13 +139,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.assets.list_assets_correspondent(correspondent_id="1234")
+    res = sdk.assets.list_assets_correspondent(correspondent_id="1234", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA==", filter_="(symbol == 'IBM' && usable) || symbol == 'USD'")
 
-if res.list_assets_response is not None:
-    # handle response
-    pass
+    assert res.list_assets_response is not None
+
+    # Handle response
+    print(res.list_assets_response)
 
 ```
 
@@ -155,10 +166,11 @@ if res.list_assets_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 403, 404, 500, 503, 504 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503, 504    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_asset_correspondent
 
@@ -166,11 +178,13 @@ Gets assets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Assets_GetAsset_Correspondent" method="get" path="/assets/v1/correspondents/{correspondent_id}/assets/{asset_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -180,13 +194,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.assets.get_asset_correspondent(correspondent_id="8395", asset_id="<id>")
+    res = sdk.assets.get_asset_correspondent(correspondent_id="8395", asset_id="<id>")
 
-if res.asset is not None:
-    # handle response
-    pass
+    assert res.asset is not None
+
+    # Handle response
+    print(res.asset)
 
 ```
 
@@ -204,7 +219,8 @@ if res.asset is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

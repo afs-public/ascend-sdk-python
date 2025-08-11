@@ -22,6 +22,19 @@ class InvestigationServiceListInvestigationsRequestTypedDict(TypedDict):
     r"""A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:
     ListInvestigationStatesResponse.investigation_states
     """
+    order_by: NotRequired[str]
+    r"""The order in which investigations are listed. Only one field and direction can be specified. Supported fields (followed by 'asc' or 'desc'; 'asc' is default if left blank):
+    - investigation_request_state
+    - correspondent_id
+    - scope
+    - identity_verification
+    - watchlist_screen
+    - person.given_name
+    - person.family_name
+    - entity.legal_name
+    - created_at
+    - updated_at
+    """
 
 
 class InvestigationServiceListInvestigationsRequest(BaseModel):
@@ -44,6 +57,23 @@ class InvestigationServiceListInvestigationsRequest(BaseModel):
     ] = None
     r"""A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:
     ListInvestigationStatesResponse.investigation_states
+    """
+
+    order_by: Annotated[
+        Optional[str],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""The order in which investigations are listed. Only one field and direction can be specified. Supported fields (followed by 'asc' or 'desc'; 'asc' is default if left blank):
+    - investigation_request_state
+    - correspondent_id
+    - scope
+    - identity_verification
+    - watchlist_screen
+    - person.given_name
+    - person.family_name
+    - entity.legal_name
+    - created_at
+    - updated_at
     """
 
 

@@ -20,11 +20,13 @@ Creates an empty basket
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_CreateBasket" method="post" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -34,16 +36,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.create_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_create={
-    "client_basket_id": "39347a0d-860b-48e8-a04d-511133f057e3",
-    "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
-})
+    res = sdk.basket_orders.create_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_create={
+        "client_basket_id": "39347a0d-860b-48e8-a04d-511133f057e3",
+        "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
+    })
 
-if res.basket is not None:
-    # handle response
-    pass
+    assert res.basket is not None
+
+    # Handle response
+    print(res.basket)
 
 ```
 
@@ -61,10 +64,11 @@ if res.basket is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 409, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 409 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## add_orders
 
@@ -74,11 +78,13 @@ Adds a list of basket orders to a basket
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_AddOrders" method="post" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:addOrders" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -88,37 +94,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.add_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", add_orders_request_create={
-    "basket_orders": [
-        {
-            "account_id": "01HBRQ5BW6ZAY4BNWP4GWRD80X",
-            "asset_type": components.BasketOrderCreateAssetType.EQUITY,
-            "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a",
-            "identifier": "SBUX",
-            "identifier_type": components.BasketOrderCreateIdentifierType.SYMBOL,
-            "order_type": components.BasketOrderCreateOrderType.MARKET,
-            "side": components.BasketOrderCreateSide.BUY,
-            "time_in_force": components.BasketOrderCreateTimeInForce.DAY,
-        },
-        {
-            "account_id": "01HBRQ5BW6ZAY4BNWP4GWRD80X",
-            "asset_type": components.BasketOrderCreateAssetType.EQUITY,
-            "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a",
-            "identifier": "SBUX",
-            "identifier_type": components.BasketOrderCreateIdentifierType.SYMBOL,
-            "order_type": components.BasketOrderCreateOrderType.MARKET,
-            "side": components.BasketOrderCreateSide.BUY,
-            "time_in_force": components.BasketOrderCreateTimeInForce.DAY,
-        },
-    ],
-    "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
-})
+    res = sdk.basket_orders.add_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", add_orders_request_create={
+        "basket_orders": [],
+        "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
+    })
 
-if res.basket is not None:
-    # handle response
-    pass
+    assert res.basket is not None
+
+    # Handle response
+    print(res.basket)
 
 ```
 
@@ -137,10 +123,11 @@ if res.basket is not None:
 
 ### Errors
 
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| errors.Status                     | 400, 401, 403, 404, 409, 500, 503 | application/json                  |
-| errors.SDKError                   | 4XX, 5XX                          | \*/\*                             |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Status           | 400, 401, 403, 404, 409 | application/json        |
+| errors.Status           | 500, 503                | application/json        |
+| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
 
 ## get_basket
 
@@ -150,11 +137,13 @@ Gets a basket by basket ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_GetBasket" method="get" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -164,13 +153,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.get_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521")
+    res = sdk.basket_orders.get_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521")
 
-if res.basket is not None:
-    # handle response
-    pass
+    assert res.basket is not None
+
+    # Handle response
+    print(res.basket)
 
 ```
 
@@ -188,10 +178,11 @@ if res.basket is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## submit_basket
 
@@ -201,11 +192,13 @@ Submits a basket for execution in the market
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_SubmitBasket" method="post" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:submit" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -215,15 +208,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.submit_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", submit_basket_request_create={
-    "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
-})
+    res = sdk.basket_orders.submit_basket(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", submit_basket_request_create={
+        "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
+    })
 
-if res.basket is not None:
-    # handle response
-    pass
+    assert res.basket is not None
+
+    # Handle response
+    print(res.basket)
 
 ```
 
@@ -242,10 +236,11 @@ if res.basket is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## list_basket_orders
 
@@ -255,11 +250,13 @@ Gets a list of basket orders within a basket.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_ListBasketOrders" method="get" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/basketOrders" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -269,25 +266,29 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.list_basket_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521")
+    res = sdk.basket_orders.list_basket_orders(request={
+        "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
+        "basket_id": "fffd326-72fa-4d2b-bd1f-45384fe5d521",
+        "page_size": 25,
+        "page_token": "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h",
+        "show_removed": True,
+    })
 
-if res.list_basket_orders_response is not None:
-    # handle response
-    pass
+    assert res.list_basket_orders_response is not None
+
+    # Handle response
+    print(res.list_basket_orders_response)
 
 ```
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                            | Type                                                                                                                                                                                                                                 | Required                                                                                                                                                                                                                             | Description                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `correspondent_id`                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                                   | The correspondent id.                                                                                                                                                                                                                | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                                                                                                                                                                           |
-| `basket_id`                                                                                                                                                                                                                          | *str*                                                                                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                                   | The basket id.                                                                                                                                                                                                                       | fffd326-72fa-4d2b-bd1f-45384fe5d521                                                                                                                                                                                                  |
-| `page_size`                                                                                                                                                                                                                          | *Optional[int]*                                                                                                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                                   | The maximum number of basket orders to return. The service may return fewer than this value. If unspecified, at most 1000 basket orders will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.      | 25                                                                                                                                                                                                                                   |
-| `page_token`                                                                                                                                                                                                                         | *Optional[str]*                                                                                                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                                   | A page token, received from a previous `ListBasketOrders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBasketOrders` must match the call that provided the page token. | AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h                                                                                                                                                                             |
-| `retries`                                                                                                                                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                                   | Configuration to override the default retry behavior of the client.                                                                                                                                                                  |                                                                                                                                                                                                                                      |
+| Parameter                                                                                                                      | Type                                                                                                                           | Required                                                                                                                       | Description                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                      | [operations.BasketOrdersServiceListBasketOrdersRequest](../../models/operations/basketordersservicelistbasketordersrequest.md) | :heavy_check_mark:                                                                                                             | The request object to use for the request.                                                                                     |
+| `retries`                                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                               | :heavy_minus_sign:                                                                                                             | Configuration to override the default retry behavior of the client.                                                            |
 
 ### Response
 
@@ -295,10 +296,11 @@ if res.list_basket_orders_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
 
 ## list_compressed_orders
 
@@ -308,11 +310,13 @@ Gets a list of compressed orders within a basket.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_ListCompressedOrders" method="get" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}/compressedOrders" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -322,13 +326,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.basket_orders.list_compressed_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521")
+    res = sdk.basket_orders.list_compressed_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h")
 
-if res.list_compressed_orders_response is not None:
-    # handle response
-    pass
+    assert res.list_compressed_orders_response is not None
+
+    # Handle response
+    print(res.list_compressed_orders_response)
 
 ```
 
@@ -348,7 +353,8 @@ if res.list_compressed_orders_response is not None:
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.Status                | 400, 401, 403, 404, 500, 503 | application/json             |
-| errors.SDKError              | 4XX, 5XX                     | \*/\*                        |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |

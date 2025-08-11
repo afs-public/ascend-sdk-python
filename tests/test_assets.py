@@ -3,47 +3,52 @@
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 import os
+from tests.test_client import create_test_http_client
 
 
-def test_assets_assets_list_assets_1_assets_list_assets_1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+def test_assets_assets_list_assets_1():
+    test_http_client = create_test_http_client("Assets_ListAssets_1")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
-    )
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
 
-    assert s is not None
-
-    res = s.assets.list_assets()
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
+        res = sdk.assets.list_assets(parent="", page_size=25, page_token="", filter_="")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
 
 
-def test_assets_assets_get_asset_assets_get_asset1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+def test_assets_assets_get_asset():
+    test_http_client = create_test_http_client("Assets_GetAsset")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
-    )
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
 
-    assert s is not None
-
-    res = s.assets.get_asset(asset_id="8395")
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
+        res = sdk.assets.get_asset(asset_id="8395")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200

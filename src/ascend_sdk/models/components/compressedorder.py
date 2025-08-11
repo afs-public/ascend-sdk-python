@@ -122,6 +122,7 @@ class CompressedOrderOrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta
     )
     INSUFFICIENT_POSITION = "INSUFFICIENT_POSITION"
     FAILED_BUYING_POWER = "FAILED_BUYING_POWER"
+    ROUND_UP_AMOUNT_TOO_SMALL = "ROUND_UP_AMOUNT_TOO_SMALL"
 
 
 class CompressedOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -133,6 +134,7 @@ class CompressedOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     PARTIALLY_FILLED = "PARTIALLY_FILLED"
     FILLED = "FILLED"
     REJECTED = "REJECTED"
+    REMOVED_BEFORE_SUBMISSION = "REMOVED_BEFORE_SUBMISSION"
 
 
 class CompressedOrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -375,7 +377,7 @@ class CompressedOrder(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

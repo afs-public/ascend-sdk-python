@@ -54,31 +54,24 @@ resp = s.account_creation.get_account(account_id="VALID_ACCOUNT_ID")
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an exception.
+[`SDKBaseError`](./src/ascend_sdk/models/errors/sdkbaseerror.py) is the base class for all HTTP error responses. It has the following properties:
 
-By default, an API error will raise a errors.SDKError exception, which has the following properties:
-
-| Property        | Type             | Description           |
-|-----------------|------------------|-----------------------|
-| `.status_code`  | *int*            | The HTTP status code  |
-| `.message`      | *str*            | The error message     |
-| `.raw_response` | *httpx.Response* | The raw HTTP response |
-| `.body`         | *str*            | The response content  |
-
-When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `get_account_async` method may raise the following exceptions:
-
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Property           | Type             | Description                                                                             |
+| ------------------ | ---------------- | --------------------------------------------------------------------------------------- |
+| `err.message`      | `str`            | Error message                                                                           |
+| `err.status_code`  | `int`            | HTTP response status code eg `404`                                                      |
+| `err.headers`      | `httpx.Headers`  | HTTP response headers                                                                   |
+| `err.body`         | `str`            | HTTP body. Can be empty string if no body is returned.                                  |
+| `err.raw_response` | `httpx.Response` | Raw HTTP response                                                                       |
+| `err.data`         |                  | Optional. Some errors may contain structured data. [See Error Classes](#error-classes). |
 
 ### Example
-
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components, errors
+from ascend_sdk.models import components, errors, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -88,23 +81,52 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
+    res = None
+    try:
 
-res = None
-try:
-    res = s.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+        res = sdk.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", view=operations.QueryParamView.FULL)
 
-    if res.account is not None:
-        # handle response
-        pass
+        assert res.account is not None
 
-except errors.Status as e:
-    # handle e.data: errors.StatusData
-    raise(e)
-except errors.SDKError as e:
-    # handle exception
-    raise(e)
+        # Handle response
+        print(res.account)
+
+
+    except errors.SDKBaseError as e:
+        # The base class for HTTP error responses
+        print(e.message)
+        print(e.status_code)
+        print(e.body)
+        print(e.headers)
+        print(e.raw_response)
+
+        # Depending on the method different errors may be thrown
+        if isinstance(e, errors.Status):
+            print(e.data.code)  # Optional[int]
+            print(e.data.details)  # Optional[List[components.AnyT]]
+            print(e.data.message)  # Optional[str]
 ```
+
+### Error Classes
+**Primary errors:**
+* [`SDKBaseError`](./src/ascend_sdk/models/errors/sdkbaseerror.py): The base class for HTTP error responses.
+  * [`Status`](./src/ascend_sdk/models/errors/status.py): The status message serves as the general-purpose service error message. Each status message includes a gRPC error code, error message, and error details.
+
+<details><summary>Less common errors (5)</summary>
+
+<br />
+
+**Network errors:**
+* [`httpx.RequestError`](https://www.python-httpx.org/exceptions/#httpx.RequestError): Base class for request errors.
+    * [`httpx.ConnectError`](https://www.python-httpx.org/exceptions/#httpx.ConnectError): HTTP client was unable to make a request to a server.
+    * [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
+
+
+**Inherit from [`SDKBaseError`](./src/ascend_sdk/models/errors/sdkbaseerror.py)**:
+* [`ResponseValidationError`](./src/ascend_sdk/models/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
+
+</details>
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
@@ -114,19 +136,20 @@ except errors.SDKError as e:
 
 You can override the default server globally by passing a server name to the `server: str` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the names associated with the available servers:
 
-| Name | Server | Variables |
-| ----- | ------ | --------- |
-| `uat` | `https://uat.apexapis.com` | None |
-| `prod` | `https://api.apexapis.com` | None |
-| `sbx` | `https://sbx.apexapis.com` | None |
+| Name   | Server                     | Description                |
+| ------ | -------------------------- | -------------------------- |
+| `uat`  | `https://uat.apexapis.com` | our uat environment        |
+| `prod` | `https://api.apexapis.com` | our production environment |
+| `sbx`  | `https://sbx.apexapis.com` | our sandbox environment    |
 
 #### Example
 
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     server="sbx",
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
@@ -137,25 +160,26 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", view=operations.QueryParamView.FULL)
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
-
 
 ### Override Server URL Per-Client
 
 The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     server_url="https://uat.apexapis.com",
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
@@ -166,13 +190,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", view=operations.QueryParamView.FULL)
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
 <!-- End Server Selection [server] -->
@@ -552,20 +577,22 @@ To change the default retry strategy for a single API call, simply provide a `Re
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import operations
-from sdk.utils import BackoffStrategy, RetryConfig
+from ascend_sdk.utils import BackoffStrategy, RetryConfig
 
-s = SDK()
 
-res = s.authentication.generate_service_account_token(security=operations.AuthenticationGenerateServiceAccountTokenSecurity(
-    api_key_auth="<YOUR_API_KEY_HERE>",
-), request={
-    "jws": "eyJhbGciOiAiUlMyNTYifQ.eyJuYW1lIjogImpkb3VnaCIsIm9yZ2FuaXphdGlvbiI6ICJjb3JyZXNwb25kZW50cy8xMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkxMDEiLCJkYXRldGltZSI6ICIyMDI0LTAyLTA1VDIxOjAyOjI3LjkwMTE4MFoifQ.IMy3KmYoG8Ppf+7hXN7tm7J4MrNpQLGL7WCWvhh4nZWAVKkluL3/u3KC6hZ6Mb/5p7Y54CgZ68aWT2BcP5y4VtzIZR1Chm5pxbLfgE4aJuk+FnF6K3Gc3bBjOWCL58pxY2aTb0iU/exDEA1cbMDvbCzmY5kRefDvorLOqgUS/tS2MJ2jv4RlZFPlmHv5PtOruJ8xUW19gEgGhsPXYYeSHFTE1ZlaDvyXrKtpOvlf+FVc2RTuEw529LZnzwH4/eJJR3BpSpHyJTjQqiaMT3wzpXXYKfCRqnDkSSKJDzCzTb0/uWK/Lf0uafxPXk5YLdis+dbo1zNQhVVKjwnMpk1vLw",
-},
-    RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
+with SDK() as sdk:
 
-if res.token is not None:
-    # handle response
-    pass
+    res = sdk.authentication.generate_service_account_token(security=operations.AuthenticationGenerateServiceAccountTokenSecurity(
+        api_key_auth="<YOUR_API_KEY_HERE>",
+    ), request={
+        "jws": "eyJhbGciOiAiUlMyNTYifQ.eyJuYW1lIjogImpkb3VnaCIsIm9yZ2FuaXphdGlvbiI6ICJjb3JyZXNwb25kZW50cy8xMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkxMDEiLCJkYXRldGltZSI6ICIyMDI0LTAyLTA1VDIxOjAyOjI3LjkwMTE4MFoifQ.IMy3KmYoG8Ppf+7hXN7tm7J4MrNpQLGL7WCWvhh4nZWAVKkluL3/u3KC6hZ6Mb/5p7Y54CgZ68aWT2BcP5y4VtzIZR1Chm5pxbLfgE4aJuk+FnF6K3Gc3bBjOWCL58pxY2aTb0iU/exDEA1cbMDvbCzmY5kRefDvorLOqgUS/tS2MJ2jv4RlZFPlmHv5PtOruJ8xUW19gEgGhsPXYYeSHFTE1ZlaDvyXrKtpOvlf+FVc2RTuEw529LZnzwH4/eJJR3BpSpHyJTjQqiaMT3wzpXXYKfCRqnDkSSKJDzCzTb0/uWK/Lf0uafxPXk5YLdis+dbo1zNQhVVKjwnMpk1vLw",
+    },
+        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
+
+    assert res.token is not None
+
+    # Handle response
+    print(res.token)
 
 ```
 
@@ -573,24 +600,49 @@ If you'd like to override the default retry strategy for all operations that sup
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import operations
-from sdk.utils import BackoffStrategy, RetryConfig
+from ascend_sdk.utils import BackoffStrategy, RetryConfig
 
-s = SDK(
+
+with SDK(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
-)
+) as sdk:
 
-res = s.authentication.generate_service_account_token(security=operations.AuthenticationGenerateServiceAccountTokenSecurity(
-    api_key_auth="<YOUR_API_KEY_HERE>",
-), request={
-    "jws": "eyJhbGciOiAiUlMyNTYifQ.eyJuYW1lIjogImpkb3VnaCIsIm9yZ2FuaXphdGlvbiI6ICJjb3JyZXNwb25kZW50cy8xMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkxMDEiLCJkYXRldGltZSI6ICIyMDI0LTAyLTA1VDIxOjAyOjI3LjkwMTE4MFoifQ.IMy3KmYoG8Ppf+7hXN7tm7J4MrNpQLGL7WCWvhh4nZWAVKkluL3/u3KC6hZ6Mb/5p7Y54CgZ68aWT2BcP5y4VtzIZR1Chm5pxbLfgE4aJuk+FnF6K3Gc3bBjOWCL58pxY2aTb0iU/exDEA1cbMDvbCzmY5kRefDvorLOqgUS/tS2MJ2jv4RlZFPlmHv5PtOruJ8xUW19gEgGhsPXYYeSHFTE1ZlaDvyXrKtpOvlf+FVc2RTuEw529LZnzwH4/eJJR3BpSpHyJTjQqiaMT3wzpXXYKfCRqnDkSSKJDzCzTb0/uWK/Lf0uafxPXk5YLdis+dbo1zNQhVVKjwnMpk1vLw",
-})
+    res = sdk.authentication.generate_service_account_token(security=operations.AuthenticationGenerateServiceAccountTokenSecurity(
+        api_key_auth="<YOUR_API_KEY_HERE>",
+    ), request={
+        "jws": "eyJhbGciOiAiUlMyNTYifQ.eyJuYW1lIjogImpkb3VnaCIsIm9yZ2FuaXphdGlvbiI6ICJjb3JyZXNwb25kZW50cy8xMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkxMDEiLCJkYXRldGltZSI6ICIyMDI0LTAyLTA1VDIxOjAyOjI3LjkwMTE4MFoifQ.IMy3KmYoG8Ppf+7hXN7tm7J4MrNpQLGL7WCWvhh4nZWAVKkluL3/u3KC6hZ6Mb/5p7Y54CgZ68aWT2BcP5y4VtzIZR1Chm5pxbLfgE4aJuk+FnF6K3Gc3bBjOWCL58pxY2aTb0iU/exDEA1cbMDvbCzmY5kRefDvorLOqgUS/tS2MJ2jv4RlZFPlmHv5PtOruJ8xUW19gEgGhsPXYYeSHFTE1ZlaDvyXrKtpOvlf+FVc2RTuEw529LZnzwH4/eJJR3BpSpHyJTjQqiaMT3wzpXXYKfCRqnDkSSKJDzCzTb0/uWK/Lf0uafxPXk5YLdis+dbo1zNQhVVKjwnMpk1vLw",
+    })
 
-if res.token is not None:
-    # handle response
-    pass
+    assert res.token is not None
+
+    # Handle response
+    print(res.token)
 
 ```
 <!-- End Retries [retries] -->
+
+<!-- Start Resource Management [resource-management] -->
+## Resource Management
+
+The `SDK` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
+
+[context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
+
+```python
+from ascend_sdk import SDK
+def main():
+
+    with SDK() as sdk:
+        # Rest of application here...
+
+
+# Or when using async:
+async def amain():
+
+    async with SDK() as sdk:
+        # Rest of application here...
+```
+<!-- End Resource Management [resource-management] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging

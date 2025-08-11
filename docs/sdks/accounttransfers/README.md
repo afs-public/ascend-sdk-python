@@ -17,11 +17,13 @@ Creates a transfer
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AccountTransfers_CreateTransfer" method="post" path="/acats/v1/correspondents/{correspondent_id}/accounts/{account_id}/transfers" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -31,15 +33,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_transfers.create_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_create={
-    "deliverer": {},
-})
+    res = sdk.account_transfers.create_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_create={
+        "deliverer": {},
+    }, request_id="ABC-123")
 
-if res.acats_transfer is not None:
-    # handle response
-    pass
+    assert res.acats_transfer is not None
+
+    # Handle response
+    print(res.acats_transfer)
 
 ```
 
@@ -70,11 +73,13 @@ Lists existing transfers using a CEL filter.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AccountTransfers_ListTransfers" method="get" path="/acats/v1/correspondents/{correspondent_id}/accounts/{account_id}/transfers" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -84,16 +89,20 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_transfers.list_transfers(request={
-    "correspondent_id": "00000000-0000-0000-0000-000000000002",
-    "account_id": "01FAKEACCOUNT",
-})
+    res = sdk.account_transfers.list_transfers(request={
+        "correspondent_id": "00000000-0000-0000-0000-000000000002",
+        "account_id": "01FAKEACCOUNT",
+        "page_size": 25,
+        "page_token": "CgwI5uHttgYQyJXO2wESJDAxOTFjOTMxLTA3YjMtYzU0ZC0yMDNmLWU1M2U0OTBkY2FhZRoicmVjZWl2ZXIuYWNjb3VudF9pZCBpbiBbJzEwMDAwQUEnXQ",
+        "filter_": "deliverer.account_number == \"R9AHY8P\"",
+    })
 
-if res.list_transfers_response is not None:
-    # handle response
-    pass
+    assert res.list_transfers_response is not None
+
+    # Handle response
+    print(res.list_transfers_response)
 
 ```
 
@@ -110,10 +119,11 @@ if res.list_transfers_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## accept_transfer
 
@@ -121,11 +131,13 @@ Accept one side (incoming/outgoing) of an internal Ascend transfer. When both th
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AccountTransfers_AcceptTransfer" method="post" path="/acats/v1/correspondents/{correspondent_id}/accounts/{account_id}/transfers/{transfer_id}:accept" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -135,15 +147,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_transfers.accept_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000", accept_transfer_request_create={
-    "name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000",
-})
+    res = sdk.account_transfers.accept_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000", accept_transfer_request_create={
+        "name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000",
+    })
 
-if res.accept_transfer_response is not None:
-    # handle response
-    pass
+    assert res.accept_transfer_response is not None
+
+    # Handle response
+    print(res.accept_transfer_response)
 
 ```
 
@@ -163,10 +176,11 @@ if res.accept_transfer_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## reject_transfer
 
@@ -174,11 +188,13 @@ Reject one side (incoming/outgoing) of an internal Ascend transfer. Rejecting on
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AccountTransfers_RejectTransfer" method="post" path="/acats/v1/correspondents/{correspondent_id}/accounts/{account_id}/transfers/{transfer_id}:reject" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -188,15 +204,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_transfers.reject_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000", reject_transfer_request_create={
-    "name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000",
-})
+    res = sdk.account_transfers.reject_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000", reject_transfer_request_create={
+        "name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000",
+    })
 
-if res.reject_transfer_response is not None:
-    # handle response
-    pass
+    assert res.reject_transfer_response is not None
+
+    # Handle response
+    print(res.reject_transfer_response)
 
 ```
 
@@ -216,10 +233,11 @@ if res.reject_transfer_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_transfer
 
@@ -227,11 +245,13 @@ Gets an existing transfer
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="AccountTransfers_GetTransfer" method="get" path="/acats/v1/correspondents/{correspondent_id}/accounts/{account_id}/transfers/{transfer_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -241,13 +261,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_transfers.get_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000")
+    res = sdk.account_transfers.get_transfer(correspondent_id="00000000-0000-0000-0000-000000000002", account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfer_id="00000000-0000-0000-0000-000000000000")
 
-if res.acats_transfer is not None:
-    # handle response
-    pass
+    assert res.acats_transfer is not None
+
+    # Handle response
+    print(res.acats_transfer)
 
 ```
 

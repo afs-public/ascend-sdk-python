@@ -13,11 +13,13 @@ Calculates the cash balance for an account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="CashBalances_CalculateCashBalance" method="get" path="/transfers/v1/accounts/{account_id}:calculateCashBalance" -->
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -27,13 +29,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.cash_balances.calculate_cash_balance(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.cash_balances.calculate_cash_balance(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", mechanism=operations.Mechanism.ACH)
 
-if res.calculate_cash_balance_response is not None:
-    # handle response
-    pass
+    assert res.calculate_cash_balance_response is not None
+
+    # Handle response
+    print(res.calculate_cash_balance_response)
 
 ```
 

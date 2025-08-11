@@ -14,11 +14,13 @@ Gets a list of events.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Reader_ListEventMessages" method="get" path="/events/v1/messages" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -28,13 +30,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.reader.list_event_messages()
+    res = sdk.reader.list_event_messages(filter_="publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")", page_size=50, page_token="ZXhhbXBsZQo")
 
-if res.list_event_messages_response is not None:
-    # handle response
-    pass
+    assert res.list_event_messages_response is not None
+
+    # Handle response
+    print(res.list_event_messages_response)
 
 ```
 
@@ -53,10 +56,11 @@ if res.list_event_messages_response is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 401, 403, 500 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 401, 403    | application/json |
+| errors.Status    | 500              | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_event_message
 
@@ -64,11 +68,13 @@ Gets the details of a specific event.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Reader_GetEventMessage" method="get" path="/events/v1/messages/{message_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -78,13 +84,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.reader.get_event_message(message_id="01H8MCDXH3ZXXMAA3918GRCFVE")
+    res = sdk.reader.get_event_message(message_id="01H8MCDXH3ZXXMAA3918GRCFVE")
 
-if res.event_message is not None:
-    # handle response
-    pass
+    assert res.event_message is not None
+
+    # Handle response
+    print(res.event_message)
 
 ```
 
@@ -101,7 +108,8 @@ if res.event_message is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 401, 403, 404, 500 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |

@@ -18,11 +18,13 @@ Create a fee
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Fees_CreateFee" method="post" path="/transfers/v1/accounts/{account_id}/fees" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -32,17 +34,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.create_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfers_fee_create={
-    "amount": {},
-    "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
-    "type": components.TransfersFeeCreateType.PLATFORM,
-})
+    res = sdk.fees_and_credits.create_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfers_fee_create={
+        "amount": {},
+        "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
+        "type": components.TransfersFeeCreateType.PLATFORM,
+    })
 
-if res.transfers_fee is not None:
-    # handle response
-    pass
+    assert res.transfers_fee is not None
+
+    # Handle response
+    print(res.transfers_fee)
 
 ```
 
@@ -71,11 +74,13 @@ Retrieve an existing fee
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Fees_GetFee" method="get" path="/transfers/v1/accounts/{account_id}/fees/{fee_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -85,13 +90,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.get_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", fee_id="20230823123456")
+    res = sdk.fees_and_credits.get_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", fee_id="20230823123456")
 
-if res.transfers_fee is not None:
-    # handle response
-    pass
+    assert res.transfers_fee is not None
+
+    # Handle response
+    print(res.transfers_fee)
 
 ```
 
@@ -120,11 +126,13 @@ Cancel an existing fee
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Fees_CancelFee" method="post" path="/transfers/v1/accounts/{account_id}/fees/{fee_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -134,15 +142,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.cancel_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", fee_id="20230823123456", cancel_fee_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/fees/20230823123456",
-})
+    res = sdk.fees_and_credits.cancel_fee(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", fee_id="20230823123456", cancel_fee_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/fees/20230823123456",
+    })
 
-if res.transfers_fee is not None:
-    # handle response
-    pass
+    assert res.transfers_fee is not None
+
+    # Handle response
+    print(res.transfers_fee)
 
 ```
 
@@ -172,11 +181,13 @@ Create a credit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Credits_CreateCredit" method="post" path="/transfers/v1/accounts/{account_id}/credits" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -186,17 +197,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.create_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfers_credit_create={
-    "amount": {},
-    "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
-    "type": components.TransfersCreditCreateType.PROMOTIONAL,
-})
+    res = sdk.fees_and_credits.create_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", transfers_credit_create={
+        "amount": {},
+        "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd",
+        "type": components.TransfersCreditCreateType.PROMOTIONAL,
+    })
 
-if res.transfers_credit is not None:
-    # handle response
-    pass
+    assert res.transfers_credit is not None
+
+    # Handle response
+    print(res.transfers_credit)
 
 ```
 
@@ -225,11 +237,13 @@ Retrieve an existing credit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Credits_GetCredit" method="get" path="/transfers/v1/accounts/{account_id}/credits/{credit_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -239,13 +253,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.get_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", credit_id="20230823123456")
+    res = sdk.fees_and_credits.get_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", credit_id="20230823123456")
 
-if res.transfers_credit is not None:
-    # handle response
-    pass
+    assert res.transfers_credit is not None
+
+    # Handle response
+    print(res.transfers_credit)
 
 ```
 
@@ -274,11 +289,13 @@ Cancel an existing credit
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Credits_CancelCredit" method="post" path="/transfers/v1/accounts/{account_id}/credits/{credit_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -288,15 +305,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.fees_and_credits.cancel_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", credit_id="20230823123456", cancel_credit_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/credits/20230823123456",
-})
+    res = sdk.fees_and_credits.cancel_credit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", credit_id="20230823123456", cancel_credit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/credits/20230823123456",
+    })
 
-if res.transfers_credit is not None:
-    # handle response
-    pass
+    assert res.transfers_credit is not None
+
+    # Handle response
+    print(res.transfers_credit)
 
 ```
 

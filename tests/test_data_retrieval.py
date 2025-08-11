@@ -3,25 +3,28 @@
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 import os
+from tests.test_client import create_test_http_client
 
 
-def test_data_retrieval_snapshots_list_snapshots_list_snapshots1():
-    s = SDK(
-        server_url="https://uat.apexapis.com",
+def test_data_retrieval_snapshots_list_snapshots():
+    test_http_client = create_test_http_client("Snapshots_ListSnapshots")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
         security=components.Security(
-            api_key=os.getenv("API_KEY", ""),
+            api_key=os.getenv("API_KEY", "value"),
             service_account_creds=components.ServiceAccountCreds(
-                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", ""),
-                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", ""),
-                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", ""),
-                type="serviceAccount",
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
             ),
         ),
-    )
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
 
-    assert s is not None
-
-    res = s.data_retrieval.list_snapshots()
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
+        res = sdk.data_retrieval.list_snapshots(filter_="", page_size=25, page_token="")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200

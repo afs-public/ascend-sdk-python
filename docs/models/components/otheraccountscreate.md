@@ -7,6 +7,6 @@ A customer-disclosed list of other Apex-held accounts owned by the Entity applic
 
 | Field                                | Type                                 | Required                             | Description                          | Example                              |
 | ------------------------------------ | ------------------------------------ | ------------------------------------ | ------------------------------------ | ------------------------------------ |
-| `owner_has_other_accounts_at_apex`   | *bool*                               | :heavy_check_mark:                   | The owner has other accounts at Apex | true                                 |
 | `account_names`                      | List[*str*]                          | :heavy_minus_sign:                   | Other account names held at Apex     |                                      |
 | `account_numbers`                    | List[*str*]                          | :heavy_minus_sign:                   | Other account numbers held at Apex   |                                      |
+| `owner_has_other_accounts_at_apex`   | *bool*                               | :heavy_check_mark:                   | The owner has other accounts at Apex | true                                 |

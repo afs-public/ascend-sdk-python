@@ -5,6 +5,10 @@ from .baskettradingexecutedprice import (
     BasketTradingExecutedPrice,
     BasketTradingExecutedPriceTypedDict,
 )
+from .baskettradingexecutions import (
+    BasketTradingExecutions,
+    BasketTradingExecutionsTypedDict,
+)
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -118,6 +122,7 @@ class BasketOrderOrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     )
     INSUFFICIENT_POSITION = "INSUFFICIENT_POSITION"
     FAILED_BUYING_POWER = "FAILED_BUYING_POWER"
+    ROUND_UP_AMOUNT_TOO_SMALL = "ROUND_UP_AMOUNT_TOO_SMALL"
 
 
 class BasketOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -129,6 +134,7 @@ class BasketOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     PARTIALLY_FILLED = "PARTIALLY_FILLED"
     FILLED = "FILLED"
     REJECTED = "REJECTED"
+    REMOVED_BEFORE_SUBMISSION = "REMOVED_BEFORE_SUBMISSION"
 
 
 class BasketOrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -204,6 +210,8 @@ class BasketOrderTypedDict(TypedDict):
     r"""The product of order quantity & price, summed across all fills, reported in the currency specified in the order. (This will be rounded to 2 decimal places for USD currencies). Will be absent if an order has no fill information."""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+    executions: NotRequired[List[BasketTradingExecutionsTypedDict]]
+    r"""The execution-level details that compose this order"""
     filled_quantity: NotRequired[Nullable[BasketOrderFilledQuantityTypedDict]]
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
     identifier: NotRequired[str]
@@ -273,6 +281,9 @@ class BasketOrder(BaseModel):
 
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+
+    executions: Optional[List[BasketTradingExecutions]] = None
+    r"""The execution-level details that compose this order"""
 
     filled_quantity: OptionalNullable[BasketOrderFilledQuantity] = UNSET
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
@@ -346,6 +357,7 @@ class BasketOrder(BaseModel):
             "create_time",
             "cumulative_notional_value",
             "currency_code",
+            "executions",
             "filled_quantity",
             "identifier",
             "identifier_type",
@@ -375,7 +387,7 @@ class BasketOrder(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

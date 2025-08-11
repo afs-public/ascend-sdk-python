@@ -23,3 +23,5 @@ Describes the contents of a document and how it is used
 | `FORM_1099_C`                        | FORM_1099_C                          |
 | `FORM_480_6_D`                       | FORM_480_6D                          |
 | `FORM_5498_ESA`                      | FORM_5498_ESA                        |
+| `FPSL_NEGATIVE_CONSENT_FORM`         | FPSL_NEGATIVE_CONSENT_FORM           |
+| `CRS_FORM`                           | CRS_FORM                             |

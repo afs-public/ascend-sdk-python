@@ -3,6 +3,7 @@ import time
 import uuid
 
 from ascend_sdk.models import components
+from ascend_sdk.models import operations
 
 
 def test_basket_orders_orders_create_basket_create_basket1(
@@ -96,9 +97,12 @@ def test_basket_orders_orders_list_basket_orders_list_basket_orders1(
 
     assert s is not None
 
-    res = s.basket_orders.list_basket_orders(
-        correspondent_id=os.getenv("CORRESPONDENT_ID"), basket_id=create_basket_id
+    request = operations.BasketOrdersServiceListBasketOrdersRequest(
+        correspondent_id=os.getenv("CORRESPONDENT_ID"),
+        basket_id=create_basket_id,
     )
+
+    res = s.basket_orders.list_basket_orders(request=request)
 
     assert res.http_meta is not None
     assert res.http_meta.response is not None

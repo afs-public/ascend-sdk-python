@@ -39,6 +39,14 @@ class OrderBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
     PRINCIPAL = "PRINCIPAL"
 
 
+class CancelInitiator(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the CancelOrderRequest"""
+
+    INITIATOR_UNSPECIFIED = "INITIATOR_UNSPECIFIED"
+    FIRM = "FIRM"
+    CLIENT = "CLIENT"
+
+
 class CancelRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Used to denote when a cancel request has been rejected."""
 
@@ -106,7 +114,7 @@ class OrderCommission(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -229,7 +237,7 @@ class LetterOfIntent(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -302,7 +310,7 @@ class LimitPrice(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -425,8 +433,8 @@ class OrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     ASSET_NOT_SET_UP_TO_TRADE = "ASSET_NOT_SET_UP_TO_TRADE"
     INVALID_ORDER_QUANTITY = "INVALID_ORDER_QUANTITY"
     CLIENT_RECEIVED_TIME_REQUIRED = "CLIENT_RECEIVED_TIME_REQUIRED"
-    CLIENT_NOT_PERMITTED_TO_USE_TRADING_STRATEGY = (
-        "CLIENT_NOT_PERMITTED_TO_USE_TRADING_STRATEGY"
+    CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION = (
+        "CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION"
     )
 
 
@@ -446,12 +454,10 @@ class OrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
-    ORDER_TYPE_UNSPECIFIED = "ORDER_TYPE_UNSPECIFIED"
     LIMIT = "LIMIT"
     MARKET = "MARKET"
-    STOP = "STOP"
 
 
 class OrderPrevailingMarketPriceTypedDict(TypedDict):
@@ -519,7 +525,7 @@ class RightsOfAccumulation(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -628,7 +634,7 @@ class StopPrice(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -652,14 +658,19 @@ class StopPrice(BaseModel):
 class OrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
-    TIME_IN_FORCE_UNSPECIFIED = "TIME_IN_FORCE_UNSPECIFIED"
     DAY = "DAY"
 
 
-class OrderTradingStrategy(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+class OrderTradingSession(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
+    TRADING_SESSION_UNSPECIFIED = "TRADING_SESSION_UNSPECIFIED"
     CORE = "CORE"
+    PRE = "PRE"
+    POST = "POST"
+    OVERNIGHT = "OVERNIGHT"
+    APEX24 = "APEX24"
+    GTX = "GTX"
 
 
 class OrderTypedDict(TypedDict):
@@ -682,10 +693,14 @@ class OrderTypedDict(TypedDict):
     """
     broker_capacity: NotRequired[OrderBrokerCapacity]
     r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    cancel_initiator: NotRequired[CancelInitiator]
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the CancelOrderRequest"""
     cancel_reason: NotRequired[str]
     r"""Used to explain why an order is canceled"""
     cancel_rejected_reason: NotRequired[CancelRejectedReason]
     r"""Used to denote when a cancel request has been rejected."""
+    client_cancel_received_time: NotRequired[Nullable[datetime]]
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
     client_order_id: NotRequired[str]
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     client_received_time: NotRequired[Nullable[datetime]]
@@ -734,7 +749,7 @@ class OrderTypedDict(TypedDict):
     order_status: NotRequired[OrderStatus]
     r"""The processing status of the order"""
     order_type: NotRequired[OrderOrderType]
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
     prevailing_market_price: NotRequired[Nullable[OrderPrevailingMarketPriceTypedDict]]
     r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
     quantity: NotRequired[Nullable[OrderQuantityTypedDict]]
@@ -749,8 +764,8 @@ class OrderTypedDict(TypedDict):
     r"""The stop price for this order. Only allowed for equities, when the side is SELL."""
     time_in_force: NotRequired[OrderTimeInForce]
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
-    trading_strategy: NotRequired[OrderTradingStrategy]
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+    trading_session: NotRequired[OrderTradingSession]
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
 
 class Order(BaseModel):
@@ -782,6 +797,11 @@ class Order(BaseModel):
     ] = None
     r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
 
+    cancel_initiator: Annotated[
+        Optional[CancelInitiator], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the CancelOrderRequest"""
+
     cancel_reason: Optional[str] = None
     r"""Used to explain why an order is canceled"""
 
@@ -789,6 +809,9 @@ class Order(BaseModel):
         Optional[CancelRejectedReason], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Used to denote when a cancel request has been rejected."""
+
+    client_cancel_received_time: OptionalNullable[datetime] = UNSET
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
 
     client_order_id: Optional[str] = None
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
@@ -868,7 +891,7 @@ class Order(BaseModel):
     order_type: Annotated[
         Optional[OrderOrderType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, or STOP are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     prevailing_market_price: OptionalNullable[OrderPrevailingMarketPrice] = UNSET
     r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
@@ -902,10 +925,10 @@ class Order(BaseModel):
     ] = None
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
-    trading_strategy: Annotated[
-        Optional[OrderTradingStrategy], PlainValidator(validate_open_enum(False))
+    trading_session: Annotated[
+        Optional[OrderTradingSession], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Which TradingStrategy Session to trade in, defaults to 'CORE'. Only available for Equity orders."""
+    r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -915,8 +938,10 @@ class Order(BaseModel):
             "asset_type",
             "average_prices",
             "broker_capacity",
+            "cancel_initiator",
             "cancel_reason",
             "cancel_rejected_reason",
+            "client_cancel_received_time",
             "client_order_id",
             "client_received_time",
             "commission",
@@ -947,9 +972,10 @@ class Order(BaseModel):
             "special_reporting_instructions",
             "stop_price",
             "time_in_force",
-            "trading_strategy",
+            "trading_session",
         ]
         nullable_fields = [
+            "client_cancel_received_time",
             "client_received_time",
             "commission",
             "create_time",
@@ -972,7 +998,7 @@ class Order(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

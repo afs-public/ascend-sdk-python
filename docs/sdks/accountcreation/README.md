@@ -14,11 +14,13 @@ CREATE Creates an account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_CreateAccount" method="post" path="/accounts/v1/accounts" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -28,24 +30,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_creation.create_account(request={
-    "account_group_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
-    "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
-    "parties": [
-        {
-            "email_address": "example@domain.com",
-            "mailing_address": {},
-            "phone_number": {},
-            "relation_type": components.RelationType.PRIMARY_OWNER,
-        },
-    ],
-})
+    res = sdk.account_creation.create_account(request={
+        "account_group_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP",
+        "parties": [],
+    })
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
 
@@ -62,10 +58,11 @@ if res.account is not None:
 
 ### Errors
 
-| Error Type         | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| errors.Status      | 400, 403, 500, 503 | application/json   |
-| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## get_account
 
@@ -73,11 +70,13 @@ READ Get Account
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_GetAccount" method="get" path="/accounts/v1/accounts/{account_id}" -->
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -87,13 +86,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.account_creation.get_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", view=operations.QueryParamView.FULL)
 
-if res.account is not None:
-    # handle response
-    pass
+    assert res.account is not None
+
+    # Handle response
+    print(res.account)
 
 ```
 
@@ -111,7 +111,8 @@ if res.account is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

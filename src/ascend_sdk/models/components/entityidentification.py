@@ -11,7 +11,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class EntityIdentificationType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Tax id type for entities (e.g. ein, lei, etc.))"""
+    r"""The entity tax id type, one of:
+    - `ID_ENTITY_TYPE_UNSPECIFIED` - Default/Null value.
+    - `EIN` - Employer Identification Number (US government issued, 9 digits, XX-XXXXXXX).
+    - `LEI` - Legal Entity Identifier (20 digit alphanumeric).
+    - `DUNS` - Dun and Bradstreet number.
+    """
 
     ID_ENTITY_TYPE_UNSPECIFIED = "ID_ENTITY_TYPE_UNSPECIFIED"
     EIN = "EIN"
@@ -29,7 +34,12 @@ class EntityIdentificationTypedDict(TypedDict):
     region_code: NotRequired[str]
     r"""Country that issued identification Two character region code, complies with https://cldr.unicode.org/index"""
     type: NotRequired[EntityIdentificationType]
-    r"""Tax id type for entities (e.g. ein, lei, etc.))"""
+    r"""The entity tax id type, one of:
+    - `ID_ENTITY_TYPE_UNSPECIFIED` - Default/Null value.
+    - `EIN` - Employer Identification Number (US government issued, 9 digits, XX-XXXXXXX).
+    - `LEI` - Legal Entity Identifier (20 digit alphanumeric).
+    - `DUNS` - Dun and Bradstreet number.
+    """
     value: NotRequired[str]
     r"""Tax id value"""
 
@@ -49,7 +59,12 @@ class EntityIdentification(BaseModel):
     type: Annotated[
         Optional[EntityIdentificationType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Tax id type for entities (e.g. ein, lei, etc.))"""
+    r"""The entity tax id type, one of:
+    - `ID_ENTITY_TYPE_UNSPECIFIED` - Default/Null value.
+    - `EIN` - Employer Identification Number (US government issued, 9 digits, XX-XXXXXXX).
+    - `LEI` - Legal Entity Identifier (20 digit alphanumeric).
+    - `DUNS` - Dun and Bradstreet number.
+    """
 
     value: Optional[str] = None
     r"""Tax id value"""

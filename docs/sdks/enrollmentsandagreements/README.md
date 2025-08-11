@@ -20,11 +20,13 @@ Adds an Enrollment to an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_EnrollAccount" method="post" path="/accounts/v1/accounts/{account_id}:enroll" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -34,18 +36,19 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.enroll_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", enroll_account_request_create={
-    "enrollment": {
-        "principal_approver_id": "02HB7N66WW02WL3B6B9W29K0HW",
-        "type": components.EnrollmentCreateType.REGISTRATION_INDIVIDUAL,
-    },
-})
+    res = sdk.enrollments_and_agreements.enroll_account(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", enroll_account_request_create=components.EnrollAccountRequestCreate(
+        enrollment=components.EnrollmentCreate(
+            principal_approver_id="02HB7N66WW02WL3B6B9W29K0HW",
+            type=components.EnrollmentCreateType.REGISTRATION_INDIVIDUAL,
+        ),
+    ))
 
-if res.enroll_account_response is not None:
-    # handle response
-    pass
+    assert res.enroll_account_response is not None
+
+    # Handle response
+    print(res.enroll_account_response)
 
 ```
 
@@ -63,10 +66,11 @@ if res.enroll_account_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_available_enrollments
 
@@ -74,11 +78,13 @@ Get a list of Enrollments available for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListAvailableEnrollments" method="get" path="/accounts/v1/accounts/{account_id}/availableEnrollments" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -88,13 +94,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.list_available_enrollments(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.enrollments_and_agreements.list_available_enrollments(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", filter_="enrollment_type == \"REGISTRATION_INDIVIDUAL\"")
 
-if res.list_available_enrollments_response is not None:
-    # handle response
-    pass
+    assert res.list_available_enrollments_response is not None
+
+    # Handle response
+    print(res.list_available_enrollments_response)
 
 ```
 
@@ -114,10 +121,11 @@ if res.list_available_enrollments_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## accounts_list_available_enrollments_by_account_group
 
@@ -125,11 +133,13 @@ Get a list of Enrollments available for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListAvailableEnrollments_1" method="get" path="/accounts/v1/accountGroups/{accountGroup_id}/availableEnrollments" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -139,13 +149,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.accounts_list_available_enrollments_by_account_group(account_group_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.enrollments_and_agreements.accounts_list_available_enrollments_by_account_group(account_group_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", filter_="enrollment_type == \"REGISTRATION_INDIVIDUAL\"")
 
-if res.list_available_enrollments_response is not None:
-    # handle response
-    pass
+    assert res.list_available_enrollments_response is not None
+
+    # Handle response
+    print(res.list_available_enrollments_response)
 
 ```
 
@@ -165,10 +176,11 @@ if res.list_available_enrollments_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## deactivate_enrollment
 
@@ -176,11 +188,13 @@ Deactivates an Account Enrollment.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_DeactivateEnrollment" method="post" path="/accounts/v1/accounts/{account_id}/enrollments:deactivate" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -190,13 +204,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.deactivate_enrollment(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", deactivate_enrollment_request_create={})
+    res = sdk.enrollments_and_agreements.deactivate_enrollment(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", deactivate_enrollment_request_create={})
 
-if res.enrollment is not None:
-    # handle response
-    pass
+    assert res.enrollment is not None
+
+    # Handle response
+    print(res.enrollment)
 
 ```
 
@@ -214,10 +229,11 @@ if res.enrollment is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_enrollments
 
@@ -225,11 +241,13 @@ Gets a list of Enrollments for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListEnrollments" method="get" path="/accounts/v1/accounts/{account_id}/enrollments" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -239,13 +257,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.list_enrollments(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.enrollments_and_agreements.list_enrollments(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_enrollments_response is not None:
-    # handle response
-    pass
+    assert res.list_enrollments_response is not None
+
+    # Handle response
+    print(res.list_enrollments_response)
 
 ```
 
@@ -264,10 +283,11 @@ if res.list_enrollments_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## affirm_agreements
 
@@ -275,11 +295,13 @@ Affirm Agreements for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_AffirmAgreements" method="post" path="/accounts/v1/accounts/{account_id}/agreements:affirm" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -289,17 +311,18 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.affirm_agreements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", affirm_agreements_request_create={
-    "account_agreement_ids": [
-        "fa2f181c-f2fb-4bc2-b75a-79302c634ae5",
-    ],
-})
+    res = sdk.enrollments_and_agreements.affirm_agreements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", affirm_agreements_request_create={
+        "account_agreement_ids": [
+            "fa2f181c-f2fb-4bc2-b75a-79302c634ae5",
+        ],
+    })
 
-if res.affirm_agreements_response is not None:
-    # handle response
-    pass
+    assert res.affirm_agreements_response is not None
+
+    # Handle response
+    print(res.affirm_agreements_response)
 
 ```
 
@@ -317,10 +340,11 @@ if res.affirm_agreements_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_agreements
 
@@ -328,11 +352,13 @@ Gets a list of Agreements on an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListAgreements" method="get" path="/accounts/v1/accounts/{account_id}/agreements" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -342,13 +368,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.list_agreements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.enrollments_and_agreements.list_agreements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_agreements_response is not None:
-    # handle response
-    pass
+    assert res.list_agreements_response is not None
+
+    # Handle response
+    print(res.list_agreements_response)
 
 ```
 
@@ -367,10 +394,11 @@ if res.list_agreements_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## list_entitlements
 
@@ -378,11 +406,13 @@ Gets a list of Entitlements for an Account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="Accounts_ListEntitlements" method="get" path="/accounts/v1/accounts/{account_id}/entitlements" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -392,13 +422,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.enrollments_and_agreements.list_entitlements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK")
+    res = sdk.enrollments_and_agreements.list_entitlements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-if res.list_entitlements_response is not None:
-    # handle response
-    pass
+    assert res.list_entitlements_response is not None
+
+    # Handle response
+    print(res.list_entitlements_response)
 
 ```
 
@@ -417,7 +448,8 @@ if res.list_entitlements_response is not None:
 
 ### Errors
 
-| Error Type              | Status Code             | Content Type            |
-| ----------------------- | ----------------------- | ----------------------- |
-| errors.Status           | 400, 403, 404, 500, 503 | application/json        |
-| errors.SDKError         | 4XX, 5XX                | \*/\*                   |
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

@@ -19,7 +19,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AuditType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The type of audit that was performed on the investigation"""
+    r"""The audit record type, one of:
+    - `AUDIT_TYPE_UNSPECIFIED` - Default/Null audit type.
+    - `INVESTIGATION_REQUEST_UPDATE` - Used to update an investigation request.
+    - `INVESTIGATION_STATE` - Used for recording investigation state changed events.
+    - `COMMENT` - Used for adding a comment to investigation.
+    """
 
     AUDIT_TYPE_UNSPECIFIED = "AUDIT_TYPE_UNSPECIFIED"
     INVESTIGATION_REQUEST_UPDATE = "INVESTIGATION_REQUEST_UPDATE"
@@ -31,7 +36,12 @@ class AuditTrailTypedDict(TypedDict):
     r"""Audit trail details"""
 
     audit_type: NotRequired[AuditType]
-    r"""The type of audit that was performed on the investigation"""
+    r"""The audit record type, one of:
+    - `AUDIT_TYPE_UNSPECIFIED` - Default/Null audit type.
+    - `INVESTIGATION_REQUEST_UPDATE` - Used to update an investigation request.
+    - `INVESTIGATION_STATE` - Used for recording investigation state changed events.
+    - `COMMENT` - Used for adding a comment to investigation.
+    """
     comment: NotRequired[str]
     r"""Comment relating to why the audit was saved"""
     field: NotRequired[str]
@@ -52,7 +62,12 @@ class AuditTrail(BaseModel):
     audit_type: Annotated[
         Optional[AuditType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The type of audit that was performed on the investigation"""
+    r"""The audit record type, one of:
+    - `AUDIT_TYPE_UNSPECIFIED` - Default/Null audit type.
+    - `INVESTIGATION_REQUEST_UPDATE` - Used to update an investigation request.
+    - `INVESTIGATION_STATE` - Used for recording investigation state changed events.
+    - `COMMENT` - Used for adding a comment to investigation.
+    """
 
     comment: Optional[str] = None
     r"""Comment relating to why the audit was saved"""
@@ -90,7 +105,7 @@ class AuditTrail(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

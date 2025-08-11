@@ -40,4 +40,4 @@ When an order has the REJECTED status, this will be populated with a system code
 | `ASSET_NOT_SET_UP_TO_TRADE`                                 | ASSET_NOT_SET_UP_TO_TRADE                                   |
 | `INVALID_ORDER_QUANTITY`                                    | INVALID_ORDER_QUANTITY                                      |
 | `CLIENT_RECEIVED_TIME_REQUIRED`                             | CLIENT_RECEIVED_TIME_REQUIRED                               |
-| `CLIENT_NOT_PERMITTED_TO_USE_TRADING_STRATEGY`              | CLIENT_NOT_PERMITTED_TO_USE_TRADING_STRATEGY                |
+| `CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION`               | CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION                 |

@@ -5,7 +5,8 @@ from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
-from typing import Any, Optional, Union
+from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
+from typing import Any, Mapping, Optional, Union
 
 
 class Retirements(BaseSDK):
@@ -18,6 +19,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsListContributionSummariesResponse:
         r"""List Contribution Summaries
 
@@ -29,6 +31,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -37,6 +40,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsListContributionSummariesRequest(
             account_id=account_id,
@@ -44,7 +49,7 @@ class Retirements(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/contributionSummaries",
             base_url=base_url,
@@ -55,6 +60,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -69,6 +75,8 @@ class Retirements(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_ListContributionSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -78,35 +86,30 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
-                list_contribution_summaries_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListContributionSummariesResponse],
+                list_contribution_summaries_response=unmarshal_json_response(
+                    Optional[components.ListContributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_contribution_summaries_async(
         self,
@@ -117,6 +120,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsListContributionSummariesResponse:
         r"""List Contribution Summaries
 
@@ -128,6 +132,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -136,6 +141,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsListContributionSummariesRequest(
             account_id=account_id,
@@ -143,7 +150,7 @@ class Retirements(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/contributionSummaries",
             base_url=base_url,
@@ -154,6 +161,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -168,6 +176,8 @@ class Retirements(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_ListContributionSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -177,35 +187,30 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
-                list_contribution_summaries_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListContributionSummariesResponse],
+                list_contribution_summaries_response=unmarshal_json_response(
+                    Optional[components.ListContributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def retrieve_contribution_constraints(
         self,
@@ -218,6 +223,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveContributionConstraintsResponse:
         r"""Retrieve Contribution Constraints
 
@@ -228,6 +234,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -236,6 +243,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsRetrieveContributionConstraintsRequest(
             account_id=account_id,
@@ -245,7 +254,7 @@ class Retirements(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}:retrieveContributionConstraints",
             base_url=base_url,
@@ -256,6 +265,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.retrieve_contribution_constraints_request_create,
@@ -277,6 +287,8 @@ class Retirements(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveContributionConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -286,40 +298,36 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveContributionConstraintsResponse(
-                    contribution_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.ContributionConstraints]
+                    contribution_constraints=unmarshal_json_response(
+                        Optional[components.ContributionConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveContributionConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def retrieve_contribution_constraints_async(
         self,
@@ -332,6 +340,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveContributionConstraintsResponse:
         r"""Retrieve Contribution Constraints
 
@@ -342,6 +351,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -350,6 +360,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsRetrieveContributionConstraintsRequest(
             account_id=account_id,
@@ -359,7 +371,7 @@ class Retirements(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}:retrieveContributionConstraints",
             base_url=base_url,
@@ -370,6 +382,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.retrieve_contribution_constraints_request_create,
@@ -391,6 +404,8 @@ class Retirements(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveContributionConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -400,40 +415,36 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveContributionConstraintsResponse(
-                    contribution_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.ContributionConstraints]
+                    contribution_constraints=unmarshal_json_response(
+                        Optional[components.ContributionConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveContributionConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def list_distribution_summaries(
         self,
@@ -444,6 +455,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsListDistributionSummariesResponse:
         r"""List Distribution Summaries
 
@@ -455,6 +467,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -463,6 +476,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsListDistributionSummariesRequest(
             account_id=account_id,
@@ -470,7 +485,7 @@ class Retirements(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/distributionSummaries",
             base_url=base_url,
@@ -481,6 +496,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -495,6 +511,8 @@ class Retirements(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_ListDistributionSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -504,35 +522,30 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
-                list_distribution_summaries_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListDistributionSummariesResponse],
+                list_distribution_summaries_response=unmarshal_json_response(
+                    Optional[components.ListDistributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def list_distribution_summaries_async(
         self,
@@ -543,6 +556,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsListDistributionSummariesResponse:
         r"""List Distribution Summaries
 
@@ -554,6 +568,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -562,6 +577,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsListDistributionSummariesRequest(
             account_id=account_id,
@@ -569,7 +586,7 @@ class Retirements(BaseSDK):
             page_token=page_token,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/transfers/v1/accounts/{account_id}/distributionSummaries",
             base_url=base_url,
@@ -580,6 +597,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -594,6 +612,8 @@ class Retirements(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_ListDistributionSummaries",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -603,35 +623,30 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
-                list_distribution_summaries_response=utils.unmarshal_json(
-                    http_res.text,
-                    Optional[components.ListDistributionSummariesResponse],
+                list_distribution_summaries_response=unmarshal_json_response(
+                    Optional[components.ListDistributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
-                status=utils.unmarshal_json(http_res.text, Optional[components.Status]),
+                status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     def retrieve_distribution_constraints(
         self,
@@ -644,6 +659,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveDistributionConstraintsResponse:
         r"""Retrieve Distribution Constraints
 
@@ -654,6 +670,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -662,6 +679,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsRetrieveDistributionConstraintsRequest(
             account_id=account_id,
@@ -671,7 +690,7 @@ class Retirements(BaseSDK):
             ),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/transfers/v1/accounts/{account_id}:retrieveDistributionConstraints",
             base_url=base_url,
@@ -682,6 +701,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.retrieve_distribution_constraints_request_create,
@@ -703,6 +723,8 @@ class Retirements(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveDistributionConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -712,40 +734,36 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveDistributionConstraintsResponse(
-                    distribution_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.DistributionConstraints]
+                    distribution_constraints=unmarshal_json_response(
+                        Optional[components.DistributionConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveDistributionConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)
 
     async def retrieve_distribution_constraints_async(
         self,
@@ -758,6 +776,7 @@ class Retirements(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.RetirementConstraintsRetrieveDistributionConstraintsResponse:
         r"""Retrieve Distribution Constraints
 
@@ -768,6 +787,7 @@ class Retirements(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -776,6 +796,8 @@ class Retirements(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.RetirementConstraintsRetrieveDistributionConstraintsRequest(
             account_id=account_id,
@@ -785,7 +807,7 @@ class Retirements(BaseSDK):
             ),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/transfers/v1/accounts/{account_id}:retrieveDistributionConstraints",
             base_url=base_url,
@@ -796,6 +818,7 @@ class Retirements(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.retrieve_distribution_constraints_request_create,
@@ -817,6 +840,8 @@ class Retirements(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
                 operation_id="RetirementConstraints_RetrieveDistributionConstraints",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -826,37 +851,33 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveDistributionConstraintsResponse(
-                    distribution_constraints=utils.unmarshal_json(
-                        http_res.text, Optional[components.DistributionConstraints]
+                    distribution_constraints=unmarshal_json_response(
+                        Optional[components.DistributionConstraints], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
-            data = utils.unmarshal_json(http_res.text, errors.StatusData)
-            raise errors.Status(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
-            raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
-            )
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return (
                 operations.RetirementConstraintsRetrieveDistributionConstraintsResponse(
-                    status=utils.unmarshal_json(
-                        http_res.text, Optional[components.Status]
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
                     ),
                     http_meta=components.HTTPMetadata(request=req, response=http_res),
                 )
             )
 
-        content_type = http_res.headers.get("Content-Type")
-        raise errors.SDKError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res.text,
-            http_res,
-        )
+        raise errors.SDKError("Unexpected response received", http_res)

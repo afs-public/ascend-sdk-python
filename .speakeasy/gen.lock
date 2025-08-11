@@ -1,41 +1,39 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 0f7cd29ae00d0f4961e6240e60e23349
-  docVersion: v1:20250725:uat:b6acf9c342e5
-  speakeasyVersion: 1.414.1
-  generationVersion: 2.437.1
-  releaseVersion: 1.5.9
-  configChecksum: 8f80acb5fcf62dc538041653942a3a7b
+  docChecksum: 2bd542c35c9264f526c35a7888d789fb
+  docVersion: v1:20250811:uat:c8e4b50ba105
+  speakeasyVersion: 1.601.0
+  generationVersion: 2.680.0
+  releaseVersion: 1.6.0
+  configChecksum: dbf50473a581bd9bf7520c20a5e465dc
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
-    core: 5.6.0
+    core: 5.19.8
     customSecuritySchemes: 0.1.0
     defaultEnabledRetries: 0.2.0
-    deprecations: 3.0.0
+    deprecations: 3.0.2
     enumUnions: 0.1.0
-    envVarSecurityUsage: 0.3.1
-    examples: 3.0.0
-    flattening: 3.1.0
-    globalSecurity: 3.0.2
+    envVarSecurityUsage: 0.3.2
+    examples: 3.0.2
+    flattening: 3.1.1
+    globalSecurity: 3.0.3
     globalSecurityCallbacks: 1.0.0
-    globalServerURLs: 3.0.0
-    methodSecurity: 3.0.0
-    nameOverrides: 3.0.0
-    nullables: 1.0.0
-    openEnums: 1.0.0
+    globalServerURLs: 3.1.1
+    methodSecurity: 3.0.1
+    nameOverrides: 3.0.1
+    nullables: 1.0.1
+    openEnums: 1.0.1
     responseFormat: 1.0.1
     retries: 3.0.2
-    sdkHooks: 1.0.0
+    sdkHooks: 1.1.0
     serverIDs: 3.0.0
-    tests: 1.6.0
+    tests: 1.19.2
 generatedFiles:
   - .gitattributes
-  - .python-version
   - .vscode/settings.json
-  - CONTRIBUTING.md
   - USAGE.md
   - docs/models/components/acatsasset.md
   - docs/models/components/acatsassetposition.md
@@ -496,7 +494,9 @@ generatedFiles:
   - docs/models/components/cancelfeerequestcreate.md
   - docs/models/components/cancelictdepositrequestcreate.md
   - docs/models/components/cancelictwithdrawalrequestcreate.md
+  - docs/models/components/cancelinitiator.md
   - docs/models/components/cancelorderrequestcreate.md
+  - docs/models/components/cancelorderrequestcreatecancelinitiator.md
   - docs/models/components/cancelrejectedreason.md
   - docs/models/components/canceltradeallocationrequestcreate.md
   - docs/models/components/canceltradeallocationresponse.md
@@ -1409,7 +1409,7 @@ generatedFiles:
   - docs/models/components/orderstoppriceprice.md
   - docs/models/components/orderstoppricetype.md
   - docs/models/components/ordertimeinforce.md
-  - docs/models/components/ordertradingstrategy.md
+  - docs/models/components/ordertradingsession.md
   - docs/models/components/ordertype.md
   - docs/models/components/originalprocessdate.md
   - docs/models/components/originaltrade.md
@@ -1827,7 +1827,7 @@ generatedFiles:
   - docs/models/components/tradingfee.md
   - docs/models/components/tradingfeeamount.md
   - docs/models/components/tradingfeetype.md
-  - docs/models/components/tradingstrategy.md
+  - docs/models/components/tradingsession.md
   - docs/models/components/transfer.md
   - docs/models/components/transferaccountcreate.md
   - docs/models/components/transfercreate.md
@@ -2348,8 +2348,6 @@ generatedFiles:
   - py.typed
   - pylintrc
   - pyproject.toml
-  - scripts/compile.sh
-  - scripts/prepare-readme.py
   - scripts/publish.sh
   - src/ascend_sdk/__init__.py
   - src/ascend_sdk/_hooks/__init__.py
@@ -2378,6 +2376,7 @@ generatedFiles:
   - src/ascend_sdk/journals.py
   - src/ascend_sdk/ledger.py
   - src/ascend_sdk/margins.py
+  - src/ascend_sdk/models/__init__.py
   - src/ascend_sdk/models/components/__init__.py
   - src/ascend_sdk/models/components/acatsasset.py
   - src/ascend_sdk/models/components/acatstransfer.py
@@ -2765,6 +2764,9 @@ generatedFiles:
   - src/ascend_sdk/models/components/withholdingdata.py
   - src/ascend_sdk/models/components/yieldrecord.py
   - src/ascend_sdk/models/errors/__init__.py
+  - src/ascend_sdk/models/errors/no_response_error.py
+  - src/ascend_sdk/models/errors/responsevalidationerror.py
+  - src/ascend_sdk/models/errors/sdkbaseerror.py
   - src/ascend_sdk/models/errors/sdkerror.py
   - src/ascend_sdk/models/errors/status.py
   - src/ascend_sdk/models/operations/__init__.py
@@ -2955,6 +2957,7 @@ generatedFiles:
   - src/ascend_sdk/types/basemodel.py
   - src/ascend_sdk/utils/__init__.py
   - src/ascend_sdk/utils/annotations.py
+  - src/ascend_sdk/utils/datetimes.py
   - src/ascend_sdk/utils/enums.py
   - src/ascend_sdk/utils/eventstreaming.py
   - src/ascend_sdk/utils/forms.py
@@ -2966,12 +2969,13 @@ generatedFiles:
   - src/ascend_sdk/utils/retries.py
   - src/ascend_sdk/utils/security.py
   - src/ascend_sdk/utils/serializers.py
+  - src/ascend_sdk/utils/unmarshal_json_response.py
   - src/ascend_sdk/utils/url.py
   - src/ascend_sdk/utils/values.py
   - src/ascend_sdk/wires.py
   - tests/__init__.py
-  - tests/test_account_management.py
   - tests/test_assets.py
+  - tests/test_client.py
   - tests/test_data_retrieval.py
   - tests/test_investigations.py
   - tests/test_margins.py
@@ -2982,779 +2986,1955 @@ examples:
     speakeasy-default-authentication-generate-service-account-token:
       requestBody:
         application/json: {"jws": "eyJhbGciOiAiUlMyNTYifQ.eyJuYW1lIjogImpkb3VnaCIsIm9yZ2FuaXphdGlvbiI6ICJjb3JyZXNwb25kZW50cy8xMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkxMDEiLCJkYXRldGltZSI6ICIyMDI0LTAyLTA1VDIxOjAyOjI3LjkwMTE4MFoifQ.IMy3KmYoG8Ppf+7hXN7tm7J4MrNpQLGL7WCWvhh4nZWAVKkluL3/u3KC6hZ6Mb/5p7Y54CgZ68aWT2BcP5y4VtzIZR1Chm5pxbLfgE4aJuk+FnF6K3Gc3bBjOWCL58pxY2aTb0iU/exDEA1cbMDvbCzmY5kRefDvorLOqgUS/tS2MJ2jv4RlZFPlmHv5PtOruJ8xUW19gEgGhsPXYYeSHFTE1ZlaDvyXrKtpOvlf+FVc2RTuEw529LZnzwH4/eJJR3BpSpHyJTjQqiaMT3wzpXXYKfCRqnDkSSKJDzCzTb0/uWK/Lf0uafxPXk5YLdis+dbo1zNQhVVKjwnMpk1vLw"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Authentication_ListSigningKeys:
-    "":
-      parameters:
-        query:
-          page_size: 50
-          page_token: "ZXhhbXBsZQo"
+    speakeasy-default-authentication-list-signing-keys:
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Reader_ListEventMessages:
-    "":
-      parameters:
-        query:
-          filter: "publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")"
-          page_size: 50
-          page_token: "ZXhhbXBsZQo"
+    speakeasy-default-reader-list-event-messages:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Reader_GetEventMessage:
-    "":
+    speakeasy-default-reader-get-event-message:
       parameters:
         path:
           message_id: "01H8MCDXH3ZXXMAA3918GRCFVE"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_CreatePushSubscription:
     speakeasy-default-subscriber-create-push-subscription:
       requestBody:
         application/json: {"display_name": "This is an example HTTP configuration.", "event_types": ["position.v1.updated"]}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_ListPushSubscriptions:
-    "":
-      parameters:
-        query:
-          filter: "correspondent_id==\"01H8MCDXH4HYJJAV921BDKCC83\""
-          page_size: 50
-          page_token: "ZXhhbXBsZQo"
+    speakeasy-default-subscriber-list-push-subscriptions:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_GetPushSubscription:
-    "":
+    speakeasy-default-subscriber-get-push-subscription:
       parameters:
         path:
           subscription_id: "01H8MCDXH4JVH7KVNB2YY42907"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_UpdatePushSubscription:
-    "":
+    speakeasy-default-subscriber-update-push-subscription:
       parameters:
         path:
           subscription_id: "01H8MCDXH4JVH7KVNB2YY42907"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_DeletePushSubscription:
-    "":
+    speakeasy-default-subscriber-delete-push-subscription:
       parameters:
         path:
           subscription_id: "01H8MCDXH4JVH7KVNB2YY42907"
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_GetPushSubscriptionDelivery:
-    "":
+    speakeasy-default-subscriber-get-push-subscription-delivery:
       parameters:
         path:
           subscription_id: "01H8MCDXH4JVH7KVNB2YY42907"
           delivery_id: "01H8MCDXH415BJ962YDN4B02JK"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Subscriber_ListPushSubscriptionDeliveries:
-    "":
+    speakeasy-default-subscriber-list-push-subscription-deliveries:
       parameters:
         path:
           subscription_id: "01H8MCDXH4JVH7KVNB2YY42907"
-        query:
-          filter: "event_publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")"
-          page_size: 50
-          page_token: "ZXhhbXBsZQo"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateLegalNaturalPerson:
     speakeasy-default-accounts-create-legal-natural-person:
       requestBody:
-        application/json: {"citizenship_countries": ["US", "CA"], "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP", "employment": {"employment_status": "EMPLOYED", "occupation": "Software Engineer"}, "family_name": "Doe", "given_name": "John", "tax_profile": {"federal_tax_classification": "C_CORPORATION", "irs_form_type": "W_9", "legal_tax_region_code": "US", "us_tin_status": "PASSING"}}
+        application/json: {"birth_date": {}, "citizenship_countries": ["US", "CA"], "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP", "employment": {"employment_status": "EMPLOYED"}, "family_name": "Doe", "given_name": "John", "personal_address": {}, "tax_profile": {"federal_tax_classification": "C_CORPORATION", "irs_form_type": "IRS_FORM_TYPE_UNSPECIFIED", "legal_tax_region_code": "US", "us_tin_status": "PASSING"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListLegalNaturalPersons:
-    "":
-      parameters:
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
-          filter: "legal_natural_person_id == \"e6716139-da77-46d1-9f15-13599161db0b\""
+    speakeasy-default-accounts-list-legal-natural-persons:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_GetLegalNaturalPerson:
-    "":
+    speakeasy-default-accounts-get-legal-natural-person:
       parameters:
         path:
           legalNaturalPerson_id: "e6716139-da77-46d1-9f15-13599161db0b"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateLegalNaturalPerson:
-    "":
+    speakeasy-default-accounts-update-legal-natural-person:
       parameters:
         path:
           legalNaturalPerson_id: "e6716139-da77-46d1-9f15-13599161db0b"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_AssignLargeTrader:
-    "":
+    speakeasy-default-accounts-assign-large-trader:
       parameters:
         path:
           legalNaturalPerson_id: "e6716139-da77-46d1-9f15-13599161db0b"
       requestBody:
         application/json: {"large_trader_id": "1234567890"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_EndLargeTrader_LegalNaturalPerson:
-    "":
+    speakeasy-default-accounts-end-large-trader-legal-natural-person:
       parameters:
         path:
           legalNaturalPerson_id: "e6716139-da77-46d1-9f15-13599161db0b"
       requestBody:
-        application/json: {"end_reason": "EVENT_REASON_OTHER"}
+        application/json: {"end_reason": "EVENT_REASON_ENDED"}
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateLegalEntity:
     speakeasy-default-accounts-create-legal-entity:
       requestBody:
-        application/json: {"correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP", "entity_name": "Acme, Inc", "entity_type": "CORPORATION", "operating_regions": ["US", "CA"], "registration_region": "US", "tax_id": "987-65-4321", "tax_id_type": "TAX_ID_TYPE_ITIN", "tax_profile": {"federal_tax_classification": "C_CORPORATION", "irs_form_type": "W_9", "legal_tax_region_code": "US", "us_tin_status": "PASSING"}}
+        application/json: {"correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP", "entity_name": "Acme, Inc", "entity_type": "CORPORATION", "legal_address": {}, "operating_regions": ["US", "CA"], "registration_region": "US", "tax_id": "987-65-4321", "tax_id_type": "TAX_ID_TYPE_SSN", "tax_profile": {"federal_tax_classification": "C_CORPORATION", "irs_form_type": "IRS_FORM_TYPE_UNSPECIFIED", "legal_tax_region_code": "US", "us_tin_status": "PASSING"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListLegalEntities:
-    "":
-      parameters:
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
+    speakeasy-default-accounts-list-legal-entities:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_GetLegalEntity:
-    "":
+    speakeasy-default-accounts-get-legal-entity:
       parameters:
         path:
           legalEntity_id: "e6716139-da77-46d1-9f15-13599161db0b"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateLegalEntity:
-    "":
+    speakeasy-default-accounts-update-legal-entity:
       parameters:
         path:
           legalEntity_id: "42567868-9373-4872-9d24-2e33f6c19b75"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_AssignLargeTrader_LegalEntity:
-    "":
+    speakeasy-default-accounts-assign-large-trader-legal-entity:
       parameters:
         path:
           legalEntity_id: "e6716139-da77-46d1-9f15-13599161db0b"
       requestBody:
         application/json: {"large_trader_id": "1234567890"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_EndLargeTrader_1:
-    "":
+    speakeasy-default-accounts-end-large-trader-1:
       parameters:
         path:
           legalEntity_id: "e6716139-da77-46d1-9f15-13599161db0b"
       requestBody:
-        application/json: {"end_reason": "EVENT_REASON_CREATED"}
+        application/json: {"end_reason": "EVENT_REASON_ENDED"}
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateAccount:
     speakeasy-default-accounts-create-account:
       requestBody:
         application/json: {"account_group_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV", "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP", "parties": []}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_GetAccount:
-    "":
+    speakeasy-default-accounts-get-account:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          view: "FULL"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListAccounts:
-    "":
-      parameters:
-        query:
-          page_size: 25
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
-          order_by: "state"
-          filter: "account_number == \"R9AHY8P\""
-          view: "FULL"
+    speakeasy-default-accounts-list-accounts:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateAccount:
-    "":
-      parameters:
-        path:
-          account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query: {}
-  Accounts_AddParty:
-    "":
+    speakeasy-default-accounts-update-account:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
-        application/json: {"parent": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK", "party": {"email_address": "example@domain.com", "relation_type": "PRIMARY_OWNER"}}
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Accounts_AddParty:
+    speakeasy-default-accounts-add-party:
+      parameters:
+        path:
+          account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      requestBody:
+        application/json: {"parent": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK", "party": {"email_address": "example@domain.com", "mailing_address": {}, "phone_number": {}, "relation_type": "PRIMARY_OWNER"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateParty:
-    "":
+    speakeasy-default-accounts-update-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           party_id: "a58ddb02-3954-4249-a7d5-1d408def12cf"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ReplaceParty:
-    "":
+    speakeasy-default-accounts-replace-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           party_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
       requestBody:
-        application/json: {"name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea", "party": {"email_address": "example@domain.com", "relation_type": "PRIMARY_OWNER"}}
+        application/json: {"name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea", "party": {"email_address": "example@domain.com", "mailing_address": {}, "phone_number": {}, "relation_type": "PRIMARY_OWNER"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_RemoveParty:
-    "":
+    speakeasy-default-accounts-remove-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           party_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
       requestBody:
         application/json: {"name": "accounts/01HC3MAQ4DR9QN1V8MJ4CN1HMK/parties/8096110d-fb55-4f9d-b883-b84f0b70d3ea"}
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CloseAccount:
-    "":
+    speakeasy-default-accounts-close-account:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateTrustedContact:
-    "":
+    speakeasy-default-accounts-create-trusted-contact:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
         application/json: {"family_name": "Doe", "given_name": "John"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateTrustedContact:
-    "":
+    speakeasy-default-accounts-update-trusted-contact:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           trustedContact_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_DeleteTrustedContact:
-    "":
+    speakeasy-default-accounts-delete-trusted-contact:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           trustedContact_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateInterestedParty:
-    "":
+    speakeasy-default-accounts-create-interested-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
-        application/json: {"recipient": "John Dough"}
+        application/json: {"mailing_address": {}, "recipient": "John Dough"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_UpdateInterestedParty:
-    "":
+    speakeasy-default-accounts-update-interested-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           interestedParty_id: "ecf44f2f-7030-48ed-b937-c40891ee10c8"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_DeleteInterestedParty:
-    "":
+    speakeasy-default-accounts-delete-interested-party:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           interestedParty_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListAvailableRestrictions:
-    "":
+    speakeasy-default-accounts-list-available-restrictions:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_CreateRestriction:
-    "":
+    speakeasy-default-accounts-create-restriction:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
         application/json: {"create_reason": "Some reason for creating", "restriction_code": "MARGIN_CALL_VIOLATION_REG_T"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_EndRestriction:
-    "":
+    speakeasy-default-accounts-end-restriction:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           restriction_id: "FRAUD_SUSPENDED_BY_CORRESPONDENT"
       requestBody:
         application/json: {"reason": "Reason for ending the restriction"}
+      responses:
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_EnrollAccount:
-    "":
+    speakeasy-default-accounts-enroll-account:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
         application/json: {"enrollment": {"principal_approver_id": "02HB7N66WW02WL3B6B9W29K0HW", "type": "REGISTRATION_INDIVIDUAL"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListAvailableEnrollments:
-    "":
+    speakeasy-default-accounts-list-available-enrollments:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
-          filter: "enrollment_type == \"REGISTRATION_INDIVIDUAL\""
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Accounts_ListAvailableEnrollments_1:
+    speakeasy-default-accounts-list-available-enrollments-1:
+      parameters:
+        path:
+          accountGroup_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_DeactivateEnrollment:
-    "":
+    speakeasy-default-accounts-deactivate-enrollment:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListEnrollments:
-    "":
+    speakeasy-default-accounts-list-enrollments:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          page_size: 5
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_AffirmAgreements:
-    "":
+    speakeasy-default-accounts-affirm-agreements:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
       requestBody:
         application/json: {"account_agreement_ids": ["fa2f181c-f2fb-4bc2-b75a-79302c634ae5"]}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListAgreements:
-    "":
+    speakeasy-default-accounts-list-agreements:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          page_size: 5
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Accounts_ListEntitlements:
-    "":
+    speakeasy-default-accounts-list-entitlements:
       parameters:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          page_size: 5
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   InvestigationService_GetInvestigation:
-    "":
+    speakeasy-default-investigation-service-get-investigation:
       parameters:
         path:
           investigation_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   InvestigationService_UpdateInvestigation:
-    "":
+    speakeasy-default-investigation-service-update-investigation:
       parameters:
         path:
           investigation_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
-        query:
-          update_mask: "{\"update_mask\":\"identity_verification\"}"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   InvestigationService_ListInvestigations:
-    "":
-      parameters:
-        query:
-          page_size: 100
-          filter: "person.given_name == 'Jane' && person.family_name == 'Dough'"
+    speakeasy-default-investigation-service-list-investigations:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   InvestigationService_LinkDocuments:
-    "":
+    speakeasy-default-investigation-service-link-documents:
       parameters:
         path:
           investigation_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
       requestBody:
         application/json: {"identity_verification_document_ids": ["0f01ae1f-d24c-4171-8f3f-c0b820bf3044"]}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   WatchlistService_GetWatchlistItem:
-    "":
+    speakeasy-default-watchlist-service-get-watchlist-item:
       parameters:
         path:
           watchlist_id: "DOWJONES"
           item_id: "123456"
-  AccountTransfers_CreateTransfer:
-    "":
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  CustomerIdentificationResultService_GetCustomerIdentification:
+    speakeasy-default-customer-identification-result-service-get-customer-identification:
       parameters:
         path:
-          correspondent_id: "00000000-0000-0000-0000-000000000002"
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          request_id: "ABC-123"
-      requestBody:
-        application/json: {}
-  AccountTransfers_GetTransfer:
-    "":
-      parameters:
-        path:
-          correspondent_id: "00000000-0000-0000-0000-000000000002"
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          transfer_id: "00000000-0000-0000-0000-000000000000"
+          correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
+          customerIdentification_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_CreateBankRelationship:
-    "":
+    speakeasy-default-bank-relationships-create-bank-relationship:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
         application/json: {"nickname": "My Primary Bank", "verification_method": "MICRO_DEPOSIT"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_ListBankRelationships:
-    "":
+    speakeasy-default-bank-relationships-list-bank-relationships:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          page_size: 100
-          page_token: "CMFRGgYQup3BhQgaCSkAQCKS7AAAAA=="
-          state: "APPROVED"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_GetBankRelationship:
-    "":
+    speakeasy-default-bank-relationships-get-bank-relationship:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           bankRelationship_id: "651ef9de0dee00240813e60e"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_UpdateBankRelationship:
-    "":
+    speakeasy-default-bank-relationships-update-bank-relationship:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           bankRelationship_id: "651ef9de0dee00240813e60e"
-        query:
-          update_mask: "{\"update_mask\":{\"paths\":[\"nickname\"]}}"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_CancelBankRelationship:
-    "":
+    speakeasy-default-bank-relationships-cancel-bank-relationship:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           bankRelationship_id: "651ef9de0dee00240813e60e"
       requestBody:
         application/json: {"comment": "User Request", "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_VerifyMicroDeposits:
-    "":
+    speakeasy-default-bank-relationships-verify-micro-deposits:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           bankRelationship_id: "651ef9de0dee00240813e60e"
       requestBody:
-        application/json: {"amounts": {}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+        application/json: {"amounts": {"amount1": {}, "amount2": {}}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   BankRelationships_ReissueMicroDeposits:
-    "":
+    speakeasy-default-bank-relationships-reissue-micro-deposits:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           bankRelationship_id: "651ef9de0dee00240813e60e"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  BankRelationships_ReuseBankRelationship:
+    speakeasy-default-bank-relationships-reuse-bank-relationship:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Z"
+      requestBody:
+        application/json: {"parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z", "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDeposits_CreateAchDeposit:
-    "":
+    speakeasy-default-ach-deposits-create-ach-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd"}
+        application/json: {"amount": {}, "bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDeposits_GetAchDeposit:
-    "":
+    speakeasy-default-ach-deposits-get-ach-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achDeposit_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDeposits_CancelAchDeposit:
-    "":
+    speakeasy-default-ach-deposits-cancel-ach-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achDeposit_id: "20230817000319"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawals_CreateAchWithdrawal:
-    "":
+    speakeasy-default-ach-withdrawals-create-ach-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
         application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawals_GetAchWithdrawal:
-    "":
+    speakeasy-default-ach-withdrawals-get-ach-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achWithdrawal_id: "20230620500726"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawals_CancelAchWithdrawal:
-    "":
+    speakeasy-default-ach-withdrawals-cancel-ach-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achWithdrawal_id: "20230620500726"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctDeposits_CreateIctDeposit:
-    "":
+    speakeasy-default-ict-deposits-create-ict-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"client_transfer_id": "ABC-123", "program": "DEPOSIT_ONLY", "travel_rule": {"originating_institution": {"account_id": "<id>", "title": "<value>"}}}
+        application/json: {"amount": {}, "client_transfer_id": "ABC-123", "program": "DEPOSIT_ONLY", "travel_rule": {"originating_institution": {"account_id": "<id>", "title": "<value>"}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctDeposits_GetIctDeposit:
-    "":
+    speakeasy-default-ict-deposits-get-ict-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           ictDeposit_id: "20240321000472"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctDeposits_CancelIctDeposit:
-    "":
+    speakeasy-default-ict-deposits-cancel-ict-deposit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           ictDeposit_id: "20240321000472"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctWithdrawals_CreateIctWithdrawal:
-    "":
+    speakeasy-default-ict-withdrawals-create-ict-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
         application/json: {"client_transfer_id": "20230817000319", "program": "BROKER_PARTNER", "travel_rule": {"recipient_institution": {"account_id": "<id>", "title": "<value>"}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctWithdrawals_GetIctWithdrawal:
-    "":
+    speakeasy-default-ict-withdrawals-get-ict-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           ictWithdrawal_id: "20240321000472"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctWithdrawals_CancelIctWithdrawal:
-    "":
+    speakeasy-default-ict-withdrawals-cancel-ict-withdrawal:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           ictWithdrawal_id: "20240321000472"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   IctReconReports_LocateIctReport:
-    "":
+    speakeasy-default-ict-recon-reports-locate-ict-report:
       parameters:
         path:
           correspondent_id: "01H8MCDXH4HYJJAV921BDKCC83"
-        query:
-          batch_id: "24114.108.2b2c1.001"
-          program_date_filter.program: "BROKER_PARTNER"
-  AchDeposits_ForceApproveAchDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
-  AchDeposits_ForceNocAchDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"nacha_noc": {"code": "C01"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
-  AchDeposits_ForceRejectAchDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
-  AchDeposits_ForceReturnAchDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"nacha_return": {"code": "R34"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
-  AchWithdrawals_ForceApproveAchWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achWithdrawal_id: "20230620500726"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
-  AchWithdrawals_ForceNocAchWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achWithdrawal_id: "20230620500726"
-      requestBody:
-        application/json: {"nacha_noc": {"code": "C01"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
-  AchWithdrawals_ForceRejectAchWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achWithdrawal_id: "20230620500726"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
-  AchWithdrawals_ForceReturnAchWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          achWithdrawal_id: "20230620500726"
-      requestBody:
-        application/json: {"nacha_return": {"code": "R28"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
-  BankRelationships_GetMicroDepositAmounts:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          bankRelationship_id: "651ef9de0dee00240813e60e"
-  IctDeposits_ForceApproveIctDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          ictDeposit_id: "20240321000472"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472"}
-  IctDeposits_ForceRejectIctDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          ictDeposit_id: "20240321000472"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472"}
-  IctWithdrawals_ForceApproveIctWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          ictWithdrawal_id: "20240321000472"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472"}
-  IctWithdrawals_ForceRejectIctWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          ictWithdrawal_id: "20240321000472"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   RetirementConstraints_ListContributionSummaries:
-    "":
+    speakeasy-default-retirement-constraints-list-contribution-summaries:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          page_size: 2
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   RetirementConstraints_RetrieveContributionConstraints:
-    "":
+    speakeasy-default-retirement-constraints-retrieve-contribution-constraints:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
         application/json: {"mechanism": "ACH", "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  RetirementConstraints_ListDistributionSummaries:
+    speakeasy-default-retirement-constraints-list-distribution-summaries:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   RetirementConstraints_RetrieveDistributionConstraints:
-    "":
+    speakeasy-default-retirement-constraints-retrieve-distribution-constraints:
       parameters:
         path:
           account_id: "01H8FM6EXVH77SAW3TC8KAWMES"
       requestBody:
         application/json: {"mechanism": "ACH", "name": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  RetirementConstraints_RetrieveCashJournalConstraints:
+    speakeasy-default-retirement-constraints-retrieve-cash-journal-constraints:
+      requestBody:
+        application/json: {"destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_CreateCashJournal:
+    speakeasy-default-cash-journals-create-cash-journal:
+      requestBody:
+        application/json: {"client_transfer_id": "113bw03-49f8-4525-934c-560fb39dg2kd", "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_GetCashJournal:
+    speakeasy-default-cash-journals-get-cash-journal:
+      parameters:
+        path:
+          cashJournal_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_CancelCashJournal:
+    speakeasy-default-cash-journals-cancel-cash-journal:
+      parameters:
+        path:
+          cashJournal_id: "20240717000319"
+      requestBody:
+        application/json: {"name": "cashJournals/20240717000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_CheckPartyType:
+    speakeasy-default-cash-journals-check-party-type:
+      requestBody:
+        application/json: {"destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  TransferScheduleSummaries_ListScheduleSummaries:
+    speakeasy-default-transfer-schedule-summaries-list-schedule-summaries:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDepositSchedules_CreateAchDepositSchedule:
-    "":
+    speakeasy-default-ach-deposit-schedules-create-ach-deposit-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"occurrences": 12, "time_unit": "MONTH", "unit_multiplier": 1}}}
+        application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "schedule_details": {"amount": {}, "client_schedule_id": "ABC-123", "schedule_properties": {"start_date": {}, "time_unit": "MONTH", "unit_multiplier": 1}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDepositSchedules_ListAchDepositSchedules:
-    "":
+    speakeasy-default-ach-deposit-schedules-list-ach-deposit-schedules:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          filter: "state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'"
-          page_size: 100
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDepositSchedules_GetAchDepositSchedule:
-    "":
+    speakeasy-default-ach-deposit-schedules-get-ach-deposit-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achDepositSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDepositSchedules_UpdateAchDepositSchedule:
-    "":
+    speakeasy-default-ach-deposit-schedules-update-ach-deposit-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achDepositSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchDepositSchedules_CancelAchDepositSchedule:
-    "":
+    speakeasy-default-ach-deposit-schedules-cancel-ach-deposit-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achDepositSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDepositSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawalSchedules_CreateAchWithdrawalSchedule:
-    "":
+    speakeasy-default-ach-withdrawal-schedules-create-ach-withdrawal-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"occurrences": 12, "time_unit": "MONTH", "unit_multiplier": 1}}}
+        application/json: {"bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e", "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"start_date": {}, "time_unit": "MONTH", "unit_multiplier": 1}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawalSchedules_ListAchWithdrawalSchedules:
-    "":
+    speakeasy-default-ach-withdrawal-schedules-list-ach-withdrawal-schedules:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          filter: "state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'"
-          page_size: 100
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawalSchedules_GetAchWithdrawalSchedule:
-    "":
+    speakeasy-default-ach-withdrawal-schedules-get-ach-withdrawal-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawalSchedules_UpdateAchWithdrawalSchedule:
-    "":
+    speakeasy-default-ach-withdrawal-schedules-update-ach-withdrawal-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
-        query: {}
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   AchWithdrawalSchedules_CancelAchWithdrawalSchedule:
-    "":
+    speakeasy-default-ach-withdrawal-schedules-cancel-ach-withdrawal-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           achWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"}
-  CashBalances_CalculateCashBalance:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          mechanism: "ACH"
-  Fees_CreateFee:
-    "":
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawalSchedules_CreateWireWithdrawalSchedule:
+    speakeasy-default-wire-withdrawal-schedules-create-wire-withdrawal-schedule:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd", "type": "PLATFORM"}
+        application/json: {"beneficiary": {"account": "73849218650987"}, "recipient_bank": {"bank_id": {"id": "ABNANL2AXXX", "type": "BIC"}}, "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"start_date": {}, "time_unit": "MONTH", "unit_multiplier": 1}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawalSchedules_ListWireWithdrawalSchedules:
+    speakeasy-default-wire-withdrawal-schedules-list-wire-withdrawal-schedules:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawalSchedules_GetWireWithdrawalSchedule:
+    speakeasy-default-wire-withdrawal-schedules-get-wire-withdrawal-schedule:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawalSchedules_UpdateWireWithdrawalSchedule:
+    speakeasy-default-wire-withdrawal-schedules-update-wire-withdrawal-schedule:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawalSchedules_CancelWireWithdrawalSchedule:
+    speakeasy-default-wire-withdrawal-schedules-cancel-wire-withdrawal-schedule:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireDeposits_GetWireDeposit:
+    speakeasy-default-wire-deposits-get-wire-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireDeposit_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawals_CreateWireWithdrawal:
+    speakeasy-default-wire-withdrawals-create-wire-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      requestBody:
+        application/json: {"beneficiary": {"account": "73849218650987"}, "client_transfer_id": "ABC-123", "recipient_bank": {"bank_id": {"id": "ABNANL2AXXX", "type": "BIC"}}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawals_GetWireWithdrawal:
+    speakeasy-default-wire-withdrawals-get-wire-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawal_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawals_CancelWireWithdrawal:
+    speakeasy-default-wire-withdrawals-cancel-wire-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawal_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashBalances_CalculateCashBalance:
+    speakeasy-default-cash-balances-calculate-cash-balance:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  Fees_CreateFee:
+    speakeasy-default-fees-create-fee:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      requestBody:
+        application/json: {"amount": {}, "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd", "type": "PLATFORM"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   Fees_GetFee:
-    "":
+    speakeasy-default-fees-get-fee:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           fee_id: "20230823123456"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   Fees_CancelFee:
-    "":
+    speakeasy-default-fees-cancel-fee:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           fee_id: "20230823123456"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/fees/20230823123456"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   Credits_CreateCredit:
-    "":
+    speakeasy-default-credits-create-credit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
       requestBody:
-        application/json: {"client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd", "type": "PROMOTIONAL"}
+        application/json: {"amount": {}, "client_transfer_id": "179dcd33-49f8-4615-989c-560fb387c4fd", "type": "PROMOTIONAL"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   Credits_GetCredit:
-    "":
+    speakeasy-default-credits-get-credit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           credit_id: "20230823123456"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   Credits_CancelCredit:
-    "":
+    speakeasy-default-credits-cancel-credit:
       parameters:
         path:
           account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
           credit_id: "20230823123456"
       requestBody:
         application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/credits/20230823123456"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchDeposits_ForceApproveAchDeposit:
+    speakeasy-default-ach-deposits-force-approve-ach-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achDeposit_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchDeposits_ForceNocAchDeposit:
+    speakeasy-default-ach-deposits-force-noc-ach-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achDeposit_id: "20230817000319"
+      requestBody:
+        application/json: {"nacha_noc": {"code": "C01"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchDeposits_ForceRejectAchDeposit:
+    speakeasy-default-ach-deposits-force-reject-ach-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achDeposit_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchDeposits_ForceReturnAchDeposit:
+    speakeasy-default-ach-deposits-force-return-ach-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achDeposit_id: "20230817000319"
+      requestBody:
+        application/json: {"nacha_return": {"code": "R13"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achDeposits/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchWithdrawals_ForceApproveAchWithdrawal:
+    speakeasy-default-ach-withdrawals-force-approve-ach-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achWithdrawal_id: "20230620500726"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchWithdrawals_ForceNocAchWithdrawal:
+    speakeasy-default-ach-withdrawals-force-noc-ach-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achWithdrawal_id: "20230620500726"
+      requestBody:
+        application/json: {"nacha_noc": {"code": "C01"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchWithdrawals_ForceRejectAchWithdrawal:
+    speakeasy-default-ach-withdrawals-force-reject-ach-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achWithdrawal_id: "20230620500726"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AchWithdrawals_ForceReturnAchWithdrawal:
+    speakeasy-default-ach-withdrawals-force-return-ach-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          achWithdrawal_id: "20230620500726"
+      requestBody:
+        application/json: {"nacha_return": {"code": "R15"}, "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/achWithdrawals/20230620500726"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  BankRelationships_GetMicroDepositAmounts:
+    speakeasy-default-bank-relationships-get-micro-deposit-amounts:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          bankRelationship_id: "651ef9de0dee00240813e60e"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  IctDeposits_ForceApproveIctDeposit:
+    speakeasy-default-ict-deposits-force-approve-ict-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          ictDeposit_id: "20240321000472"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  IctDeposits_ForceRejectIctDeposit:
+    speakeasy-default-ict-deposits-force-reject-ict-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          ictDeposit_id: "20240321000472"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictDeposits/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  IctWithdrawals_ForceApproveIctWithdrawal:
+    speakeasy-default-ict-withdrawals-force-approve-ict-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          ictWithdrawal_id: "20240321000472"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  IctWithdrawals_ForceRejectIctWithdrawal:
+    speakeasy-default-ict-withdrawals-force-reject-ict-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          ictWithdrawal_id: "20240321000472"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/ictWithdrawals/20240321000472"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawals_ForceApproveWireWithdrawal:
+    speakeasy-default-wire-withdrawals-force-approve-wire-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawal_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  WireWithdrawals_ForceRejectWireWithdrawal:
+    speakeasy-default-wire-withdrawals-force-reject-wire-withdrawal:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          wireWithdrawal_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_ForceApproveCashJournal:
+    speakeasy-default-cash-journals-force-approve-cash-journal:
+      parameters:
+        path:
+          cashJournal_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "cashJournals/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournals_ForceRejectCashJournal:
+    speakeasy-default-cash-journals-force-reject-cash-journal:
+      parameters:
+        path:
+          cashJournal_id: "20230817000319"
+      requestBody:
+        application/json: {"name": "cashJournals/20230817000319"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_CreateTransfer:
+    speakeasy-default-account-transfers-create-transfer:
+      parameters:
+        path:
+          correspondent_id: "00000000-0000-0000-0000-000000000002"
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      requestBody:
+        application/json: {"deliverer": {}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_ListTransfers:
+    speakeasy-default-account-transfers-list-transfers:
+      parameters:
+        path:
+          correspondent_id: "00000000-0000-0000-0000-000000000002"
+          account_id: "01FAKEACCOUNT"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_AcceptTransfer:
+    speakeasy-default-account-transfers-accept-transfer:
+      parameters:
+        path:
+          correspondent_id: "00000000-0000-0000-0000-000000000002"
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          transfer_id: "00000000-0000-0000-0000-000000000000"
+      requestBody:
+        application/json: {"name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_RejectTransfer:
+    speakeasy-default-account-transfers-reject-transfer:
+      parameters:
+        path:
+          correspondent_id: "00000000-0000-0000-0000-000000000002"
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          transfer_id: "00000000-0000-0000-0000-000000000000"
+      requestBody:
+        application/json: {"name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_GetTransfer:
+    speakeasy-default-account-transfers-get-transfer:
+      parameters:
+        path:
+          correspondent_id: "00000000-0000-0000-0000-000000000002"
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          transfer_id: "00000000-0000-0000-0000-000000000000"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
   OrderService_CreateOrder:
-    "":
+    speakeasy-default-order-service-create-order:
       parameters:
         path:
           account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}
+        application/json: {"asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_date": {}, "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   OrderService_GetOrder:
-    "":
+    speakeasy-default-order-service-get-order:
       parameters:
         path:
           account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
           order_id: "ebb0c9b5-2c74-45c9-a4ab-40596b778706"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   OrderService_CancelOrder:
-    "":
+    speakeasy-default-order-service-cancel-order:
       parameters:
         path:
           account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
           order_id: "ebb0c9b5-2c74-45c9-a4ab-40596b778706"
       requestBody:
         application/json: {"name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   OrderPriceService_PreviewOrderCost:
     speakeasy-default-order-price-service-preview-order-cost:
       parameters:
         path:
           account_id: "<id>"
       requestBody:
-        application/json: {"asset_type": "FIXED_INCOME", "identifier": "37833100", "identifier_type": "CUSIP", "limit_price": {"type": "PRICE_PER_UNIT"}, "parent": "<value>"}
+        application/json: {"asset_type": "FIXED_INCOME", "identifier": "37833100", "identifier_type": "CUSIP", "limit_price": {"price": {}, "type": "PRICE_PER_UNIT"}, "parent": "<value>", "quantity": {}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   OrderPriceService_RetrieveQuote:
     speakeasy-default-order-price-service-retrieve-quote:
       parameters:
@@ -3762,392 +4942,243 @@ examples:
           account_id: "<id>"
       requestBody:
         application/json: {"asset_type": "FIXED_INCOME", "identifier": "37833100", "identifier_type": "CUSIP", "parent": "<value>"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   OrderPriceService_RetrieveFixedIncomeMarks:
     speakeasy-default-order-price-service-retrieve-fixed-income-marks:
       parameters:
         path:
           correspondent_id: "<id>"
       requestBody:
-        application/json: {"parent": "<value>", "security_identifiers": [{"identifier": "37833100", "identifier_type": "CUSIP"}, {"identifier": "37833100", "identifier_type": "CUSIP"}]}
-  Assets_ListAssets_1:
-    "":
-      parameters:
-        query:
-          parent: "correspondents/1234"
-          page_size: 100
-          page_token: "Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA=="
-          filter: "(symbol == 'IBM' && usable) || symbol == 'USD'"
-  Assets_GetAsset:
-    "":
-      parameters:
-        path:
-          asset_id: "8395"
-  Assets_ListAssets_Correspondent:
-    "":
-      parameters:
-        path:
-          correspondent_id: "1234"
-        query:
-          page_size: 100
-          page_token: "Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA=="
-          filter: "(symbol == 'IBM' && usable) || symbol == 'USD'"
-  Assets_GetAsset_Correspondent:
-    "":
-      parameters:
-        path:
-          correspondent_id: "8395"
-          asset_id: "<id>"
-  Ledger_ListEntries:
-    "":
-      parameters:
-        path:
-          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
-        query:
-          page_size: 0
-          page_token: "v-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfzbNG7ZAS8xZWYyMmM3ZS01NjdmLTBhYzgtYjZmZi1kNzYwNDI3YmI3N2Q6MjAyNC0wNi0wMgA="
-          filter: "process_date == date('2024-05-11') && account_id == '01HBRQ5BW6ZAY4BNWP4GWRD80X'"
-  Ledger_ListActivities:
-    "":
-      parameters:
-        path:
-          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
-        query:
-          page_size: 100
-          page_token: "Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAI_-CAfwVsHF9ARgyMDI0LTA2LTA0OjFGQTA1MDExOjUwMDEA"
-          filter: "subtype_category == 'TRADE' && process_date >= date('2023-07-31') && settle_date >= date('2023-08-18') && side == 'BUY' &&  activity_date >= date('2023-09-15') && asset_id == 8395"
-  Ledger_ListPositions:
-    "":
-      parameters:
-        path:
-          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
-        query:
-          page_size: 20
-          page_token: "Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfwFIZG3AS8xZWYyMmM4Ny0zNDI5LTAyYzItODRjNC03ODdmNTJlNDY1MTE6MjAyNC0wNi0wMgA="
-          filter: "date >= date('2023-08-31') && asset_id == 8395"
-  Ledger_GetActivity:
-    "":
-      parameters:
-        path:
-          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
-          activity_id: "FAKEACTIVITYID"
-  Ledger_GetEntry:
-    "":
-      parameters:
-        path:
-          account_id: "{\"account_id\":\"\"}"
-          entry_id: "{\"entry_id\":\"\"}"
-  InvestorCommunicationService_BatchCreateUploadLinks: {}
-  InvestorCommunicationService_ListDocuments: {}
-  Snapshots_ListSnapshots:
-    "":
-      parameters:
-        query:
-          filter: "snapshot_type==\"daily_accounts\"&&process_date==date(\"2023-09-30\")"
-          page_size: 500
-          page_token: "M_-BAwEBCVBhZ2VUb2tlbgH_ggABAgEMUnVubmluZ1RvdGFsAQQAAQZGaWx0ZXIBDAAAAAX_ggEyAA=="
-  MarginsRealTime_GetBuyingPower:
-    "":
-      parameters:
-        path:
-          account_id: "01HMS9S15AKBHBD8GPW33P2PMH"
-  TransferScheduleSummaries_ListScheduleSummaries:
-    "":
-      parameters:
-        query:
-          filter: "mechanism == 'ACH' && direction == DEPOSIT && state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'"
-          page_size: 100
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
-  WireWithdrawalSchedules_CreateWireWithdrawalSchedule:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-      requestBody:
-        application/json: {"beneficiary": {"account": "73849218650987"}, "recipient_bank": {"bank_id": {"id": "ABNANL2AXXX", "type": "BIC"}}, "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"time_unit": "MONTH", "unit_multiplier": 1}}}
-  WireWithdrawalSchedules_ListWireWithdrawalSchedules:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          filter: "state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'"
-          page_size: 100
-          page_token: "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4"
-  WireWithdrawalSchedules_GetWireWithdrawalSchedule:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
-  WireWithdrawalSchedules_UpdateWireWithdrawalSchedule:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
-        query:
-          update_mask: "{\"update_mask\":\"schedule_details.amount\"}"
-  WireWithdrawalSchedules_CancelWireWithdrawalSchedule:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"}
-  WireWithdrawals_CreateWireWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-      requestBody:
-        application/json: {"beneficiary": {"account": "73849218650987"}, "client_transfer_id": "ABC-123", "recipient_bank": {"bank_id": {"id": "ABNANL2AXXX", "type": "BIC"}}}
-  WireWithdrawals_GetWireWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawal_id: "20230817000319"
-  WireWithdrawals_CancelWireWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawal_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
-  CashJournals_CreateCashJournal:
-    speakeasy-default-cash-journals-create-cash-journal:
-      requestBody:
-        application/json: {"client_transfer_id": "113bw03-49f8-4525-934c-560fb39dg2kd", "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
-  CashJournals_GetCashJournal:
-    "":
-      parameters:
-        path:
-          cashJournal_id: "20230817000319"
-  CashJournals_CancelCashJournal:
-    "":
-      parameters:
-        path:
-          cashJournal_id: "20240717000319"
-      requestBody:
-        application/json: {"name": "cashJournals/20240717000319"}
-  WireWithdrawals_ForceApproveWireWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawal_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
-  WireWithdrawals_ForceRejectWireWithdrawal:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawal_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireWithdrawals/20230817000319"}
-  CashJournals_ForceApproveCashJournal:
-    "":
-      parameters:
-        path:
-          cashJournal_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "cashJournals/20230817000319"}
-  CashJournals_ForceRejectCashJournal:
-    "":
-      parameters:
-        path:
-          cashJournal_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "cashJournals/20230817000319"}
+        application/json: {"parent": "<value>", "security_identifiers": [{"identifier": "US0378331005", "identifier_type": "ISIN"}, {"identifier": "38259P508", "identifier_type": "CUSIP"}]}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_CreateBasket:
-    "":
+    speakeasy-default-basket-orders-service-create-basket:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
       requestBody:
         application/json: {"client_basket_id": "39347a0d-860b-48e8-a04d-511133f057e3", "correspondent_id": "01HPMZZM6RKMVZA1JQ63RQKJRP"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_AddOrders:
-    "":
+    speakeasy-default-basket-orders-service-add-orders:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
       requestBody:
-        application/json: {"basket_orders": [{"account_id": "01HBRQ5BW6ZAY4BNWP4GWRD80X", "asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}, {"account_id": "01HBRQ5BW6ZAY4BNWP4GWRD80X", "asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}], "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521"}
+        application/json: {"basket_orders": [], "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_GetBasket:
-    "":
+    speakeasy-default-basket-orders-service-get-basket:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_SubmitBasket:
-    "":
+    speakeasy-default-basket-orders-service-submit-basket:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
       requestBody:
         application/json: {"name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_ListBasketOrders:
-    "":
+    speakeasy-default-basket-orders-service-list-basket-orders:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   BasketOrdersService_ListCompressedOrders:
-    "":
+    speakeasy-default-basket-orders-service-list-compressed-orders:
       parameters:
         path:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
-  Accounts_ListAvailableEnrollments_1:
-    "":
-      parameters:
-        path:
-          accountGroup_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
-        query:
-          page_size: 25
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h"
-          filter: "enrollment_type == \"REGISTRATION_INDIVIDUAL\""
-  CustomerIdentificationResultService_GetCustomerIdentification:
-    "":
-      parameters:
-        path:
-          correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
-          customerIdentification_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
-        query:
-          view: "BASIC"
-  AccountTransfers_ListTransfers:
-    "":
-      parameters:
-        path:
-          correspondent_id: "00000000-0000-0000-0000-000000000002"
-          account_id: "01FAKEACCOUNT"
-        query:
-          page_size: 25
-          page_token: "CgwI5uHttgYQyJXO2wESJDAxOTFjOTMxLTA3YjMtYzU0ZC0yMDNmLWU1M2U0OTBkY2FhZRoicmVjZWl2ZXIuYWNjb3VudF9pZCBpbiBbJzEwMDAwQUEnXQ"
-          filter: "deliverer.account_number == \"R9AHY8P\""
-  AccountTransfers_AcceptTransfer:
-    "":
-      parameters:
-        path:
-          correspondent_id: "00000000-0000-0000-0000-000000000002"
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          transfer_id: "00000000-0000-0000-0000-000000000000"
-      requestBody:
-        application/json: {"name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000"}
-  AccountTransfers_RejectTransfer:
-    "":
-      parameters:
-        path:
-          correspondent_id: "00000000-0000-0000-0000-000000000002"
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          transfer_id: "00000000-0000-0000-0000-000000000000"
-      requestBody:
-        application/json: {"name": "correspondents/00000000-0000-0000-0000-000000000002/accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/transfers/00000000-0000-0000-0000-000000000000"}
-  RetirementConstraints_ListDistributionSummaries:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-        query:
-          page_size: 2
-          page_token: "AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh"
-  RetirementConstraints_RetrieveCashJournalConstraints:
-    speakeasy-default-retirement-constraints-retrieve-cash-journal-constraints:
-      requestBody:
-        application/json: {"destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
-  CashJournals_CheckPartyType:
-    speakeasy-default-cash-journals-check-party-type:
-      requestBody:
-        application/json: {"destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y", "source_account": "accounts/01H8FM6EXVH77SAW3TC8KAWMES"}
-  CheckDeposits_GetCheckDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          checkDeposit_id: "20230817000319"
-  WireDeposits_GetWireDeposit:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireDeposit_id: "20230817000319"
-  WireDeposits_GetFeeSummary:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireDeposit_id: "20230817000319"
-  WireWithdrawals_GetFeeSummary:
-    "":
-      parameters:
-        path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          wireWithdrawal_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CreateTrade:
-    "":
+    speakeasy-default-booking-create-trade:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
       requestBody:
-        application/json: {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [{"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}, {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}, {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}
+        application/json: {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [{"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_GetTrade:
-    "":
+    speakeasy-default-booking-get-trade:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
           trade_id: "01FAKETRADEIDPROVIDEDFROMCREATETRADE"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CompleteTrade:
-    "":
+    speakeasy-default-booking-complete-trade:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           trade_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
         application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CancelTrade:
-    "":
+    speakeasy-default-booking-cancel-trade:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
           trade_id: "01FAKETRADEIDPROVIDEDFROMCREATETRADE"
       requestBody:
         application/json: {"name": "accounts/01FAKEACCOUNT1TYKWEYRH8S2K/trades/01FAKETRADEIDPROVIDEDFROMCREATETRADE"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_RebookTrade:
-    "":
+    speakeasy-default-booking-rebook-trade:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           trade_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
-        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM", "trade": {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [{"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}, {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}, {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}}
+        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM", "trade": {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CreateExecution:
-    "":
+    speakeasy-default-booking-create-execution:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
           trade_id: "01FAKETRADEIDPROVIDEDFROMCREATETRADE"
       requestBody:
-        application/json: {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}
+        application/json: {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_GetExecution:
-    "":
+    speakeasy-default-booking-get-execution:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
           trade_id: "01FAKETRADEIDPROVIDEDFROMCREATETRADE"
           execution_id: "01FAKEEXECUTONIDPROVIDEDFROMBOOKINGAPI"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CancelExecution:
-    "":
+    speakeasy-default-booking-cancel-execution:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
@@ -4155,76 +5186,283 @@ examples:
           execution_id: "02G0XX2KDN3M9QKFKRE2HYSCMY"
       requestBody:
         application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM/executions/02G0XX2KDN3M9QKFKRE2HYSCMY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_RebookExecution:
-    "":
+    speakeasy-default-booking-rebook-execution:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           trade_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
           execution_id: "02G0XX2KDN3M9QKFKRE2HYSCMY"
       requestBody:
-        application/json: {"execution": {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y"}, "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM/executions/02G0XX2KDN3M9QKFKRE2HYSCMY"}
+        application/json: {"execution": {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}, "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM/executions/02G0XX2KDN3M9QKFKRE2HYSCMY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CreateTradeAllocation:
-    "":
+    speakeasy-default-booking-create-trade-allocation:
       parameters:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
-        query:
-          request_id: "8a0d35c0-428c-439e-9b03-b611530fe06f"
       requestBody:
-        application/json: {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
+        application/json: {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_GetTradeAllocation:
-    "":
+    speakeasy-default-booking-get-trade-allocation:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           tradeAllocation_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_CancelTradeAllocation:
-    "":
+    speakeasy-default-booking-cancel-trade-allocation:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           tradeAllocation_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
         application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
   Booking_RebookTradeAllocation:
-    "":
+    speakeasy-default-booking-rebook-trade-allocation:
       parameters:
         path:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           tradeAllocation_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
-        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
-  ExternalAchDeposits_GetExternalAchDeposit:
-    "":
+        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Assets_ListAssets_1:
+    speakeasy-default-assets-list-assets-1:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Assets_GetAsset:
+    speakeasy-default-assets-get-asset:
       parameters:
         path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          externalAchDeposit_id: "20230817000319"
-  ExternalAchDeposits_SimulateCreateExternalAchDeposit:
-    speakeasy-default-external-ach-deposits-simulate-create-external-ach-deposit:
-      requestBody:
-        application/json: {"virtual_account_number": "24412345678901"}
-  ExternalAchDeposits_ForceApproveExternalAchDeposit:
-    "":
+          asset_id: "8395"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Assets_ListAssets_Correspondent:
+    speakeasy-default-assets-list-assets-correspondent:
       parameters:
         path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          externalAchDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/externalAchDeposits/20230817000319"}
-  ExternalAchDeposits_ForceRejectExternalAchDeposit:
-    "":
+          correspondent_id: "1234"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Assets_GetAsset_Correspondent:
+    speakeasy-default-assets-get-asset-correspondent:
       parameters:
         path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
-          externalAchDeposit_id: "20230817000319"
-      requestBody:
-        application/json: {"name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/externalAchDeposits/20230817000319"}
-  BankRelationships_ReuseBankRelationship:
-    "":
+          correspondent_id: "8395"
+          asset_id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Ledger_ListEntries:
+    speakeasy-default-ledger-list-entries:
       parameters:
         path:
-          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Z"
+          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Ledger_ListActivities:
+    speakeasy-default-ledger-list-activities:
+      parameters:
+        path:
+          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Ledger_ListPositions:
+    speakeasy-default-ledger-list-positions:
+      parameters:
+        path:
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Ledger_GetActivity:
+    speakeasy-default-ledger-get-activity:
+      parameters:
+        path:
+          account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
+          activity_id: "FAKEACTIVITYID"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Ledger_GetEntry:
+    speakeasy-default-ledger-get-entry:
+      parameters:
+        path:
+          account_id: "{\"account_id\":\"\"}"
+          entry_id: "{\"entry_id\":\"\"}"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  MarginsRealTime_GetBuyingPower:
+    speakeasy-default-margins-real-time-get-buying-power:
+      parameters:
+        path:
+          account_id: "01HMS9S15AKBHBD8GPW33P2PMH"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  InvestorCommunicationService_BatchCreateUploadLinks:
+    speakeasy-default-investor-communication-service-batch-create-upload-links:
       requestBody:
-        application/json: {"parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z", "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e"}
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  InvestorCommunicationService_ListDocuments:
+    speakeasy-default-investor-communication-service-list-documents:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Snapshots_ListSnapshots:
+    speakeasy-default-snapshots-list-snapshots:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+examplesVersion: 1.0.2
+generatedTests:
+  Accounts_ListLegalNaturalPersons: "2025-08-11T18:04:36Z"
+  Accounts_ListLegalEntities: "2025-08-11T18:04:36Z"
+  Accounts_ListAccounts: "2025-08-11T18:04:36Z"
+  Snapshots_ListSnapshots: "2025-08-11T18:04:36Z"
+  InvestigationService_GetInvestigation: "2025-08-11T18:04:36Z"
+  InvestigationService_ListInvestigations: "2025-08-11T18:04:36Z"
+  WatchlistService_GetWatchlistItem: "2025-08-11T18:04:36Z"
+  MarginsRealTime_GetBuyingPower: "2025-08-11T18:04:36Z"
+  Assets_ListAssets_1: "2025-08-11T18:04:36Z"
+  Assets_GetAsset: "2025-08-11T18:04:36Z"
+  Subscriber_ListPushSubscriptions: "2025-08-11T18:04:36Z"

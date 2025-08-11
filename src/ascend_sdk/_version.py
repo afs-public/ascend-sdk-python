@@ -3,7 +3,12 @@
 import importlib.metadata
 
 __title__: str = "ascend-sdk"
-__version__: str = "1.5.9"
+__version__: str = "1.6.0"
+__openapi_doc_version__: str = "v1:20250811:uat:c8e4b50ba105"
+__gen_version__: str = "2.680.0"
+__user_agent__: str = (
+    "speakeasy-sdk/python 1.6.0 2.680.0 v1:20250811:uat:c8e4b50ba105 ascend-sdk"
+)
 
 try:
     if __package__ is not None:

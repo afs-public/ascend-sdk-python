@@ -20,11 +20,13 @@ Creates a bank relationship.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_CreateBankRelationship" method="post" path="/transfers/v1/accounts/{account_id}/bankRelationships" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -34,16 +36,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.create_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_create={
-    "nickname": "My Primary Bank",
-    "verification_method": components.VerificationMethod.MICRO_DEPOSIT,
-})
+    res = sdk.bank_relationships.create_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_create={
+        "nickname": "My Primary Bank",
+        "verification_method": components.VerificationMethod.MICRO_DEPOSIT,
+    })
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -72,11 +75,13 @@ Lists bank relationships for an account.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_ListBankRelationships" method="get" path="/transfers/v1/accounts/{account_id}/bankRelationships" -->
 ```python
 from ascend_sdk import SDK
-from ascend_sdk.models import components
+from ascend_sdk.models import components, operations
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -86,13 +91,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.list_bank_relationships(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y")
+    res = sdk.bank_relationships.list_bank_relationships(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=100, page_token="CMFRGgYQup3BhQgaCSkAQCKS7AAAAA==", state=operations.State.APPROVED)
 
-if res.list_bank_relationships_response is not None:
-    # handle response
-    pass
+    assert res.list_bank_relationships_response is not None
+
+    # Handle response
+    print(res.list_bank_relationships_response)
 
 ```
 
@@ -123,11 +129,13 @@ Gets an existing bank relationship.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_GetBankRelationship" method="get" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -137,13 +145,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.get_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e")
+    res = sdk.bank_relationships.get_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e")
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -172,11 +181,13 @@ Updates an existing bank relationship.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_UpdateBankRelationship" method="patch" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -186,13 +197,14 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.update_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", bank_relationship_update={})
+    res = sdk.bank_relationships.update_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", bank_relationship_update={}, update_mask="[object Object]")
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -223,11 +235,13 @@ Cancels an existing bank relationship.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_CancelBankRelationship" method="post" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}:cancel" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -237,16 +251,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.cancel_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", cancel_bank_relationship_request_create={
-    "comment": "User Request",
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-})
+    res = sdk.bank_relationships.cancel_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", cancel_bank_relationship_request_create={
+        "comment": "User Request",
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+    })
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -276,11 +291,13 @@ Verifies a pending bank relationship with the `MICRO_DEPOSIT` verification metho
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_VerifyMicroDeposits" method="post" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}:verifyMicroDeposits" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -290,19 +307,20 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.verify_micro_deposits(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", verify_micro_deposits_request_create={
-    "amounts": {
-        "amount1": {},
-        "amount2": {},
-    },
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-})
+    res = sdk.bank_relationships.verify_micro_deposits(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", verify_micro_deposits_request_create=components.VerifyMicroDepositsRequestCreate(
+        amounts=components.MicroDepositAmountsCreate(
+            amount1=components.DecimalCreate(),
+            amount2=components.DecimalCreate(),
+        ),
+        name="accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+    ))
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -332,11 +350,13 @@ Reissues micro deposits after micro deposit verification has failed. The user sh
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_ReissueMicroDeposits" method="post" path="/transfers/v1/accounts/{account_id}/bankRelationships/{bankRelationship_id}:reissue" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -346,15 +366,16 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.reissue_micro_deposits(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", reissue_micro_deposits_request_create={
-    "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-})
+    res = sdk.bank_relationships.reissue_micro_deposits(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", bank_relationship_id="651ef9de0dee00240813e60e", reissue_micro_deposits_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+    })
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 
@@ -384,11 +405,13 @@ Reuses an existing bank relationship for a new account. The source bank relation
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="BankRelationships_ReuseBankRelationship" method="post" path="/transfers/v1/accounts/{account_id}/bankRelationships:reuse" -->
 ```python
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
-s = SDK(
+
+with SDK(
     security=components.Security(
         api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
         service_account_creds=components.ServiceAccountCreds(
@@ -398,16 +421,17 @@ s = SDK(
             type="serviceAccount",
         ),
     ),
-)
+) as sdk:
 
-res = s.bank_relationships.reuse_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Z", reuse_bank_relationship_request_create={
-    "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z",
-    "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
-})
+    res = sdk.bank_relationships.reuse_bank_relationship(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Z", reuse_bank_relationship_request_create={
+        "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Z",
+        "source_bank_relationship": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/bankRelationships/651ef9de0dee00240813e60e",
+    })
 
-if res.bank_relationship is not None:
-    # handle response
-    pass
+    assert res.bank_relationship is not None
+
+    # Handle response
+    print(res.bank_relationship)
 
 ```
 

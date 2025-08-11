@@ -203,7 +203,7 @@ class AccountDocument(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -326,7 +326,7 @@ class IDDocument(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -366,6 +366,8 @@ class DocumentInvestorDocumentDocumentType(str, Enum, metaclass=utils.OpenEnumMe
     FORM_1099_C = "FORM_1099_C"
     FORM_480_6_D = "FORM_480_6D"
     FORM_5498_ESA = "FORM_5498_ESA"
+    FPSL_NEGATIVE_CONSENT_FORM = "FPSL_NEGATIVE_CONSENT_FORM"
+    CRS_FORM = "CRS_FORM"
 
 
 class DocumentProcessDateTypedDict(TypedDict):
@@ -428,7 +430,7 @@ class InvestorDocument(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -504,7 +506,7 @@ class Document(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
