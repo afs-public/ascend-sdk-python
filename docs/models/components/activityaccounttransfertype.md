@@ -16,3 +16,4 @@ The type of asset movement being performed within the lifecycle of an account tr
 | `FAIL_REVERSAL`                     | FAIL_REVERSAL                       |
 | `RECLAIM`                           | RECLAIM                             |
 | `POSITION_TRANSFER_FUND`            | POSITION_TRANSFER_FUND              |
+| `SPONSORED_TRANSFER`                | SPONSORED_TRANSFER                  |

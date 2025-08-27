@@ -10,6 +10,11 @@ from ascend_sdk.models import components
 
 
 @pytest.fixture(scope="module")
+def basket_order_to_remove():
+    return str(uuid.uuid4())
+
+
+@pytest.fixture(scope="module")
 def create_basket_id(create_sdk):
     s = create_sdk
 

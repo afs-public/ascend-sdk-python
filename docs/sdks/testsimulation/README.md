@@ -5,6 +5,7 @@
 
 ### Available Operations
 
+* [simulate_create_check_deposit](#simulate_create_check_deposit) - Simulate Check Deposit Creation
 * [force_approve_ach_deposit](#force_approve_ach_deposit) - ACH Deposit Approval
 * [force_noc_ach_deposit](#force_noc_ach_deposit) - NOC for a Deposit
 * [force_reject_ach_deposit](#force_reject_ach_deposit) - ACH Deposit Rejection
@@ -22,6 +23,61 @@
 * [force_reject_wire_withdrawal](#force_reject_wire_withdrawal) - Force Reject Wire Withdrawal
 * [force_approve_cash_journal](#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](#force_reject_cash_journal) - Force Reject Cash Journal
+
+## simulate_create_check_deposit
+
+Creates a check deposit for a specific account FOR TESTING ONLY!
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckDeposits_SimulateCreateCheckDeposit" method="post" path="/transfers/v1/accounts/{account_id}/checkDeposits:simulate" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.simulate_create_check_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", simulate_create_check_deposit_request_create={
+        "amount": {},
+        "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+    })
+
+    assert res.check_deposit is not None
+
+    # Handle response
+    print(res.check_deposit)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              | Example                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `account_id`                                                                                                             | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The account id.                                                                                                          | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                               |
+| `simulate_create_check_deposit_request_create`                                                                           | [components.SimulateCreateCheckDepositRequestCreate](../../models/components/simulatecreatecheckdepositrequestcreate.md) | :heavy_check_mark:                                                                                                       | N/A                                                                                                                      |                                                                                                                          |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |                                                                                                                          |
+
+### Response
+
+**[operations.CheckDepositsSimulateCreateCheckDepositResponse](../../models/operations/checkdepositssimulatecreatecheckdepositresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## force_approve_ach_deposit
 

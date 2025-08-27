@@ -44,6 +44,7 @@ with SDK(
 
     res = sdk.trade_booking.create_trade(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_create=components.TradeCreate(
         account_id="02HASWB2DTMRT3DAM45P56J2T2",
+        asset_type=components.TradeCreateAssetType.EQUITY,
         broker_capacity=components.TradeCreateBrokerCapacity.AGENCY,
         client_order_id="00be5285-0623-4560-8c58-f05af2c56ba0",
         executions=[
@@ -289,6 +290,7 @@ with SDK(
         name="accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM",
         trade=components.TradeCreate(
             account_id="02HASWB2DTMRT3DAM45P56J2T2",
+            asset_type=components.TradeCreateAssetType.EQUITY,
             broker_capacity=components.TradeCreateBrokerCapacity.AGENCY,
             client_order_id="00be5285-0623-4560-8c58-f05af2c56ba0",
             executions=[],

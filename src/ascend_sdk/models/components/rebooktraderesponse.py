@@ -21,7 +21,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RebookTradeResponseAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -227,7 +227,7 @@ class NewTradeTypedDict(TypedDict):
     alternate_order_id: NotRequired[str]
     r"""Fractional support for market-makers' internal order ids."""
     asset_type: NotRequired[RebookTradeResponseAssetType]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
     broker_capacity: NotRequired[RebookTradeResponseBrokerCapacity]
     r"""Broker capacity for the trade."""
     client_order_id: NotRequired[str]
@@ -297,7 +297,7 @@ class NewTrade(BaseModel):
         Optional[RebookTradeResponseAssetType],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     broker_capacity: Annotated[
         Optional[RebookTradeResponseBrokerCapacity],
@@ -459,7 +459,7 @@ class NewTrade(BaseModel):
 class RebookTradeResponseOriginalTradeAssetType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -677,7 +677,7 @@ class OriginalTradeTypedDict(TypedDict):
     alternate_order_id: NotRequired[str]
     r"""Fractional support for market-makers' internal order ids."""
     asset_type: NotRequired[RebookTradeResponseOriginalTradeAssetType]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
     broker_capacity: NotRequired[RebookTradeResponseOriginalTradeBrokerCapacity]
     r"""Broker capacity for the trade."""
     client_order_id: NotRequired[str]
@@ -751,7 +751,7 @@ class OriginalTrade(BaseModel):
         Optional[RebookTradeResponseOriginalTradeAssetType],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     broker_capacity: Annotated[
         Optional[RebookTradeResponseOriginalTradeBrokerCapacity],

@@ -70,6 +70,26 @@ class BasketOrderIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
     ISIN = "ISIN"
 
 
+class BasketOrderMaxSellQuantityTypedDict(TypedDict):
+    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
+
+    This will only be recognized for clients configured to bypass the short sale risk check. When specified, must be greater than 0 and can't exceed 5 decimal places.
+    """
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class BasketOrderMaxSellQuantity(BaseModel):
+    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
+
+    This will only be recognized for clients configured to bypass the short sale risk check. When specified, must be greater than 0 and can't exceed 5 decimal places.
+    """
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class BasketOrderNotionalValueTypedDict(TypedDict):
     r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. Either a quantity or notional_value MUST be specified (but not both). For Equities: currently not supported yet For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified."""
 
@@ -123,6 +143,7 @@ class BasketOrderOrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     INSUFFICIENT_POSITION = "INSUFFICIENT_POSITION"
     FAILED_BUYING_POWER = "FAILED_BUYING_POWER"
     ROUND_UP_AMOUNT_TOO_SMALL = "ROUND_UP_AMOUNT_TOO_SMALL"
+    ASSET_NOT_SET_UP_FOR_ROUND_UPS = "ASSET_NOT_SET_UP_FOR_ROUND_UPS"
 
 
 class BasketOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -201,7 +222,7 @@ class BasketOrderTypedDict(TypedDict):
     client_order_id: NotRequired[str]
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     client_order_received_time: NotRequired[Nullable[datetime]]
-    r"""Time the order request was received by the client. Must be in the past, and must be less than 24 hours old."""
+    r"""Time the order request was received by the client. Must be in the past."""
     create_time: NotRequired[Nullable[datetime]]
     r"""Time of the order creation"""
     cumulative_notional_value: NotRequired[
@@ -220,6 +241,11 @@ class BasketOrderTypedDict(TypedDict):
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
     r"""Time of the last order update"""
+    max_sell_quantity: NotRequired[Nullable[BasketOrderMaxSellQuantityTypedDict]]
+    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
+
+    This will only be recognized for clients configured to bypass the short sale risk check. When specified, must be greater than 0 and can't exceed 5 decimal places.
+    """
     name: NotRequired[str]
     r"""System generated name of the basket order."""
     notional_value: NotRequired[Nullable[BasketOrderNotionalValueTypedDict]]
@@ -269,7 +295,7 @@ class BasketOrder(BaseModel):
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
 
     client_order_received_time: OptionalNullable[datetime] = UNSET
-    r"""Time the order request was received by the client. Must be in the past, and must be less than 24 hours old."""
+    r"""Time the order request was received by the client. Must be in the past."""
 
     create_time: OptionalNullable[datetime] = UNSET
     r"""Time of the order creation"""
@@ -298,6 +324,12 @@ class BasketOrder(BaseModel):
 
     last_update_time: OptionalNullable[datetime] = UNSET
     r"""Time of the last order update"""
+
+    max_sell_quantity: OptionalNullable[BasketOrderMaxSellQuantity] = UNSET
+    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
+
+    This will only be recognized for clients configured to bypass the short sale risk check. When specified, must be greater than 0 and can't exceed 5 decimal places.
+    """
 
     name: Optional[str] = None
     r"""System generated name of the basket order."""
@@ -362,6 +394,7 @@ class BasketOrder(BaseModel):
             "identifier",
             "identifier_type",
             "last_update_time",
+            "max_sell_quantity",
             "name",
             "notional_value",
             "order_rejected_reason",
@@ -378,6 +411,7 @@ class BasketOrder(BaseModel):
             "cumulative_notional_value",
             "filled_quantity",
             "last_update_time",
+            "max_sell_quantity",
             "notional_value",
             "quantity",
         ]

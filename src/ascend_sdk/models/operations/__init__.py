@@ -526,6 +526,12 @@ if TYPE_CHECKING:
         BasketOrdersServiceListCompressedOrdersResponse,
         BasketOrdersServiceListCompressedOrdersResponseTypedDict,
     )
+    from .basketordersservice_removeorders import (
+        BasketOrdersServiceRemoveOrdersRequest,
+        BasketOrdersServiceRemoveOrdersRequestTypedDict,
+        BasketOrdersServiceRemoveOrdersResponse,
+        BasketOrdersServiceRemoveOrdersResponseTypedDict,
+    )
     from .basketordersservice_submitbasket import (
         BasketOrdersServiceSubmitBasketRequest,
         BasketOrdersServiceSubmitBasketRequestTypedDict,
@@ -648,6 +654,18 @@ if TYPE_CHECKING:
         CashJournalsGetCashJournalRequestTypedDict,
         CashJournalsGetCashJournalResponse,
         CashJournalsGetCashJournalResponseTypedDict,
+    )
+    from .checkdeposits_getcheckdeposit import (
+        CheckDepositsGetCheckDepositRequest,
+        CheckDepositsGetCheckDepositRequestTypedDict,
+        CheckDepositsGetCheckDepositResponse,
+        CheckDepositsGetCheckDepositResponseTypedDict,
+    )
+    from .checkdeposits_simulatecreatecheckdeposit import (
+        CheckDepositsSimulateCreateCheckDepositRequest,
+        CheckDepositsSimulateCreateCheckDepositRequestTypedDict,
+        CheckDepositsSimulateCreateCheckDepositResponse,
+        CheckDepositsSimulateCreateCheckDepositResponseTypedDict,
     )
     from .credits_cancelcredit import (
         CreditsCancelCreditRequest,
@@ -1375,6 +1393,10 @@ __all__ = [
     "BasketOrdersServiceListCompressedOrdersRequestTypedDict",
     "BasketOrdersServiceListCompressedOrdersResponse",
     "BasketOrdersServiceListCompressedOrdersResponseTypedDict",
+    "BasketOrdersServiceRemoveOrdersRequest",
+    "BasketOrdersServiceRemoveOrdersRequestTypedDict",
+    "BasketOrdersServiceRemoveOrdersResponse",
+    "BasketOrdersServiceRemoveOrdersResponseTypedDict",
     "BasketOrdersServiceSubmitBasketRequest",
     "BasketOrdersServiceSubmitBasketRequestTypedDict",
     "BasketOrdersServiceSubmitBasketResponse",
@@ -1455,6 +1477,14 @@ __all__ = [
     "CashJournalsGetCashJournalRequestTypedDict",
     "CashJournalsGetCashJournalResponse",
     "CashJournalsGetCashJournalResponseTypedDict",
+    "CheckDepositsGetCheckDepositRequest",
+    "CheckDepositsGetCheckDepositRequestTypedDict",
+    "CheckDepositsGetCheckDepositResponse",
+    "CheckDepositsGetCheckDepositResponseTypedDict",
+    "CheckDepositsSimulateCreateCheckDepositRequest",
+    "CheckDepositsSimulateCreateCheckDepositRequestTypedDict",
+    "CheckDepositsSimulateCreateCheckDepositResponse",
+    "CheckDepositsSimulateCreateCheckDepositResponseTypedDict",
     "CreditsCancelCreditRequest",
     "CreditsCancelCreditRequestTypedDict",
     "CreditsCancelCreditResponse",
@@ -2061,6 +2091,10 @@ _dynamic_imports: dict[str, str] = {
     "BasketOrdersServiceListCompressedOrdersRequestTypedDict": ".basketordersservice_listcompressedorders",
     "BasketOrdersServiceListCompressedOrdersResponse": ".basketordersservice_listcompressedorders",
     "BasketOrdersServiceListCompressedOrdersResponseTypedDict": ".basketordersservice_listcompressedorders",
+    "BasketOrdersServiceRemoveOrdersRequest": ".basketordersservice_removeorders",
+    "BasketOrdersServiceRemoveOrdersRequestTypedDict": ".basketordersservice_removeorders",
+    "BasketOrdersServiceRemoveOrdersResponse": ".basketordersservice_removeorders",
+    "BasketOrdersServiceRemoveOrdersResponseTypedDict": ".basketordersservice_removeorders",
     "BasketOrdersServiceSubmitBasketRequest": ".basketordersservice_submitbasket",
     "BasketOrdersServiceSubmitBasketRequestTypedDict": ".basketordersservice_submitbasket",
     "BasketOrdersServiceSubmitBasketResponse": ".basketordersservice_submitbasket",
@@ -2142,6 +2176,14 @@ _dynamic_imports: dict[str, str] = {
     "CashJournalsGetCashJournalRequestTypedDict": ".cashjournals_getcashjournal",
     "CashJournalsGetCashJournalResponse": ".cashjournals_getcashjournal",
     "CashJournalsGetCashJournalResponseTypedDict": ".cashjournals_getcashjournal",
+    "CheckDepositsGetCheckDepositRequest": ".checkdeposits_getcheckdeposit",
+    "CheckDepositsGetCheckDepositRequestTypedDict": ".checkdeposits_getcheckdeposit",
+    "CheckDepositsGetCheckDepositResponse": ".checkdeposits_getcheckdeposit",
+    "CheckDepositsGetCheckDepositResponseTypedDict": ".checkdeposits_getcheckdeposit",
+    "CheckDepositsSimulateCreateCheckDepositRequest": ".checkdeposits_simulatecreatecheckdeposit",
+    "CheckDepositsSimulateCreateCheckDepositRequestTypedDict": ".checkdeposits_simulatecreatecheckdeposit",
+    "CheckDepositsSimulateCreateCheckDepositResponse": ".checkdeposits_simulatecreatecheckdeposit",
+    "CheckDepositsSimulateCreateCheckDepositResponseTypedDict": ".checkdeposits_simulatecreatecheckdeposit",
     "CreditsCancelCreditRequest": ".credits_cancelcredit",
     "CreditsCancelCreditRequestTypedDict": ".credits_cancelcredit",
     "CreditsCancelCreditResponse": ".credits_cancelcredit",

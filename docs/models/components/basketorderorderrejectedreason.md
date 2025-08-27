@@ -35,3 +35,4 @@ When an order has the REJECTED status, this will be populated with a system code
 | `INSUFFICIENT_POSITION`                                     | INSUFFICIENT_POSITION                                       |
 | `FAILED_BUYING_POWER`                                       | FAILED_BUYING_POWER                                         |
 | `ROUND_UP_AMOUNT_TOO_SMALL`                                 | ROUND_UP_AMOUNT_TOO_SMALL                                   |
+| `ASSET_NOT_SET_UP_FOR_ROUND_UPS`                            | ASSET_NOT_SET_UP_FOR_ROUND_UPS                              |

@@ -11,6 +11,7 @@
 * [submit_basket](#submit_basket) - Submit Basket
 * [list_basket_orders](#list_basket_orders) - List Basket Orders
 * [list_compressed_orders](#list_compressed_orders) - List Compressed Orders
+* [remove_orders](#remove_orders) - Remove Basket Orders
 
 ## create_basket
 
@@ -350,6 +351,68 @@ with SDK(
 ### Response
 
 **[operations.BasketOrdersServiceListCompressedOrdersResponse](../../models/operations/basketordersservicelistcompressedordersresponse.md)**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+
+## remove_orders
+
+Removes a list of basket orders by client order ID.
+
+ Upon successful submission, returns the details of the removed basket orders.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_RemoveOrders" method="post" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:removeOrders" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.basket_orders.remove_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", remove_orders_request_create={
+        "client_order_ids": [
+            "77e4c4b9-38e7-469f-9a8d-cd8baf7c1952",
+            "4cff908e-aaed-401d-8ec9-929e3eb18cbc",
+        ],
+        "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
+    })
+
+    assert res.remove_orders_response is not None
+
+    # Handle response
+    print(res.remove_orders_response)
+
+```
+
+### Parameters
+
+| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  | Example                                                                                      |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                           | *str*                                                                                        | :heavy_check_mark:                                                                           | The correspondent id.                                                                        | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                                   |
+| `basket_id`                                                                                  | *str*                                                                                        | :heavy_check_mark:                                                                           | The basket id.                                                                               | fffd326-72fa-4d2b-bd1f-45384fe5d521                                                          |
+| `remove_orders_request_create`                                                               | [components.RemoveOrdersRequestCreate](../../models/components/removeordersrequestcreate.md) | :heavy_check_mark:                                                                           | N/A                                                                                          |                                                                                              |
+| `retries`                                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                             | :heavy_minus_sign:                                                                           | Configuration to override the default retry behavior of the client.                          |                                                                                              |
+
+### Response
+
+**[operations.BasketOrdersServiceRemoveOrdersResponse](../../models/operations/basketordersserviceremoveordersresponse.md)**
 
 ### Errors
 

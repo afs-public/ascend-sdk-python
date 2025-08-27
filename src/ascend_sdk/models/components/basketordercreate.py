@@ -88,9 +88,16 @@ class BasketOrderCreateTypedDict(TypedDict):
     time_in_force: BasketOrderCreateTimeInForce
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
     client_order_received_time: NotRequired[Nullable[datetime]]
-    r"""Time the order request was received by the client. Must be in the past, and must be less than 24 hours old."""
+    r"""Time the order request was received by the client. Must be in the past."""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+    max_sell_quantity: NotRequired[DecimalCreateTypedDict]
+    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
+
+    [BigDecimal]:
+    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
+    """
     notional_value: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -147,10 +154,18 @@ class BasketOrderCreate(BaseModel):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     client_order_received_time: OptionalNullable[datetime] = UNSET
-    r"""Time the order request was received by the client. Must be in the past, and must be less than 24 hours old."""
+    r"""Time the order request was received by the client. Must be in the past."""
 
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+
+    max_sell_quantity: Optional[DecimalCreate] = None
+    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
+
+    [BigDecimal]:
+    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
+    """
 
     notional_value: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
@@ -183,6 +198,7 @@ class BasketOrderCreate(BaseModel):
         optional_fields = [
             "client_order_received_time",
             "currency_code",
+            "max_sell_quantity",
             "notional_value",
             "quantity",
             "special_reporting_instructions",

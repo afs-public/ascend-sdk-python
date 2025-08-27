@@ -377,10 +377,15 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [submit_basket](docs/sdks/basketorders/README.md#submit_basket) - Submit Basket
 * [list_basket_orders](docs/sdks/basketorders/README.md#list_basket_orders) - List Basket Orders
 * [list_compressed_orders](docs/sdks/basketorders/README.md#list_compressed_orders) - List Compressed Orders
+* [remove_orders](docs/sdks/basketorders/README.md#remove_orders) - Remove Basket Orders
 
 ### [cash_balances](docs/sdks/cashbalances/README.md)
 
 * [calculate_cash_balance](docs/sdks/cashbalances/README.md#calculate_cash_balance) - Get Cash Balance
+
+### [checks](docs/sdks/checks/README.md)
+
+* [get_check_deposit](docs/sdks/checks/README.md#get_check_deposit) - Get Check Deposit
 
 ### [create_order](docs/sdks/createorder/README.md)
 
@@ -521,6 +526,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 ### [test_simulation](docs/sdks/testsimulation/README.md)
 
+* [simulate_create_check_deposit](docs/sdks/testsimulation/README.md#simulate_create_check_deposit) - Simulate Check Deposit Creation
 * [force_approve_ach_deposit](docs/sdks/testsimulation/README.md#force_approve_ach_deposit) - ACH Deposit Approval
 * [force_noc_ach_deposit](docs/sdks/testsimulation/README.md#force_noc_ach_deposit) - NOC for a Deposit
 * [force_reject_ach_deposit](docs/sdks/testsimulation/README.md#force_reject_ach_deposit) - ACH Deposit Rejection

@@ -19,7 +19,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TradeAllocationCreateAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -125,6 +125,8 @@ class TradeAllocationCreateWhenIssued(str, Enum, metaclass=utils.OpenEnumMeta):
 class TradeAllocationCreateTypedDict(TypedDict):
     r"""A TradeAllocation represents the movement of positions between two ascend accounts."""
 
+    asset_type: TradeAllocationCreateAssetType
+    r"""Type of the asset being traded."""
     broker_capacity: TradeAllocationCreateBrokerCapacity
     r"""Broker capacity for the trade."""
     execution_time: Nullable[datetime]
@@ -164,8 +166,6 @@ class TradeAllocationCreateTypedDict(TypedDict):
     """
     additional_instructions: NotRequired[str]
     r"""Free form instructions that can be used to provide additional instructions (that are not captured by existing special instructions) and will be put on the trade confirm."""
-    asset_type: NotRequired[TradeAllocationCreateAssetType]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
     bond_yield: NotRequired[List[BondYieldCreateTypedDict]]
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""
     client_order_id: NotRequired[str]
@@ -218,6 +218,11 @@ class TradeAllocationCreateTypedDict(TypedDict):
 
 class TradeAllocationCreate(BaseModel):
     r"""A TradeAllocation represents the movement of positions between two ascend accounts."""
+
+    asset_type: Annotated[
+        TradeAllocationCreateAssetType, PlainValidator(validate_open_enum(False))
+    ]
+    r"""Type of the asset being traded."""
 
     broker_capacity: Annotated[
         TradeAllocationCreateBrokerCapacity, PlainValidator(validate_open_enum(False))
@@ -273,12 +278,6 @@ class TradeAllocationCreate(BaseModel):
 
     additional_instructions: Optional[str] = None
     r"""Free form instructions that can be used to provide additional instructions (that are not captured by existing special instructions) and will be put on the trade confirm."""
-
-    asset_type: Annotated[
-        Optional[TradeAllocationCreateAssetType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
 
     bond_yield: Optional[List[BondYieldCreate]] = None
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""
@@ -360,7 +359,6 @@ class TradeAllocationCreate(BaseModel):
         optional_fields = [
             "accrued_interest_amount",
             "additional_instructions",
-            "asset_type",
             "bond_yield",
             "client_order_id",
             "commission_amount",
