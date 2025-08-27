@@ -607,7 +607,7 @@ def create_cash_journal_id(create_sdk, deceased_account_id, withdrawal_account_i
     cash_journal_request = components.CashJournalCreate(
         client_transfer_id=str(uuid.uuid4()),
         destination_account="accounts/" + deceased_account_id,
-        amount=components.DecimalCreate(value="250001.00"),
+        amount=components.DecimalCreate(value="500001.00"),
         source_account="accounts/" + withdrawal_account_id,
     )
 

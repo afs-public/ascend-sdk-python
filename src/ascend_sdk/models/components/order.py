@@ -149,6 +149,48 @@ class CumulativeNotionalValue(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class ExtraReportingDataTypedDict(TypedDict):
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
+
+    cancel_confirmed_time: NotRequired[Nullable[datetime]]
+
+
+class ExtraReportingData(BaseModel):
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
+
+    cancel_confirmed_time: OptionalNullable[datetime] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["cancel_confirmed_time"]
+        nullable_fields = ["cancel_confirmed_time"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
 class FilledQuantityTypedDict(TypedDict):
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
 
@@ -436,6 +478,7 @@ class OrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION = (
         "CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION"
     )
+    STOP_PRICE_BELOW_MARKET_PRICE = "STOP_PRICE_BELOW_MARKET_PRICE"
 
 
 class OrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -715,6 +758,8 @@ class OrderTypedDict(TypedDict):
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
     executions: NotRequired[List[TradingExecutionsTypedDict]]
     r"""The execution-level details that compose this order"""
+    extra_reporting_data: NotRequired[Nullable[ExtraReportingDataTypedDict]]
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
     fees: NotRequired[List[TradingFeeTypedDict]]
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
     filled_quantity: NotRequired[Nullable[FilledQuantityTypedDict]]
@@ -834,6 +879,9 @@ class Order(BaseModel):
     executions: Optional[List[TradingExecutions]] = None
     r"""The execution-level details that compose this order"""
 
+    extra_reporting_data: OptionalNullable[ExtraReportingData] = UNSET
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
+
     fees: Optional[List[TradingFee]] = None
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
 
@@ -949,6 +997,7 @@ class Order(BaseModel):
             "cumulative_notional_value",
             "currency_code",
             "executions",
+            "extra_reporting_data",
             "fees",
             "filled_quantity",
             "identifier",
@@ -980,6 +1029,7 @@ class Order(BaseModel):
             "commission",
             "create_time",
             "cumulative_notional_value",
+            "extra_reporting_data",
             "filled_quantity",
             "last_update_time",
             "letter_of_intent",

@@ -83,6 +83,7 @@ class WithholdingDataState(str, Enum, metaclass=utils.OpenEnumMeta):
     WV = "WV"
     WI = "WI"
     WY = "WY"
+    DC = "DC"
 
 
 class WithholdingDataType(str, Enum, metaclass=utils.OpenEnumMeta):

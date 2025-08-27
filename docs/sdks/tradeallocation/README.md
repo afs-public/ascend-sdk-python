@@ -38,6 +38,7 @@ with SDK(
 ) as sdk:
 
     res = sdk.trade_allocation.create_trade_allocation(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_allocation_create=components.TradeAllocationCreate(
+        asset_type=components.TradeAllocationCreateAssetType.EQUITY,
         broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
         execution_time=parse_datetime("2024-07-17T12:00:00Z"),
         from_account_id="01HASWB2DTMRT3DAM45P56J2H3",
@@ -222,6 +223,7 @@ with SDK(
         name="accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM",
         request_id="8a0d35c0-428c-439e-9b03-b611530fe06f",
         trade_allocation=components.TradeAllocationCreate(
+            asset_type=components.TradeAllocationCreateAssetType.EQUITY,
             broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
             execution_time=parse_datetime("2024-07-17T12:00:00Z"),
             from_account_id="01HASWB2DTMRT3DAM45P56J2H3",

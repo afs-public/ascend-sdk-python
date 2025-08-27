@@ -15,7 +15,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TradeCreateAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -166,6 +166,8 @@ class TradeCreateTypedDict(TypedDict):
 
     account_id: str
     r"""A globally unique identifier referencing a single account."""
+    asset_type: TradeCreateAssetType
+    r"""Type of the asset being traded."""
     broker_capacity: TradeCreateBrokerCapacity
     r"""Broker capacity for the trade."""
     client_order_id: str
@@ -186,8 +188,6 @@ class TradeCreateTypedDict(TypedDict):
     r"""Free form instructions that can be used to provide additional instructions (that are not captured by existing special instructions) and will be put on the trade confirm."""
     alternate_order_id: NotRequired[str]
     r"""Fractional support for market-makers' internal order ids."""
-    asset_type: NotRequired[TradeCreateAssetType]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
     executing_broker: NotRequired[str]
     r"""Executing broker of the trade."""
     fees: NotRequired[List[BookingFeeCreateTypedDict]]
@@ -232,6 +232,11 @@ class TradeCreate(BaseModel):
     account_id: str
     r"""A globally unique identifier referencing a single account."""
 
+    asset_type: Annotated[
+        TradeCreateAssetType, PlainValidator(validate_open_enum(False))
+    ]
+    r"""Type of the asset being traded."""
+
     broker_capacity: Annotated[
         TradeCreateBrokerCapacity, PlainValidator(validate_open_enum(False))
     ]
@@ -265,11 +270,6 @@ class TradeCreate(BaseModel):
 
     alternate_order_id: Optional[str] = None
     r"""Fractional support for market-makers' internal order ids."""
-
-    asset_type: Annotated[
-        Optional[TradeCreateAssetType], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
 
     executing_broker: Optional[str] = None
     r"""Executing broker of the trade."""

@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from ascend_sdk.bank_relationships import BankRelationships
     from ascend_sdk.basket_orders import BasketOrders
     from ascend_sdk.cash_balances import CashBalances
+    from ascend_sdk.checks import Checks
     from ascend_sdk.create_order import CreateOrder
     from ascend_sdk.data_retrieval import DataRetrieval
     from ascend_sdk.enrollments_and_agreements import EnrollmentsAndAgreements
@@ -63,10 +64,11 @@ class SDK(BaseSDK):
     retirements: "Retirements"
     journals: "Journals"
     schedule_transfers: "ScheduleTransfers"
+    checks: "Checks"
+    test_simulation: "TestSimulation"
     wires: "Wires"
     cash_balances: "CashBalances"
     fees_and_credits: "FeesAndCredits"
-    test_simulation: "TestSimulation"
     account_transfers: "AccountTransfers"
     create_order: "CreateOrder"
     fixed_income_pricing: "FixedIncomePricing"
@@ -99,10 +101,11 @@ class SDK(BaseSDK):
         "retirements": ("ascend_sdk.retirements", "Retirements"),
         "journals": ("ascend_sdk.journals", "Journals"),
         "schedule_transfers": ("ascend_sdk.schedule_transfers", "ScheduleTransfers"),
+        "checks": ("ascend_sdk.checks", "Checks"),
+        "test_simulation": ("ascend_sdk.test_simulation", "TestSimulation"),
         "wires": ("ascend_sdk.wires", "Wires"),
         "cash_balances": ("ascend_sdk.cash_balances", "CashBalances"),
         "fees_and_credits": ("ascend_sdk.fees_and_credits", "FeesAndCredits"),
-        "test_simulation": ("ascend_sdk.test_simulation", "TestSimulation"),
         "account_transfers": ("ascend_sdk.account_transfers", "AccountTransfers"),
         "create_order": ("ascend_sdk.create_order", "CreateOrder"),
         "fixed_income_pricing": (

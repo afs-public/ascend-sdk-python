@@ -36,7 +36,7 @@ class RebookTradeAllocationResponseAccruedInterestAmount(BaseModel):
 
 
 class RebookTradeAllocationResponseAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -345,7 +345,7 @@ class NewTradeAllocationTypedDict(TypedDict):
     additional_instructions: NotRequired[str]
     r"""Free form instructions that can be used to provide additional instructions (that are not captured by existing special instructions) and will be put on the trade confirm."""
     asset_type: NotRequired[RebookTradeAllocationResponseAssetType]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
     bond_yield: NotRequired[List[BondYieldTypedDict]]
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""
     broker_capacity: NotRequired[RebookTradeAllocationResponseBrokerCapacity]
@@ -433,7 +433,7 @@ class NewTradeAllocation(BaseModel):
         Optional[RebookTradeAllocationResponseAssetType],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     bond_yield: Optional[List[BondYield]] = None
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""
@@ -650,7 +650,7 @@ class RebookTradeAllocationResponseOriginalTradeAllocationAccruedInterestAmount(
 class RebookTradeAllocationResponseOriginalTradeAllocationAssetType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     ASSET_TYPE_UNSPECIFIED = "ASSET_TYPE_UNSPECIFIED"
     EQUITY = "EQUITY"
@@ -991,7 +991,7 @@ class OriginalTradeAllocationTypedDict(TypedDict):
     asset_type: NotRequired[
         RebookTradeAllocationResponseOriginalTradeAllocationAssetType
     ]
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
     bond_yield: NotRequired[List[BondYieldTypedDict]]
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""
     broker_capacity: NotRequired[
@@ -1101,7 +1101,7 @@ class OriginalTradeAllocation(BaseModel):
         Optional[RebookTradeAllocationResponseOriginalTradeAllocationAssetType],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Type of the asset being traded. Required for SYMBOL and CUSIP."""
+    r"""Type of the asset being traded."""
 
     bond_yield: Optional[List[BondYield]] = None
     r"""The yield associated with an individual fill of a fixed income trade. Required for FIXED_INCOME trades. Not allowed for trades of other instrument types."""

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 2bd542c35c9264f526c35a7888d789fb
-  docVersion: v1:20250811:uat:c8e4b50ba105
-  speakeasyVersion: 1.601.0
+  docChecksum: d1bde040cb67d385e81d1c372294d048
+  docVersion: v1:20250822:uat:240983991338
+  speakeasyVersion: 1.601.3
   generationVersion: 2.680.0
-  releaseVersion: 1.6.0
-  configChecksum: dbf50473a581bd9bf7520c20a5e465dc
+  releaseVersion: 1.6.1
+  configChecksum: 146059e94b7c7c11b373cc97c1a8ad27
 features:
   python:
     additionalDependencies: 1.0.0
@@ -187,6 +187,8 @@ generatedFiles:
   - docs/models/components/activityexchangetype.md
   - docs/models/components/activityfactordenominator.md
   - docs/models/components/activityfactornumerator.md
+  - docs/models/components/activityfairmarketvalue.md
+  - docs/models/components/activityfairmarketvaluedate.md
   - docs/models/components/activityfee.md
   - docs/models/components/activityfpsl.md
   - docs/models/components/activityfpslaction.md
@@ -401,6 +403,7 @@ generatedFiles:
   - docs/models/components/basketordercumulativenotionalvalue.md
   - docs/models/components/basketorderfilledquantity.md
   - docs/models/components/basketorderidentifiertype.md
+  - docs/models/components/basketordermaxsellquantity.md
   - docs/models/components/basketordernotionalvalue.md
   - docs/models/components/basketorderorderrejectedreason.md
   - docs/models/components/basketorderorderstatus.md
@@ -560,6 +563,12 @@ generatedFiles:
   - docs/models/components/cashrate.md
   - docs/models/components/cashtype.md
   - docs/models/components/cataccountholdertype.md
+  - docs/models/components/checkdeposit.md
+  - docs/models/components/checkdepositamount.md
+  - docs/models/components/checkdepositretirementcontribution.md
+  - docs/models/components/checkdepositstate.md
+  - docs/models/components/checkdepositstatestate.md
+  - docs/models/components/checkdeposittype.md
   - docs/models/components/checkpartytyperequestcreate.md
   - docs/models/components/checkpartytyperesponse.md
   - docs/models/components/checkpartytyperesponsepartytype.md
@@ -975,8 +984,11 @@ generatedFiles:
   - docs/models/components/expirationdate.md
   - docs/models/components/externalaccount.md
   - docs/models/components/externalaccountcreate.md
+  - docs/models/components/extrareportingdata.md
   - docs/models/components/factordenominator.md
   - docs/models/components/factornumerator.md
+  - docs/models/components/fairmarketvalue.md
+  - docs/models/components/fairmarketvaluedate.md
   - docs/models/components/fdiccashsweep.md
   - docs/models/components/federaltaxclassification.md
   - docs/models/components/federaltaxwithholding.md
@@ -1665,6 +1677,8 @@ generatedFiles:
   - docs/models/components/relationtype.md
   - docs/models/components/remainingcontributionallowed.md
   - docs/models/components/remainingdistributionrequired.md
+  - docs/models/components/removeordersrequestcreate.md
+  - docs/models/components/removeordersresponse.md
   - docs/models/components/removepartyrequestcreate.md
   - docs/models/components/replacepartyrequestcreate.md
   - docs/models/components/reportingeligibility.md
@@ -1737,6 +1751,7 @@ generatedFiles:
   - docs/models/components/shortcode.md
   - docs/models/components/side.md
   - docs/models/components/sidemodifier.md
+  - docs/models/components/simulatecreatecheckdepositrequestcreate.md
   - docs/models/components/smaamount.md
   - docs/models/components/snapshot.md
   - docs/models/components/snapshotprocessdate.md
@@ -2142,6 +2157,8 @@ generatedFiles:
   - docs/models/operations/basketordersservicelistbasketordersresponse.md
   - docs/models/operations/basketordersservicelistcompressedordersrequest.md
   - docs/models/operations/basketordersservicelistcompressedordersresponse.md
+  - docs/models/operations/basketordersserviceremoveordersrequest.md
+  - docs/models/operations/basketordersserviceremoveordersresponse.md
   - docs/models/operations/basketordersservicesubmitbasketrequest.md
   - docs/models/operations/basketordersservicesubmitbasketresponse.md
   - docs/models/operations/bookingcancelexecutionrequest.md
@@ -2182,6 +2199,10 @@ generatedFiles:
   - docs/models/operations/cashjournalsforcerejectcashjournalresponse.md
   - docs/models/operations/cashjournalsgetcashjournalrequest.md
   - docs/models/operations/cashjournalsgetcashjournalresponse.md
+  - docs/models/operations/checkdepositsgetcheckdepositrequest.md
+  - docs/models/operations/checkdepositsgetcheckdepositresponse.md
+  - docs/models/operations/checkdepositssimulatecreatecheckdepositrequest.md
+  - docs/models/operations/checkdepositssimulatecreatecheckdepositresponse.md
   - docs/models/operations/creditscancelcreditrequest.md
   - docs/models/operations/creditscancelcreditresponse.md
   - docs/models/operations/creditscreatecreditrequest.md
@@ -2323,6 +2344,7 @@ generatedFiles:
   - docs/sdks/bankrelationships/README.md
   - docs/sdks/basketorders/README.md
   - docs/sdks/cashbalances/README.md
+  - docs/sdks/checks/README.md
   - docs/sdks/createorder/README.md
   - docs/sdks/dataretrieval/README.md
   - docs/sdks/enrollmentsandagreements/README.md
@@ -2364,6 +2386,7 @@ generatedFiles:
   - src/ascend_sdk/basesdk.py
   - src/ascend_sdk/basket_orders.py
   - src/ascend_sdk/cash_balances.py
+  - src/ascend_sdk/checks.py
   - src/ascend_sdk/create_order.py
   - src/ascend_sdk/data_retrieval.py
   - src/ascend_sdk/enrollments_and_agreements.py
@@ -2466,6 +2489,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/cashjournal.py
   - src/ascend_sdk/models/components/cashjournalconstraints.py
   - src/ascend_sdk/models/components/cashjournalcreate.py
+  - src/ascend_sdk/models/components/checkdeposit.py
   - src/ascend_sdk/models/components/checkpartytyperequestcreate.py
   - src/ascend_sdk/models/components/checkpartytyperesponse.py
   - src/ascend_sdk/models/components/closeaccountrequestcreate.py
@@ -2693,6 +2717,8 @@ generatedFiles:
   - src/ascend_sdk/models/components/relatedpepcreate.py
   - src/ascend_sdk/models/components/relatedpepdetailscreate.py
   - src/ascend_sdk/models/components/relatedprofile.py
+  - src/ascend_sdk/models/components/removeordersrequestcreate.py
+  - src/ascend_sdk/models/components/removeordersresponse.py
   - src/ascend_sdk/models/components/removepartyrequestcreate.py
   - src/ascend_sdk/models/components/replacepartyrequestcreate.py
   - src/ascend_sdk/models/components/restriction.py
@@ -2716,6 +2742,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/scheduledretirementcontributioncreate.py
   - src/ascend_sdk/models/components/schedulepropertiescreate.py
   - src/ascend_sdk/models/components/security.py
+  - src/ascend_sdk/models/components/simulatecreatecheckdepositrequestcreate.py
   - src/ascend_sdk/models/components/snapshot.py
   - src/ascend_sdk/models/components/status.py
   - src/ascend_sdk/models/components/stoppricecreate.py
@@ -2857,6 +2884,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/basketordersservice_getbasket.py
   - src/ascend_sdk/models/operations/basketordersservice_listbasketorders.py
   - src/ascend_sdk/models/operations/basketordersservice_listcompressedorders.py
+  - src/ascend_sdk/models/operations/basketordersservice_removeorders.py
   - src/ascend_sdk/models/operations/basketordersservice_submitbasket.py
   - src/ascend_sdk/models/operations/booking_cancelexecution.py
   - src/ascend_sdk/models/operations/booking_canceltrade.py
@@ -2878,6 +2906,8 @@ generatedFiles:
   - src/ascend_sdk/models/operations/cashjournals_forceapprovecashjournal.py
   - src/ascend_sdk/models/operations/cashjournals_forcerejectcashjournal.py
   - src/ascend_sdk/models/operations/cashjournals_getcashjournal.py
+  - src/ascend_sdk/models/operations/checkdeposits_getcheckdeposit.py
+  - src/ascend_sdk/models/operations/checkdeposits_simulatecreatecheckdeposit.py
   - src/ascend_sdk/models/operations/credits_cancelcredit.py
   - src/ascend_sdk/models/operations/credits_createcredit.py
   - src/ascend_sdk/models/operations/credits_getcredit.py
@@ -2975,12 +3005,14 @@ generatedFiles:
   - src/ascend_sdk/wires.py
   - tests/__init__.py
   - tests/test_assets.py
+  - tests/test_checks.py
   - tests/test_client.py
   - tests/test_data_retrieval.py
   - tests/test_investigations.py
   - tests/test_margins.py
   - tests/test_person_management.py
   - tests/test_subscriber.py
+  - tests/test_test_simulation.py
 examples:
   Authentication_GenerateServiceAccountToken:
     speakeasy-default-authentication-generate-service-account-token:
@@ -5068,7 +5100,7 @@ examples:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
       requestBody:
-        application/json: {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [{"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}
+        application/json: {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "asset_type": "EQUITY", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [{"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}
       responses:
         "200":
           application/json: {}
@@ -5134,7 +5166,7 @@ examples:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           trade_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
-        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM", "trade": {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}}
+        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM", "trade": {"account_id": "02HASWB2DTMRT3DAM45P56J2T2", "asset_type": "EQUITY", "broker_capacity": "AGENCY", "client_order_id": "00be5285-0623-4560-8c58-f05af2c56ba0", "executions": [], "identifier": "AAPL", "identifier_type": "SYMBOL", "route_type": "MNGD", "side": "BUY", "source_application": "Trading-App"}}
       responses:
         "200":
           application/json: {}
@@ -5219,7 +5251,7 @@ examples:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
       requestBody:
-        application/json: {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
+        application/json: {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
       responses:
         "200":
           application/json: {}
@@ -5268,7 +5300,7 @@ examples:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           tradeAllocation_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
-        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
+        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
       responses:
         "200":
           application/json: {}
@@ -5453,6 +5485,50 @@ examples:
           application/json: {}
         default:
           application/json: {}
+  CheckDeposits_GetCheckDeposit:
+    speakeasy-default-check-deposits-get-check-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+          checkDeposit_id: "20230817000319"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CheckDeposits_SimulateCreateCheckDeposit:
+    speakeasy-default-check-deposits-simulate-create-check-deposit:
+      parameters:
+        path:
+          account_id: "01H8FB90ZRRFWXB4XC2JPJ1D4Y"
+      requestBody:
+        application/json: {"amount": {}, "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  BasketOrdersService_RemoveOrders:
+    speakeasy-default-basket-orders-service-remove-orders:
+      parameters:
+        path:
+          correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
+          basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
+      requestBody:
+        application/json: {"client_order_ids": ["77e4c4b9-38e7-469f-9a8d-cd8baf7c1952", "4cff908e-aaed-401d-8ec9-929e3eb18cbc"], "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
 examplesVersion: 1.0.2
 generatedTests:
   Accounts_ListLegalNaturalPersons: "2025-08-11T18:04:36Z"
@@ -5466,3 +5542,5 @@ generatedTests:
   Assets_ListAssets_1: "2025-08-11T18:04:36Z"
   Assets_GetAsset: "2025-08-11T18:04:36Z"
   Subscriber_ListPushSubscriptions: "2025-08-11T18:04:36Z"
+  CheckDeposits_GetCheckDeposit: "2025-08-22T19:32:33Z"
+  CheckDeposits_SimulateCreateCheckDeposit: "2025-08-22T19:32:33Z"

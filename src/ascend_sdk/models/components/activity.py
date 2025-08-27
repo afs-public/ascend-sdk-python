@@ -67,6 +67,7 @@ class ActivityAccountTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     FAIL_REVERSAL = "FAIL_REVERSAL"
     RECLAIM = "RECLAIM"
     POSITION_TRANSFER_FUND = "POSITION_TRANSFER_FUND"
+    SPONSORED_TRANSFER = "SPONSORED_TRANSFER"
 
 
 class ActivityAction(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -76,6 +77,44 @@ class ActivityAction(str, Enum, metaclass=utils.OpenEnumMeta):
     INCOMING = "INCOMING"
     OUTGOING = "OUTGOING"
     CASH_IN_LIEU = "CASH_IN_LIEU"
+
+
+class ActivityFairMarketValueTypedDict(TypedDict):
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityFairMarketValue(BaseModel):
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityFairMarketValueDateTypedDict(TypedDict):
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
+    day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+    month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
+class ActivityFairMarketValueDate(BaseModel):
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
+    day: Optional[int] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+
+    month: Optional[int] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    year: Optional[int] = None
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
 class ActivityMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -104,6 +143,10 @@ class ActivityAccountTransferTypedDict(TypedDict):
     r"""Account number at the contra firm"""
     contra_party_id: NotRequired[str]
     r"""Contra party identifier"""
+    fair_market_value: NotRequired[Nullable[ActivityFairMarketValueTypedDict]]
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+    fair_market_value_date: NotRequired[Nullable[ActivityFairMarketValueDateTypedDict]]
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
     institution: NotRequired[str]
     r"""Contra party institution for the account transfer"""
     method: NotRequired[ActivityMethod]
@@ -138,6 +181,12 @@ class ActivityAccountTransfer(BaseModel):
     contra_party_id: Optional[str] = None
     r"""Contra party identifier"""
 
+    fair_market_value: OptionalNullable[ActivityFairMarketValue] = UNSET
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    fair_market_value_date: OptionalNullable[ActivityFairMarketValueDate] = UNSET
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
     institution: Optional[str] = None
     r"""Contra party institution for the account transfer"""
 
@@ -145,6 +194,48 @@ class ActivityAccountTransfer(BaseModel):
         Optional[ActivityMethod], PlainValidator(validate_open_enum(False))
     ] = None
     r"""The method used for the account transfer"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "acats_asset_sequence_number",
+            "acats_control_number",
+            "account_transfer_type",
+            "action",
+            "additional_instructions",
+            "contra_party_account_number",
+            "contra_party_id",
+            "fair_market_value",
+            "fair_market_value_date",
+            "institution",
+            "method",
+        ]
+        nullable_fields = ["fair_market_value", "fair_market_value_date"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class AccruedInterestDescTypedDict(TypedDict):
@@ -985,6 +1076,8 @@ class ActivitySubtype(str, Enum, metaclass=utils.OpenEnumMeta):
     MATURITY = "MATURITY"
     TERMINATION = "TERMINATION"
     REDEMPTION_OF_WARRANTS = "REDEMPTION_OF_WARRANTS"
+    INTERIM_PAYMENT = "INTERIM_PAYMENT"
+    FINAL_PAYMENT = "FINAL_PAYMENT"
 
 
 class ActivityCashDividendTypedDict(TypedDict):
@@ -2258,6 +2351,8 @@ class ActivityLiquidationSubtype(str, Enum, metaclass=utils.OpenEnumMeta):
     MATURITY = "MATURITY"
     TERMINATION = "TERMINATION"
     REDEMPTION_OF_WARRANTS = "REDEMPTION_OF_WARRANTS"
+    INTERIM_PAYMENT = "INTERIM_PAYMENT"
+    FINAL_PAYMENT = "FINAL_PAYMENT"
 
 
 class ActivityLiquidationTypedDict(TypedDict):
@@ -3391,6 +3486,8 @@ class ActivityRedemptionFullSubtype(str, Enum, metaclass=utils.OpenEnumMeta):
     MATURITY = "MATURITY"
     TERMINATION = "TERMINATION"
     REDEMPTION_OF_WARRANTS = "REDEMPTION_OF_WARRANTS"
+    INTERIM_PAYMENT = "INTERIM_PAYMENT"
+    FINAL_PAYMENT = "FINAL_PAYMENT"
 
 
 class ActivityRedemptionFullTypedDict(TypedDict):
