@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class Investigations(BaseSDK):
@@ -447,7 +448,7 @@ class Investigations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.InvestigationServiceListInvestigationsResponse:
+    ) -> Optional[operations.InvestigationServiceListInvestigationsResponse]:
         r"""List Investigations
 
         Use this endpoint to retrieve a list of investigation summaries based on optional search parameters
@@ -515,6 +516,27 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.InvestigationServiceListInvestigationsResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_investigations(
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                order_by=order_by,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
@@ -522,6 +544,7 @@ class Investigations(BaseSDK):
                     Optional[components.ListInvestigationsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -539,6 +562,7 @@ class Investigations(BaseSDK):
             return operations.InvestigationServiceListInvestigationsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -554,7 +578,7 @@ class Investigations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.InvestigationServiceListInvestigationsResponse:
+    ) -> Optional[operations.InvestigationServiceListInvestigationsResponse]:
         r"""List Investigations
 
         Use this endpoint to retrieve a list of investigation summaries based on optional search parameters
@@ -622,6 +646,27 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.InvestigationServiceListInvestigationsResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_investigations(
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                order_by=order_by,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.InvestigationServiceListInvestigationsResponse(
@@ -629,6 +674,7 @@ class Investigations(BaseSDK):
                     Optional[components.ListInvestigationsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -646,6 +692,7 @@ class Investigations(BaseSDK):
             return operations.InvestigationServiceListInvestigationsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

@@ -144,10 +144,10 @@ with SDK(
 
     res = sdk.investigations.list_investigations(page_size=100, page_token="", filter_="person.given_name == 'Jane' && person.family_name == 'Dough'", order_by="person.given_name desc")
 
-    assert res.list_investigations_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_investigations_response)
+        res = res.next()
 
 ```
 

@@ -9,7 +9,7 @@ from ascend_sdk.models.components import (
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
-from typing import Optional
+from typing import Callable, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -61,6 +61,8 @@ class LedgerListActivitiesResponseTypedDict(TypedDict):
 
 
 class LedgerListActivitiesResponse(BaseModel):
+    next: Callable[[], Optional[LedgerListActivitiesResponse]]
+
     http_meta: Annotated[
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None

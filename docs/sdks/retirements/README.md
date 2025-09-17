@@ -36,10 +36,10 @@ with SDK(
 
     res = sdk.retirements.list_contribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=2, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh")
 
-    assert res.list_contribution_summaries_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_contribution_summaries_response)
+        res = res.next()
 
 ```
 
@@ -144,10 +144,10 @@ with SDK(
 
     res = sdk.retirements.list_distribution_summaries(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=2, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZ3hh")
 
-    assert res.list_distribution_summaries_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_distribution_summaries_response)
+        res = res.next()
 
 ```
 

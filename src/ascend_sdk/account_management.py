@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union, cast
 
 
 class AccountManagement(BaseSDK):
@@ -21,7 +22,7 @@ class AccountManagement(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListAccountsResponse:
+    ) -> Optional[operations.AccountsListAccountsResponse]:
         r"""List Accounts
 
         Gets a list of Accounts based on search criteria.
@@ -83,6 +84,28 @@ class AccountManagement(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListAccountsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_accounts(
+                request=operations.AccountsListAccountsRequest(
+                    page_size=request.page_size,
+                    page_token=next_cursor,
+                    order_by=request.order_by,
+                    filter_=request.filter_,
+                    view=request.view,
+                ),
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListAccountsResponse(
@@ -90,6 +113,7 @@ class AccountManagement(BaseSDK):
                     Optional[components.ListAccountsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -107,6 +131,7 @@ class AccountManagement(BaseSDK):
             return operations.AccountsListAccountsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -122,7 +147,7 @@ class AccountManagement(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListAccountsResponse:
+    ) -> Optional[operations.AccountsListAccountsResponse]:
         r"""List Accounts
 
         Gets a list of Accounts based on search criteria.
@@ -184,6 +209,28 @@ class AccountManagement(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListAccountsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_accounts(
+                request=operations.AccountsListAccountsRequest(
+                    page_size=request.page_size,
+                    page_token=next_cursor,
+                    order_by=request.order_by,
+                    filter_=request.filter_,
+                    view=request.view,
+                ),
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListAccountsResponse(
@@ -191,6 +238,7 @@ class AccountManagement(BaseSDK):
                     Optional[components.ListAccountsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -208,6 +256,7 @@ class AccountManagement(BaseSDK):
             return operations.AccountsListAccountsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

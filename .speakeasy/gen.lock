@@ -1,17 +1,17 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: d1bde040cb67d385e81d1c372294d048
-  docVersion: v1:20250822:uat:240983991338
-  speakeasyVersion: 1.601.3
-  generationVersion: 2.680.0
-  releaseVersion: 1.6.1
-  configChecksum: 146059e94b7c7c11b373cc97c1a8ad27
+  docChecksum: 717145375c4d2f7707da160500525042
+  docVersion: v1:20250916:uat:415b21f7a6e1
+  speakeasyVersion: 1.608.0
+  generationVersion: 2.691.6
+  releaseVersion: 1.7.0
+  configChecksum: b167ca2dcaa8959ae9c8ac59f9e2f35f
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
-    core: 5.19.8
+    core: 5.20.3
     customSecuritySchemes: 0.1.0
     defaultEnabledRetries: 0.2.0
     deprecations: 3.0.2
@@ -26,6 +26,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.1
     openEnums: 1.0.1
+    pagination: 3.0.5
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.1.0

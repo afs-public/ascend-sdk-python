@@ -54,10 +54,10 @@ with SDK(
         "view": operations.View.FULL,
     })
 
-    assert res.list_accounts_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_accounts_response)
+        res = res.next()
 
 ```
 

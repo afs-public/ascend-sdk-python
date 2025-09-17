@@ -86,10 +86,10 @@ with SDK(
 
     res = sdk.investor_docs.list_documents()
 
-    assert res.list_documents_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_documents_response)
+        res = res.next()
 
 ```
 

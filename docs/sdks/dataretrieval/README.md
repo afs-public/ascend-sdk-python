@@ -33,10 +33,10 @@ with SDK(
 
     res = sdk.data_retrieval.list_snapshots(filter_="snapshot_type==\"daily_accounts\"&&process_date==date(\"2023-09-30\")", page_size=500, page_token="M_-BAwEBCVBhZ2VUb2tlbgH_ggABAgEMUnVubmluZ1RvdGFsAQQAAQZGaWx0ZXIBDAAAAAX_ggEyAA==")
 
-    assert res.list_snapshots_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_snapshots_response)
+        res = res.next()
 
 ```
 

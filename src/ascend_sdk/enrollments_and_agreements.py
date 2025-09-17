@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class EnrollmentsAndAgreements(BaseSDK):
@@ -902,7 +903,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListEnrollmentsResponse:
+    ) -> Optional[operations.AccountsListEnrollmentsResponse]:
         r"""List Account Enrollments
 
         Gets a list of Enrollments for an Account.
@@ -968,6 +969,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListEnrollmentsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_enrollments(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListEnrollmentsResponse(
@@ -975,6 +994,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListEnrollmentsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -992,6 +1012,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListEnrollmentsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1006,7 +1027,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListEnrollmentsResponse:
+    ) -> Optional[operations.AccountsListEnrollmentsResponse]:
         r"""List Account Enrollments
 
         Gets a list of Enrollments for an Account.
@@ -1072,6 +1093,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListEnrollmentsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_enrollments(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListEnrollmentsResponse(
@@ -1079,6 +1118,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListEnrollmentsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1096,6 +1136,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListEnrollmentsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1338,7 +1379,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListAgreementsResponse:
+    ) -> Optional[operations.AccountsListAgreementsResponse]:
         r"""List Account Agreements
 
         Gets a list of Agreements on an Account.
@@ -1404,6 +1445,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListAgreementsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_agreements(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListAgreementsResponse(
@@ -1411,6 +1470,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListAgreementsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1428,6 +1488,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListAgreementsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1442,7 +1503,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListAgreementsResponse:
+    ) -> Optional[operations.AccountsListAgreementsResponse]:
         r"""List Account Agreements
 
         Gets a list of Agreements on an Account.
@@ -1508,6 +1569,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListAgreementsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_agreements(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListAgreementsResponse(
@@ -1515,6 +1594,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListAgreementsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1532,6 +1612,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListAgreementsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1546,7 +1627,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListEntitlementsResponse:
+    ) -> Optional[operations.AccountsListEntitlementsResponse]:
         r"""List Account Entitlements
 
         Gets a list of Entitlements for an Account.
@@ -1612,6 +1693,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListEntitlementsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_entitlements(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListEntitlementsResponse(
@@ -1619,6 +1718,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListEntitlementsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1636,6 +1736,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListEntitlementsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1650,7 +1751,7 @@ class EnrollmentsAndAgreements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AccountsListEntitlementsResponse:
+    ) -> Optional[operations.AccountsListEntitlementsResponse]:
         r"""List Account Entitlements
 
         Gets a list of Entitlements for an Account.
@@ -1716,6 +1817,24 @@ class EnrollmentsAndAgreements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.AccountsListEntitlementsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_entitlements(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AccountsListEntitlementsResponse(
@@ -1723,6 +1842,7 @@ class EnrollmentsAndAgreements(BaseSDK):
                     Optional[components.ListEntitlementsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1740,6 +1860,7 @@ class EnrollmentsAndAgreements(BaseSDK):
             return operations.AccountsListEntitlementsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

@@ -17,9 +17,11 @@ from .types import (
 
 class ApexAccessTokenHook(BeforeRequestHook):
     access_token: str
+    access_token_expiration: datetime
 
     def __init__(self, access_token=None):
         self.access_token = access_token
+        self.access_token_expiration = None
 
     def before_request(
         self, hook_ctx: BeforeRequestContext, request: requests.PreparedRequest
@@ -52,9 +54,6 @@ class ApexAccessTokenHook(BeforeRequestHook):
         if self.access_token_still_valid():
             return self.access_token
 
-        # Update token expiration
-        self.access_token_expiration = datetime.now()
-
         # Create JWS
         jws = get_jws(service_account_creds)
 
@@ -72,7 +71,10 @@ class ApexAccessTokenHook(BeforeRequestHook):
             raise Exception("No expires_in returned")
 
         self.access_token = data["access_token"]
-        self.access_token_expiration += timedelta(minutes=data["expires_in"] / 60)
+        # Add 1 hour safety buffer to refresh tokens before they actually expire
+        self.access_token_expiration = datetime.now() + timedelta(
+            seconds=max(data["expires_in"] - 3600, 60)
+        )
 
         return self.access_token
 

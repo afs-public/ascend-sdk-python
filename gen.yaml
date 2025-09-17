@@ -21,7 +21,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 1.6.1
+  version: 1.7.0
   additionalDependencies:
     dev:
       pytest: ^8.4.1
@@ -30,6 +30,9 @@ python:
       PyJWT: ^2.4.0
       cryptography: ^42.0.4
       requests: ^2.32.3
+  allowedRedefinedBuiltins:
+    - id
+    - object
   authors:
     - Apex Fintech Solutions
   baseErrorName: SDKBaseError

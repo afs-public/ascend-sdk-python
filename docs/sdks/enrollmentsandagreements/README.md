@@ -261,10 +261,10 @@ with SDK(
 
     res = sdk.enrollments_and_agreements.list_enrollments(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_enrollments_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_enrollments_response)
+        res = res.next()
 
 ```
 
@@ -372,10 +372,10 @@ with SDK(
 
     res = sdk.enrollments_and_agreements.list_agreements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_agreements_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_agreements_response)
+        res = res.next()
 
 ```
 
@@ -426,10 +426,10 @@ with SDK(
 
     res = sdk.enrollments_and_agreements.list_entitlements(account_id="01HC3MAQ4DR9QN1V8MJ4CN1HMK", page_size=5, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_entitlements_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_entitlements_response)
+        res = res.next()
 
 ```
 

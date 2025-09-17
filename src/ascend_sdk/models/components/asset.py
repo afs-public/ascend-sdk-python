@@ -12,10 +12,11 @@ from ascend_sdk.types import (
 )
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
+import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict, deprecated
 
 
 class CurrencyType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -137,6 +138,9 @@ class CouponType(str, Enum, metaclass=utils.OpenEnumMeta):
     COUPON_TYPE_ZERO = "COUPON_TYPE_ZERO"
 
 
+@deprecated(
+    "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+)
 class DurationTypedDict(TypedDict):
     r"""Weighted average time until a bond’s cash flows are received in years"""
 
@@ -144,6 +148,9 @@ class DurationTypedDict(TypedDict):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+@deprecated(
+    "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+)
 class Duration(BaseModel):
     r"""Weighted average time until a bond’s cash flows are received in years"""
 
@@ -522,7 +529,12 @@ class FixedIncome(BaseModel):
     ] = None
     r"""Type of coupon rate"""
 
-    duration: OptionalNullable[Duration] = UNSET
+    duration: Annotated[
+        OptionalNullable[Duration],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = UNSET
     r"""Weighted average time until a bond’s cash flows are received in years"""
 
     first_coupon_date: OptionalNullable[FirstCouponDate] = UNSET

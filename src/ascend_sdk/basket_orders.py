@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union, cast
 
 
 class BasketOrders(BaseSDK):
@@ -935,7 +936,7 @@ class BasketOrders(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BasketOrdersServiceListBasketOrdersResponse:
+    ) -> Optional[operations.BasketOrdersServiceListBasketOrdersResponse]:
         r"""List Basket Orders
 
         Gets a list of basket orders within a basket.
@@ -1001,6 +1002,30 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListBasketOrdersResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_basket_orders(
+                request=operations.BasketOrdersServiceListBasketOrdersRequest(
+                    correspondent_id=request.correspondent_id,
+                    basket_id=request.basket_id,
+                    page_size=request.page_size,
+                    page_token=next_cursor,
+                    show_removed=request.show_removed,
+                ),
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
@@ -1008,6 +1033,7 @@ class BasketOrders(BaseSDK):
                     Optional[components.ListBasketOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(
             http_res, ["400", "401", "403", "404"], "application/json"
@@ -1027,6 +1053,7 @@ class BasketOrders(BaseSDK):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1042,7 +1069,7 @@ class BasketOrders(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BasketOrdersServiceListBasketOrdersResponse:
+    ) -> Optional[operations.BasketOrdersServiceListBasketOrdersResponse]:
         r"""List Basket Orders
 
         Gets a list of basket orders within a basket.
@@ -1108,6 +1135,30 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListBasketOrdersResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_basket_orders(
+                request=operations.BasketOrdersServiceListBasketOrdersRequest(
+                    correspondent_id=request.correspondent_id,
+                    basket_id=request.basket_id,
+                    page_size=request.page_size,
+                    page_token=next_cursor,
+                    show_removed=request.show_removed,
+                ),
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
@@ -1115,6 +1166,7 @@ class BasketOrders(BaseSDK):
                     Optional[components.ListBasketOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(
             http_res, ["400", "401", "403", "404"], "application/json"
@@ -1134,6 +1186,7 @@ class BasketOrders(BaseSDK):
             return operations.BasketOrdersServiceListBasketOrdersResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1149,7 +1202,7 @@ class BasketOrders(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BasketOrdersServiceListCompressedOrdersResponse:
+    ) -> Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]:
         r"""List Compressed Orders
 
         Gets a list of compressed orders within a basket.
@@ -1219,6 +1272,27 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_compressed_orders(
+                correspondent_id=correspondent_id,
+                basket_id=basket_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
@@ -1226,6 +1300,7 @@ class BasketOrders(BaseSDK):
                     Optional[components.ListCompressedOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(
             http_res, ["400", "401", "403", "404"], "application/json"
@@ -1245,6 +1320,7 @@ class BasketOrders(BaseSDK):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1260,7 +1336,7 @@ class BasketOrders(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BasketOrdersServiceListCompressedOrdersResponse:
+    ) -> Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]:
         r"""List Compressed Orders
 
         Gets a list of compressed orders within a basket.
@@ -1330,6 +1406,27 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_compressed_orders(
+                correspondent_id=correspondent_id,
+                basket_id=basket_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
@@ -1337,6 +1434,7 @@ class BasketOrders(BaseSDK):
                     Optional[components.ListCompressedOrdersResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(
             http_res, ["400", "401", "403", "404"], "application/json"
@@ -1356,6 +1454,7 @@ class BasketOrders(BaseSDK):
             return operations.BasketOrdersServiceListCompressedOrdersResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
