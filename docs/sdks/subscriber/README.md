@@ -96,10 +96,10 @@ with SDK(
 
     res = sdk.subscriber.list_push_subscriptions(filter_="correspondent_id==\"01H8MCDXH4HYJJAV921BDKCC83\"", page_size=50, page_token="ZXhhbXBsZQo")
 
-    assert res.list_push_subscriptions_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_push_subscriptions_response)
+        res = res.next()
 
 ```
 
@@ -361,10 +361,10 @@ with SDK(
 
     res = sdk.subscriber.list_push_subscription_deliveries(subscription_id="01H8MCDXH4JVH7KVNB2YY42907", filter_="event_publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")", page_size=50, page_token="ZXhhbXBsZQo")
 
-    assert res.list_push_subscription_deliveries_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_push_subscription_deliveries_response)
+        res = res.next()
 
 ```
 

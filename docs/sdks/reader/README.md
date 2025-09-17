@@ -34,10 +34,10 @@ with SDK(
 
     res = sdk.reader.list_event_messages(filter_="publish_time==timestamp(\"2023-06-13T23:48:58.343Z\")", page_size=50, page_token="ZXhhbXBsZQo")
 
-    assert res.list_event_messages_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_event_messages_response)
+        res = res.next()
 
 ```
 

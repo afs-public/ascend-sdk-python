@@ -9,7 +9,7 @@ from ascend_sdk.models.components import (
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import Optional
+from typing import Callable, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -54,6 +54,8 @@ class InvestorCommunicationServiceListDocumentsResponseTypedDict(TypedDict):
 
 
 class InvestorCommunicationServiceListDocumentsResponse(BaseModel):
+    next: Callable[[], Optional[InvestorCommunicationServiceListDocumentsResponse]]
+
     http_meta: Annotated[
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None

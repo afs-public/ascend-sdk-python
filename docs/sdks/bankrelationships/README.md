@@ -95,10 +95,10 @@ with SDK(
 
     res = sdk.bank_relationships.list_bank_relationships(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", page_size=100, page_token="CMFRGgYQup3BhQgaCSkAQCKS7AAAAA==", state=operations.State.APPROVED)
 
-    assert res.list_bank_relationships_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_bank_relationships_response)
+        res = res.next()
 
 ```
 

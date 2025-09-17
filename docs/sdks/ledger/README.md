@@ -37,10 +37,10 @@ with SDK(
 
     res = sdk.ledger.list_entries(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", page_size=0, page_token="v-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfzbNG7ZAS8xZWYyMmM3ZS01NjdmLTBhYzgtYjZmZi1kNzYwNDI3YmI3N2Q6MjAyNC0wNi0wMgA=", filter_="process_date == date('2024-05-11') && account_id == '01HBRQ5BW6ZAY4BNWP4GWRD80X'")
 
-    assert res.list_entries_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_entries_response)
+        res = res.next()
 
 ```
 
@@ -92,10 +92,10 @@ with SDK(
 
     res = sdk.ledger.list_activities(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAI_-CAfwVsHF9ARgyMDI0LTA2LTA0OjFGQTA1MDExOjUwMDEA", filter_="subtype_category == 'TRADE' && process_date >= date('2023-07-31') && settle_date >= date('2023-08-18') && side == 'BUY' &&  activity_date >= date('2023-09-15') && asset_id == 8395")
 
-    assert res.list_activities_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_activities_response)
+        res = res.next()
 
 ```
 
@@ -147,10 +147,10 @@ with SDK(
 
     res = sdk.ledger.list_positions(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", page_size=20, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAOv-CAfwFIZG3AS8xZWYyMmM4Ny0zNDI5LTAyYzItODRjNC03ODdmNTJlNDY1MTE6MjAyNC0wNi0wMgA=", filter_="date >= date('2023-08-31') && asset_id == 8395")
 
-    assert res.list_positions_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_positions_response)
+        res = res.next()
 
 ```
 

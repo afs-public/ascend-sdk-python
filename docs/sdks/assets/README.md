@@ -36,10 +36,10 @@ with SDK(
 
     res = sdk.assets.list_assets(parent="correspondents/1234", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA==", filter_="(symbol == 'IBM' && usable) || symbol == 'USD'")
 
-    assert res.list_assets_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_assets_response)
+        res = res.next()
 
 ```
 
@@ -143,10 +143,10 @@ with SDK(
 
     res = sdk.assets.list_assets_correspondent(correspondent_id="1234", page_size=100, page_token="Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA==", filter_="(symbol == 'IBM' && usable) || symbol == 'USD'")
 
-    assert res.list_assets_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_assets_response)
+        res = res.next()
 
 ```
 

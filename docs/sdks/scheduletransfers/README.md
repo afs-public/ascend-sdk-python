@@ -48,10 +48,10 @@ with SDK(
 
     res = sdk.schedule_transfers.list_schedule_summaries(filter_="mechanism == 'ACH' && direction == DEPOSIT && state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_schedule_summaries_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_schedule_summaries_response)
+        res = res.next()
 
 ```
 
@@ -164,10 +164,10 @@ with SDK(
 
     res = sdk.schedule_transfers.list_ach_deposit_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_ach_deposit_schedules_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_ach_deposit_schedules_response)
+        res = res.next()
 
 ```
 
@@ -441,10 +441,10 @@ with SDK(
 
     res = sdk.schedule_transfers.list_ach_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
 
-    assert res.list_ach_withdrawal_schedules_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_ach_withdrawal_schedules_response)
+        res = res.next()
 
 ```
 

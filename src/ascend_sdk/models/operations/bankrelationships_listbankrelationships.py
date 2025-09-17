@@ -10,7 +10,7 @@ from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 from enum import Enum
 import pydantic
-from typing import Optional
+from typing import Callable, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -71,6 +71,8 @@ class BankRelationshipsListBankRelationshipsResponseTypedDict(TypedDict):
 
 
 class BankRelationshipsListBankRelationshipsResponse(BaseModel):
+    next: Callable[[], Optional[BankRelationshipsListBankRelationshipsResponse]]
+
     http_meta: Annotated[
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None

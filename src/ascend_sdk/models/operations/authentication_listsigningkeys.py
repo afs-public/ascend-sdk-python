@@ -9,7 +9,7 @@ from ascend_sdk.models.components import (
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, QueryParamMetadata, SecurityMetadata
 import pydantic
-from typing import Optional
+from typing import Callable, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -63,6 +63,8 @@ class AuthenticationListSigningKeysResponseTypedDict(TypedDict):
 
 
 class AuthenticationListSigningKeysResponse(BaseModel):
+    next: Callable[[], Optional[AuthenticationListSigningKeysResponse]]
+
     http_meta: Annotated[
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None

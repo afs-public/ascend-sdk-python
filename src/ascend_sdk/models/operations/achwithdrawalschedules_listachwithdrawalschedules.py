@@ -9,7 +9,7 @@ from ascend_sdk.models.components import (
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
-from typing import Optional
+from typing import Callable, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -69,6 +69,10 @@ class AchWithdrawalSchedulesListAchWithdrawalSchedulesResponseTypedDict(TypedDic
 
 
 class AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(BaseModel):
+    next: Callable[
+        [], Optional[AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse]
+    ]
+
     http_meta: Annotated[
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None

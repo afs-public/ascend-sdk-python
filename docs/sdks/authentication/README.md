@@ -73,10 +73,10 @@ with SDK() as sdk:
         api_key_auth="<YOUR_API_KEY_HERE>",
     ), page_size=50, page_token="ZXhhbXBsZQo")
 
-    assert res.list_signing_keys_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_signing_keys_response)
+        res = res.next()
 
 ```
 

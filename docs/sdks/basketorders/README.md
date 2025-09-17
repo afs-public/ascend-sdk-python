@@ -277,10 +277,10 @@ with SDK(
         "show_removed": True,
     })
 
-    assert res.list_basket_orders_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_basket_orders_response)
+        res = res.next()
 
 ```
 
@@ -331,10 +331,10 @@ with SDK(
 
     res = sdk.basket_orders.list_compressed_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h")
 
-    assert res.list_compressed_orders_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_compressed_orders_response)
+        res = res.next()
 
 ```
 

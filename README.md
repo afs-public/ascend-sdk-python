@@ -574,6 +574,33 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 </details>
 <!-- End Available Resources and Operations [operations] -->
 
+<!-- Start Pagination [pagination] -->
+## Pagination
+
+Some of the endpoints in this SDK support pagination. To use pagination, you make your SDK calls as usual, but the
+returned response object will have a `Next` method that can be called to pull down the next group of results. If the
+return value of `Next` is `None`, then there are no more pages to be fetched.
+
+Here's an example of one such pagination call:
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import operations
+
+
+with SDK() as sdk:
+
+    res = sdk.authentication.list_signing_keys(security=operations.AuthenticationListSigningKeysSecurity(
+        api_key_auth="<YOUR_API_KEY_HERE>",
+    ), page_size=50, page_token="ZXhhbXBsZQo")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+<!-- End Pagination [pagination] -->
+
 <!-- Start Retries [retries] -->
 ## Retries
 

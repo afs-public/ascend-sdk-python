@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class BankRelationships(BaseSDK):
@@ -241,7 +242,7 @@ class BankRelationships(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BankRelationshipsListBankRelationshipsResponse:
+    ) -> Optional[operations.BankRelationshipsListBankRelationshipsResponse]:
         r"""List Bank Relationships
 
         Lists bank relationships for an account.
@@ -309,6 +310,27 @@ class BankRelationships(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BankRelationshipsListBankRelationshipsResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_bank_relationships(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                state=state,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BankRelationshipsListBankRelationshipsResponse(
@@ -316,6 +338,7 @@ class BankRelationships(BaseSDK):
                     Optional[components.ListBankRelationshipsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -330,6 +353,7 @@ class BankRelationships(BaseSDK):
             return operations.BankRelationshipsListBankRelationshipsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -345,7 +369,7 @@ class BankRelationships(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.BankRelationshipsListBankRelationshipsResponse:
+    ) -> Optional[operations.BankRelationshipsListBankRelationshipsResponse]:
         r"""List Bank Relationships
 
         Lists bank relationships for an account.
@@ -413,6 +437,27 @@ class BankRelationships(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.BankRelationshipsListBankRelationshipsResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_bank_relationships(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                state=state,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.BankRelationshipsListBankRelationshipsResponse(
@@ -420,6 +465,7 @@ class BankRelationships(BaseSDK):
                     Optional[components.ListBankRelationshipsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -434,6 +480,7 @@ class BankRelationships(BaseSDK):
             return operations.BankRelationshipsListBankRelationshipsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

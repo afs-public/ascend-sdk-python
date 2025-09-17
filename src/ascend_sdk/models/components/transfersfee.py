@@ -161,6 +161,8 @@ class TransfersFeeTypedDict(TypedDict):
 
     amount: NotRequired[Nullable[TransfersFeeAmountTypedDict]]
     r"""The amount of the fee being charged from the investor's account"""
+    bulk_upload_id: NotRequired[str]
+    r"""Bulk upload identifier to group related fee transfers"""
     client_transfer_id: NotRequired[str]
     r"""External identifier supplied by the API caller. Each request must have a unique pairing of client_transfer_id and account"""
     description: NotRequired[str]
@@ -180,6 +182,9 @@ class TransfersFee(BaseModel):
 
     amount: OptionalNullable[TransfersFeeAmount] = UNSET
     r"""The amount of the fee being charged from the investor's account"""
+
+    bulk_upload_id: Optional[str] = None
+    r"""Bulk upload identifier to group related fee transfers"""
 
     client_transfer_id: Optional[str] = None
     r"""External identifier supplied by the API caller. Each request must have a unique pairing of client_transfer_id and account"""
@@ -205,6 +210,7 @@ class TransfersFee(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "amount",
+            "bulk_upload_id",
             "client_transfer_id",
             "description",
             "fee_operating_account",

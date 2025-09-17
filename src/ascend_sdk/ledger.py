@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class Ledger(BaseSDK):
@@ -21,7 +22,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListEntriesResponse:
+    ) -> Optional[operations.LedgerListEntriesResponse]:
         r"""List Entries
 
         List all Entries based on a filter
@@ -89,6 +90,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListEntriesResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_entries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListEntriesResponse(
@@ -96,6 +116,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListEntriesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -113,6 +134,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListEntriesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -128,7 +150,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListEntriesResponse:
+    ) -> Optional[operations.LedgerListEntriesResponse]:
         r"""List Entries
 
         List all Entries based on a filter
@@ -196,6 +218,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListEntriesResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_entries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListEntriesResponse(
@@ -203,6 +244,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListEntriesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -220,6 +262,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListEntriesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -235,7 +278,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListActivitiesResponse:
+    ) -> Optional[operations.LedgerListActivitiesResponse]:
         r"""List Activities
 
         List all Completed Activities based on a filter
@@ -303,6 +346,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListActivitiesResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_activities(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListActivitiesResponse(
@@ -310,6 +372,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListActivitiesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -327,6 +390,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListActivitiesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -342,7 +406,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListActivitiesResponse:
+    ) -> Optional[operations.LedgerListActivitiesResponse]:
         r"""List Activities
 
         List all Completed Activities based on a filter
@@ -410,6 +474,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListActivitiesResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_activities(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListActivitiesResponse(
@@ -417,6 +500,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListActivitiesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -434,6 +518,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListActivitiesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -449,7 +534,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListPositionsResponse:
+    ) -> Optional[operations.LedgerListPositionsResponse]:
         r"""List Positions
 
         List positions based on a filter
@@ -517,6 +602,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListPositionsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_positions(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListPositionsResponse(
@@ -524,6 +628,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListPositionsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -541,6 +646,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListPositionsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -556,7 +662,7 @@ class Ledger(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.LedgerListPositionsResponse:
+    ) -> Optional[operations.LedgerListPositionsResponse]:
         r"""List Positions
 
         List positions based on a filter
@@ -624,6 +730,25 @@ class Ledger(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[operations.LedgerListPositionsResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_positions(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                filter_=filter_,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.LedgerListPositionsResponse(
@@ -631,6 +756,7 @@ class Ledger(BaseSDK):
                     Optional[components.ListPositionsResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -648,6 +774,7 @@ class Ledger(BaseSDK):
             return operations.LedgerListPositionsResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

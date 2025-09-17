@@ -115,10 +115,10 @@ with SDK(
 
     res = sdk.person_management.list_legal_natural_persons(page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", filter_="legal_natural_person_id == \"e6716139-da77-46d1-9f15-13599161db0b\"")
 
-    assert res.list_legal_natural_persons_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_legal_natural_persons_response)
+        res = res.next()
 
 ```
 
@@ -456,10 +456,10 @@ with SDK(
 
     res = sdk.person_management.list_legal_entities(page_size=25, page_token="AbTYnwAkMjIyZDNjYTAtZmVjZS00N2Q5LTgyMDctNzI3MDdkMjFiZj3h", order_by="", filter_="")
 
-    assert res.list_legal_entities_response is not None
+    while res is not None:
+        # Handle items
 
-    # Handle response
-    print(res.list_legal_entities_response)
+        res = res.next()
 
 ```
 

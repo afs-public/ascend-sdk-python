@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class Retirements(BaseSDK):
@@ -20,7 +21,7 @@ class Retirements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.RetirementConstraintsListContributionSummariesResponse:
+    ) -> Optional[operations.RetirementConstraintsListContributionSummariesResponse]:
         r"""List Contribution Summaries
 
         Lists the aggregated retirement contribution summaries by tax year
@@ -86,6 +87,26 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.RetirementConstraintsListContributionSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_contribution_summaries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
@@ -93,6 +114,7 @@ class Retirements(BaseSDK):
                     Optional[components.ListContributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -107,6 +129,7 @@ class Retirements(BaseSDK):
             return operations.RetirementConstraintsListContributionSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -121,7 +144,7 @@ class Retirements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.RetirementConstraintsListContributionSummariesResponse:
+    ) -> Optional[operations.RetirementConstraintsListContributionSummariesResponse]:
         r"""List Contribution Summaries
 
         Lists the aggregated retirement contribution summaries by tax year
@@ -187,6 +210,26 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.RetirementConstraintsListContributionSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_contribution_summaries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListContributionSummariesResponse(
@@ -194,6 +237,7 @@ class Retirements(BaseSDK):
                     Optional[components.ListContributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -208,6 +252,7 @@ class Retirements(BaseSDK):
             return operations.RetirementConstraintsListContributionSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -456,7 +501,7 @@ class Retirements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.RetirementConstraintsListDistributionSummariesResponse:
+    ) -> Optional[operations.RetirementConstraintsListDistributionSummariesResponse]:
         r"""List Distribution Summaries
 
         Lists the aggregated retirement distribution summaries by tax year
@@ -522,6 +567,26 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.RetirementConstraintsListDistributionSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_distribution_summaries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
@@ -529,6 +594,7 @@ class Retirements(BaseSDK):
                     Optional[components.ListDistributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -543,6 +609,7 @@ class Retirements(BaseSDK):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -557,7 +624,7 @@ class Retirements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.RetirementConstraintsListDistributionSummariesResponse:
+    ) -> Optional[operations.RetirementConstraintsListDistributionSummariesResponse]:
         r"""List Distribution Summaries
 
         Lists the aggregated retirement distribution summaries by tax year
@@ -623,6 +690,26 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.RetirementConstraintsListDistributionSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_distribution_summaries(
+                account_id=account_id,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
@@ -630,6 +717,7 @@ class Retirements(BaseSDK):
                     Optional[components.ListDistributionSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -644,6 +732,7 @@ class Retirements(BaseSDK):
             return operations.RetirementConstraintsListDistributionSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)

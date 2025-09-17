@@ -6,7 +6,8 @@ from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
 from ascend_sdk.types import OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Dict, List, Mapping, Optional, Union
 
 
 class ScheduleTransfers(BaseSDK):
@@ -20,7 +21,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.TransferScheduleSummariesListScheduleSummariesResponse:
+    ) -> Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]:
         r"""List Schedule Summaries
 
         Lists transfer schedule summaries that match the filter in the request
@@ -86,6 +87,26 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_schedule_summaries(
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
@@ -93,6 +114,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListScheduleSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -107,6 +129,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -121,7 +144,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.TransferScheduleSummariesListScheduleSummariesResponse:
+    ) -> Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]:
         r"""List Schedule Summaries
 
         Lists transfer schedule summaries that match the filter in the request
@@ -187,6 +210,26 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_schedule_summaries(
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
@@ -194,6 +237,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListScheduleSummariesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -208,6 +252,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.TransferScheduleSummariesListScheduleSummariesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -443,7 +488,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AchDepositSchedulesListAchDepositSchedulesResponse:
+    ) -> Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]:
         r"""List ACH Deposit Schedules
 
         Return a list of ACH deposit schedules for the specified account and filter params
@@ -511,6 +556,27 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_ach_deposit_schedules(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
@@ -518,6 +584,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListAchDepositSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -532,6 +599,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -547,7 +615,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AchDepositSchedulesListAchDepositSchedulesResponse:
+    ) -> Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]:
         r"""List ACH Deposit Schedules
 
         Return a list of ACH deposit schedules for the specified account and filter params
@@ -615,6 +683,27 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_ach_deposit_schedules(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
@@ -622,6 +711,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListAchDepositSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -636,6 +726,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.AchDepositSchedulesListAchDepositSchedulesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1527,7 +1618,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse:
+    ) -> Optional[operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse]:
         r"""List ACH Withdrawal Schedules
 
         Return a list of ACH withdrawal schedules for the specified account and filter params
@@ -1595,6 +1686,29 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[
+                operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
+            ]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_ach_withdrawal_schedules(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
@@ -1602,6 +1716,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListAchWithdrawalSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1616,6 +1731,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
@@ -1631,7 +1747,7 @@ class ScheduleTransfers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse:
+    ) -> Optional[operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse]:
         r"""List ACH Withdrawal Schedules
 
         Return a list of ACH withdrawal schedules for the specified account and filter params
@@ -1699,6 +1815,29 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Optional[
+                operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
+            ]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+            next_cursor = JSONPath("$.next_page_token").parse(body)
+
+            if len(next_cursor) == 0:
+                return None
+
+            next_cursor = next_cursor[0]
+            if next_cursor is None or str(next_cursor).strip() == "":
+                return None
+
+            return self.list_ach_withdrawal_schedules(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=next_cursor,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
@@ -1706,6 +1845,7 @@ class ScheduleTransfers(BaseSDK):
                     Optional[components.ListAchWithdrawalSchedulesResponse], http_res
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
         if utils.match_response(http_res, ["400", "403"], "application/json"):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
@@ -1720,6 +1860,7 @@ class ScheduleTransfers(BaseSDK):
             return operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
+                next=next_func,
             )
 
         raise errors.SDKError("Unexpected response received", http_res)
