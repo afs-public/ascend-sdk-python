@@ -7,7 +7,6 @@ from ascend_sdk.models import components
 def test_fixed_income_pricing_orders_preview_order_cost_preview_order_cost1(
     create_sdk, enrolled_account_id, identifier_cusp
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

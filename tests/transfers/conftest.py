@@ -73,13 +73,9 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
     )
     bank_relationship_id = res.bank_relationship.name.split("/")[-1]
 
-    time.sleep(15)
-
     res = s.test_simulation.get_micro_deposit_amounts(
         account_id=withdrawal_account_id, bank_relationship_id=bank_relationship_id
     )
-
-    time.sleep(10)
 
     micro_deposits_request = components.VerifyMicroDepositsRequestCreate(
         amounts=components.MicroDepositAmountsCreate(
@@ -98,8 +94,6 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
         bank_relationship_id=bank_relationship_id,
         verify_micro_deposits_request_create=micro_deposits_request,
     )
-
-    time.sleep(5)
 
     ach_withdrawal_request = components.AchWithdrawalCreate(
         bank_relationship="accounts/"
@@ -125,7 +119,6 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
 def get_failed_micro_deposit_amounts(
     create_sdk, enrolled_account_id, create_bank_relationship_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     res = s.test_simulation.get_micro_deposit_amounts(
@@ -144,7 +137,6 @@ def get_failed_micro_deposit_amounts(
 def get_correct_micro_deposit_amounts(
     create_sdk, enrolled_account_id, create_bank_relationship_id
 ):
-    time.sleep(15)
     s = create_sdk
 
     res = s.test_simulation.get_micro_deposit_amounts(
@@ -163,7 +155,6 @@ def get_correct_micro_deposit_amounts(
 def create_ach_deposit_id(
     create_sdk, enrolled_account_id, verified_bank_relationship_id
 ):
-    time.sleep(10)
     s = create_sdk
 
     ach_deposit_request = components.AchDepositCreate(
@@ -188,7 +179,6 @@ def create_ach_deposit_id(
 def create_ach_withdrawal_id(
     create_sdk, enrolled_account_id, verified_bank_relationship_id
 ):
-    time.sleep(10)
     s = create_sdk
 
     ach_withdrawal_request = components.AchWithdrawalCreate(
@@ -213,7 +203,6 @@ def create_ach_withdrawal_id(
 
 @pytest.fixture(scope="module")
 def create_fee_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     transfers_fee_create = components.TransfersFeeCreate(
@@ -234,7 +223,6 @@ def create_fee_id(create_sdk, enrolled_account_id):
 
 @pytest.fixture(scope="module")
 def create_credit_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     transfers_credit_create = components.TransfersCreditCreate(
@@ -255,7 +243,6 @@ def create_credit_id(create_sdk, enrolled_account_id):
 
 @pytest.fixture(scope="module")
 def create_ict_deposit_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     ict_deposit_request = components.IctDepositCreate(
@@ -306,7 +293,6 @@ def create_ict_deposit_id(create_sdk, enrolled_account_id):
 
 @pytest.fixture(scope="module")
 def create_ict_withdrawal_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     ict_withdrawal_request = components.IctWithdrawalCreate(
@@ -333,7 +319,6 @@ def create_ict_withdrawal_id(create_sdk, enrolled_account_id):
 def create_ach_deposit_schedule_id(
     create_sdk, enrolled_account_id, verified_bank_relationship_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     today = datetime.datetime.now()
@@ -374,7 +359,6 @@ def create_ach_deposit_schedule_id(
 def create_ach_withdrawal_schedule_id(
     create_sdk, enrolled_account_id, verified_bank_relationship_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     today = datetime.datetime.now().date()
@@ -564,7 +548,6 @@ def pending_ict_withdrawal(ict_withdrawal_factory):
 
 @pytest.fixture
 def create_wire_withdrawal_id(create_sdk, withdrawal_account_id):
-    time.sleep(5)
     s = create_sdk
 
     wire_withdrawal_request = components.WireWithdrawalCreate(
@@ -601,7 +584,6 @@ def create_wire_withdrawal_id(create_sdk, withdrawal_account_id):
 
 @pytest.fixture
 def create_cash_journal_id(create_sdk, deceased_account_id, withdrawal_account_id):
-    time.sleep(5)
     s = create_sdk
 
     cash_journal_request = components.CashJournalCreate(
@@ -621,7 +603,6 @@ def create_cash_journal_id(create_sdk, deceased_account_id, withdrawal_account_i
 
 @pytest.fixture
 def create_wire_withdrawal_schedule_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     today = datetime.datetime.now().date()

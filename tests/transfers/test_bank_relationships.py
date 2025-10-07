@@ -93,6 +93,7 @@ def test_bank_relationships_transfers_reissue_micro_deposits_reissue_micro_depos
                 account_id=enrolled_account_id,
                 bank_relationship_id=create_bank_relationship_id,
                 verify_micro_deposits_request_create=request,
+                retries=None,
             )
         except errors.Status as e:
             # handle exception
@@ -122,7 +123,6 @@ def test_bank_relationships_transfers_verify_micro_deposits_verify_micro_deposit
     create_bank_relationship_id,
     get_correct_micro_deposit_amounts,
 ):
-    time.sleep(10)
     s = create_sdk
 
     assert s is not None
@@ -155,7 +155,6 @@ def test_bank_relationships_transfers_reuse_bank_relationship_reuse_bank_relatio
     create_reuse_account_id,
     create_bank_relationship_id,
 ):
-    time.sleep(10)
     s = create_sdk
 
     assert s is not None

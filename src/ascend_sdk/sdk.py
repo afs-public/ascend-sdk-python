@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from ascend_sdk.account_management import AccountManagement
     from ascend_sdk.account_transfers import AccountTransfers
     from ascend_sdk.ach_transfers import ACHTransfers
+    from ascend_sdk.asset_trading_config import AssetTradingConfig
     from ascend_sdk.assets import Assets
     from ascend_sdk.authentication import Authentication
     from ascend_sdk.bank_relationships import BankRelationships
@@ -74,6 +75,7 @@ class SDK(BaseSDK):
     create_order: "CreateOrder"
     fixed_income_pricing: "FixedIncomePricing"
     basket_orders: "BasketOrders"
+    asset_trading_config: "AssetTradingConfig"
     trade_booking: "TradeBooking"
     trade_allocation: "TradeAllocation"
     assets: "Assets"
@@ -114,6 +116,10 @@ class SDK(BaseSDK):
             "FixedIncomePricing",
         ),
         "basket_orders": ("ascend_sdk.basket_orders", "BasketOrders"),
+        "asset_trading_config": (
+            "ascend_sdk.asset_trading_config",
+            "AssetTradingConfig",
+        ),
         "trade_booking": ("ascend_sdk.trade_booking", "TradeBooking"),
         "trade_allocation": ("ascend_sdk.trade_allocation", "TradeAllocation"),
         "assets": ("ascend_sdk.assets", "Assets"),

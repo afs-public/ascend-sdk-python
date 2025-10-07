@@ -648,7 +648,7 @@ class OrderStopPriceType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class StopPriceTypedDict(TypedDict):
-    r"""The stop price for this order. Only allowed for equities, when the side is SELL."""
+    r"""The stop price for this order. Only allowed for equities."""
 
     price: NotRequired[Nullable[OrderStopPricePriceTypedDict]]
     r"""The stop price which must be greater than zero if provided. For equity orders in the USD currency, up to 2 decimal places are allowed for prices above $1 and up to 4 decimal places for prices at or below $1."""
@@ -657,7 +657,7 @@ class StopPriceTypedDict(TypedDict):
 
 
 class StopPrice(BaseModel):
-    r"""The stop price for this order. Only allowed for equities, when the side is SELL."""
+    r"""The stop price for this order. Only allowed for equities."""
 
     price: OptionalNullable[OrderStopPricePrice] = UNSET
     r"""The stop price which must be greater than zero if provided. For equity orders in the USD currency, up to 2 decimal places are allowed for prices above $1 and up to 4 decimal places for prices at or below $1."""
@@ -806,7 +806,7 @@ class OrderTypedDict(TypedDict):
     special_reporting_instructions: NotRequired[List[OrderSpecialReportingInstructions]]
     r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
     stop_price: NotRequired[Nullable[StopPriceTypedDict]]
-    r"""The stop price for this order. Only allowed for equities, when the side is SELL."""
+    r"""The stop price for this order. Only allowed for equities."""
     time_in_force: NotRequired[OrderTimeInForce]
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
     trading_session: NotRequired[OrderTradingSession]
@@ -966,7 +966,7 @@ class Order(BaseModel):
     r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
 
     stop_price: OptionalNullable[StopPrice] = UNSET
-    r"""The stop price for this order. Only allowed for equities, when the side is SELL."""
+    r"""The stop price for this order. Only allowed for equities."""
 
     time_in_force: Annotated[
         Optional[OrderTimeInForce], PlainValidator(validate_open_enum(False))

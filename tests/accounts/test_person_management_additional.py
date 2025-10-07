@@ -27,7 +27,6 @@ def test_person_management_accounts_update_legal_natural_person_update_legal_nat
     create_sdk,
     create_legal_natural_person_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -94,7 +93,6 @@ def test_person_management_accounts_update_legal_entity_update_legal_entity1(
     create_sdk,
     create_legal_entity_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -135,7 +133,6 @@ def test_person_management_accounts_end_large_trader_legal_entity_end_large_trad
     create_sdk,
     create_legal_entity_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

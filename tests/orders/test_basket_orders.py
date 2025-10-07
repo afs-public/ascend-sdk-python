@@ -15,7 +15,6 @@ def test_basket_orders_orders_create_basket_create_basket1(
 def test_basket_orders_orders_add_orders_add_orders1(
     create_sdk, create_basket_id, withdrawal_account_id, basket_order_to_remove
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

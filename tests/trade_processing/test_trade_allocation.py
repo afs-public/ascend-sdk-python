@@ -14,7 +14,6 @@ def test_trade_allocation_trade_processing_create_trade_allocation_create_trade_
 def test_trade_allocation_trade_processing_get_trade_allocation_get_trade_allocation1(
     create_sdk, create_trade_allocation_id, withdrawal_account_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

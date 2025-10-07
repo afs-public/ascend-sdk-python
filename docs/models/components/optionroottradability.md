@@ -1,0 +1,12 @@
+# OptionRootTradability
+
+Indicators on an asset who has Options
+
+
+## Fields
+
+| Field                                                                               | Type                                                                                | Required                                                                            | Description                                                                         | Example                                                                             |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `close_options_whole_quantity_enabled`                                              | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | Indicates whether whole quantities are allowed to be closed for Options             | true                                                                                |
+| `open_nonstandard_options_whole_quantity_enabled`                                   | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | Indicates whether whole quantities are allowed to be opened for nonstandard Options | true                                                                                |
+| `open_standard_options_whole_quantity_enabled`                                      | *Optional[bool]*                                                                    | :heavy_minus_sign:                                                                  | Indicates whether whole quantities are allowed to be opened for standard Options    | true                                                                                |

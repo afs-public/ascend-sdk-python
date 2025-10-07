@@ -27,7 +27,6 @@ def test_instant_cash_transfer_transfers_get_ict_deposit_get_ict_deposit1(
 def test_instant_cash_transfer_transfers_cancel_ict_deposit_cancel_ict_deposit1(
     create_sdk, enrolled_account_id, create_ict_deposit_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -74,7 +73,6 @@ def test_instant_cash_transfer_transfers_get_ict_withdrawal_get_ict_withdrawal1(
 def test_instant_cash_transfer_transfers_cancel_ict_withdrawal_cancel_ict_withdrawal1(
     create_sdk, enrolled_account_id, create_ict_withdrawal_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

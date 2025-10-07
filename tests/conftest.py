@@ -195,7 +195,6 @@ def enrolled_account_id(create_sdk, create_account_id, enroll_account_ids):
 
 @pytest.fixture(scope="module")
 def create_bank_relationship_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     bank_relationship_request = components.BankRelationshipCreate(
@@ -223,7 +222,6 @@ def create_bank_relationship_id(create_sdk, enrolled_account_id):
 def verified_bank_relationship_id(
     create_sdk, enrolled_account_id, create_bank_relationship_id
 ):
-    time.sleep(15)
     s = create_sdk
 
     res = s.test_simulation.get_micro_deposit_amounts(

@@ -15,7 +15,6 @@ def test_account_transfers_account_transfers_list_transfers_list_transfers1(
     create_sdk,
     enrolled_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -37,7 +36,6 @@ def test_account_transfers_account_transfers_list_transfers_list_transfers1(
 def test_account_transfers_account_transfers_reject_transfer_reject_transfer1(
     create_sdk, enrolled_account_id, create_account_transfer_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -69,7 +67,6 @@ def test_account_transfers_account_transfers_accept_transfer_accept_transfer1(
     enrolled_account_id,
     withdrawal_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -126,7 +123,6 @@ def test_account_transfers_account_transfers_get_transfer_get_transfer1(
     enrolled_account_id,
     create_account_transfer_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

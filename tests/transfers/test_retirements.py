@@ -7,7 +7,6 @@ def test_retirements_transfers_list_contribution_summaries_list_contribution_sum
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -22,7 +21,6 @@ def test_retirements_transfers_retrieve_contribution_constraints_retrieve_contri
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -44,7 +42,6 @@ def test_retirements_transfers_retrieve_distribution_constraints_retrieve_distri
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

@@ -428,6 +428,18 @@ if TYPE_CHECKING:
         AssetsListAssetsCorrespondentResponse,
         AssetsListAssetsCorrespondentResponseTypedDict,
     )
+    from .assettradingconfigservice_getassettradingconfig import (
+        AssetTradingConfigServiceGetAssetTradingConfigRequest,
+        AssetTradingConfigServiceGetAssetTradingConfigRequestTypedDict,
+        AssetTradingConfigServiceGetAssetTradingConfigResponse,
+        AssetTradingConfigServiceGetAssetTradingConfigResponseTypedDict,
+    )
+    from .assettradingconfigservice_listassettradingconfigs import (
+        AssetTradingConfigServiceListAssetTradingConfigsRequest,
+        AssetTradingConfigServiceListAssetTradingConfigsRequestTypedDict,
+        AssetTradingConfigServiceListAssetTradingConfigsResponse,
+        AssetTradingConfigServiceListAssetTradingConfigsResponseTypedDict,
+    )
     from .authentication_generateserviceaccounttoken import (
         AuthenticationGenerateServiceAccountTokenResponse,
         AuthenticationGenerateServiceAccountTokenResponseTypedDict,
@@ -884,6 +896,12 @@ if TYPE_CHECKING:
         OrderServiceGetOrderResponse,
         OrderServiceGetOrderResponseTypedDict,
     )
+    from .orderservice_setextrareportingdata import (
+        OrderServiceSetExtraReportingDataRequest,
+        OrderServiceSetExtraReportingDataRequestTypedDict,
+        OrderServiceSetExtraReportingDataResponse,
+        OrderServiceSetExtraReportingDataResponseTypedDict,
+    )
     from .reader_geteventmessage import (
         ReaderGetEventMessageRequest,
         ReaderGetEventMessageRequestTypedDict,
@@ -1312,6 +1330,14 @@ __all__ = [
     "AchWithdrawalsGetAchWithdrawalRequestTypedDict",
     "AchWithdrawalsGetAchWithdrawalResponse",
     "AchWithdrawalsGetAchWithdrawalResponseTypedDict",
+    "AssetTradingConfigServiceGetAssetTradingConfigRequest",
+    "AssetTradingConfigServiceGetAssetTradingConfigRequestTypedDict",
+    "AssetTradingConfigServiceGetAssetTradingConfigResponse",
+    "AssetTradingConfigServiceGetAssetTradingConfigResponseTypedDict",
+    "AssetTradingConfigServiceListAssetTradingConfigsRequest",
+    "AssetTradingConfigServiceListAssetTradingConfigsRequestTypedDict",
+    "AssetTradingConfigServiceListAssetTradingConfigsResponse",
+    "AssetTradingConfigServiceListAssetTradingConfigsResponseTypedDict",
     "AssetsGetAssetCorrespondentRequest",
     "AssetsGetAssetCorrespondentRequestTypedDict",
     "AssetsGetAssetCorrespondentResponse",
@@ -1630,6 +1656,10 @@ __all__ = [
     "OrderServiceGetOrderRequestTypedDict",
     "OrderServiceGetOrderResponse",
     "OrderServiceGetOrderResponseTypedDict",
+    "OrderServiceSetExtraReportingDataRequest",
+    "OrderServiceSetExtraReportingDataRequestTypedDict",
+    "OrderServiceSetExtraReportingDataResponse",
+    "OrderServiceSetExtraReportingDataResponseTypedDict",
     "ProgramDateFilterProgram",
     "QueryParamView",
     "ReaderGetEventMessageRequest",
@@ -2025,6 +2055,14 @@ _dynamic_imports: dict[str, str] = {
     "AssetsListAssetsCorrespondentRequestTypedDict": ".assets_listassets_correspondent",
     "AssetsListAssetsCorrespondentResponse": ".assets_listassets_correspondent",
     "AssetsListAssetsCorrespondentResponseTypedDict": ".assets_listassets_correspondent",
+    "AssetTradingConfigServiceGetAssetTradingConfigRequest": ".assettradingconfigservice_getassettradingconfig",
+    "AssetTradingConfigServiceGetAssetTradingConfigRequestTypedDict": ".assettradingconfigservice_getassettradingconfig",
+    "AssetTradingConfigServiceGetAssetTradingConfigResponse": ".assettradingconfigservice_getassettradingconfig",
+    "AssetTradingConfigServiceGetAssetTradingConfigResponseTypedDict": ".assettradingconfigservice_getassettradingconfig",
+    "AssetTradingConfigServiceListAssetTradingConfigsRequest": ".assettradingconfigservice_listassettradingconfigs",
+    "AssetTradingConfigServiceListAssetTradingConfigsRequestTypedDict": ".assettradingconfigservice_listassettradingconfigs",
+    "AssetTradingConfigServiceListAssetTradingConfigsResponse": ".assettradingconfigservice_listassettradingconfigs",
+    "AssetTradingConfigServiceListAssetTradingConfigsResponseTypedDict": ".assettradingconfigservice_listassettradingconfigs",
     "AuthenticationGenerateServiceAccountTokenResponse": ".authentication_generateserviceaccounttoken",
     "AuthenticationGenerateServiceAccountTokenResponseTypedDict": ".authentication_generateserviceaccounttoken",
     "AuthenticationGenerateServiceAccountTokenSecurity": ".authentication_generateserviceaccounttoken",
@@ -2329,6 +2367,10 @@ _dynamic_imports: dict[str, str] = {
     "OrderServiceGetOrderRequestTypedDict": ".orderservice_getorder",
     "OrderServiceGetOrderResponse": ".orderservice_getorder",
     "OrderServiceGetOrderResponseTypedDict": ".orderservice_getorder",
+    "OrderServiceSetExtraReportingDataRequest": ".orderservice_setextrareportingdata",
+    "OrderServiceSetExtraReportingDataRequestTypedDict": ".orderservice_setextrareportingdata",
+    "OrderServiceSetExtraReportingDataResponse": ".orderservice_setextrareportingdata",
+    "OrderServiceSetExtraReportingDataResponseTypedDict": ".orderservice_setextrareportingdata",
     "ReaderGetEventMessageRequest": ".reader_geteventmessage",
     "ReaderGetEventMessageRequestTypedDict": ".reader_geteventmessage",
     "ReaderGetEventMessageResponse": ".reader_geteventmessage",
