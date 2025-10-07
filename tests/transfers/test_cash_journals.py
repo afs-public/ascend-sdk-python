@@ -12,7 +12,6 @@ def test_journals_transfers_create_cash_journal_create_cash_journal1(
 def test_journals_transfers_get_cash_journal_get_cash_journal1(
     create_sdk, create_cash_journal_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

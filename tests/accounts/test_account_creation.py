@@ -11,7 +11,6 @@ def test_account_creation_accounts_get_account_get_account1(
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

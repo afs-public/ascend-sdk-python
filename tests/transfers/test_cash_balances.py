@@ -5,7 +5,6 @@ def test_cash_balances_transfers_get_cash_balance_get_cash_balance(
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

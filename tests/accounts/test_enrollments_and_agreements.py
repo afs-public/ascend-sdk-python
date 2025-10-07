@@ -13,7 +13,6 @@ def test_enrollments_and_agreements_list_available_enrollments_list_available_en
     create_sdk,
     create_account_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

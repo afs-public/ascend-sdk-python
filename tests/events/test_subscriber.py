@@ -11,7 +11,6 @@ def test_subscriber_events_create_push_subscription_create_push_subscription1(
 def test_subscriber_events_get_push_subscription_get_push_subscription1(
     create_sdk, subscriber_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -25,7 +24,6 @@ def test_subscriber_events_get_push_subscription_get_push_subscription1(
 def test_subscriber_events_update_push_subscription_update_push_subscription1(
     create_sdk, subscriber_id
 ):
-    time.sleep(25)
     s = create_sdk
 
     assert s is not None
@@ -67,7 +65,6 @@ def test_subscriber_events_get_subscription_event_delivery_get_subscription_even
 def test_subscriber_events_delete_push_subscription_delete_push_subscription1(
     create_sdk, subscriber_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

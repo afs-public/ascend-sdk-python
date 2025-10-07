@@ -31,7 +31,6 @@ def test_test_simulation_transfers_force_approve_ach_deposit_force_approve_ach_d
     pending_deposit_id = pending_ach_deposit(
         deceased_account_id, deceased_bank_relationship_id
     )
-    time.sleep(5)
 
     # Force approve an ACH deposit
     request = components.ForceApproveAchDepositRequestCreate(
@@ -104,7 +103,6 @@ def test_test_simulation_transfers_force_reject_ach_deposit_force_reject_ach_dep
     pending_deposit_id = pending_ach_deposit(
         deceased_account_id, deceased_bank_relationship_id
     )
-    time.sleep(5)
 
     # Force reject an ACH deposit
     request = components.ForceRejectAchDepositRequestCreate(
@@ -178,7 +176,6 @@ def test_test_simulation_transfers_force_approve_ach_withdrawal_force_approve_ac
     pending_withdrawal_id = pending_ach_withdrawal(
         deceased_account_id, deceased_bank_relationship_id
     )
-    time.sleep(10)
 
     # Force approve an ACH withdrawal
     request = components.ForceApproveAchWithdrawalRequestCreate(
@@ -252,8 +249,6 @@ def test_test_simulation_transfers_force_reject_ach_withdrawal_force_reject_ach_
         deceased_account_id, deceased_bank_relationship_id
     )
 
-    time.sleep(5)
-
     # Force reject an ACH withdrawal
     request = components.ForceRejectAchWithdrawalRequestCreate(
         name=f"accounts/{deceased_account_id}/achWithdrawals/{pending_withdrawal_id}",
@@ -314,14 +309,11 @@ def test_test_simulation_transfers_force_ict_deposit_approve_force_ict_deposit_a
 ):
     if not (datetime.time(6, 0) <= current_time.time() <= datetime.time(15, 0)):
         pytest.skip("Skipping Endpoint Test: Force Approve ICT Deposit")
-    time.sleep(10)
     s = create_sdk
 
     assert s is not None
 
     pending_deposit_id = pending_ict_deposit(deceased_account_id)
-
-    time.sleep(10)
 
     # Force approve an ICT deposit
     request = components.ForceApproveIctDepositRequestCreate(
@@ -348,14 +340,11 @@ def test_test_simulation_transfers_force_ict_deposit_reject_force_ict_deposit_re
 ):
     if not (datetime.time(6, 0) <= current_time.time() <= datetime.time(15, 0)):
         pytest.skip("Skipping Endpoint Test: Force Reject ICT Deposit")
-    time.sleep(10)
     s = create_sdk
 
     assert s is not None
 
     pending_deposit_id = pending_ict_deposit(deceased_account_id)
-
-    time.sleep(10)
 
     # Force reject an ICT deposit
     request = components.ForceRejectIctDepositRequestCreate(
@@ -382,14 +371,11 @@ def test_test_simulation_transfers_force_ict_withdrawal_approve_force_ict_withdr
 ):
     if not (datetime.time(6, 0) <= current_time.time() <= datetime.time(15, 0)):
         pytest.skip("Skipping Endpoint Test: Force Approve ICT Withdrawal")
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
 
     pending_withdrawal_id = pending_ict_withdrawal(deceased_account_id)
-
-    time.sleep(10)
 
     # Force approve an ICT withdrawal
     request = components.ForceApproveIctWithdrawalRequestCreate(
@@ -416,14 +402,11 @@ def test_test_simulation_transfers_force_ict_withdrawal_reject_force_ict_withdra
 ):
     if not (datetime.time(6, 0) <= current_time.time() <= datetime.time(15, 0)):
         pytest.skip("Skipping Endpoint Test: Force Reject ICT Withdrawal")
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
 
     pending_withdrawal_id = pending_ict_withdrawal(deceased_account_id)
-
-    time.sleep(10)
 
     # Force reject an ICT withdrawal
     request = components.ForceRejectIctWithdrawalRequestCreate(
@@ -454,8 +437,6 @@ def test_test_simulation_transfers_force_approve_wire_withdrawal_force_approve_w
 
     assert s is not None
 
-    time.sleep(5)
-
     request = components.ForceApproveWireWithdrawalRequestCreate(
         name=f"accounts/{withdrawal_account_id}/wireWithdrawals/{create_wire_withdrawal_id}",
     )
@@ -479,8 +460,6 @@ def test_test_simulation_transfers_force_wire_withdrawal_reject_force_wire_withd
     s = create_sdk
 
     assert s is not None
-
-    time.sleep(5)
 
     request = components.ForceRejectWireWithdrawalRequestCreate(
         name=f"accounts/{withdrawal_account_id}/wireWithdrawals/{create_wire_withdrawal_id}",
@@ -522,8 +501,6 @@ def test_test_simulation_transfers_force_cash_journal_approve_force_cash_journal
         name=f"cashJournals/{create_cash_journal_id}",
     )
 
-    time.sleep(5)
-
     result = s.test_simulation.force_approve_cash_journal(
         force_approve_cash_journal_request_create=request,
         cash_journal_id=create_cash_journal_id,
@@ -545,8 +522,6 @@ def test_test_simulation_transfers_force_cash_journal_reject_force_cash_journal_
     request = components.ForceRejectCashJournalRequestCreate(
         name=f"cashJournals/{create_cash_journal_id}",
     )
-
-    time.sleep(5)
 
     result = s.test_simulation.force_reject_cash_journal(
         force_reject_cash_journal_request_create=request,

@@ -46,7 +46,6 @@ def test_wires_transfers_create_wire_withdrawal_create_wire_withdrawal1(
 def test_wires_transfers_get_wire_withdrawal_get_wire_withdrawal1(
     create_sdk, withdrawal_account_id, create_wire_withdrawal_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -67,7 +66,6 @@ def test_wires_transfers_get_wire_withdrawal_fee_summary_get_wire_withdrawal_fee
 ):
     if not (datetime.time(6, 0) <= current_time.time() <= datetime.time(15, 0)):
         pytest.skip("Skipping Endpoint Test: Get Wire Withdrawal Fee Summary")
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

@@ -716,6 +716,15 @@ if TYPE_CHECKING:
         TradeValueMultiplierTypedDict,
     )
     from .assetcreate import AssetCreate, AssetCreateType, AssetCreateTypedDict
+    from .assettradingconfig import (
+        AssetTradability,
+        AssetTradabilityTypedDict,
+        AssetTradingConfig,
+        AssetTradingConfigAssetType,
+        AssetTradingConfigTypedDict,
+        OptionRootTradability,
+        OptionRootTradabilityTypedDict,
+    )
     from .assignlargetraderrequestcreate import (
         AssignLargeTraderRequestCreate,
         AssignLargeTraderRequestCreateTypedDict,
@@ -2628,6 +2637,10 @@ if TYPE_CHECKING:
         ListAgreementsResponseTypedDict,
     )
     from .listassetsresponse import ListAssetsResponse, ListAssetsResponseTypedDict
+    from .listassettradingconfigsresponse import (
+        ListAssetTradingConfigsResponse,
+        ListAssetTradingConfigsResponseTypedDict,
+    )
     from .listavailableenrollmentsresponse import (
         ListAvailableEnrollmentsResponse,
         ListAvailableEnrollmentsResponseTypedDict,
@@ -3423,6 +3436,10 @@ if TYPE_CHECKING:
         SecurityTypedDict,
         ServiceAccountCreds,
         ServiceAccountCredsTypedDict,
+    )
+    from .setextrareportingdatarequestcreate import (
+        SetExtraReportingDataRequestCreate,
+        SetExtraReportingDataRequestCreateTypedDict,
     )
     from .simulatecreatecheckdepositrequestcreate import (
         SimulateCreateCheckDepositRequestCreate,
@@ -4422,6 +4439,11 @@ __all__ = [
     "AssetExpirationDateTypedDict",
     "AssetIssueDate",
     "AssetIssueDateTypedDict",
+    "AssetTradability",
+    "AssetTradabilityTypedDict",
+    "AssetTradingConfig",
+    "AssetTradingConfigAssetType",
+    "AssetTradingConfigTypedDict",
     "AssetType",
     "AssetType1",
     "AssetTypedDict",
@@ -5933,6 +5955,8 @@ __all__ = [
     "ListActivitiesResponseTypedDict",
     "ListAgreementsResponse",
     "ListAgreementsResponseTypedDict",
+    "ListAssetTradingConfigsResponse",
+    "ListAssetTradingConfigsResponseTypedDict",
     "ListAssetsResponse",
     "ListAssetsResponseTypedDict",
     "ListAvailableEnrollmentsResponse",
@@ -6102,6 +6126,8 @@ __all__ = [
     "OptionDeliverableQuantityTypedDict",
     "OptionDeliverableTypedDict",
     "OptionRoot",
+    "OptionRootTradability",
+    "OptionRootTradabilityTypedDict",
     "OptionRootTypedDict",
     "OptionType",
     "OptionTypedDict",
@@ -6680,6 +6706,8 @@ __all__ = [
     "SeriesDateTypedDict",
     "ServiceAccountCreds",
     "ServiceAccountCredsTypedDict",
+    "SetExtraReportingDataRequestCreate",
+    "SetExtraReportingDataRequestCreateTypedDict",
     "SettleDate",
     "SettleDateTypedDict",
     "Settled",
@@ -7741,6 +7769,13 @@ _dynamic_imports: dict[str, str] = {
     "AssetCreate": ".assetcreate",
     "AssetCreateType": ".assetcreate",
     "AssetCreateTypedDict": ".assetcreate",
+    "AssetTradability": ".assettradingconfig",
+    "AssetTradabilityTypedDict": ".assettradingconfig",
+    "AssetTradingConfig": ".assettradingconfig",
+    "AssetTradingConfigAssetType": ".assettradingconfig",
+    "AssetTradingConfigTypedDict": ".assettradingconfig",
+    "OptionRootTradability": ".assettradingconfig",
+    "OptionRootTradabilityTypedDict": ".assettradingconfig",
     "AssignLargeTraderRequestCreate": ".assignlargetraderrequestcreate",
     "AssignLargeTraderRequestCreateTypedDict": ".assignlargetraderrequestcreate",
     "AuditTrail": ".audittrail",
@@ -9342,6 +9377,8 @@ _dynamic_imports: dict[str, str] = {
     "ListAgreementsResponseTypedDict": ".listagreementsresponse",
     "ListAssetsResponse": ".listassetsresponse",
     "ListAssetsResponseTypedDict": ".listassetsresponse",
+    "ListAssetTradingConfigsResponse": ".listassettradingconfigsresponse",
+    "ListAssetTradingConfigsResponseTypedDict": ".listassettradingconfigsresponse",
     "ListAvailableEnrollmentsResponse": ".listavailableenrollmentsresponse",
     "ListAvailableEnrollmentsResponseTypedDict": ".listavailableenrollmentsresponse",
     "ListAvailableRestrictionsResponse": ".listavailablerestrictionsresponse",
@@ -9979,6 +10016,8 @@ _dynamic_imports: dict[str, str] = {
     "SecurityTypedDict": ".security",
     "ServiceAccountCreds": ".security",
     "ServiceAccountCredsTypedDict": ".security",
+    "SetExtraReportingDataRequestCreate": ".setextrareportingdatarequestcreate",
+    "SetExtraReportingDataRequestCreateTypedDict": ".setextrareportingdatarequestcreate",
     "SimulateCreateCheckDepositRequestCreate": ".simulatecreatecheckdepositrequestcreate",
     "SimulateCreateCheckDepositRequestCreateTypedDict": ".simulatecreatecheckdepositrequestcreate",
     "File": ".snapshot",

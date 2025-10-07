@@ -8,7 +8,6 @@ import uuid
 
 @pytest.fixture(scope="module")
 def account_number(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
     account = s.account_creation.get_account(account_id=enrolled_account_id)
     return account.account.account_number
@@ -18,7 +17,6 @@ def account_number(create_sdk, enrolled_account_id):
 def create_account_transfer_id(
     create_sdk, enrolled_account_id, account_number, withdrawal_account_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     # Fund Account
@@ -32,8 +30,6 @@ def create_account_transfer_id(
     s.fees_and_credits.create_credit(
         account_id=enrolled_account_id, transfers_credit_create=funding_request
     )
-
-    time.sleep(5)
 
     request = components.TransferCreate(
         assets=[

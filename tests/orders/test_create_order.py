@@ -27,7 +27,6 @@ def test_create_order_orders_get_order_get_order1(
 def test_create_order_orders_cancel_order_cancel_order1(
     create_sdk, enrolled_account_id, create_order_id
 ):
-    time.sleep(10)
     s = create_sdk
 
     assert s is not None

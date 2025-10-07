@@ -11,7 +11,6 @@ def test_trade_booking_trade_processing_create_trade_create_trade1(create_bookin
 def test_trade_booking_trade_processing_get_trade_get_trade1(
     create_sdk, create_booking_id, withdrawal_account_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -35,7 +34,6 @@ def test_trade_booking_trade_processing_create_execution_create_execution1(
 def test_trade_booking_trade_processing_get_execution_get_execution1(
     create_sdk, create_booking_id, withdrawal_account_id, create_execution_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -54,7 +52,6 @@ def test_trade_booking_trade_processing_get_execution_get_execution1(
 def test_trade_booking_trade_processing_complete_trade_complete_trade1(
     create_sdk, create_booking_id, withdrawal_account_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

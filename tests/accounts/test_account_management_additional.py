@@ -54,7 +54,6 @@ def test_account_management_accounts_replace_party_replace_party1(replace_party_
 def test_account_management_accounts_remove_party_remove_party1(
     create_sdk, create_account_id, replace_party_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -107,7 +106,6 @@ def test_account_management_accounts_update_trusted_contact_update_trusted_conta
 def test_account_management_accounts_delete_trusted_contact_delete_trusted_contact1(
     create_sdk, create_account_id, create_trusted_contact_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -150,7 +148,6 @@ def test_account_management_accounts_update_interested_party_update_interested_p
 def test_account_management_accounts_delete_interested_party_delete_interested_party1(
     create_sdk, create_account_id, create_interested_party_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None
@@ -185,7 +182,6 @@ def test_account_management_accounts_create_restriction_create_restrictions1(
 def test_account_management_accounts_end_restriction_end_restrictions(
     create_sdk, create_account_id, create_restriction_code
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

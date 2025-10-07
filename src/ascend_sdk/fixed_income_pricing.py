@@ -78,10 +78,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -192,10 +196,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -253,7 +261,7 @@ class FixedIncomePricing(BaseSDK):
     ) -> operations.OrderPriceServiceRetrieveQuoteResponse:
         r"""Retrieve Quote
 
-        Returns quote information containing the best bid/ask for the given Fixed Income asset.
+        Returns quote information containing the best bid/ask for the given Fixed Income asset. For Fixed Income assets in the UAT environment, CUSIPS are subject to expiration. Therefore please refer to the [list available in the Market Simulator](https://developer.apexclearing.com/apex-fintech-solutions/docs/market-simulator#fixed-income-simulator-scenarios) for the most recent CUSIP list prior to testing.
 
         :param account_id: The account id.
         :param retrieve_quote_request_create:
@@ -305,10 +313,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -366,7 +378,7 @@ class FixedIncomePricing(BaseSDK):
     ) -> operations.OrderPriceServiceRetrieveQuoteResponse:
         r"""Retrieve Quote
 
-        Returns quote information containing the best bid/ask for the given Fixed Income asset.
+        Returns quote information containing the best bid/ask for the given Fixed Income asset. For Fixed Income assets in the UAT environment, CUSIPS are subject to expiration. Therefore please refer to the [list available in the Market Simulator](https://developer.apexclearing.com/apex-fintech-solutions/docs/market-simulator#fixed-income-simulator-scenarios) for the most recent CUSIP list prior to testing.
 
         :param account_id: The account id.
         :param retrieve_quote_request_create:
@@ -418,10 +430,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -532,10 +548,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -646,10 +666,14 @@ class FixedIncomePricing(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["4XX", "5XX"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(

@@ -14,7 +14,6 @@ def test_ach_transfers_transfers_get_ach_deposit_get_ach_deposit1(
     enrolled_account_id,
     create_ach_deposit_id,
 ):
-    time.sleep(5)
     s = create_sdk
 
     assert s is not None

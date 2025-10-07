@@ -36,7 +36,6 @@ def create_basket_id(create_sdk):
 
 @pytest.fixture(scope="module")
 def create_order_id(create_sdk, enrolled_account_id):
-    time.sleep(5)
     s = create_sdk
 
     # Fund Account with Credit
@@ -50,8 +49,6 @@ def create_order_id(create_sdk, enrolled_account_id):
     s.fees_and_credits.create_credit(
         account_id=enrolled_account_id, transfers_credit_create=transfers_credit_create
     )
-
-    time.sleep(5)
 
     # Create Order
     today = date.today()

@@ -68,7 +68,6 @@ def create_legal_entity_id(create_sdk):
 
 @pytest.fixture(scope="module")
 def add_party_id(create_sdk, create_account_id, create_legal_entity_id):
-    time.sleep(5)
     s = create_sdk
 
     party_request = components.AddPartyRequestCreate(
@@ -121,7 +120,6 @@ def get_enrollment_to_deactivate(create_sdk, create_account_id):
 def replace_party_id(
     create_sdk, create_account_id, create_legal_natural_person_id, add_party_id
 ):
-    time.sleep(5)
     s = create_sdk
 
     party_request = components.ReplacePartyRequestCreate(
@@ -207,7 +205,6 @@ def create_interested_party_id(create_sdk, create_account_id):
 
 @pytest.fixture(scope="module")
 def create_restriction_code(create_sdk, create_account_id):
-    time.sleep(5)
     s = create_sdk
 
     restriction_request = components.RestrictionCreate(

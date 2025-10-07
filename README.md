@@ -346,6 +346,11 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_ach_withdrawal](docs/sdks/achtransfers/README.md#get_ach_withdrawal) - Get ACH Withdrawal
 * [cancel_ach_withdrawal](docs/sdks/achtransfers/README.md#cancel_ach_withdrawal) - Cancel ACH Withdrawal
 
+### [asset_trading_config](docs/sdks/assettradingconfig/README.md)
+
+* [get_asset_trading_config](docs/sdks/assettradingconfig/README.md#get_asset_trading_config) - Get Asset Trading Config
+* [list_asset_trading_configs](docs/sdks/assettradingconfig/README.md#list_asset_trading_configs) - List Asset Trading Configs
+
 ### [assets](docs/sdks/assets/README.md)
 
 * [list_assets](docs/sdks/assets/README.md#list_assets) - List Assets
@@ -392,6 +397,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [create_order](docs/sdks/createorder/README.md#create_order) - Create Order
 * [get_order](docs/sdks/createorder/README.md#get_order) - Get Order
 * [cancel_order](docs/sdks/createorder/README.md#cancel_order) - Cancel Order
+* [set_extra_reporting_data](docs/sdks/createorder/README.md#set_extra_reporting_data) - Set Extra Reporting Data
 
 ### [data_retrieval](docs/sdks/dataretrieval/README.md)
 
