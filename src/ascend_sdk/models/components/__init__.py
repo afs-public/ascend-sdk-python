@@ -2665,6 +2665,10 @@ if TYPE_CHECKING:
         ListContributionSummariesResponse,
         ListContributionSummariesResponseTypedDict,
     )
+    from .listcorrespondentordersresponse import (
+        ListCorrespondentOrdersResponse,
+        ListCorrespondentOrdersResponseTypedDict,
+    )
     from .listdistributionsummariesresponse import (
         ListDistributionSummariesResponse,
         ListDistributionSummariesResponseTypedDict,
@@ -2883,6 +2887,8 @@ if TYPE_CHECKING:
         RightsOfAccumulationTypedDict,
         StopPrice,
         StopPriceTypedDict,
+        TimeInForceExpirationDate,
+        TimeInForceExpirationDateTypedDict,
         Value,
         ValueTypedDict,
     )
@@ -5971,6 +5977,8 @@ __all__ = [
     "ListCompressedOrdersResponseTypedDict",
     "ListContributionSummariesResponse",
     "ListContributionSummariesResponseTypedDict",
+    "ListCorrespondentOrdersResponse",
+    "ListCorrespondentOrdersResponseTypedDict",
     "ListDistributionSummariesResponse",
     "ListDistributionSummariesResponseTypedDict",
     "ListDocumentsResponse",
@@ -6793,6 +6801,8 @@ __all__ = [
     "TenderOfferTypedDict",
     "TimeHorizon",
     "TimeInForce",
+    "TimeInForceExpirationDate",
+    "TimeInForceExpirationDateTypedDict",
     "TimeUnit",
     "ToSide",
     "Token",
@@ -9391,6 +9401,8 @@ _dynamic_imports: dict[str, str] = {
     "ListCompressedOrdersResponseTypedDict": ".listcompressedordersresponse",
     "ListContributionSummariesResponse": ".listcontributionsummariesresponse",
     "ListContributionSummariesResponseTypedDict": ".listcontributionsummariesresponse",
+    "ListCorrespondentOrdersResponse": ".listcorrespondentordersresponse",
+    "ListCorrespondentOrdersResponseTypedDict": ".listcorrespondentordersresponse",
     "ListDistributionSummariesResponse": ".listdistributionsummariesresponse",
     "ListDistributionSummariesResponseTypedDict": ".listdistributionsummariesresponse",
     "ListDocumentsResponse": ".listdocumentsresponse",
@@ -9553,6 +9565,8 @@ _dynamic_imports: dict[str, str] = {
     "RightsOfAccumulationTypedDict": ".order",
     "StopPrice": ".order",
     "StopPriceTypedDict": ".order",
+    "TimeInForceExpirationDate": ".order",
+    "TimeInForceExpirationDateTypedDict": ".order",
     "Value": ".order",
     "ValueTypedDict": ".order",
     "OrderCostPreviewRequestCreate": ".ordercostpreviewrequestcreate",

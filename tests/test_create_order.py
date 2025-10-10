@@ -36,3 +36,32 @@ def test_create_order_create_order_set_extra_reporting_data():
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200
+
+
+def test_create_order_create_order_list_correspondent_orders():
+    test_http_client = create_test_http_client("CreateOrder_ListCorrespondentOrders")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
+        security=components.Security(
+            api_key=os.getenv("API_KEY", "value"),
+            service_account_creds=components.ServiceAccountCreds(
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
+            ),
+        ),
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
+
+        res = sdk.create_order.list_correspondent_orders(
+            correspondent_id=os.getenv("CORRESPONDENT_ID", ""),
+            filter_="",
+            page_size=25,
+            page_token="",
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200

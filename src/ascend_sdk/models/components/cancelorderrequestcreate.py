@@ -35,6 +35,8 @@ class CancelOrderRequestCreateTypedDict(TypedDict):
     r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but the value will have no impact on how they are processed. Cancel requests without this field set will default to CLIENT"""
     client_cancel_received_time: NotRequired[Nullable[datetime]]
     r"""Related to CAT reporting when Apex reports for the client. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+    client_cancel_sent_time: NotRequired[Nullable[datetime]]
+    r"""Related to CAT reporting when Apex reports for the client. Denotes the time the client sent the cancel request to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
 
 
 class CancelOrderRequestCreate(BaseModel):
@@ -52,10 +54,17 @@ class CancelOrderRequestCreate(BaseModel):
     client_cancel_received_time: OptionalNullable[datetime] = UNSET
     r"""Related to CAT reporting when Apex reports for the client. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
 
+    client_cancel_sent_time: OptionalNullable[datetime] = UNSET
+    r"""Related to CAT reporting when Apex reports for the client. Denotes the time the client sent the cancel request to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["cancel_initiator", "client_cancel_received_time"]
-        nullable_fields = ["client_cancel_received_time"]
+        optional_fields = [
+            "cancel_initiator",
+            "client_cancel_received_time",
+            "client_cancel_sent_time",
+        ]
+        nullable_fields = ["client_cancel_received_time", "client_cancel_sent_time"]
         null_default_fields = []
 
         serialized = handler(self)

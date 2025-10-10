@@ -398,6 +398,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_order](docs/sdks/createorder/README.md#get_order) - Get Order
 * [cancel_order](docs/sdks/createorder/README.md#cancel_order) - Cancel Order
 * [set_extra_reporting_data](docs/sdks/createorder/README.md#set_extra_reporting_data) - Set Extra Reporting Data
+* [list_correspondent_orders](docs/sdks/createorder/README.md#list_correspondent_orders) - List Correspondent Orders
 
 ### [data_retrieval](docs/sdks/dataretrieval/README.md)
 
