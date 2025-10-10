@@ -5,6 +5,7 @@ Must be the value "DAY". Regulatory requirements dictate that the system capture
 
 ## Values
 
-| Name  | Value |
-| ----- | ----- |
-| `DAY` | DAY   |
+| Name             | Value            |
+| ---------------- | ---------------- |
+| `DAY`            | DAY              |
+| `GOOD_TILL_DATE` | GOOD_TILL_DATE   |

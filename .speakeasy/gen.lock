@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: ada9b980acbe653e0bd359f9184c0329
-  docVersion: v1:20251003:uat:a1308663494e
+  docChecksum: b78fe33a2e48f1cf16bb3f4d7cc3e5e8
+  docVersion: v1:20251009:uat:ac355eac4466
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.7.1
-  configChecksum: db725f4ade18ba7c2c5ca9fe5ed9bc88
+  releaseVersion: 1.7.2
+  configChecksum: 36aa0825f8e5f8fbaeeca3d2e3250dc6
 features:
   python:
     additionalDependencies: 1.0.0
@@ -1298,6 +1298,7 @@ generatedFiles:
   - docs/models/components/listbasketordersresponse.md
   - docs/models/components/listcompressedordersresponse.md
   - docs/models/components/listcontributionsummariesresponse.md
+  - docs/models/components/listcorrespondentordersresponse.md
   - docs/models/components/listdistributionsummariesresponse.md
   - docs/models/components/listdocumentsresponse.md
   - docs/models/components/listenrollmentsresponse.md
@@ -1802,6 +1803,7 @@ generatedFiles:
   - docs/models/components/tenderoffertype.md
   - docs/models/components/timehorizon.md
   - docs/models/components/timeinforce.md
+  - docs/models/components/timeinforceexpirationdate.md
   - docs/models/components/timeunit.md
   - docs/models/components/token.md
   - docs/models/components/toside.md
@@ -2287,6 +2289,8 @@ generatedFiles:
   - docs/models/operations/orderservicecreateorderresponse.md
   - docs/models/operations/orderservicegetorderrequest.md
   - docs/models/operations/orderservicegetorderresponse.md
+  - docs/models/operations/orderservicelistcorrespondentordersrequest.md
+  - docs/models/operations/orderservicelistcorrespondentordersresponse.md
   - docs/models/operations/orderservicesetextrareportingdatarequest.md
   - docs/models/operations/orderservicesetextrareportingdataresponse.md
   - docs/models/operations/programdatefilterprogram.md
@@ -2656,6 +2660,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/listbasketordersresponse.py
   - src/ascend_sdk/models/components/listcompressedordersresponse.py
   - src/ascend_sdk/models/components/listcontributionsummariesresponse.py
+  - src/ascend_sdk/models/components/listcorrespondentordersresponse.py
   - src/ascend_sdk/models/components/listdistributionsummariesresponse.py
   - src/ascend_sdk/models/components/listdocumentsresponse.py
   - src/ascend_sdk/models/components/listenrollmentsresponse.py
@@ -2964,6 +2969,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/orderservice_cancelorder.py
   - src/ascend_sdk/models/operations/orderservice_createorder.py
   - src/ascend_sdk/models/operations/orderservice_getorder.py
+  - src/ascend_sdk/models/operations/orderservice_listcorrespondentorders.py
   - src/ascend_sdk/models/operations/orderservice_setextrareportingdata.py
   - src/ascend_sdk/models/operations/reader_geteventmessage.py
   - src/ascend_sdk/models/operations/reader_listeventmessages.py
@@ -5599,6 +5605,20 @@ examples:
           application/json: {}
         default:
           application/json: {}
+  OrderService_ListCorrespondentOrders:
+    speakeasy-default-order-service-list-correspondent-orders:
+      parameters:
+        path:
+          correspondent_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
 examplesVersion: 1.0.2
 generatedTests:
   Accounts_ListLegalNaturalPersons: "2025-08-11T18:04:36Z"
@@ -5617,3 +5637,4 @@ generatedTests:
   OrderService_SetExtraReportingData: "2025-10-06T21:33:30Z"
   AssetTradingConfigService_GetAssetTradingConfig: "2025-10-06T21:33:30Z"
   AssetTradingConfigService_ListAssetTradingConfigs: "2025-10-06T21:33:30Z"
+  OrderService_ListCorrespondentOrders: "2025-10-09T21:29:27Z"

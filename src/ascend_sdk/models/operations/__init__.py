@@ -896,6 +896,12 @@ if TYPE_CHECKING:
         OrderServiceGetOrderResponse,
         OrderServiceGetOrderResponseTypedDict,
     )
+    from .orderservice_listcorrespondentorders import (
+        OrderServiceListCorrespondentOrdersRequest,
+        OrderServiceListCorrespondentOrdersRequestTypedDict,
+        OrderServiceListCorrespondentOrdersResponse,
+        OrderServiceListCorrespondentOrdersResponseTypedDict,
+    )
     from .orderservice_setextrareportingdata import (
         OrderServiceSetExtraReportingDataRequest,
         OrderServiceSetExtraReportingDataRequestTypedDict,
@@ -1656,6 +1662,10 @@ __all__ = [
     "OrderServiceGetOrderRequestTypedDict",
     "OrderServiceGetOrderResponse",
     "OrderServiceGetOrderResponseTypedDict",
+    "OrderServiceListCorrespondentOrdersRequest",
+    "OrderServiceListCorrespondentOrdersRequestTypedDict",
+    "OrderServiceListCorrespondentOrdersResponse",
+    "OrderServiceListCorrespondentOrdersResponseTypedDict",
     "OrderServiceSetExtraReportingDataRequest",
     "OrderServiceSetExtraReportingDataRequestTypedDict",
     "OrderServiceSetExtraReportingDataResponse",
@@ -2367,6 +2377,10 @@ _dynamic_imports: dict[str, str] = {
     "OrderServiceGetOrderRequestTypedDict": ".orderservice_getorder",
     "OrderServiceGetOrderResponse": ".orderservice_getorder",
     "OrderServiceGetOrderResponseTypedDict": ".orderservice_getorder",
+    "OrderServiceListCorrespondentOrdersRequest": ".orderservice_listcorrespondentorders",
+    "OrderServiceListCorrespondentOrdersRequestTypedDict": ".orderservice_listcorrespondentorders",
+    "OrderServiceListCorrespondentOrdersResponse": ".orderservice_listcorrespondentorders",
+    "OrderServiceListCorrespondentOrdersResponseTypedDict": ".orderservice_listcorrespondentorders",
     "OrderServiceSetExtraReportingDataRequest": ".orderservice_setextrareportingdata",
     "OrderServiceSetExtraReportingDataRequestTypedDict": ".orderservice_setextrareportingdata",
     "OrderServiceSetExtraReportingDataResponse": ".orderservice_setextrareportingdata",

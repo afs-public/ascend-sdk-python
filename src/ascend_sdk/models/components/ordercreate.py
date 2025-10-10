@@ -56,10 +56,12 @@ class IdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     LIMIT = "LIMIT"
     MARKET = "MARKET"
+    STOP = "STOP"
+    MARKET_IF_TOUCHED = "MARKET_IF_TOUCHED"
 
 
 class Side(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -103,6 +105,7 @@ class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     DAY = "DAY"
+    GOOD_TILL_DATE = "GOOD_TILL_DATE"
 
 
 class TradingSession(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -138,7 +141,7 @@ class OrderCreateTypedDict(TypedDict):
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
     order_type: OrderType
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
     side: Side
     r"""The side of this order."""
     time_in_force: TimeInForce
@@ -147,6 +150,8 @@ class OrderCreateTypedDict(TypedDict):
     r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
     client_received_time: NotRequired[Nullable[datetime]]
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+    client_sent_time: NotRequired[Nullable[datetime]]
+    r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
     commission: NotRequired[CommissionCreateTypedDict]
     r"""A custom commission applied to an order"""
     currency_code: NotRequired[str]
@@ -186,6 +191,13 @@ class OrderCreateTypedDict(TypedDict):
     r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
     stop_price: NotRequired[StopPriceCreateTypedDict]
     r"""A stop price definition"""
+    time_in_force_expiration_date: NotRequired[DateCreateTypedDict]
+    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
+
+    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
+
+    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
+    """
     trading_session: NotRequired[TradingSession]
     r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
@@ -218,7 +230,7 @@ class OrderCreate(BaseModel):
     """
 
     order_type: Annotated[OrderType, PlainValidator(validate_open_enum(False))]
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     side: Annotated[Side, PlainValidator(validate_open_enum(False))]
     r"""The side of this order."""
@@ -233,6 +245,9 @@ class OrderCreate(BaseModel):
 
     client_received_time: OptionalNullable[datetime] = UNSET
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+
+    client_sent_time: OptionalNullable[datetime] = UNSET
+    r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
 
     commission: Optional[CommissionCreate] = None
     r"""A custom commission applied to an order"""
@@ -291,6 +306,14 @@ class OrderCreate(BaseModel):
     stop_price: Optional[StopPriceCreate] = None
     r"""A stop price definition"""
 
+    time_in_force_expiration_date: Optional[DateCreate] = None
+    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
+
+    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
+
+    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
+    """
+
     trading_session: Annotated[
         Optional[TradingSession], PlainValidator(validate_open_enum(False))
     ] = None
@@ -301,6 +324,7 @@ class OrderCreate(BaseModel):
         optional_fields = [
             "broker_capacity",
             "client_received_time",
+            "client_sent_time",
             "commission",
             "currency_code",
             "fees",
@@ -313,9 +337,10 @@ class OrderCreate(BaseModel):
             "rights_of_accumulation",
             "special_reporting_instructions",
             "stop_price",
+            "time_in_force_expiration_date",
             "trading_session",
         ]
-        nullable_fields = ["client_received_time"]
+        nullable_fields = ["client_received_time", "client_sent_time"]
         null_default_fields = []
 
         serialized = handler(self)

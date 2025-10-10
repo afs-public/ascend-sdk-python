@@ -497,10 +497,12 @@ class OrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     LIMIT = "LIMIT"
     MARKET = "MARKET"
+    STOP = "STOP"
+    MARKET_IF_TOUCHED = "MARKET_IF_TOUCHED"
 
 
 class OrderPrevailingMarketPriceTypedDict(TypedDict):
@@ -702,6 +704,31 @@ class OrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     DAY = "DAY"
+    GOOD_TILL_DATE = "GOOD_TILL_DATE"
+
+
+class TimeInForceExpirationDateTypedDict(TypedDict):
+    r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
+
+    day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+    month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
+class TimeInForceExpirationDate(BaseModel):
+    r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
+
+    day: Optional[int] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+
+    month: Optional[int] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    year: Optional[int] = None
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
 class OrderTradingSession(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -744,10 +771,14 @@ class OrderTypedDict(TypedDict):
     r"""Used to denote when a cancel request has been rejected."""
     client_cancel_received_time: NotRequired[Nullable[datetime]]
     r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
+    client_cancel_sent_time: NotRequired[Nullable[datetime]]
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
     client_order_id: NotRequired[str]
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     client_received_time: NotRequired[Nullable[datetime]]
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+    client_sent_time: NotRequired[Nullable[datetime]]
+    r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
     commission: NotRequired[Nullable[OrderCommissionTypedDict]]
     r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
     create_time: NotRequired[Nullable[datetime]]
@@ -785,6 +816,8 @@ class OrderTypedDict(TypedDict):
     r"""System generated name of the order."""
     notional_value: NotRequired[Nullable[NotionalValueTypedDict]]
     r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
+    open: NotRequired[bool]
+    r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
     order_date: NotRequired[Nullable[OrderDateTypedDict]]
     r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
     order_id: NotRequired[str]
@@ -794,7 +827,7 @@ class OrderTypedDict(TypedDict):
     order_status: NotRequired[OrderStatus]
     r"""The processing status of the order"""
     order_type: NotRequired[OrderOrderType]
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
     prevailing_market_price: NotRequired[Nullable[OrderPrevailingMarketPriceTypedDict]]
     r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
     quantity: NotRequired[Nullable[OrderQuantityTypedDict]]
@@ -809,6 +842,10 @@ class OrderTypedDict(TypedDict):
     r"""The stop price for this order. Only allowed for equities."""
     time_in_force: NotRequired[OrderTimeInForce]
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    time_in_force_expiration_date: NotRequired[
+        Nullable[TimeInForceExpirationDateTypedDict]
+    ]
+    r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
     trading_session: NotRequired[OrderTradingSession]
     r"""Which TradingSession to trade in, defaults to 'CORE'. Only available for Equity orders."""
 
@@ -858,11 +895,17 @@ class Order(BaseModel):
     client_cancel_received_time: OptionalNullable[datetime] = UNSET
     r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
 
+    client_cancel_sent_time: OptionalNullable[datetime] = UNSET
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the CancelOrderRequest"""
+
     client_order_id: Optional[str] = None
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+
+    client_sent_time: OptionalNullable[datetime] = UNSET
+    r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
 
     commission: OptionalNullable[OrderCommission] = UNSET
     r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
@@ -920,6 +963,9 @@ class Order(BaseModel):
     notional_value: OptionalNullable[NotionalValue] = UNSET
     r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
 
+    open: Optional[bool] = None
+    r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
+
     order_date: OptionalNullable[OrderDate] = UNSET
     r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
 
@@ -939,7 +985,7 @@ class Order(BaseModel):
     order_type: Annotated[
         Optional[OrderOrderType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The execution type of this order. For Equities: MARKET, and LIMIT are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
 
     prevailing_market_price: OptionalNullable[OrderPrevailingMarketPrice] = UNSET
     r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
@@ -973,6 +1019,9 @@ class Order(BaseModel):
     ] = None
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
+    time_in_force_expiration_date: OptionalNullable[TimeInForceExpirationDate] = UNSET
+    r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
+
     trading_session: Annotated[
         Optional[OrderTradingSession], PlainValidator(validate_open_enum(False))
     ] = None
@@ -990,8 +1039,10 @@ class Order(BaseModel):
             "cancel_reason",
             "cancel_rejected_reason",
             "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_order_id",
             "client_received_time",
+            "client_sent_time",
             "commission",
             "create_time",
             "cumulative_notional_value",
@@ -1009,6 +1060,7 @@ class Order(BaseModel):
             "max_sell_quantity",
             "name",
             "notional_value",
+            "open",
             "order_date",
             "order_id",
             "order_rejected_reason",
@@ -1021,11 +1073,14 @@ class Order(BaseModel):
             "special_reporting_instructions",
             "stop_price",
             "time_in_force",
+            "time_in_force_expiration_date",
             "trading_session",
         ]
         nullable_fields = [
             "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_received_time",
+            "client_sent_time",
             "commission",
             "create_time",
             "cumulative_notional_value",
@@ -1041,6 +1096,7 @@ class Order(BaseModel):
             "quantity",
             "rights_of_accumulation",
             "stop_price",
+            "time_in_force_expiration_date",
         ]
         null_default_fields = []
 
