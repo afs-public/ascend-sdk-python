@@ -147,6 +147,8 @@ class ActivityAccountTransferTypedDict(TypedDict):
     r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
     fair_market_value_date: NotRequired[Nullable[ActivityFairMarketValueDateTypedDict]]
     r"""Date from which the asset was valued and used in the fair market value calculation"""
+    gift_transfer: NotRequired[bool]
+    r"""Indicates whether the account transfer constitutes a gift for tax reporting purposes. Used by cost basis and tax systems to ensure proper tax treatment and reporting compliance."""
     institution: NotRequired[str]
     r"""Contra party institution for the account transfer"""
     method: NotRequired[ActivityMethod]
@@ -187,6 +189,9 @@ class ActivityAccountTransfer(BaseModel):
     fair_market_value_date: OptionalNullable[ActivityFairMarketValueDate] = UNSET
     r"""Date from which the asset was valued and used in the fair market value calculation"""
 
+    gift_transfer: Optional[bool] = None
+    r"""Indicates whether the account transfer constitutes a gift for tax reporting purposes. Used by cost basis and tax systems to ensure proper tax treatment and reporting compliance."""
+
     institution: Optional[str] = None
     r"""Contra party institution for the account transfer"""
 
@@ -207,6 +212,7 @@ class ActivityAccountTransfer(BaseModel):
             "contra_party_id",
             "fair_market_value",
             "fair_market_value_date",
+            "gift_transfer",
             "institution",
             "method",
         ]
@@ -5936,6 +5942,7 @@ class ActivityDistributionType(str, Enum, metaclass=utils.OpenEnumMeta):
     NET_INCOME_ATTRIBUTABLE = "NET_INCOME_ATTRIBUTABLE"
     REVOCATION = "REVOCATION"
     NON_REPORTABLE = "NON_REPORTABLE"
+    QUALIFIED_CHARITABLE_DISTRIBUTION = "QUALIFIED_CHARITABLE_DISTRIBUTION"
 
 
 class ActivityRetirementType(str, Enum, metaclass=utils.OpenEnumMeta):

@@ -1,15 +1,13 @@
 import datetime
 import os
 import random
-import time
+import uuid
 from typing import Optional
 import pytest
+import requests
 
 import pytz
 from typing import Optional
-from ascend_sdk import SDK
-from ascend_sdk.models import components
-
 from ascend_sdk import SDK
 from ascend_sdk.models import components
 
@@ -106,7 +104,75 @@ def create_legal_natural_person_id(create_sdk):
         request=legal_natural_person_request
     )
     if res.http_meta.response.status_code == 200:
-        return res.legal_natural_person.legal_natural_person_id
+        # Upload CIP Results
+        lnp_id = res.legal_natural_person.legal_natural_person_id
+        request = components.BatchCreateUploadLinksRequestCreate(
+            create_document_upload_link_request=[
+                components.CreateUploadLinkRequestCreate(
+                    id_document_upload_request=components.IDDocumentUploadRequestCreate(
+                        correspondent_id=os.getenv("CORRESPONDENT_ID"),
+                        document_type=components.IDDocumentUploadRequestCreateDocumentType.THIRD_PARTY_CIP_RESULTS,
+                        legal_natural_person_id=lnp_id,
+                    ),
+                    client_batch_source_id=str(uuid.uuid4()),
+                    mime_type="application/json",
+                )
+            ]
+        )
+        res = s.investor_docs.batch_create_upload_links(request=request)
+
+        # Check if upload links were created successfully
+        if (
+            not res.batch_create_upload_links_response
+            or not res.batch_create_upload_links_response.upload_link
+        ):
+            print("Failed to create upload links")
+            return lnp_id
+
+        links = res.batch_create_upload_links_response.upload_link
+        if len(links) == 0:
+            print("No upload links returned")
+            return lnp_id
+
+        upload_url = links[0].upload_link
+
+        # Upload the test.json file
+        test_file_path = os.path.join(
+            os.path.dirname(__file__), "..", "..", "examples", "test.json"
+        )
+
+        # Check if file exists
+        if not os.path.exists(test_file_path):
+            print(f"Test file not found at: {test_file_path}")
+            return lnp_id
+
+        # Read and validate file content
+        try:
+            with open(test_file_path, "r") as f:
+                json_content = f.read()
+
+            if not json_content or len(json_content.strip()) == 0:
+                print("Test file is empty")
+                return lnp_id
+        except Exception as e:
+            print(f"Error reading file: {e}")
+            return lnp_id
+
+        # Upload to signed URL
+        try:
+            upload_response = requests.put(
+                upload_url,
+                data=json_content,
+                headers={"Content-Type": "application/json"},
+            )
+
+            if upload_response.status_code not in [200, 201, 204]:
+                print(f"Upload failed with status code: {upload_response.status_code}")
+                print(f"Response body: {upload_response.text}")
+        except Exception as e:
+            print(f"Error during upload: {e}")
+
+        return lnp_id
     else:
         return None
 

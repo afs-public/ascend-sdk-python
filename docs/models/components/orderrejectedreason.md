@@ -41,4 +41,7 @@ When an order has the REJECTED status, this will be populated with a system code
 | `INVALID_ORDER_QUANTITY`                                    | INVALID_ORDER_QUANTITY                                      |
 | `CLIENT_RECEIVED_TIME_REQUIRED`                             | CLIENT_RECEIVED_TIME_REQUIRED                               |
 | `CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION`               | CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION                 |
+| `ROUND_UP_AMOUNT_TOO_SMALL`                                 | ROUND_UP_AMOUNT_TOO_SMALL                                   |
+| `ASSET_NOT_SET_UP_FOR_ROUND_UPS`                            | ASSET_NOT_SET_UP_FOR_ROUND_UPS                              |
+| `BELOW_ROUND_UP_MINIMUM`                                    | BELOW_ROUND_UP_MINIMUM                                      |
 | `STOP_PRICE_BELOW_MARKET_PRICE`                             | STOP_PRICE_BELOW_MARKET_PRICE                               |

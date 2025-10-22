@@ -392,14 +392,6 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 * [get_check_deposit](docs/sdks/checks/README.md#get_check_deposit) - Get Check Deposit
 
-### [create_order](docs/sdks/createorder/README.md)
-
-* [create_order](docs/sdks/createorder/README.md#create_order) - Create Order
-* [get_order](docs/sdks/createorder/README.md#get_order) - Get Order
-* [cancel_order](docs/sdks/createorder/README.md#cancel_order) - Cancel Order
-* [set_extra_reporting_data](docs/sdks/createorder/README.md#set_extra_reporting_data) - Set Extra Reporting Data
-* [list_correspondent_orders](docs/sdks/createorder/README.md#list_correspondent_orders) - List Correspondent Orders
-
 ### [data_retrieval](docs/sdks/dataretrieval/README.md)
 
 * [list_snapshots](docs/sdks/dataretrieval/README.md#list_snapshots) - List Snapshots
@@ -473,6 +465,14 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ### [margins](docs/sdks/margins/README.md)
 
 * [get_buying_power](docs/sdks/margins/README.md#get_buying_power) - Get Buying Power
+
+### [orders](docs/sdks/orders/README.md)
+
+* [create_order](docs/sdks/orders/README.md#create_order) - Create Order
+* [get_order](docs/sdks/orders/README.md#get_order) - Get Order
+* [cancel_order](docs/sdks/orders/README.md#cancel_order) - Cancel Order
+* [set_extra_reporting_data](docs/sdks/orders/README.md#set_extra_reporting_data) - Set Extra Reporting Data
+* [list_correspondent_orders](docs/sdks/orders/README.md#list_correspondent_orders) - List Correspondent Orders
 
 ### [person_management](docs/sdks/personmanagement/README.md)
 

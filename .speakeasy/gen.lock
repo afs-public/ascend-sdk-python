@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: b78fe33a2e48f1cf16bb3f4d7cc3e5e8
-  docVersion: v1:20251009:uat:ac355eac4466
+  docChecksum: 834b7bdbca5fb3e122e1664978f5f38e
+  docVersion: v1:20251022:uat:75a9118ab2c9
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.7.2
-  configChecksum: 36aa0825f8e5f8fbaeeca3d2e3250dc6
+  releaseVersion: 1.8.0
+  configChecksum: 00f8c8b72cd6a53863bbc6328e69199e
 features:
   python:
     additionalDependencies: 1.0.0
@@ -98,6 +98,7 @@ generatedFiles:
   - docs/models/components/achdepositscheduleamount.md
   - docs/models/components/achdepositschedulecreate.md
   - docs/models/components/achdepositschedulecreatetype.md
+  - docs/models/components/achdepositscheduleenddate.md
   - docs/models/components/achdepositscheduleiracontribution.md
   - docs/models/components/achdepositscheduleretirementcontribution.md
   - docs/models/components/achdepositscheduleretirementcontributiontype.md
@@ -121,6 +122,7 @@ generatedFiles:
   - docs/models/components/achwithdrawalschedule.md
   - docs/models/components/achwithdrawalscheduleamount.md
   - docs/models/components/achwithdrawalschedulecreate.md
+  - docs/models/components/achwithdrawalscheduleenddate.md
   - docs/models/components/achwithdrawalschedulefederaltaxwithholding.md
   - docs/models/components/achwithdrawalscheduleiradistributionamount.md
   - docs/models/components/achwithdrawalscheduleiradistributionfederaltaxwithholdingamount.md
@@ -1750,6 +1752,7 @@ generatedFiles:
   - docs/models/components/setextrareportingdatarequestcreate.md
   - docs/models/components/settled.md
   - docs/models/components/settledate.md
+  - docs/models/components/settledcashavailabletowithdraw.md
   - docs/models/components/settlementconvention.md
   - docs/models/components/settlementdate.md
   - docs/models/components/settlementmethod.md
@@ -1837,6 +1840,7 @@ generatedFiles:
   - docs/models/components/tradeallocationstate.md
   - docs/models/components/tradeallocationtoside.md
   - docs/models/components/tradeallocationwhenissued.md
+  - docs/models/components/tradecashavailabletowithdraw.md
   - docs/models/components/tradeconfirmationdeliverypreference.md
   - docs/models/components/tradecreate.md
   - docs/models/components/tradecreateassettype.md
@@ -1857,6 +1861,7 @@ generatedFiles:
   - docs/models/components/transfercreate.md
   - docs/models/components/transferschedulesummary.md
   - docs/models/components/transferschedulesummaryamount.md
+  - docs/models/components/transferschedulesummaryenddate.md
   - docs/models/components/transferschedulesummaryfederaltaxwithholding.md
   - docs/models/components/transferschedulesummarymechanism.md
   - docs/models/components/transferschedulesummarypercentage.md
@@ -1953,6 +1958,7 @@ generatedFiles:
   - docs/models/components/wirewithdrawalscheduleamount.md
   - docs/models/components/wirewithdrawalschedulebeneficiary.md
   - docs/models/components/wirewithdrawalschedulecreate.md
+  - docs/models/components/wirewithdrawalscheduleenddate.md
   - docs/models/components/wirewithdrawalschedulefederaltaxwithholding.md
   - docs/models/components/wirewithdrawalschedulepercentage.md
   - docs/models/components/wirewithdrawalschedulerecipientbankaddress.md
@@ -2363,7 +2369,6 @@ generatedFiles:
   - docs/sdks/basketorders/README.md
   - docs/sdks/cashbalances/README.md
   - docs/sdks/checks/README.md
-  - docs/sdks/createorder/README.md
   - docs/sdks/dataretrieval/README.md
   - docs/sdks/enrollmentsandagreements/README.md
   - docs/sdks/feesandcredits/README.md
@@ -2374,6 +2379,7 @@ generatedFiles:
   - docs/sdks/journals/README.md
   - docs/sdks/ledger/README.md
   - docs/sdks/margins/README.md
+  - docs/sdks/orders/README.md
   - docs/sdks/personmanagement/README.md
   - docs/sdks/reader/README.md
   - docs/sdks/retirements/README.md
@@ -2406,7 +2412,6 @@ generatedFiles:
   - src/ascend_sdk/basket_orders.py
   - src/ascend_sdk/cash_balances.py
   - src/ascend_sdk/checks.py
-  - src/ascend_sdk/create_order.py
   - src/ascend_sdk/data_retrieval.py
   - src/ascend_sdk/enrollments_and_agreements.py
   - src/ascend_sdk/fees_and_credits.py
@@ -2999,6 +3004,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_getwirewithdrawalschedule.py
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_listwirewithdrawalschedules.py
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_updatewirewithdrawalschedule.py
+  - src/ascend_sdk/orders.py
   - src/ascend_sdk/person_management.py
   - src/ascend_sdk/py.typed
   - src/ascend_sdk/reader.py

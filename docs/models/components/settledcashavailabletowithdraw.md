@@ -1,6 +1,6 @@
-# PendingDrip
+# SettledCashAvailableToWithdraw
 
-Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder
+The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative.
 
 
 ## Fields

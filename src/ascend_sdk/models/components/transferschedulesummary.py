@@ -37,12 +37,15 @@ class Direction(str, Enum, metaclass=utils.OpenEnumMeta):
     DIRECTION_UNSPECIFIED = "DIRECTION_UNSPECIFIED"
     DEPOSIT = "DEPOSIT"
     WITHDRAWAL = "WITHDRAWAL"
+    JOURNAL = "JOURNAL"
 
 
 class TransferScheduleSummaryMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The mechanism used for this transfer schedule"""
 
     ACH = "ACH"
+    CASH_JOURNAL = "CASH_JOURNAL"
+    CHECK = "CHECK"
     WIRE = "WIRE"
 
 
@@ -389,6 +392,30 @@ class TransferScheduleSummaryRetirementDistribution(BaseModel):
         return m
 
 
+class TransferScheduleSummaryEndDateTypedDict(TypedDict):
+    r"""The schedule end date if there is a finite number of occurrences"""
+
+    day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+    month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
+class TransferScheduleSummaryEndDate(BaseModel):
+    r"""The schedule end date if there is a finite number of occurrences"""
+
+    day: Optional[int] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+
+    month: Optional[int] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    year: Optional[int] = None
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
 class StartDateTypedDict(TypedDict):
     r"""The schedule start date"""
 
@@ -432,6 +459,8 @@ class TransferScheduleSummaryTimeUnit(str, Enum, metaclass=utils.OpenEnumMeta):
 class SchedulePropertiesTypedDict(TypedDict):
     r"""Common schedule properties"""
 
+    end_date: NotRequired[Nullable[TransferScheduleSummaryEndDateTypedDict]]
+    r"""The schedule end date if there is a finite number of occurrences"""
     occurrences: NotRequired[int]
     r"""The number of occurrences (empty or 0 indicates unlimited occurrences)"""
     start_date: NotRequired[Nullable[StartDateTypedDict]]
@@ -446,6 +475,9 @@ class SchedulePropertiesTypedDict(TypedDict):
 
 class ScheduleProperties(BaseModel):
     r"""Common schedule properties"""
+
+    end_date: OptionalNullable[TransferScheduleSummaryEndDate] = UNSET
+    r"""The schedule end date if there is a finite number of occurrences"""
 
     occurrences: Optional[int] = None
     r"""The number of occurrences (empty or 0 indicates unlimited occurrences)"""
@@ -471,13 +503,14 @@ class ScheduleProperties(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
+            "end_date",
             "occurrences",
             "start_date",
             "state",
             "time_unit",
             "unit_multiplier",
         ]
-        nullable_fields = ["start_date"]
+        nullable_fields = ["end_date", "start_date"]
         null_default_fields = []
 
         serialized = handler(self)

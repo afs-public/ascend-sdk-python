@@ -28,3 +28,4 @@ Provides information on the reason for the distribution from a retirement accoun
 | `NET_INCOME_ATTRIBUTABLE`                         | NET_INCOME_ATTRIBUTABLE                           |
 | `REVOCATION`                                      | REVOCATION                                        |
 | `NON_REPORTABLE`                                  | NON_REPORTABLE                                    |
+| `QUALIFIED_CHARITABLE_DISTRIBUTION`               | QUALIFIED_CHARITABLE_DISTRIBUTION                 |
