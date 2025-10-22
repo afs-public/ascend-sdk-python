@@ -1,5 +1,5 @@
-# CreateOrder
-(*create_order*)
+# Orders
+(*orders*)
 
 ## Overview
 
@@ -39,7 +39,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.create_order.create_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_create=components.OrderCreate(
+    res = sdk.orders.create_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_create=components.OrderCreate(
         asset_type=components.AssetType.EQUITY,
         client_order_id="a6d5258b-6b23-478a-8145-98e79d60427a",
         identifier="SBUX",
@@ -103,7 +103,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.create_order.get_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706")
+    res = sdk.orders.get_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706")
 
     assert res.order is not None
 
@@ -158,7 +158,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.create_order.cancel_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", cancel_order_request_create={
+    res = sdk.orders.cancel_order(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", cancel_order_request_create={
         "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
     })
 
@@ -215,7 +215,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.create_order.set_extra_reporting_data(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", set_extra_reporting_data_request_create={
+    res = sdk.orders.set_extra_reporting_data(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", set_extra_reporting_data_request_create={
         "cancel_confirmed_time": parse_datetime("2025-12-13T15:28:17.262732Z"),
         "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
     })
@@ -272,7 +272,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.create_order.list_correspondent_orders(correspondent_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", filter_="open && order_date >= date('2025-05-10')", page_size=50, page_token="CiAKGjBpNDd2Nmp2Zml2cXRwYjBpOXA")
+    res = sdk.orders.list_correspondent_orders(correspondent_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", filter_="open && order_date >= date('2025-05-10')", page_size=50, page_token="CiAKGjBpNDd2Nmp2Zml2cXRwYjBpOXA")
 
     assert res.list_correspondent_orders_response is not None
 

@@ -42,6 +42,8 @@ class BasketTypedDict(TypedDict):
     r"""The processing status of the basket"""
     client_basket_id: NotRequired[str]
     r"""User-supplied unique basket ID. Cannot be more than 40 characters long."""
+    client_basket_submit_time: NotRequired[Nullable[datetime]]
+    r"""Time the basket submission request was sent by the client. This is a situationally optional field that reflects the value provided by the user in the SubmitBasketRequest."""
     complete_time: NotRequired[Nullable[datetime]]
     r"""Time the basket was completed"""
     compressed_order_count: NotRequired[str]
@@ -79,6 +81,9 @@ class Basket(BaseModel):
     client_basket_id: Optional[str] = None
     r"""User-supplied unique basket ID. Cannot be more than 40 characters long."""
 
+    client_basket_submit_time: OptionalNullable[datetime] = UNSET
+    r"""Time the basket submission request was sent by the client. This is a situationally optional field that reflects the value provided by the user in the SubmitBasketRequest."""
+
     complete_time: OptionalNullable[datetime] = UNSET
     r"""Time the basket was completed"""
 
@@ -113,6 +118,7 @@ class Basket(BaseModel):
             "basket_order_count",
             "basket_state",
             "client_basket_id",
+            "client_basket_submit_time",
             "complete_time",
             "compressed_order_count",
             "correspondent_id",
@@ -124,6 +130,7 @@ class Basket(BaseModel):
             "submit_time",
         ]
         nullable_fields = [
+            "client_basket_submit_time",
             "complete_time",
             "create_time",
             "last_update_time",

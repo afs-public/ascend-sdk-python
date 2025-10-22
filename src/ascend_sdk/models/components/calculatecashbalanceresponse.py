@@ -123,6 +123,34 @@ class PendingDebitInterestAmount(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class SettledCashAvailableToWithdrawTypedDict(TypedDict):
+    r"""The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class SettledCashAvailableToWithdraw(BaseModel):
+    r"""The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class TradeCashAvailableToWithdrawTypedDict(TypedDict):
+    r"""The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class TradeCashAvailableToWithdraw(BaseModel):
+    r"""The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class UnadjustedAvailableCashToWithdrawAmountTypedDict(TypedDict):
     r"""The account's unadjusted available cash to withdraw in USD. It is calculated based on the `open_balance_amount` and account activity. This value can be negative."""
 
@@ -204,6 +232,14 @@ class CalculateCashBalanceResponseTypedDict(TypedDict):
         List[CalculateCashBalanceResponseTransferSummaryTypedDict]
     ]
     r"""The account's pending withdrawals. Pending withdrawals may need review and have yet to post to the ledger. The amounts are **added** to `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since withdrawals have negative amounts, the calculated values will **decrease**."""
+    settled_cash_available_to_withdraw: NotRequired[
+        Nullable[SettledCashAvailableToWithdrawTypedDict]
+    ]
+    r"""The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative."""
+    trade_cash_available_to_withdraw: NotRequired[
+        Nullable[TradeCashAvailableToWithdrawTypedDict]
+    ]
+    r"""The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative."""
     unadjusted_available_cash_to_withdraw_amount: NotRequired[
         Nullable[UnadjustedAvailableCashToWithdrawAmountTypedDict]
     ]
@@ -278,6 +314,16 @@ class CalculateCashBalanceResponse(BaseModel):
     ] = None
     r"""The account's pending withdrawals. Pending withdrawals may need review and have yet to post to the ledger. The amounts are **added** to `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since withdrawals have negative amounts, the calculated values will **decrease**."""
 
+    settled_cash_available_to_withdraw: OptionalNullable[
+        SettledCashAvailableToWithdraw
+    ] = UNSET
+    r"""The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative."""
+
+    trade_cash_available_to_withdraw: OptionalNullable[
+        TradeCashAvailableToWithdraw
+    ] = UNSET
+    r"""The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative."""
+
     unadjusted_available_cash_to_withdraw_amount: OptionalNullable[
         UnadjustedAvailableCashToWithdrawAmount
     ] = UNSET
@@ -311,6 +357,8 @@ class CalculateCashBalanceResponse(BaseModel):
             "pending_debit_dividends_amount",
             "pending_debit_interest_amount",
             "pending_withdrawals",
+            "settled_cash_available_to_withdraw",
+            "trade_cash_available_to_withdraw",
             "unadjusted_available_cash_to_withdraw_amount",
             "withheld_deposit_threshold_amount",
             "withheld_deposits",
@@ -323,6 +371,8 @@ class CalculateCashBalanceResponse(BaseModel):
             "open_liquidity_amount",
             "pending_debit_dividends_amount",
             "pending_debit_interest_amount",
+            "settled_cash_available_to_withdraw",
+            "trade_cash_available_to_withdraw",
             "unadjusted_available_cash_to_withdraw_amount",
             "withheld_deposit_threshold_amount",
         ]

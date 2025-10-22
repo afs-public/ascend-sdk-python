@@ -7,7 +7,7 @@ import os
 from tests.test_client import create_test_http_client
 
 
-def test_create_order_create_order_set_extra_reporting_data():
+def test_orders_create_order_set_extra_reporting_data():
     test_http_client = create_test_http_client("CreateOrder_SetExtraReportingData")
 
     with SDK(
@@ -25,7 +25,7 @@ def test_create_order_create_order_set_extra_reporting_data():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.create_order.set_extra_reporting_data(
+        res = sdk.orders.set_extra_reporting_data(
             account_id="01K6P14WKCJT0G38KKHY52M4BQ",
             order_id="a73f4471-832c-4ff2-9b14-f44420592a67",
             set_extra_reporting_data_request_create={
@@ -38,7 +38,7 @@ def test_create_order_create_order_set_extra_reporting_data():
         assert res.http_meta.response.status_code == 200
 
 
-def test_create_order_create_order_list_correspondent_orders():
+def test_orders_create_order_list_correspondent_orders():
     test_http_client = create_test_http_client("CreateOrder_ListCorrespondentOrders")
 
     with SDK(
@@ -56,7 +56,7 @@ def test_create_order_create_order_list_correspondent_orders():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.create_order.list_correspondent_orders(
+        res = sdk.orders.list_correspondent_orders(
             correspondent_id=os.getenv("CORRESPONDENT_ID", ""),
             filter_="",
             page_size=25,

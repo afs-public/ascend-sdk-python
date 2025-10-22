@@ -9,7 +9,7 @@ from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union
 
 
-class CreateOrder(BaseSDK):
+class Orders(BaseSDK):
     def create_order(
         self,
         *,

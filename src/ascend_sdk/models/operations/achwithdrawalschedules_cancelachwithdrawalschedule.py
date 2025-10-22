@@ -48,7 +48,9 @@ class AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponseTypedDict(TypedDi
     ]
     r"""OK"""
     status: NotRequired[components_status.StatusTypedDict]
-    r"""INVALID_ARGUMENT: The request has an invalid argument."""
+    r"""INVALID_ARGUMENT: The request has an invalid argument.
+    FAILED_PRECONDITION: The schedule is in a state that doesn't allow cancellation.
+    """
 
 
 class AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(BaseModel):
@@ -62,4 +64,6 @@ class AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(BaseModel):
     r"""OK"""
 
     status: Optional[components_status.Status] = None
-    r"""INVALID_ARGUMENT: The request has an invalid argument."""
+    r"""INVALID_ARGUMENT: The request has an invalid argument.
+    FAILED_PRECONDITION: The schedule is in a state that doesn't allow cancellation.
+    """

@@ -75,7 +75,7 @@ def create_order_id(create_sdk, enrolled_account_id):
         time_in_force=components.TimeInForce.DAY,
     )
 
-    res = s.create_order.create_order(
+    res = s.orders.create_order(
         account_id=enrolled_account_id, order_create=order_request
     )
 

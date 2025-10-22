@@ -1,6 +1,6 @@
-# PendingDrip
+# TradeCashAvailableToWithdraw
 
-Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder
+The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative.
 
 
 ## Fields

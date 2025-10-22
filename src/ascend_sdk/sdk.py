@@ -27,7 +27,6 @@ if TYPE_CHECKING:
     from ascend_sdk.basket_orders import BasketOrders
     from ascend_sdk.cash_balances import CashBalances
     from ascend_sdk.checks import Checks
-    from ascend_sdk.create_order import CreateOrder
     from ascend_sdk.data_retrieval import DataRetrieval
     from ascend_sdk.enrollments_and_agreements import EnrollmentsAndAgreements
     from ascend_sdk.fees_and_credits import FeesAndCredits
@@ -38,6 +37,7 @@ if TYPE_CHECKING:
     from ascend_sdk.journals import Journals
     from ascend_sdk.ledger import Ledger
     from ascend_sdk.margins import Margins
+    from ascend_sdk.orders import Orders
     from ascend_sdk.person_management import PersonManagement
     from ascend_sdk.reader import Reader
     from ascend_sdk.retirements import Retirements
@@ -72,7 +72,7 @@ class SDK(BaseSDK):
     cash_balances: "CashBalances"
     fees_and_credits: "FeesAndCredits"
     account_transfers: "AccountTransfers"
-    create_order: "CreateOrder"
+    orders: "Orders"
     fixed_income_pricing: "FixedIncomePricing"
     basket_orders: "BasketOrders"
     asset_trading_config: "AssetTradingConfig"
@@ -110,7 +110,7 @@ class SDK(BaseSDK):
         "cash_balances": ("ascend_sdk.cash_balances", "CashBalances"),
         "fees_and_credits": ("ascend_sdk.fees_and_credits", "FeesAndCredits"),
         "account_transfers": ("ascend_sdk.account_transfers", "AccountTransfers"),
-        "create_order": ("ascend_sdk.create_order", "CreateOrder"),
+        "orders": ("ascend_sdk.orders", "Orders"),
         "fixed_income_pricing": (
             "ascend_sdk.fixed_income_pricing",
             "FixedIncomePricing",

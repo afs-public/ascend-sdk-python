@@ -29,3 +29,4 @@
 | `THIRD_MARKET`                               | THIRD_MARKET                                 |
 | `SUPPRESS_TRACE_REPORTING`                   | SUPPRESS_TRACE_REPORTING                     |
 | `WHEN_DISTRIBUTED`                           | WHEN_DISTRIBUTED                             |
+| `ROUND_UP`                                   | ROUND_UP                                     |

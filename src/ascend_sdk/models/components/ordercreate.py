@@ -99,10 +99,11 @@ class SpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
     THIRD_MARKET = "THIRD_MARKET"
     SUPPRESS_TRACE_REPORTING = "SUPPRESS_TRACE_REPORTING"
     WHEN_DISTRIBUTED = "WHEN_DISTRIBUTED"
+    ROUND_UP = "ROUND_UP"
 
 
 class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
@@ -145,7 +146,7 @@ class OrderCreateTypedDict(TypedDict):
     side: Side
     r"""The side of this order."""
     time_in_force: TimeInForce
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
     broker_capacity: NotRequired[BrokerCapacity]
     r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
     client_received_time: NotRequired[Nullable[datetime]]
@@ -236,7 +237,7 @@ class OrderCreate(BaseModel):
     r"""The side of this order."""
 
     time_in_force: Annotated[TimeInForce, PlainValidator(validate_open_enum(False))]
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     broker_capacity: Annotated[
         Optional[BrokerCapacity], PlainValidator(validate_open_enum(False))

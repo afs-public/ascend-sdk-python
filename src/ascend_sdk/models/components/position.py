@@ -15,35 +15,35 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AdjustedSettledTypedDict(TypedDict):
-    r"""`settled` + any as of settled amounts for the date"""
+    r"""This field shows settled positions that have been adjusted to account for as-of transactions (transactions recorded after their actual occurrence). Unlike the settled field, which remains unchanged for historical dates when as-of transactions are recorded, the adjusted_settled field updates to reflect what the position would have been if all transactions had been recorded on their actual dates of occurrence."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class AdjustedSettled(BaseModel):
-    r"""`settled` + any as of settled amounts for the date"""
+    r"""This field shows settled positions that have been adjusted to account for as-of transactions (transactions recorded after their actual occurrence). Unlike the settled field, which remains unchanged for historical dates when as-of transactions are recorded, the adjusted_settled field updates to reflect what the position would have been if all transactions had been recorded on their actual dates of occurrence."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class AdjustedTradeTypedDict(TypedDict):
-    r"""`trade` + any as of trade amounts for the date"""
+    r"""This value reflects trade positions that have been adjusted due to the recording of transactions after their actual occurrence (as-of transactions). The key difference between this field and the trade field is that when an as-of transaction is recorded to the Ledger, the trade field will not change for historical dates, but the adjusted_trade field will update to reflect what the position would have been if the as-of transaction had been recorded on the date of its occurrence"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class AdjustedTrade(BaseModel):
-    r"""`trade` + any as of trade amounts for the date"""
+    r"""This value reflects trade positions that have been adjusted due to the recording of transactions after their actual occurrence (as-of transactions). The key difference between this field and the trade field is that when an as-of transaction is recorded to the Ledger, the trade field will not change for historical dates, but the adjusted_trade field will update to reflect what the position would have been if the as-of transaction had been recorded on the date of its occurrence"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class DateTypedDict(TypedDict):
-    r"""The date for which the positions were calculated"""
+    r"""The date for which positions were calculated"""
 
     day: NotRequired[int]
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -54,7 +54,7 @@ class DateTypedDict(TypedDict):
 
 
 class Date(BaseModel):
-    r"""The date for which the positions were calculated"""
+    r"""The date for which positions were calculated"""
 
     day: Optional[int] = None
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -67,35 +67,35 @@ class Date(BaseModel):
 
 
 class PositionFpslTypedDict(TypedDict):
-    r"""Quantity of asset in use by the FPSL program. Should not be used by currency assets"""
+    r"""Represents the amount of an asset that has been loaned out via the fully paid securities lending program"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PositionFpsl(BaseModel):
-    r"""Quantity of asset in use by the FPSL program. Should not be used by currency assets"""
+    r"""Represents the amount of an asset that has been loaned out via the fully paid securities lending program"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class FreeTypedDict(TypedDict):
-    r"""Quantity of asset available for allocation for use by the FPSL program. Raw bucket values. These denote that a position is allocated to this purpose. Values may be negative"""
+    r"""Represents the amount of an asset that is available to loan by the fully paid securities lending program."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class Free(BaseModel):
-    r"""Quantity of asset available for allocation for use by the FPSL program. Raw bucket values. These denote that a position is allocated to this purpose. Values may be negative"""
+    r"""Represents the amount of an asset that is available to loan by the fully paid securities lending program."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class LastAdjustedDateTypedDict(TypedDict):
-    r"""The most recent date an adjustment occurred"""
+    r"""The most recent date a position changed in any way"""
 
     day: NotRequired[int]
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -106,7 +106,7 @@ class LastAdjustedDateTypedDict(TypedDict):
 
 
 class LastAdjustedDate(BaseModel):
-    r"""The most recent date an adjustment occurred"""
+    r"""The most recent date a position changed in any way"""
 
     day: Optional[int] = None
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -119,84 +119,84 @@ class LastAdjustedDate(BaseModel):
 
 
 class PendingDripTypedDict(TypedDict):
-    r"""Quantity of currency from a dividend being reserved for reinvestment. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PendingDrip(BaseModel):
-    r"""Quantity of currency from a dividend being reserved for reinvestment. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PendingOutgoingAcatTypedDict(TypedDict):
-    r"""Quantity/ amount of asset restricted due to an outgoing acat request"""
+    r"""Represents the amount of an asset that is subject to a pending outgoing account transfer, but has not completed the bookkeeping phase of that account transfer"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PendingOutgoingAcat(BaseModel):
-    r"""Quantity/ amount of asset restricted due to an outgoing acat request"""
+    r"""Represents the amount of an asset that is subject to a pending outgoing account transfer, but has not completed the bookkeeping phase of that account transfer"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PendingWithdrawalTypedDict(TypedDict):
-    r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been requested for withdrawal but has not posted to the Ledger"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PendingWithdrawal(BaseModel):
-    r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been requested for withdrawal but has not posted to the Ledger"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class SettledTypedDict(TypedDict):
-    r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
+    r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class Settled(BaseModel):
-    r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
+    r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PositionTradeTypedDict(TypedDict):
-    r"""original trade position"""
+    r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PositionTrade(BaseModel):
-    r"""original trade position"""
+    r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class UnrestrictedTypedDict(TypedDict):
-    r"""Computed based on the bucket values to represent the total unrestricted position in an account. Will always be less than or equal to `settled`  settled - (pending_outgoing_acat + pending_drip + pending_withdrawal) ; however, if/when the API adds new buckets, Apex may adjust this to either incorporate the new value or not"""
+    r"""This field represents the portion of a settled position that is available for trading or withdrawal without restrictions. It is calculated by subtracting positions with pending restrictions from the total settled amount (currently: settled - (pending_outgoing_acat + pending_drip + pending_withdrawal)). As new memo location categories are added to the API, Apex may update this calculation to incorporate these values. Note that the Cash and Margin systems may place additional restrictions on cash/ assets according to their business logic."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class Unrestricted(BaseModel):
-    r"""Computed based on the bucket values to represent the total unrestricted position in an account. Will always be less than or equal to `settled`  settled - (pending_outgoing_acat + pending_drip + pending_withdrawal) ; however, if/when the API adds new buckets, Apex may adjust this to either incorporate the new value or not"""
+    r"""This field represents the portion of a settled position that is available for trading or withdrawal without restrictions. It is calculated by subtracting positions with pending restrictions from the total settled amount (currently: settled - (pending_outgoing_acat + pending_drip + pending_withdrawal)). As new memo location categories are added to the API, Apex may update this calculation to incorporate these values. Note that the Cash and Margin systems may place additional restrictions on cash/ assets according to their business logic."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -208,37 +208,37 @@ class PositionTypedDict(TypedDict):
     account_id: NotRequired[str]
     r"""A globally unique identifier referencing a single account; this is the main identifier for an account used for machine-to-machine interactions"""
     adjusted_settled: NotRequired[Nullable[AdjustedSettledTypedDict]]
-    r"""`settled` + any as of settled amounts for the date"""
+    r"""This field shows settled positions that have been adjusted to account for as-of transactions (transactions recorded after their actual occurrence). Unlike the settled field, which remains unchanged for historical dates when as-of transactions are recorded, the adjusted_settled field updates to reflect what the position would have been if all transactions had been recorded on their actual dates of occurrence."""
     adjusted_trade: NotRequired[Nullable[AdjustedTradeTypedDict]]
-    r"""`trade` + any as of trade amounts for the date"""
+    r"""This value reflects trade positions that have been adjusted due to the recording of transactions after their actual occurrence (as-of transactions). The key difference between this field and the trade field is that when an as-of transaction is recorded to the Ledger, the trade field will not change for historical dates, but the adjusted_trade field will update to reflect what the position would have been if the as-of transaction had been recorded on the date of its occurrence"""
     asset_id: NotRequired[str]
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas"""
     correspondent_id: NotRequired[str]
     r"""The correspondent id associated with the account for the position"""
     date_: NotRequired[Nullable[DateTypedDict]]
-    r"""The date for which the positions were calculated"""
+    r"""The date for which positions were calculated"""
     fpsl: NotRequired[Nullable[PositionFpslTypedDict]]
-    r"""Quantity of asset in use by the FPSL program. Should not be used by currency assets"""
+    r"""Represents the amount of an asset that has been loaned out via the fully paid securities lending program"""
     free: NotRequired[Nullable[FreeTypedDict]]
-    r"""Quantity of asset available for allocation for use by the FPSL program. Raw bucket values. These denote that a position is allocated to this purpose. Values may be negative"""
+    r"""Represents the amount of an asset that is available to loan by the fully paid securities lending program."""
     last_adjusted_date: NotRequired[Nullable[LastAdjustedDateTypedDict]]
-    r"""The most recent date an adjustment occurred"""
+    r"""The most recent date a position changed in any way"""
     name: NotRequired[str]
     r"""accounts/{account_id}/positions/{position_id}"""
     pending_drip: NotRequired[Nullable[PendingDripTypedDict]]
-    r"""Quantity of currency from a dividend being reserved for reinvestment. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder"""
     pending_outgoing_acat: NotRequired[Nullable[PendingOutgoingAcatTypedDict]]
-    r"""Quantity/ amount of asset restricted due to an outgoing acat request"""
+    r"""Represents the amount of an asset that is subject to a pending outgoing account transfer, but has not completed the bookkeeping phase of that account transfer"""
     pending_withdrawal: NotRequired[Nullable[PendingWithdrawalTypedDict]]
-    r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been requested for withdrawal but has not posted to the Ledger"""
     position_version: NotRequired[str]
-    r"""The position version for an asset/account combo. This number only increases, such that larger `position_version`s are newer than lower ones."""
+    r"""Represents a chronologically-ordered version identifier that enables efficient position state tracking and event ordering. The system guarantees that positions from earlier dates have smaller version numbers than those from later dates"""
     settled: NotRequired[Nullable[SettledTypedDict]]
-    r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
+    r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
     trade: NotRequired[Nullable[PositionTradeTypedDict]]
-    r"""original trade position"""
+    r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
     unrestricted: NotRequired[Nullable[UnrestrictedTypedDict]]
-    r"""Computed based on the bucket values to represent the total unrestricted position in an account. Will always be less than or equal to `settled`  settled - (pending_outgoing_acat + pending_drip + pending_withdrawal) ; however, if/when the API adds new buckets, Apex may adjust this to either incorporate the new value or not"""
+    r"""This field represents the portion of a settled position that is available for trading or withdrawal without restrictions. It is calculated by subtracting positions with pending restrictions from the total settled amount (currently: settled - (pending_outgoing_acat + pending_drip + pending_withdrawal)). As new memo location categories are added to the API, Apex may update this calculation to incorporate these values. Note that the Cash and Margin systems may place additional restrictions on cash/ assets according to their business logic."""
 
 
 class Position(BaseModel):
@@ -248,10 +248,10 @@ class Position(BaseModel):
     r"""A globally unique identifier referencing a single account; this is the main identifier for an account used for machine-to-machine interactions"""
 
     adjusted_settled: OptionalNullable[AdjustedSettled] = UNSET
-    r"""`settled` + any as of settled amounts for the date"""
+    r"""This field shows settled positions that have been adjusted to account for as-of transactions (transactions recorded after their actual occurrence). Unlike the settled field, which remains unchanged for historical dates when as-of transactions are recorded, the adjusted_settled field updates to reflect what the position would have been if all transactions had been recorded on their actual dates of occurrence."""
 
     adjusted_trade: OptionalNullable[AdjustedTrade] = UNSET
-    r"""`trade` + any as of trade amounts for the date"""
+    r"""This value reflects trade positions that have been adjusted due to the recording of transactions after their actual occurrence (as-of transactions). The key difference between this field and the trade field is that when an as-of transaction is recorded to the Ledger, the trade field will not change for historical dates, but the adjusted_trade field will update to reflect what the position would have been if the as-of transaction had been recorded on the date of its occurrence"""
 
     asset_id: Optional[str] = None
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas"""
@@ -260,40 +260,40 @@ class Position(BaseModel):
     r"""The correspondent id associated with the account for the position"""
 
     date_: Annotated[OptionalNullable[Date], pydantic.Field(alias="date")] = UNSET
-    r"""The date for which the positions were calculated"""
+    r"""The date for which positions were calculated"""
 
     fpsl: OptionalNullable[PositionFpsl] = UNSET
-    r"""Quantity of asset in use by the FPSL program. Should not be used by currency assets"""
+    r"""Represents the amount of an asset that has been loaned out via the fully paid securities lending program"""
 
     free: OptionalNullable[Free] = UNSET
-    r"""Quantity of asset available for allocation for use by the FPSL program. Raw bucket values. These denote that a position is allocated to this purpose. Values may be negative"""
+    r"""Represents the amount of an asset that is available to loan by the fully paid securities lending program."""
 
     last_adjusted_date: OptionalNullable[LastAdjustedDate] = UNSET
-    r"""The most recent date an adjustment occurred"""
+    r"""The most recent date a position changed in any way"""
 
     name: Optional[str] = None
     r"""accounts/{account_id}/positions/{position_id}"""
 
     pending_drip: OptionalNullable[PendingDrip] = UNSET
-    r"""Quantity of currency from a dividend being reserved for reinvestment. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been paid to an account due to a dividend or capital gain but is due to be reinvested in the security that paid the account holder"""
 
     pending_outgoing_acat: OptionalNullable[PendingOutgoingAcat] = UNSET
-    r"""Quantity/ amount of asset restricted due to an outgoing acat request"""
+    r"""Represents the amount of an asset that is subject to a pending outgoing account transfer, but has not completed the bookkeeping phase of that account transfer"""
 
     pending_withdrawal: OptionalNullable[PendingWithdrawal] = UNSET
-    r"""Quantity of currency being reserved for withdrawal. should not be used by non-currency assets"""
+    r"""Represents the amount of cash that has been requested for withdrawal but has not posted to the Ledger"""
 
     position_version: Optional[str] = None
-    r"""The position version for an asset/account combo. This number only increases, such that larger `position_version`s are newer than lower ones."""
+    r"""Represents a chronologically-ordered version identifier that enables efficient position state tracking and event ordering. The system guarantees that positions from earlier dates have smaller version numbers than those from later dates"""
 
     settled: OptionalNullable[Settled] = UNSET
-    r"""Computed fieldsOriginal Settled Position before and as-of changesComputed based on the bucket values to represet the total settled position in an account  Currently defined as `free` + `fpsl` + `pending_outgoing_acat` + `drip` + `pending_withdrawal`, but if/when new buckets are added this value will need to change to reflect them"""
+    r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
 
     trade: OptionalNullable[PositionTrade] = UNSET
-    r"""original trade position"""
+    r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
 
     unrestricted: OptionalNullable[Unrestricted] = UNSET
-    r"""Computed based on the bucket values to represent the total unrestricted position in an account. Will always be less than or equal to `settled`  settled - (pending_outgoing_acat + pending_drip + pending_withdrawal) ; however, if/when the API adds new buckets, Apex may adjust this to either incorporate the new value or not"""
+    r"""This field represents the portion of a settled position that is available for trading or withdrawal without restrictions. It is calculated by subtracting positions with pending restrictions from the total settled amount (currently: settled - (pending_outgoing_acat + pending_drip + pending_withdrawal)). As new memo location categories are added to the API, Apex may update this calculation to incorporate these values. Note that the Cash and Margin systems may place additional restrictions on cash/ assets according to their business logic."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

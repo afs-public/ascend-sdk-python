@@ -478,6 +478,9 @@ class OrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION = (
         "CLIENT_NOT_PERMITTED_TO_USE_TRADING_SESSION"
     )
+    ROUND_UP_AMOUNT_TOO_SMALL = "ROUND_UP_AMOUNT_TOO_SMALL"
+    ASSET_NOT_SET_UP_FOR_ROUND_UPS = "ASSET_NOT_SET_UP_FOR_ROUND_UPS"
+    BELOW_ROUND_UP_MINIMUM = "BELOW_ROUND_UP_MINIMUM"
     STOP_PRICE_BELOW_MARKET_PRICE = "STOP_PRICE_BELOW_MARKET_PRICE"
 
 
@@ -626,6 +629,7 @@ class OrderSpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta)
     THIRD_MARKET = "THIRD_MARKET"
     SUPPRESS_TRACE_REPORTING = "SUPPRESS_TRACE_REPORTING"
     WHEN_DISTRIBUTED = "WHEN_DISTRIBUTED"
+    ROUND_UP = "ROUND_UP"
 
 
 class OrderStopPricePriceTypedDict(TypedDict):
@@ -701,7 +705,7 @@ class StopPrice(BaseModel):
 
 
 class OrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
@@ -841,7 +845,7 @@ class OrderTypedDict(TypedDict):
     stop_price: NotRequired[Nullable[StopPriceTypedDict]]
     r"""The stop price for this order. Only allowed for equities."""
     time_in_force: NotRequired[OrderTimeInForce]
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
     time_in_force_expiration_date: NotRequired[
         Nullable[TimeInForceExpirationDateTypedDict]
     ]
@@ -1017,7 +1021,7 @@ class Order(BaseModel):
     time_in_force: Annotated[
         Optional[OrderTimeInForce], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     time_in_force_expiration_date: OptionalNullable[TimeInForceExpirationDate] = UNSET
     r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
