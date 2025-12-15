@@ -11,7 +11,6 @@ The registration of the account (e.g. Individual, Joint, IRA, etc.)
 | `INDIVIDUAL_REGISTRATION`                        | INDIVIDUAL_REGISTRATION                          |
 | `ESTATE_REGISTRATION`                            | ESTATE_REGISTRATION                              |
 | `TRADITIONAL_IRA_REGISTRATION`                   | TRADITIONAL_IRA_REGISTRATION                     |
-| `SIMPLE_IRA_REGISTRATION`                        | SIMPLE_IRA_REGISTRATION                          |
 | `SEP_IRA_REGISTRATION`                           | SEP_IRA_REGISTRATION                             |
 | `ROTH_IRA_REGISTRATION`                          | ROTH_IRA_REGISTRATION                            |
 | `ROLLOVER_IRA_REGISTRATION`                      | ROLLOVER_IRA_REGISTRATION                        |

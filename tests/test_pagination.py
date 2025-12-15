@@ -11,12 +11,12 @@ def test_pagination(
     # Verify the response structure is valid
     assert res.http_meta is not None, "HTTP metadata should be present in response"
     assert res.http_meta.response is not None, "HTTP response object should be present"
-    assert (
-        res.http_meta.response.status_code == 200
-    ), "Should receive successful HTTP 200 response"
-    assert (
-        res.list_assets_response is not None
-    ), "Assets response data should be present"
+    assert res.http_meta.response.status_code == 200, (
+        "Should receive successful HTTP 200 response"
+    )
+    assert res.list_assets_response is not None, (
+        "Assets response data should be present"
+    )
 
     # Test pagination by only checking the first few pages
     page_count = 0
@@ -27,18 +27,18 @@ def test_pagination(
         print(f"Processing page {page_count + 1}")
 
         # Verify current page has valid response structure
-        assert (
-            res.list_assets_response is not None
-        ), f"Page {page_count + 1} should have valid assets response"
+        assert res.list_assets_response is not None, (
+            f"Page {page_count + 1} should have valid assets response"
+        )
 
         # Attempt to get the next page using the SDK's pagination method
         next_res = res.next()
 
         # If we successfully got the next page, verify it's also valid
         if next_res is not None:
-            assert (
-                next_res.http_meta.response.status_code == 200
-            ), f"Next page should also return HTTP 200"
+            assert next_res.http_meta.response.status_code == 200, (
+                f"Next page should also return HTTP 200"
+            )
 
         # Move to the next page for the next iteration
         res = next_res
@@ -104,9 +104,9 @@ def test_pagination_with_symbol_filters(create_sdk):
             # Verify all returned assets match the filter (if any)
             for asset in res.list_assets_response.assets:
                 if hasattr(asset, "symbol") and asset.symbol is not None:
-                    assert (
-                        asset.symbol == "WTG"
-                    ), f"Symbol {asset.type} doesn't match filter"
+                    assert asset.symbol == "WTG", (
+                        f"Symbol {asset.type} doesn't match filter"
+                    )
 
         res = res.next()
 
@@ -142,9 +142,9 @@ def test_pagination_with_usable_filter(create_sdk):
             # Verify all returned assets match the filter
             for asset in res.list_assets_response.assets:
                 if hasattr(asset, "usable") and asset.usable is not None:
-                    assert (
-                        asset.usable is True
-                    ), f"Asset usable status {asset.usable} doesn't match filter"
+                    assert asset.usable is True, (
+                        f"Asset usable status {asset.usable} doesn't match filter"
+                    )
 
         res = res.next()
 
@@ -180,13 +180,13 @@ def test_complex_filter_pagination(create_sdk):
             # Verify assets match both conditions
             for asset in res.list_assets_response.assets:
                 if hasattr(asset, "type") and asset.type is not None:
-                    assert (
-                        asset.type == "EQUITY"
-                    ), f"Asset type {asset.type} doesn't match filter"
+                    assert asset.type == "EQUITY", (
+                        f"Asset type {asset.type} doesn't match filter"
+                    )
                 if hasattr(asset, "usable") and asset.usable is not None:
-                    assert (
-                        asset.usable is True
-                    ), f"Asset usable status {asset.usable} doesn't match filter"
+                    assert asset.usable is True, (
+                        f"Asset usable status {asset.usable} doesn't match filter"
+                    )
 
         res = res.next()
 

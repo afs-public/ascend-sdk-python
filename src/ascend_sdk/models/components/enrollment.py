@@ -524,6 +524,18 @@ class EnrollmentCorporationEnrollmentMetadataFdicCashSweep(
     FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
 
 
+class EnrollmentCorporationEnrollmentMetadataMoneyMarketFundSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class CorporationEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_CORPORATION type"""
 
@@ -537,6 +549,10 @@ class CorporationEnrollmentMetadataTypedDict(TypedDict):
     r"""Enrollment metadata for entity accounts"""
     fdic_cash_sweep: NotRequired[EnrollmentCorporationEnrollmentMetadataFdicCashSweep]
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    money_market_fund_sweep: NotRequired[
+        EnrollmentCorporationEnrollmentMetadataMoneyMarketFundSweep
+    ]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class CorporationEnrollmentMetadata(BaseModel):
@@ -548,9 +564,9 @@ class CorporationEnrollmentMetadata(BaseModel):
     ] = None
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
 
-    edd_account_enrollment_metadata: OptionalNullable[
-        EddAccountEnrollmentMetadata
-    ] = UNSET
+    edd_account_enrollment_metadata: OptionalNullable[EddAccountEnrollmentMetadata] = (
+        UNSET
+    )
     r"""Enrollment metadata for entity accounts"""
 
     fdic_cash_sweep: Annotated[
@@ -559,12 +575,19 @@ class CorporationEnrollmentMetadata(BaseModel):
     ] = None
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
+    money_market_fund_sweep: Annotated[
+        Optional[EnrollmentCorporationEnrollmentMetadataMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "dividend_reinvestment_plan",
             "edd_account_enrollment_metadata",
             "fdic_cash_sweep",
+            "money_market_fund_sweep",
         ]
         nullable_fields = ["edd_account_enrollment_metadata"]
         null_default_fields = []
@@ -648,6 +671,16 @@ class EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan(
     DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
 
 
+class EnrollmentMoneyMarketFundSweep(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class EstateEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_ESTATE enrollment type"""
 
@@ -657,6 +690,8 @@ class EstateEnrollmentMetadataTypedDict(TypedDict):
         EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan
     ]
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+    money_market_fund_sweep: NotRequired[EnrollmentMoneyMarketFundSweep]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class EstateEnrollmentMetadata(BaseModel):
@@ -670,6 +705,12 @@ class EstateEnrollmentMetadata(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    money_market_fund_sweep: Annotated[
+        Optional[EnrollmentMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class EnrollmentForeignIndividualAccountEnrollmentMetadataDividendReinvestmentPlan(
@@ -1791,6 +1832,78 @@ class FpslEnrollmentMetadata(BaseModel):
     r"""Introducing Broker Percentage for FPSL Enrollment."""
 
 
+class EnrollmentFuturesInvestmentObjective(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The primary investment objective for the futures account"""
+
+    FUTURES_INVESTMENT_OBJECTIVE_UNSPECIFIED = (
+        "FUTURES_INVESTMENT_OBJECTIVE_UNSPECIFIED"
+    )
+    SPECULATION = "SPECULATION"
+    HEDGING = "HEDGING"
+
+
+class FuturesEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
+
+    ctfc_nfa_registered: NotRequired[bool]
+    r"""Indicates whether the account is registered with the CFTC NFA"""
+    exchange_member: NotRequired[bool]
+    r"""Indicates whether the account owner is a member of any exchanges"""
+    fcm_owned_or_controlled: NotRequired[bool]
+    r"""Indicates whether the futures account is owned or controlled by a FCM"""
+    funds_owned_by_account_owner: NotRequired[bool]
+    r"""Indicates whether the funds in the futures account are owned by the account owner"""
+    futures_experience: NotRequired[bool]
+    r"""Indicates whether the account owner has prior experience trading futures"""
+    futures_investment_objective: NotRequired[EnrollmentFuturesInvestmentObjective]
+    r"""The primary investment objective for the futures account"""
+    investment_retired_funds: NotRequired[bool]
+    r"""Indicates whether the account will trade investment retired funds"""
+    options_experience: NotRequired[bool]
+    r"""Indicates whether the account owner has experience with various trading options and strategies"""
+    understand_futures_risks: NotRequired[bool]
+    r"""Indicates whether the account owner understands the risks associated with trading futures"""
+    understand_loss_beyond_funds: NotRequired[bool]
+    r"""Indicates whether the account owner understands that losses can exceed deposited funds"""
+
+
+class FuturesEnrollmentMetadata(BaseModel):
+    r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
+
+    ctfc_nfa_registered: Optional[bool] = None
+    r"""Indicates whether the account is registered with the CFTC NFA"""
+
+    exchange_member: Optional[bool] = None
+    r"""Indicates whether the account owner is a member of any exchanges"""
+
+    fcm_owned_or_controlled: Optional[bool] = None
+    r"""Indicates whether the futures account is owned or controlled by a FCM"""
+
+    funds_owned_by_account_owner: Optional[bool] = None
+    r"""Indicates whether the funds in the futures account are owned by the account owner"""
+
+    futures_experience: Optional[bool] = None
+    r"""Indicates whether the account owner has prior experience trading futures"""
+
+    futures_investment_objective: Annotated[
+        Optional[EnrollmentFuturesInvestmentObjective],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The primary investment objective for the futures account"""
+
+    investment_retired_funds: Optional[bool] = None
+    r"""Indicates whether the account will trade investment retired funds"""
+
+    options_experience: Optional[bool] = None
+    r"""Indicates whether the account owner has experience with various trading options and strategies"""
+
+    understand_futures_risks: Optional[bool] = None
+    r"""Indicates whether the account owner understands the risks associated with trading futures"""
+
+    understand_loss_beyond_funds: Optional[bool] = None
+    r"""Indicates whether the account owner understands that losses can exceed deposited funds"""
+
+
 class EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -1950,14 +2063,14 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
     ] = None
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
-    inherited_from_owner_birth_date: OptionalNullable[
-        InheritedFromOwnerBirthDate
-    ] = UNSET
+    inherited_from_owner_birth_date: OptionalNullable[InheritedFromOwnerBirthDate] = (
+        UNSET
+    )
     r"""The birth date of the owner from whom the account is inherited"""
 
-    inherited_from_owner_death_date: OptionalNullable[
-        InheritedFromOwnerDeathDate
-    ] = UNSET
+    inherited_from_owner_death_date: OptionalNullable[InheritedFromOwnerDeathDate] = (
+        UNSET
+    )
     r"""The death date of the owner from whom the account is inherited"""
 
     inherited_from_owner_name: Optional[str] = None
@@ -2711,9 +2824,9 @@ class EnrollmentLlcEnrollmentMetadataFinancialProfile(BaseModel):
     banking_relationships: Optional[List[str]] = None
     r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
 
-    other_accounts: OptionalNullable[
-        EnrollmentLlcEnrollmentMetadataOtherAccounts
-    ] = UNSET
+    other_accounts: OptionalNullable[EnrollmentLlcEnrollmentMetadataOtherAccounts] = (
+        UNSET
+    )
     r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
 
     primary_source_of_deposited_funds: Optional[str] = None
@@ -2993,9 +3106,9 @@ class EnrollmentEddAccountEnrollmentMetadataTypedDict(TypedDict):
 class EnrollmentEddAccountEnrollmentMetadata(BaseModel):
     r"""Enrollment metadata for entity accounts"""
 
-    deposited_funds: OptionalNullable[
-        EnrollmentLlcEnrollmentMetadataDepositedFunds
-    ] = UNSET
+    deposited_funds: OptionalNullable[EnrollmentLlcEnrollmentMetadataDepositedFunds] = (
+        UNSET
+    )
     r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
 
     determined_account_risk_rating: Annotated[
@@ -3075,6 +3188,18 @@ class EnrollmentLlcEnrollmentMetadataFdicCashSweep(
     FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
 
 
+class EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class LlcEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_LLC type"""
 
@@ -3088,6 +3213,10 @@ class LlcEnrollmentMetadataTypedDict(TypedDict):
     r"""Enrollment metadata for entity accounts"""
     fdic_cash_sweep: NotRequired[EnrollmentLlcEnrollmentMetadataFdicCashSweep]
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    money_market_fund_sweep: NotRequired[
+        EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep
+    ]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class LlcEnrollmentMetadata(BaseModel):
@@ -3110,12 +3239,19 @@ class LlcEnrollmentMetadata(BaseModel):
     ] = None
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
+    money_market_fund_sweep: Annotated[
+        Optional[EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "dividend_reinvestment_plan",
             "edd_account_enrollment_metadata",
             "fdic_cash_sweep",
+            "money_market_fund_sweep",
         ]
         nullable_fields = ["edd_account_enrollment_metadata"]
         null_default_fields = []
@@ -3474,6 +3610,18 @@ class EnrollmentTrustEnrollmentMetadataFdicCashSweep(
     FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
 
 
+class EnrollmentTrustEnrollmentMetadataMoneyMarketFundSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class EnrollmentOpenedOnBehalfOf(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Trust account is opened on behalf of"""
 
@@ -3492,6 +3640,10 @@ class TrustEnrollmentMetadataTypedDict(TypedDict):
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     fdic_cash_sweep: NotRequired[EnrollmentTrustEnrollmentMetadataFdicCashSweep]
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    money_market_fund_sweep: NotRequired[
+        EnrollmentTrustEnrollmentMetadataMoneyMarketFundSweep
+    ]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
     opened_on_behalf_of: NotRequired[EnrollmentOpenedOnBehalfOf]
     r"""Trust account is opened on behalf of"""
 
@@ -3510,6 +3662,12 @@ class TrustEnrollmentMetadata(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    money_market_fund_sweep: Annotated[
+        Optional[EnrollmentTrustEnrollmentMetadataMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
     opened_on_behalf_of: Annotated[
         Optional[EnrollmentOpenedOnBehalfOf], PlainValidator(validate_open_enum(False))
@@ -3530,7 +3688,6 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_JOINT_CP = "REGISTRATION_JOINT_CP"
     REGISTRATION_ESTATE = "REGISTRATION_ESTATE"
     REGISTRATION_IRA_TRADITIONAL = "REGISTRATION_IRA_TRADITIONAL"
-    REGISTRATION_IRA_SIMPLE = "REGISTRATION_IRA_SIMPLE"
     REGISTRATION_IRA_SEP = "REGISTRATION_IRA_SEP"
     REGISTRATION_IRA_ROTH = "REGISTRATION_IRA_ROTH"
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
@@ -3601,6 +3758,10 @@ class EnrollmentTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_JOINT_FOREIGN_WROS type"""
     fpsl_enrollment_metadata: NotRequired[Nullable[FpslEnrollmentMetadataTypedDict]]
     r"""Metadata for the FULLY_PAID_STOCK_LENDING enrollment type"""
+    futures_enrollment_metadata: NotRequired[
+        Nullable[FuturesEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
     individual_enrollment_metadata: NotRequired[
         Nullable[IndividualEnrollmentMetadataTypedDict]
     ]
@@ -3676,9 +3837,9 @@ class EnrollmentTypedDict(TypedDict):
 class Enrollment(BaseModel):
     r"""An Enrollment represents programs the account may enroll in."""
 
-    beneficiary_enrollment_metadata: OptionalNullable[
-        BeneficiaryEnrollmentMetadata
-    ] = UNSET
+    beneficiary_enrollment_metadata: OptionalNullable[BeneficiaryEnrollmentMetadata] = (
+        UNSET
+    )
     r"""Metadata for the BENEFICIARY_DESIGNATION enrollment type."""
 
     consent_method: Annotated[
@@ -3686,9 +3847,9 @@ class Enrollment(BaseModel):
     ] = None
     r"""The consent method for the enrollment. Defaults to ESIGNATURE."""
 
-    corporation_enrollment_metadata: OptionalNullable[
-        CorporationEnrollmentMetadata
-    ] = UNSET
+    corporation_enrollment_metadata: OptionalNullable[CorporationEnrollmentMetadata] = (
+        UNSET
+    )
     r"""Metadata for the REGISTRATION_CORPORATION type"""
 
     custodial_enrollment_metadata: OptionalNullable[CustodialEnrollmentMetadata] = UNSET
@@ -3716,9 +3877,12 @@ class Enrollment(BaseModel):
     fpsl_enrollment_metadata: OptionalNullable[FpslEnrollmentMetadata] = UNSET
     r"""Metadata for the FULLY_PAID_STOCK_LENDING enrollment type"""
 
-    individual_enrollment_metadata: OptionalNullable[
-        IndividualEnrollmentMetadata
-    ] = UNSET
+    futures_enrollment_metadata: OptionalNullable[FuturesEnrollmentMetadata] = UNSET
+    r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
+
+    individual_enrollment_metadata: OptionalNullable[IndividualEnrollmentMetadata] = (
+        UNSET
+    )
     r"""Metadata for the INDIVIDUAL enrollment type"""
 
     ira_beneficiary_enrollment_metadata: OptionalNullable[
@@ -3737,9 +3901,9 @@ class Enrollment(BaseModel):
     ira_sep_enrollment_metadata: OptionalNullable[IraSepEnrollmentMetadata] = UNSET
     r"""Metadata for the SEP_IRA_REGISTRATION enrollment type"""
 
-    ira_simple_enrollment_metadata: OptionalNullable[
-        IraSimpleEnrollmentMetadata
-    ] = UNSET
+    ira_simple_enrollment_metadata: OptionalNullable[IraSimpleEnrollmentMetadata] = (
+        UNSET
+    )
     r"""Metadata for the SIMPLE_IRA_REGISTRATION enrollment type"""
 
     ira_traditional_enrollment_metadata: OptionalNullable[
@@ -3818,6 +3982,7 @@ class Enrollment(BaseModel):
             "foreign_individual_account_enrollment_metadata",
             "foreign_joint_account_enrollment_metadata",
             "fpsl_enrollment_metadata",
+            "futures_enrollment_metadata",
             "individual_enrollment_metadata",
             "ira_beneficiary_enrollment_metadata",
             "ira_rollover_enrollment_metadata",
@@ -3849,6 +4014,7 @@ class Enrollment(BaseModel):
             "foreign_individual_account_enrollment_metadata",
             "foreign_joint_account_enrollment_metadata",
             "fpsl_enrollment_metadata",
+            "futures_enrollment_metadata",
             "individual_enrollment_metadata",
             "ira_beneficiary_enrollment_metadata",
             "ira_rollover_enrollment_metadata",

@@ -22,7 +22,7 @@ class OpenEnumMeta(enum.EnumMeta):
             qualname=None,
             type=None,
             start=1,
-            boundary=None
+            boundary=None,
         ):
             # The `type` kwarg also happens to be a built-in that pylint flags as
             # redeclared. Safe to ignore this lint rule with this scope.
@@ -53,7 +53,6 @@ class OpenEnumMeta(enum.EnumMeta):
                 )
             except ValueError:
                 return value
-
     else:
 
         def __call__(

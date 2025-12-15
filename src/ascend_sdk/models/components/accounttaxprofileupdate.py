@@ -45,7 +45,7 @@ class AccountTaxProfileUpdateTypedDict(TypedDict):
     ]
     r"""A method of determining the cost basis of an asset that has been sold or disposed of, by identifying which specific lot of the asset was sold and using the cost of that lot to calculate the cost basis; this method is commonly used for tax purposes to determine the amount of reportable capital gains or losses By default, this is set to `COST_BASIS_LOT_DISPOSAL_MIN_TAX_TERM`"""
     section_475_election: NotRequired[bool]
-    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code"""
+    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code. By default, this is set to `false`."""
 
 
 class AccountTaxProfileUpdate(BaseModel):
@@ -58,4 +58,4 @@ class AccountTaxProfileUpdate(BaseModel):
     r"""A method of determining the cost basis of an asset that has been sold or disposed of, by identifying which specific lot of the asset was sold and using the cost of that lot to calculate the cost basis; this method is commonly used for tax purposes to determine the amount of reportable capital gains or losses By default, this is set to `COST_BASIS_LOT_DISPOSAL_MIN_TAX_TERM`"""
 
     section_475_election: Optional[bool] = None
-    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code"""
+    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code. By default, this is set to `false`."""

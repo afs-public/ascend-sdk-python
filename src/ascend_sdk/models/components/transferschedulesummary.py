@@ -145,9 +145,9 @@ class TransferScheduleSummaryFederalTaxWithholdingTypedDict(TypedDict):
 class TransferScheduleSummaryFederalTaxWithholding(BaseModel):
     r"""The federal tax withholding."""
 
-    amount: OptionalNullable[
-        TransferScheduleSummaryRetirementDistributionAmount
-    ] = UNSET
+    amount: OptionalNullable[TransferScheduleSummaryRetirementDistributionAmount] = (
+        UNSET
+    )
     r"""Fixed USD amount to withhold for taxes."""
 
     percentage: OptionalNullable[TransferScheduleSummaryPercentage] = UNSET
@@ -303,6 +303,7 @@ class TransferScheduleSummaryRetirementDistributionType(
     NET_INCOME_ATTRIBUTABLE = "NET_INCOME_ATTRIBUTABLE"
     REVOCATION = "REVOCATION"
     NON_REPORTABLE = "NON_REPORTABLE"
+    QUALIFIED_CHARITABLE_DISTRIBUTION = "QUALIFIED_CHARITABLE_DISTRIBUTION"
 
 
 class TransferScheduleSummaryRetirementDistributionTypedDict(TypedDict):

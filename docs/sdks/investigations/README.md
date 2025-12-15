@@ -11,6 +11,8 @@
 * [link_documents](#link_documents) - Link Documents
 * [get_watchlist_item](#get_watchlist_item) - Get Watchlist Item
 * [get_customer_identification](#get_customer_identification) - Get Identity Verification
+* [create_identity_lookup](#create_identity_lookup) - Create Identity Lookup
+* [verify_identity_lookup](#verify_identity_lookup) - Verify Identity Lookup
 
 ## get_investigation
 
@@ -336,3 +338,124 @@ with SDK(
 | errors.Status    | 400, 403, 404    | application/json |
 | errors.Status    | 500, 503         | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## create_identity_lookup
+
+Creates a new identity lookup and initiates verification process
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="IdentityLookupService_CreateIdentityLookup" method="post" path="/cip/v1/correspondents/{correspondent_id}/identityLookups" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.investigations.create_identity_lookup(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", identity_lookup_create={
+        "device_metadata": {
+            "ip_address": "203.0.113.42",
+        },
+        "identification": {
+            "region_code": "US",
+            "type": components.IdentificationCreateType.SSN,
+            "value": "123-45-6789",
+        },
+        "phone_number": {},
+        "user_consent": True,
+    })
+
+    assert res.identity_lookup is not None
+
+    # Handle response
+    print(res.identity_lookup)
+
+```
+
+### Parameters
+
+| Parameter                                                                          | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                 | *str*                                                                              | :heavy_check_mark:                                                                 | The correspondent id.                                                              | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                         |
+| `identity_lookup_create`                                                           | [components.IdentityLookupCreate](../../models/components/identitylookupcreate.md) | :heavy_check_mark:                                                                 | N/A                                                                                |                                                                                    |
+| `retries`                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                   | :heavy_minus_sign:                                                                 | Configuration to override the default retry behavior of the client.                |                                                                                    |
+
+### Response
+
+**[operations.IdentityLookupServiceCreateIdentityLookupResponse](../../models/operations/identitylookupservicecreateidentitylookupresponse.md)**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 403, 404, 429 | application/json   |
+| errors.Status      | 500                | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+
+## verify_identity_lookup
+
+Verifies an identity lookup with the provided verification code
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="IdentityLookupService_VerifyIdentityLookup" method="post" path="/cip/v1/correspondents/{correspondent_id}/identityLookups/{identityLookup_id}:verify" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.investigations.verify_identity_lookup(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", identity_lookup_id="01HEWVF4ZSNKYRP293J53ASJCJ", verify_identity_lookup_request_create={
+        "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/identityLookups/01HEWVF4ZSNKYRP293J53ASJCJ",
+        "verification_code": "123456",
+    })
+
+    assert res.identity_lookup is not None
+
+    # Handle response
+    print(res.identity_lookup)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                    | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  | Example                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `correspondent_id`                                                                                           | *str*                                                                                                        | :heavy_check_mark:                                                                                           | The correspondent id.                                                                                        | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                                                   |
+| `identity_lookup_id`                                                                                         | *str*                                                                                                        | :heavy_check_mark:                                                                                           | The identityLookup id.                                                                                       | 01HEWVF4ZSNKYRP293J53ASJCJ                                                                                   |
+| `verify_identity_lookup_request_create`                                                                      | [components.VerifyIdentityLookupRequestCreate](../../models/components/verifyidentitylookuprequestcreate.md) | :heavy_check_mark:                                                                                           | N/A                                                                                                          |                                                                                                              |
+| `retries`                                                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                             | :heavy_minus_sign:                                                                                           | Configuration to override the default retry behavior of the client.                                          |                                                                                                              |
+
+### Response
+
+**[operations.IdentityLookupServiceVerifyIdentityLookupResponse](../../models/operations/identitylookupserviceverifyidentitylookupresponse.md)**
+
+### Errors
+
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Status           | 400, 401, 403, 404, 429 | application/json        |
+| errors.Status           | 500, 504                | application/json        |
+| errors.SDKError         | 4XX, 5XX                | \*/\*                   |

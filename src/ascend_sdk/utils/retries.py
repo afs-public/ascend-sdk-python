@@ -183,9 +183,7 @@ def retry_with_backoff(
                     return exception.response
 
                 raise
-            sleep = (initial_interval / 1000) * exponent**retries + random.uniform(
-                0, 1
-            )
+            sleep = (initial_interval / 1000) * exponent**retries + random.uniform(0, 1)
             sleep = min(sleep, max_interval / 1000)
             time.sleep(sleep)
             retries += 1
@@ -213,9 +211,7 @@ async def retry_with_backoff_async(
                     return exception.response
 
                 raise
-            sleep = (initial_interval / 1000) * exponent**retries + random.uniform(
-                0, 1
-            )
+            sleep = (initial_interval / 1000) * exponent**retries + random.uniform(0, 1)
             sleep = min(sleep, max_interval / 1000)
             await asyncio.sleep(sleep)
             retries += 1

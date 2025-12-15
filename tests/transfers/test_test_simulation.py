@@ -530,3 +530,133 @@ def test_test_simulation_transfers_force_cash_journal_reject_force_cash_journal_
     assert result.http_meta is not None
     assert result.http_meta.response is not None
     assert result.http_meta.response.status_code == 200
+
+
+def test_test_simulation_transfers_simulate_wire_deposit_simulate_wire_deposit1(
+    create_sdk, enrolled_account_id, current_time
+):
+    if not (datetime.time(7, 0) <= current_time.time() <= datetime.time(14, 30)):
+        pytest.skip("Skipping Endpoint Test: Simulate Wire Deposit")
+
+    s = create_sdk
+    assert s is not None
+
+    wire_deposit_request = components.SimulateWireDepositRequestCreate(
+        amount=components.DecimalCreate(value="100.00"),
+        parent=f"accounts/{enrolled_account_id}",
+        domestic=True,
+        third_party=False,
+    )
+
+    res = s.test_simulation.simulate_wire_deposit(
+        account_id=enrolled_account_id,
+        simulate_wire_deposit_request_create=wire_deposit_request,
+    )
+
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.wire_deposit is not None
+    assert res.wire_deposit.name is not None
+
+    # Extract wire deposit ID from name
+    wire_deposit_id = res.wire_deposit.name.split("/")
+    deposit_id = wire_deposit_id[-1]
+    assert deposit_id is not None
+    assert len(deposit_id) > 0
+
+
+@pytest.mark.skip(
+    reason="TODO: Fix wire deposit state machine - transfer already in FundsPosted state"
+)
+def test_test_simulation_transfers_force_approve_wire_deposit_force_approve_wire_deposit1(
+    create_sdk, enrolled_account_id, current_time
+):
+    if not (datetime.time(7, 0) <= current_time.time() <= datetime.time(14, 30)):
+        pytest.skip("Skipping Endpoint Test: Force Approve Wire Deposit")
+
+    s = create_sdk
+    assert s is not None
+
+    # First create a wire deposit
+    wire_deposit_request = components.SimulateWireDepositRequestCreate(
+        amount=components.DecimalCreate(value="100.00"),
+        parent=f"accounts/{enrolled_account_id}",
+        domestic=True,
+        third_party=False,
+    )
+
+    create_res = s.test_simulation.simulate_wire_deposit(
+        account_id=enrolled_account_id,
+        simulate_wire_deposit_request_create=wire_deposit_request,
+    )
+
+    assert create_res.wire_deposit is not None
+    assert create_res.wire_deposit.name is not None
+
+    # Extract wire deposit ID from name
+    wire_deposit_id = create_res.wire_deposit.name.split("/")
+    deposit_id = wire_deposit_id[-1]
+
+    # Force approve the wire deposit
+    request = components.ForceApproveWireDepositRequestCreate(
+        name=f"accounts/{enrolled_account_id}/wireDeposits/{deposit_id}",
+    )
+
+    res = s.test_simulation.force_approve_wire_deposit(
+        account_id=enrolled_account_id,
+        wire_deposit_id=deposit_id,
+        force_approve_wire_deposit_request_create=request,
+    )
+
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+
+
+@pytest.mark.skip(
+    reason="TODO: Fix wire deposit state machine - transfer already in FundsPosted state"
+)
+def test_test_simulation_transfers_force_reject_wire_deposit_force_reject_wire_deposit1(
+    create_sdk, enrolled_account_id, current_time
+):
+    if not (datetime.time(7, 0) <= current_time.time() <= datetime.time(14, 30)):
+        pytest.skip("Skipping Endpoint Test: Force Reject Wire Deposit")
+
+    s = create_sdk
+    assert s is not None
+
+    # First create a wire deposit
+    wire_deposit_request = components.SimulateWireDepositRequestCreate(
+        amount=components.DecimalCreate(value="100.00"),
+        parent=f"accounts/{enrolled_account_id}",
+        domestic=True,
+        third_party=False,
+    )
+
+    create_res = s.test_simulation.simulate_wire_deposit(
+        account_id=enrolled_account_id,
+        simulate_wire_deposit_request_create=wire_deposit_request,
+    )
+
+    assert create_res.wire_deposit is not None
+    assert create_res.wire_deposit.name is not None
+
+    # Extract wire deposit ID from name
+    wire_deposit_id = create_res.wire_deposit.name.split("/")
+    deposit_id = wire_deposit_id[-1]
+
+    # Force reject the wire deposit
+    request = components.ForceRejectWireDepositRequestCreate(
+        name=f"accounts/{enrolled_account_id}/wireDeposits/{deposit_id}",
+    )
+
+    res = s.test_simulation.force_reject_wire_deposit(
+        account_id=enrolled_account_id,
+        wire_deposit_id=deposit_id,
+        force_reject_wire_deposit_request_create=request,
+    )
+
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200

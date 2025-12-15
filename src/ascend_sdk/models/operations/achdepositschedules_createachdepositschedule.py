@@ -49,9 +49,9 @@ class AchDepositSchedulesCreateAchDepositScheduleResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    ach_deposit_schedule: Optional[
-        components_achdepositschedule.AchDepositSchedule
-    ] = None
+    ach_deposit_schedule: Optional[components_achdepositschedule.AchDepositSchedule] = (
+        None
+    )
     r"""OK"""
 
     status: Optional[components_status.Status] = None

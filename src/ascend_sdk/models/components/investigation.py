@@ -612,9 +612,9 @@ class Person(BaseModel):
     phone_numbers: Optional[List[str]] = None
     r"""phone numbers related to this person"""
 
-    provided_identity_verification: OptionalNullable[
-        ProvidedIdentityVerification
-    ] = UNSET
+    provided_identity_verification: OptionalNullable[ProvidedIdentityVerification] = (
+        UNSET
+    )
     r"""Conditional: Identity Verification results must be provided by the correspondent if InvestigationRequestScope = PROVIDED_BY_CLIENT"""
 
     @model_serializer(mode="wrap")

@@ -1056,6 +1056,7 @@ class TaxpayerCertificationState(str, Enum, metaclass=utils.OpenEnumMeta):
     )
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
+    PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
 
 
 class LegalNaturalPersonUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -1200,9 +1201,9 @@ class LegalNaturalPersonTypedDict(TypedDict):
     r"""A legal natural person. This represents the full set of data for an individual. A Customer Identification Program (CIP) may be run on legal natural persons."""
 
     accredited_investor: NotRequired[bool]
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
     adviser: NotRequired[bool]
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
     birth_date: NotRequired[Nullable[BirthDateTypedDict]]
     r"""The legal day, month, and year of birth for a natural person."""
     citizenship_countries: NotRequired[List[str]]
@@ -1210,11 +1211,11 @@ class LegalNaturalPersonTypedDict(TypedDict):
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
     correspondent_id: NotRequired[str]
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
     custodian_employee: NotRequired[bool]
-    r"""A flag to indicate whether this person is an employee of the correspondent."""
+    r"""A flag to indicate whether this person is an employee of the correspondent. By default, this is set to `false`."""
     customer_identification_id: NotRequired[str]
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
     death_date: NotRequired[Nullable[DeathDateTypedDict]]
@@ -1243,7 +1244,7 @@ class LegalNaturalPersonTypedDict(TypedDict):
     ]
     r"""Third-party data result used to verify the identity of an introduced investor. If the client identity_verification_model is PROVIDED_BY_CLIENT, this field is required"""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
     investigation_id: NotRequired[str]
     r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""
     large_trader: NotRequired[Nullable[LegalNaturalPersonLargeTraderTypedDict]]
@@ -1288,10 +1289,10 @@ class LegalNaturalPerson(BaseModel):
     r"""A legal natural person. This represents the full set of data for an individual. A Customer Identification Program (CIP) may be run on legal natural persons."""
 
     accredited_investor: Optional[bool] = None
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
 
     adviser: Optional[bool] = None
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
 
     birth_date: OptionalNullable[BirthDate] = UNSET
     r"""The legal day, month, and year of birth for a natural person."""
@@ -1303,13 +1304,13 @@ class LegalNaturalPerson(BaseModel):
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
 
     correspondent_employee: Optional[bool] = None
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
 
     correspondent_id: Optional[str] = None
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
 
     custodian_employee: Optional[bool] = None
-    r"""A flag to indicate whether this person is an employee of the correspondent."""
+    r"""A flag to indicate whether this person is an employee of the correspondent. By default, this is set to `false`."""
 
     customer_identification_id: Optional[str] = None
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
@@ -1349,7 +1350,7 @@ class LegalNaturalPerson(BaseModel):
     r"""Third-party data result used to verify the identity of an introduced investor. If the client identity_verification_model is PROVIDED_BY_CLIENT, this field is required"""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
 
     investigation_id: Optional[str] = None
     r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""

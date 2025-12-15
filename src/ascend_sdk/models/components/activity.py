@@ -1910,9 +1910,9 @@ class ActivityInterest(BaseModel):
     interest_accrual_end_date: OptionalNullable[ActivityInterestAccrualEndDate] = UNSET
     r"""Date on which interest accrues before the calculation is made for payment or charge"""
 
-    interest_accrual_start_date: OptionalNullable[
-        ActivityInterestAccrualStartDate
-    ] = UNSET
+    interest_accrual_start_date: OptionalNullable[ActivityInterestAccrualStartDate] = (
+        UNSET
+    )
     r"""Date on which interest begins to accrue on a cash balance or borrowed funds"""
 
     interest_type: Annotated[
@@ -5413,14 +5413,14 @@ class ActivityTradePriceAdjustmentRecordTypedDict(TypedDict):
 class ActivityTradePriceAdjustmentRecord(BaseModel):
     r"""Information about any price adjustments applied to the security"""
 
-    price_adjustment_amount: OptionalNullable[
-        ActivityTradePriceAdjustmentAmount
-    ] = UNSET
+    price_adjustment_amount: OptionalNullable[ActivityTradePriceAdjustmentAmount] = (
+        UNSET
+    )
     r"""Total monetary value of the price_adjustment"""
 
-    price_adjustment_percent: OptionalNullable[
-        ActivityTradePriceAdjustmentPercent
-    ] = UNSET
+    price_adjustment_percent: OptionalNullable[ActivityTradePriceAdjustmentPercent] = (
+        UNSET
+    )
     r"""The percent at which the price was adjusted. Expressed as a number from 0.00-100 (rounded to 2 decimals)"""
 
     price_adjustment_type: Annotated[
@@ -5582,14 +5582,14 @@ class ActivityTrade(BaseModel):
     order_id: Optional[str] = None
     r"""Max Length 100 characters. Internally generated order id that is returned to client on exec reports"""
 
-    prevailing_market_price: OptionalNullable[
-        ActivityTradePrevailingMarketPrice
-    ] = UNSET
+    prevailing_market_price: OptionalNullable[ActivityTradePrevailingMarketPrice] = (
+        UNSET
+    )
     r"""The price for the instrument that is prevailing in the market."""
 
-    price_adjustment_record: OptionalNullable[
-        ActivityTradePriceAdjustmentRecord
-    ] = UNSET
+    price_adjustment_record: OptionalNullable[ActivityTradePriceAdjustmentRecord] = (
+        UNSET
+    )
     r"""Information about any price adjustments applied to the security"""
 
     route: Optional[str] = None

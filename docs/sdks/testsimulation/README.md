@@ -21,6 +21,9 @@
 * [force_reject_ict_withdrawal](#force_reject_ict_withdrawal) - Force Reject ICT Withdrawal
 * [force_approve_wire_withdrawal](#force_approve_wire_withdrawal) - Force Approve Wire Withdrawal
 * [force_reject_wire_withdrawal](#force_reject_wire_withdrawal) - Force Reject Wire Withdrawal
+* [simulate_wire_deposit](#simulate_wire_deposit) - Simulate Wire Deposit
+* [force_approve_wire_deposit](#force_approve_wire_deposit) - Force Approve Wire Deposit
+* [force_reject_wire_deposit](#force_reject_wire_deposit) - Force Reject Wire Deposit
 * [force_approve_cash_journal](#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](#force_reject_cash_journal) - Force Reject Cash Journal
 
@@ -905,6 +908,171 @@ with SDK(
 ### Response
 
 **[operations.WireWithdrawalsForceRejectWireWithdrawalResponse](../../models/operations/wirewithdrawalsforcerejectwirewithdrawalresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## simulate_wire_deposit
+
+Simulates the process of creating a wire deposit - FOR TESTING
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="WireDeposits_SimulateWireDeposit" method="post" path="/transfers/v1/accounts/{account_id}/wireDeposits:simulate" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.simulate_wire_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", simulate_wire_deposit_request_create={
+        "amount": {},
+        "parent": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+    })
+
+    assert res.wire_deposit is not None
+
+    # Handle response
+    print(res.wire_deposit)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                  | Type                                                                                                       | Required                                                                                                   | Description                                                                                                | Example                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                               | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The account id.                                                                                            | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                 |
+| `simulate_wire_deposit_request_create`                                                                     | [components.SimulateWireDepositRequestCreate](../../models/components/simulatewiredepositrequestcreate.md) | :heavy_check_mark:                                                                                         | N/A                                                                                                        |                                                                                                            |
+| `retries`                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                           | :heavy_minus_sign:                                                                                         | Configuration to override the default retry behavior of the client.                                        |                                                                                                            |
+
+### Response
+
+**[operations.WireDepositsSimulateWireDepositResponse](../../models/operations/wiredepositssimulatewiredepositresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## force_approve_wire_deposit
+
+Simulates the process of approving a wire deposit - FOR TESTING
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="WireDeposits_ForceApproveWireDeposit" method="post" path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceApprove" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.force_approve_wire_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_deposit_id="20230817000319", force_approve_wire_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireDeposits/20230817000319",
+    })
+
+    assert res.wire_deposit is not None
+
+    # Handle response
+    print(res.wire_deposit)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                          | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        | Example                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `account_id`                                                                                                       | *str*                                                                                                              | :heavy_check_mark:                                                                                                 | The account id.                                                                                                    | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                         |
+| `wire_deposit_id`                                                                                                  | *str*                                                                                                              | :heavy_check_mark:                                                                                                 | The wireDeposit id.                                                                                                | 20230817000319                                                                                                     |
+| `force_approve_wire_deposit_request_create`                                                                        | [components.ForceApproveWireDepositRequestCreate](../../models/components/forceapprovewiredepositrequestcreate.md) | :heavy_check_mark:                                                                                                 | N/A                                                                                                                |                                                                                                                    |
+| `retries`                                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                   | :heavy_minus_sign:                                                                                                 | Configuration to override the default retry behavior of the client.                                                |                                                                                                                    |
+
+### Response
+
+**[operations.WireDepositsForceApproveWireDepositResponse](../../models/operations/wiredepositsforceapprovewiredepositresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## force_reject_wire_deposit
+
+Forces a rejection on an existing wire deposit pending review - FOR TESTING
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="WireDeposits_ForceRejectWireDeposit" method="post" path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceReject" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.force_reject_wire_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_deposit_id="20230817000319", force_reject_wire_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/wireDeposits/20230817000319",
+    })
+
+    assert res.wire_deposit is not None
+
+    # Handle response
+    print(res.wire_deposit)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                        | Type                                                                                                             | Required                                                                                                         | Description                                                                                                      | Example                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                     | *str*                                                                                                            | :heavy_check_mark:                                                                                               | The account id.                                                                                                  | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                       |
+| `wire_deposit_id`                                                                                                | *str*                                                                                                            | :heavy_check_mark:                                                                                               | The wireDeposit id.                                                                                              | 20230817000319                                                                                                   |
+| `force_reject_wire_deposit_request_create`                                                                       | [components.ForceRejectWireDepositRequestCreate](../../models/components/forcerejectwiredepositrequestcreate.md) | :heavy_check_mark:                                                                                               | N/A                                                                                                              |                                                                                                                  |
+| `retries`                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                 | :heavy_minus_sign:                                                                                               | Configuration to override the default retry behavior of the client.                                              |                                                                                                                  |
+
+### Response
+
+**[operations.WireDepositsForceRejectWireDepositResponse](../../models/operations/wiredepositsforcerejectwiredepositresponse.md)**
 
 ### Errors
 

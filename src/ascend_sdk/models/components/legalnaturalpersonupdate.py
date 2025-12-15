@@ -65,9 +65,9 @@ class LegalNaturalPersonUpdateTypedDict(TypedDict):
     r"""A legal natural person. This represents the full set of data for an individual. A Customer Identification Program (CIP) may be run on legal natural persons."""
 
     accredited_investor: NotRequired[bool]
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
     adviser: NotRequired[bool]
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
     birth_date: NotRequired[DateUpdateTypedDict]
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
 
@@ -80,7 +80,7 @@ class LegalNaturalPersonUpdateTypedDict(TypedDict):
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
     correspondent_id: NotRequired[str]
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
     customer_identification_id: NotRequired[str]
@@ -107,7 +107,7 @@ class LegalNaturalPersonUpdateTypedDict(TypedDict):
     identity_verification_result: NotRequired[IdentityVerificationResultUpdateTypedDict]
     r"""An identity verification result that clients may supply. This result represents data and confirmation attesting to identity verification."""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
     large_trader: NotRequired[LargeTraderUpdateTypedDict]
     r"""A large trader."""
     marital_status: NotRequired[LegalNaturalPersonUpdateMaritalStatus]
@@ -134,7 +134,7 @@ class LegalNaturalPersonUpdateTypedDict(TypedDict):
     politically_exposed_organization: NotRequired[str]
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
     subject_to_backup_withholding: NotRequired[bool]
-    r"""Boolean indicator whether the LNP is subject to backup withholding"""
+    r"""Boolean indicator whether the LNP is subject to backup withholding. By default, this is set to `false`."""
     tax_id: NotRequired[str]
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""
     tax_id_type: NotRequired[LegalNaturalPersonUpdateTaxIDType]
@@ -147,10 +147,10 @@ class LegalNaturalPersonUpdate(BaseModel):
     r"""A legal natural person. This represents the full set of data for an individual. A Customer Identification Program (CIP) may be run on legal natural persons."""
 
     accredited_investor: Optional[bool] = None
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
 
     adviser: Optional[bool] = None
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
 
     birth_date: Optional[DateUpdate] = None
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
@@ -167,7 +167,7 @@ class LegalNaturalPersonUpdate(BaseModel):
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
 
     correspondent_employee: Optional[bool] = None
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
 
     correspondent_id: Optional[str] = None
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
@@ -205,7 +205,7 @@ class LegalNaturalPersonUpdate(BaseModel):
     r"""An identity verification result that clients may supply. This result represents data and confirmation attesting to identity verification."""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
 
     large_trader: Optional[LargeTraderUpdate] = None
     r"""A large trader."""
@@ -248,7 +248,7 @@ class LegalNaturalPersonUpdate(BaseModel):
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
 
     subject_to_backup_withholding: Optional[bool] = None
-    r"""Boolean indicator whether the LNP is subject to backup withholding"""
+    r"""Boolean indicator whether the LNP is subject to backup withholding. By default, this is set to `false`."""
 
     tax_id: Optional[str] = None
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""

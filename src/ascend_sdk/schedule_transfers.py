@@ -91,9 +91,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.TransferScheduleSummariesListScheduleSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -218,9 +218,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.TransferScheduleSummariesListScheduleSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.TransferScheduleSummariesListScheduleSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -576,9 +576,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.AchDepositSchedulesListAchDepositSchedulesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -707,9 +707,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.AchDepositSchedulesListAchDepositSchedulesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.AchDepositSchedulesListAchDepositSchedulesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1746,11 +1746,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[
-                operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
-            ]
-        ):
+        def next_func() -> Optional[
+            operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1879,11 +1877,9 @@ class ScheduleTransfers(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[
-                operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
-            ]
-        ):
+        def next_func() -> Optional[
+            operations.AchWithdrawalSchedulesListAchWithdrawalSchedulesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 

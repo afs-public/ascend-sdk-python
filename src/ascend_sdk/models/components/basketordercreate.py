@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 from .decimalcreate import DecimalCreate, DecimalCreateTypedDict
+from .extrareportingdatacreate import (
+    ExtraReportingDataCreate,
+    ExtraReportingDataCreateTypedDict,
+)
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -88,9 +92,11 @@ class BasketOrderCreateTypedDict(TypedDict):
     time_in_force: BasketOrderCreateTimeInForce
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
     client_order_received_time: NotRequired[Nullable[datetime]]
-    r"""Time the order request was received by the client. Must be in the past."""
+    r"""Time the order request was received by the client. Must be in the past. Timezone will default to UTC if not provided."""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+    extra_reporting_data: NotRequired[ExtraReportingDataCreateTypedDict]
+    r"""Any extra reporting data provided by the client for an order"""
     max_sell_quantity: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -154,10 +160,13 @@ class BasketOrderCreate(BaseModel):
     r"""Must be the value \"DAY\". Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
 
     client_order_received_time: OptionalNullable[datetime] = UNSET
-    r"""Time the order request was received by the client. Must be in the past."""
+    r"""Time the order request was received by the client. Must be in the past. Timezone will default to UTC if not provided."""
 
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+
+    extra_reporting_data: Optional[ExtraReportingDataCreate] = None
+    r"""Any extra reporting data provided by the client for an order"""
 
     max_sell_quantity: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
@@ -198,6 +207,7 @@ class BasketOrderCreate(BaseModel):
         optional_fields = [
             "client_order_received_time",
             "currency_code",
+            "extra_reporting_data",
             "max_sell_quantity",
             "notional_value",
             "quantity",

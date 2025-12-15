@@ -12,6 +12,7 @@
 * [list_basket_orders](#list_basket_orders) - List Basket Orders
 * [list_compressed_orders](#list_compressed_orders) - List Compressed Orders
 * [remove_orders](#remove_orders) - Remove Basket Orders
+* [set_extra_reporting_data](#set_extra_reporting_data) - Set Extra Reporting Data
 
 ## create_basket
 
@@ -387,10 +388,6 @@ with SDK(
 ) as sdk:
 
     res = sdk.basket_orders.remove_orders(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", remove_orders_request_create={
-        "client_order_ids": [
-            "77e4c4b9-38e7-469f-9a8d-cd8baf7c1952",
-            "4cff908e-aaed-401d-8ec9-929e3eb18cbc",
-        ],
         "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521",
     })
 
@@ -413,6 +410,64 @@ with SDK(
 ### Response
 
 **[operations.BasketOrdersServiceRemoveOrdersResponse](../../models/operations/basketordersserviceremoveordersresponse.md)**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+
+## set_extra_reporting_data
+
+Sets extra reporting data to an existing basket order. Any SetExtraReportingDataRequest must include the name of the order and the cancel_confirmed_time
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="BasketOrdersService_SetExtraReportingData" method="post" path="/baskettrading/v1/correspondents/{correspondent_id}/baskets/{basket_id}:setExtraReportingData" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+from ascend_sdk.utils import parse_datetime
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.basket_orders.set_extra_reporting_data(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", basket_id="fffd326-72fa-4d2b-bd1f-45384fe5d521", set_extra_reporting_data_request_create={
+        "cancel_confirmed_time": parse_datetime("2025-12-13T15:28:17.262732Z"),
+        "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
+    })
+
+    assert res.set_extra_reporting_data_response is not None
+
+    # Handle response
+    print(res.set_extra_reporting_data_response)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    | Example                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                                             | *str*                                                                                                          | :heavy_check_mark:                                                                                             | The correspondent id.                                                                                          | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                                                     |
+| `basket_id`                                                                                                    | *str*                                                                                                          | :heavy_check_mark:                                                                                             | The basket id.                                                                                                 | fffd326-72fa-4d2b-bd1f-45384fe5d521                                                                            |
+| `set_extra_reporting_data_request_create`                                                                      | [components.SetExtraReportingDataRequestCreate](../../models/components/setextrareportingdatarequestcreate.md) | :heavy_check_mark:                                                                                             | N/A                                                                                                            |                                                                                                                |
+| `retries`                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                               | :heavy_minus_sign:                                                                                             | Configuration to override the default retry behavior of the client.                                            |                                                                                                                |
+
+### Response
+
+**[operations.BasketOrdersServiceSetExtraReportingDataResponse](../../models/operations/basketordersservicesetextrareportingdataresponse.md)**
 
 ### Errors
 

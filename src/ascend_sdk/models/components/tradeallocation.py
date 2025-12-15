@@ -155,9 +155,9 @@ class TradeAllocationPriceAdjustmentTypedDict(TypedDict):
 class TradeAllocationPriceAdjustment(BaseModel):
     r"""Price adjustment that will be applied to the net price of the security."""
 
-    price_adjustment_amount: OptionalNullable[
-        TradeAllocationPriceAdjustmentAmount
-    ] = UNSET
+    price_adjustment_amount: OptionalNullable[TradeAllocationPriceAdjustmentAmount] = (
+        UNSET
+    )
     r"""Total monetary value of the price_adjustment"""
 
     price_adjustment_type: Annotated[
@@ -401,9 +401,9 @@ class TradeAllocationTypedDict(TypedDict):
 class TradeAllocation(BaseModel):
     r"""A TradeAllocation represents the movement of positions between two ascend accounts."""
 
-    accrued_interest_amount: OptionalNullable[
-        TradeAllocationAccruedInterestAmount
-    ] = UNSET
+    accrued_interest_amount: OptionalNullable[TradeAllocationAccruedInterestAmount] = (
+        UNSET
+    )
     r"""The amount of interest that has been accrued in the issuing currency for a single instrument."""
 
     additional_instructions: Optional[str] = None
@@ -465,9 +465,9 @@ class TradeAllocation(BaseModel):
     name: Optional[str] = None
     r"""The resource name of the trade allocation."""
 
-    prevailing_market_price: OptionalNullable[
-        TradeAllocationPrevailingMarketPrice
-    ] = UNSET
+    prevailing_market_price: OptionalNullable[TradeAllocationPrevailingMarketPrice] = (
+        UNSET
+    )
     r"""The price for the instrument that is prevailing in the market. Required for FIXED_INCOME trade allocations when the broker_capacity is PRINCIPAL."""
 
     price: OptionalNullable[TradeAllocationPrice] = UNSET

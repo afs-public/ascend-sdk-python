@@ -30,3 +30,5 @@
 | `SUPPRESS_TRACE_REPORTING`                   | SUPPRESS_TRACE_REPORTING                     |
 | `WHEN_DISTRIBUTED`                           | WHEN_DISTRIBUTED                             |
 | `ROUND_UP`                                   | ROUND_UP                                     |
+| `CAT_PARENT_ALGO`                            | CAT_PARENT_ALGO                              |
+| `CAT_PARENT_GTC`                             | CAT_PARENT_GTC                               |

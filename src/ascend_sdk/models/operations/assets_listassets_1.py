@@ -68,9 +68,9 @@ class AssetsListAssets1Response(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    list_assets_response: Optional[
-        components_listassetsresponse.ListAssetsResponse
-    ] = None
+    list_assets_response: Optional[components_listassetsresponse.ListAssetsResponse] = (
+        None
+    )
     r"""OK"""
 
     status: Optional[components_status.Status] = None

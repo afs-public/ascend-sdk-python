@@ -570,6 +570,7 @@ class WireWithdrawalScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
     NET_INCOME_ATTRIBUTABLE = "NET_INCOME_ATTRIBUTABLE"
     REVOCATION = "REVOCATION"
     NON_REPORTABLE = "NON_REPORTABLE"
+    QUALIFIED_CHARITABLE_DISTRIBUTION = "QUALIFIED_CHARITABLE_DISTRIBUTION"
 
 
 class WireWithdrawalScheduleRetirementDistributionTypedDict(TypedDict):
@@ -844,9 +845,9 @@ class WireWithdrawalScheduleScheduleDetails(BaseModel):
     full_disbursement: Optional[bool] = None
     r"""Flag to indicate a full disbursement transfer (mutually exclusive with 'amount')"""
 
-    schedule_properties: OptionalNullable[
-        WireWithdrawalScheduleScheduleProperties
-    ] = UNSET
+    schedule_properties: OptionalNullable[WireWithdrawalScheduleScheduleProperties] = (
+        UNSET
+    )
     r"""Common schedule properties"""
 
     @model_serializer(mode="wrap")

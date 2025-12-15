@@ -42,9 +42,9 @@ class AccountsGetLegalNaturalPersonResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    legal_natural_person: Optional[
-        components_legalnaturalperson.LegalNaturalPerson
-    ] = None
+    legal_natural_person: Optional[components_legalnaturalperson.LegalNaturalPerson] = (
+        None
+    )
     r"""OK"""
 
     status: Optional[components_status.Status] = None

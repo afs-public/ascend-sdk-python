@@ -37,6 +37,7 @@ class AccountsListAccountsRequestTypedDict(TypedDict):
     `title`
     `state`
     `account_group_id`
+    `create_time`
     """
     filter_: NotRequired[str]
     r"""A CEL string to filter results; Use `upperAscii()` for case-insensitive searches; E.g. `parties.exists(parties,parties.legal_natural_person.family_name.upperAscii()==\"dOuGh\".upperAscii())`; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:
@@ -65,6 +66,7 @@ class AccountsListAccountsRequestTypedDict(TypedDict):
     `enrollments.state`
     `identifiers.type`
     `identifiers.value`
+    `create_time` with format of timestamp(\"2025-08-13T18:31:40Z\")
     """
     view: NotRequired[View]
     r"""The view to return. Defaults to `BASIC`."""
@@ -96,6 +98,7 @@ class AccountsListAccountsRequest(BaseModel):
     `title`
     `state`
     `account_group_id`
+    `create_time`
     """
 
     filter_: Annotated[
@@ -129,6 +132,7 @@ class AccountsListAccountsRequest(BaseModel):
     `enrollments.state`
     `identifiers.type`
     `identifiers.value`
+    `create_time` with format of timestamp(\"2025-08-13T18:31:40Z\")
     """
 
     view: Annotated[

@@ -29,6 +29,10 @@ from .fpslenrollmentmetadatacreate import (
     FPSLEnrollmentMetaDataCreate,
     FPSLEnrollmentMetaDataCreateTypedDict,
 )
+from .futuresenrollmentmetadatacreate import (
+    FuturesEnrollmentMetadataCreate,
+    FuturesEnrollmentMetadataCreateTypedDict,
+)
 from .individualenrollmentmetadatacreate import (
     IndividualEnrollmentMetadataCreate,
     IndividualEnrollmentMetadataCreateTypedDict,
@@ -125,7 +129,6 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_JOINT_CP = "REGISTRATION_JOINT_CP"
     REGISTRATION_ESTATE = "REGISTRATION_ESTATE"
     REGISTRATION_IRA_TRADITIONAL = "REGISTRATION_IRA_TRADITIONAL"
-    REGISTRATION_IRA_SIMPLE = "REGISTRATION_IRA_SIMPLE"
     REGISTRATION_IRA_SEP = "REGISTRATION_IRA_SEP"
     REGISTRATION_IRA_ROTH = "REGISTRATION_IRA_ROTH"
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
@@ -175,6 +178,8 @@ class EnrollmentCreateTypedDict(TypedDict):
     r"""Enrollment metadata for the FOREIGN_JOINT_WROS enrollment type"""
     fpsl_enrollment_metadata: NotRequired[FPSLEnrollmentMetaDataCreateTypedDict]
     r"""Percentages for FPSL Enrollment, must equal 100"""
+    futures_enrollment_metadata: NotRequired[FuturesEnrollmentMetadataCreateTypedDict]
+    r"""Enrollment metadata for the FUTURES enrollment type"""
     individual_enrollment_metadata: NotRequired[
         IndividualEnrollmentMetadataCreateTypedDict
     ]
@@ -240,9 +245,9 @@ class EnrollmentCreate(BaseModel):
     type: Annotated[EnrollmentCreateType, PlainValidator(validate_open_enum(False))]
     r"""Describes the name of the enrollment; Expressed as an enum"""
 
-    beneficiary_enrollment_metadata: Optional[
-        BeneficiaryEnrollmentMetadataCreate
-    ] = None
+    beneficiary_enrollment_metadata: Optional[BeneficiaryEnrollmentMetadataCreate] = (
+        None
+    )
     r"""Enrollment metadata for the BENEFICIARY_DESIGNATION enrollment type."""
 
     consent_method: Annotated[
@@ -251,9 +256,9 @@ class EnrollmentCreate(BaseModel):
     ] = None
     r"""The consent method for the enrollment. Defaults to ESIGNATURE."""
 
-    corporation_enrollment_metadata: Optional[
-        CorporationEnrollmentMetadataCreate
-    ] = None
+    corporation_enrollment_metadata: Optional[CorporationEnrollmentMetadataCreate] = (
+        None
+    )
 
     custodial_enrollment_metadata: Optional[CustodialEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for the CUSTODIAL enrollment type"""
@@ -273,6 +278,9 @@ class EnrollmentCreate(BaseModel):
     fpsl_enrollment_metadata: Optional[FPSLEnrollmentMetaDataCreate] = None
     r"""Percentages for FPSL Enrollment, must equal 100"""
 
+    futures_enrollment_metadata: Optional[FuturesEnrollmentMetadataCreate] = None
+    r"""Enrollment metadata for the FUTURES enrollment type"""
+
     individual_enrollment_metadata: Optional[IndividualEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for Individual accounts enrollment type"""
 
@@ -281,9 +289,9 @@ class EnrollmentCreate(BaseModel):
     ] = None
     r"""Enrollment metadata for beneficiary IRA accounts enrollment type"""
 
-    ira_rollover_enrollment_metadata: Optional[
-        IRARolloverEnrollmentMetadataCreate
-    ] = None
+    ira_rollover_enrollment_metadata: Optional[IRARolloverEnrollmentMetadataCreate] = (
+        None
+    )
     r"""Enrollment metadata for Rollover IRA accounts enrollment type"""
 
     ira_roth_enrollment_metadata: Optional[IRARothEnrollmentMetadataCreate] = None

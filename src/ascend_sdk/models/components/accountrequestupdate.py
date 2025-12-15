@@ -40,7 +40,7 @@ class AccountRequestUpdateTypedDict(TypedDict):
     r"""A single record representing an owner or manager of an Account."""
 
     accepts_issuer_direct_communication: NotRequired[bool]
-    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm"""
+    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm By default, this is set to `false`."""
     advised: NotRequired[bool]
     r"""A boolean to indicate if an account is advised"""
     cat_account_holder_type: NotRequired[AccountRequestUpdateCatAccountHolderType]
@@ -69,7 +69,7 @@ class AccountRequestUpdate(BaseModel):
     r"""A single record representing an owner or manager of an Account."""
 
     accepts_issuer_direct_communication: Optional[bool] = None
-    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm"""
+    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm By default, this is set to `false`."""
 
     advised: Optional[bool] = None
     r"""A boolean to indicate if an account is advised"""

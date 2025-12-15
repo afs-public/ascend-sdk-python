@@ -383,6 +383,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [list_basket_orders](docs/sdks/basketorders/README.md#list_basket_orders) - List Basket Orders
 * [list_compressed_orders](docs/sdks/basketorders/README.md#list_compressed_orders) - List Compressed Orders
 * [remove_orders](docs/sdks/basketorders/README.md#remove_orders) - Remove Basket Orders
+* [set_extra_reporting_data](docs/sdks/basketorders/README.md#set_extra_reporting_data) - Set Extra Reporting Data
 
 ### [cash_balances](docs/sdks/cashbalances/README.md)
 
@@ -440,6 +441,8 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [link_documents](docs/sdks/investigations/README.md#link_documents) - Link Documents
 * [get_watchlist_item](docs/sdks/investigations/README.md#get_watchlist_item) - Get Watchlist Item
 * [get_customer_identification](docs/sdks/investigations/README.md#get_customer_identification) - Get Identity Verification
+* [create_identity_lookup](docs/sdks/investigations/README.md#create_identity_lookup) - Create Identity Lookup
+* [verify_identity_lookup](docs/sdks/investigations/README.md#verify_identity_lookup) - Verify Identity Lookup
 
 ### [investor_docs](docs/sdks/investordocs/README.md)
 
@@ -549,6 +552,9 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [force_reject_ict_withdrawal](docs/sdks/testsimulation/README.md#force_reject_ict_withdrawal) - Force Reject ICT Withdrawal
 * [force_approve_wire_withdrawal](docs/sdks/testsimulation/README.md#force_approve_wire_withdrawal) - Force Approve Wire Withdrawal
 * [force_reject_wire_withdrawal](docs/sdks/testsimulation/README.md#force_reject_wire_withdrawal) - Force Reject Wire Withdrawal
+* [simulate_wire_deposit](docs/sdks/testsimulation/README.md#simulate_wire_deposit) - Simulate Wire Deposit
+* [force_approve_wire_deposit](docs/sdks/testsimulation/README.md#force_approve_wire_deposit) - Force Approve Wire Deposit
+* [force_reject_wire_deposit](docs/sdks/testsimulation/README.md#force_reject_wire_deposit) - Force Reject Wire Deposit
 * [force_approve_cash_journal](docs/sdks/testsimulation/README.md#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](docs/sdks/testsimulation/README.md#force_reject_cash_journal) - Force Reject Cash Journal
 

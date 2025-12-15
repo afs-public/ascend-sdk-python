@@ -630,6 +630,8 @@ class OrderSpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta)
     SUPPRESS_TRACE_REPORTING = "SUPPRESS_TRACE_REPORTING"
     WHEN_DISTRIBUTED = "WHEN_DISTRIBUTED"
     ROUND_UP = "ROUND_UP"
+    CAT_PARENT_ALGO = "CAT_PARENT_ALGO"
+    CAT_PARENT_GTC = "CAT_PARENT_GTC"
 
 
 class OrderStopPricePriceTypedDict(TypedDict):
@@ -802,7 +804,7 @@ class OrderTypedDict(TypedDict):
     identifier: NotRequired[str]
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
     identifier_issuing_region_code: NotRequired[str]
-    r"""A string attribute denoting the country of issuance or where the asset is trading. Only available for Mutual Fund orders. Defaults to US, when trading non US mutual funds this field must be provided Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
     identifier_type: NotRequired[OrderIdentifierType]
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
@@ -939,7 +941,7 @@ class Order(BaseModel):
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
 
     identifier_issuing_region_code: Optional[str] = None
-    r"""A string attribute denoting the country of issuance or where the asset is trading. Only available for Mutual Fund orders. Defaults to US, when trading non US mutual funds this field must be provided Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
 
     identifier_type: Annotated[
         Optional[OrderIdentifierType], PlainValidator(validate_open_enum(False))
@@ -1000,9 +1002,9 @@ class Order(BaseModel):
     rights_of_accumulation: OptionalNullable[RightsOfAccumulation] = UNSET
     r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
 
-    side: Annotated[
-        Optional[OrderSide], PlainValidator(validate_open_enum(False))
-    ] = None
+    side: Annotated[Optional[OrderSide], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""The side of this order."""
 
     special_reporting_instructions: Optional[

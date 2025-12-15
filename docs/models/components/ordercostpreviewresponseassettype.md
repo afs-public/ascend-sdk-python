@@ -12,3 +12,4 @@ The type of asset referenced by the security identifier
 | `FIXED_INCOME`           | FIXED_INCOME             |
 | `MUTUAL_FUND`            | MUTUAL_FUND              |
 | `OPTION`                 | OPTION                   |
+| `EVENT_CONTRACT`         | EVENT_CONTRACT           |

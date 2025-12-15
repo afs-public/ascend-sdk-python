@@ -207,9 +207,9 @@ class CheckDeposit(BaseModel):
     name: Optional[str] = None
     r"""The resource name of the check deposit. Format: accounts/{account}/checkDeposits/{check_deposit}"""
 
-    retirement_contribution: OptionalNullable[
-        CheckDepositRetirementContribution
-    ] = UNSET
+    retirement_contribution: OptionalNullable[CheckDepositRetirementContribution] = (
+        UNSET
+    )
     r"""The retirement contribution details."""
 
     state: OptionalNullable[CheckDepositState] = UNSET

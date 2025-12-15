@@ -337,9 +337,9 @@ class WireWithdrawalStateTaxWithholdingTypedDict(TypedDict):
 class WireWithdrawalStateTaxWithholding(BaseModel):
     r"""The state tax withholding."""
 
-    amount: OptionalNullable[
-        WireWithdrawalIraDistributionStateTaxWithholdingAmount
-    ] = UNSET
+    amount: OptionalNullable[WireWithdrawalIraDistributionStateTaxWithholdingAmount] = (
+        UNSET
+    )
     r"""Fixed USD amount to withhold for taxes."""
 
     percentage: OptionalNullable[WireWithdrawalIraDistributionPercentage] = UNSET
@@ -404,6 +404,7 @@ class WireWithdrawalType(str, Enum, metaclass=utils.OpenEnumMeta):
     NET_INCOME_ATTRIBUTABLE = "NET_INCOME_ATTRIBUTABLE"
     REVOCATION = "REVOCATION"
     NON_REPORTABLE = "NON_REPORTABLE"
+    QUALIFIED_CHARITABLE_DISTRIBUTION = "QUALIFIED_CHARITABLE_DISTRIBUTION"
 
 
 class WireWithdrawalIraDistributionTypedDict(TypedDict):
@@ -430,9 +431,9 @@ class WireWithdrawalIraDistributionTypedDict(TypedDict):
 class WireWithdrawalIraDistribution(BaseModel):
     r"""IRA distribution details for withdrawal from retirement account"""
 
-    federal_tax_withholding: OptionalNullable[
-        WireWithdrawalFederalTaxWithholding
-    ] = UNSET
+    federal_tax_withholding: OptionalNullable[WireWithdrawalFederalTaxWithholding] = (
+        UNSET
+    )
     r"""The federal tax withholding."""
 
     receiving_institution: Optional[str] = None

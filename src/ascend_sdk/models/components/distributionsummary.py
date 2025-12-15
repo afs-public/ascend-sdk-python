@@ -112,9 +112,9 @@ class RequiredMinimumDistribution(BaseModel):
     prior_year_end_account_balance: OptionalNullable[PriorYearEndAccountBalance] = UNSET
     r"""The account balance at the end of the prior year in USD. This value is used to calculate the RMD amount."""
 
-    remaining_distribution_required: OptionalNullable[
-        RemainingDistributionRequired
-    ] = UNSET
+    remaining_distribution_required: OptionalNullable[RemainingDistributionRequired] = (
+        UNSET
+    )
     r"""The remaining amount required to be distributed for the tax year. Calculated as the difference between the RMD for the account and its regular distribution total to date. This will return zero if the account is not required to make a distribution during the tax year or has already met its distribution requirement."""
 
     @model_serializer(mode="wrap")

@@ -26,6 +26,7 @@ class OrderCostPreviewResponseAssetType(str, Enum, metaclass=utils.OpenEnumMeta)
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
     OPTION = "OPTION"
+    EVENT_CONTRACT = "EVENT_CONTRACT"
 
 
 class OrderCostPreviewResponseBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):

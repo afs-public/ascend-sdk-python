@@ -1,0 +1,12 @@
+# Identification
+
+Represents an identification document
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              | Example                                                                                  |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `region_code`                                                                            | *Optional[str]*                                                                          | :heavy_minus_sign:                                                                       | CLDR format                                                                              | US                                                                                       |
+| `type`                                                                                   | [Optional[components.IdentificationType]](../../models/components/identificationtype.md) | :heavy_minus_sign:                                                                       | The type of identification document                                                      | SSN                                                                                      |
+| `value`                                                                                  | *Optional[str]*                                                                          | :heavy_minus_sign:                                                                       | The value of the identification document                                                 | 123-45-6789                                                                              |

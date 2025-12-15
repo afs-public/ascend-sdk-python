@@ -100,9 +100,9 @@ class ContributionSummary(BaseModel):
     regular_amount: OptionalNullable[RegularAmount] = UNSET
     r"""Summed contribution amounts throughout the year"""
 
-    remaining_contribution_allowed: OptionalNullable[
-        RemainingContributionAllowed
-    ] = UNSET
+    remaining_contribution_allowed: OptionalNullable[RemainingContributionAllowed] = (
+        UNSET
+    )
     r"""The remaining regular contribution amount allowed for the tax year. Calculated as the difference between the contribution limit for the account and its regular contribution total to date. This will return zero if the account has no contribution limit."""
 
     rollover_amount: OptionalNullable[RolloverAmount] = UNSET

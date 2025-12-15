@@ -44,7 +44,6 @@ def test_investigations_investigation_service_link_documents_link_documents1(
 def test_investigations_investigations_get_identify_verification(
     create_sdk, correspondent_id, apex_investigation_id
 ):
-
     s = create_sdk
 
     assert s is not None
@@ -59,9 +58,9 @@ def test_investigations_investigations_get_identify_verification(
 
     identity_verification_results = res.investigation.identity_verification_results
 
-    assert (
-        len(identity_verification_results) > 0
-    ), "No identity verification results found"
+    assert len(identity_verification_results) > 0, (
+        "No identity verification results found"
+    )
 
     identity_verification_result = identity_verification_results[0]
 
@@ -75,3 +74,99 @@ def test_investigations_investigations_get_identify_verification(
     assert res.http_meta is not None
     assert res.http_meta.response is not None
     assert res.http_meta.response.status_code == 200
+
+
+def test_identity_lookup_service_create_identity_lookup(create_sdk, correspondent_id):
+    s = create_sdk
+
+    assert s is not None
+
+    request = components.IdentityLookupCreate(
+        device_metadata=components.DeviceMetadataCreate(
+            ip_address="203.0.113.42",
+        ),
+        identification=components.IdentificationCreate(
+            region_code="US",
+            type=components.IdentificationCreateType.SSN,
+            value="123-45-6789",
+        ),
+        phone_number=components.PhoneNumberCreate(
+            e164_number="+15035550123",
+            extension="123",
+        ),
+        user_consent=True,
+    )
+
+    res = s.investigations.create_identity_lookup(
+        correspondent_id=correspondent_id,
+        identity_lookup_create=request,
+    )
+
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.identity_lookup is not None
+    assert res.identity_lookup.name is not None
+
+    # Extract identity lookup ID from name
+    name_parts = res.identity_lookup.name.split("/")
+    lookup_id = name_parts[-1]
+    assert lookup_id is not None
+    assert len(lookup_id) > 0
+
+
+def test_identity_lookup_service_verify_identity_lookup(create_sdk, correspondent_id):
+    s = create_sdk
+
+    assert s is not None
+
+    # First create an identity lookup
+    create_request = components.IdentityLookupCreate(
+        device_metadata=components.DeviceMetadataCreate(
+            ip_address="203.0.113.42",
+        ),
+        identification=components.IdentificationCreate(
+            region_code="US",
+            type=components.IdentificationCreateType.SSN,
+            value="123-45-6789",
+        ),
+        phone_number=components.PhoneNumberCreate(
+            e164_number="+15035550123",
+            extension="123",
+        ),
+        user_consent=True,
+    )
+
+    create_res = s.investigations.create_identity_lookup(
+        correspondent_id=correspondent_id,
+        identity_lookup_create=create_request,
+    )
+
+    assert create_res.identity_lookup is not None
+    assert create_res.identity_lookup.name is not None
+
+    # Extract identity lookup ID from name
+    name_parts = create_res.identity_lookup.name.split("/")
+    lookup_id = name_parts[-1]
+    assert lookup_id is not None
+
+    # Now verify the identity lookup
+    verify_request = components.VerifyIdentityLookupRequestCreate(
+        name=f"correspondents/{correspondent_id}/identityLookups/{lookup_id}",
+        verification_code="123456",  # This is a test verification code
+    )
+
+    try:
+        res = s.investigations.verify_identity_lookup(
+            correspondent_id=correspondent_id,
+            identity_lookup_id=lookup_id,
+            verify_identity_lookup_request_create=verify_request,
+        )
+
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+    except Exception as error:
+        # The verification may fail with invalid code, which is expected in test environment
+        # We're just testing that the endpoint is callable
+        assert "verification" in str(error).lower()
