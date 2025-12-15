@@ -32,6 +32,16 @@ class FdicCashSweep(str, Enum, metaclass=utils.OpenEnumMeta):
     FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
 
 
+class MoneyMarketFundSweep(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class CorporationEnrollmentMetadataCreateTypedDict(TypedDict):
     dividend_reinvestment_plan: NotRequired[DividendReinvestmentPlan]
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
@@ -41,6 +51,8 @@ class CorporationEnrollmentMetadataCreateTypedDict(TypedDict):
     r"""Enrollment metadata for Entity Accounts"""
     fdic_cash_sweep: NotRequired[FdicCashSweep]
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    money_market_fund_sweep: NotRequired[MoneyMarketFundSweep]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class CorporationEnrollmentMetadataCreate(BaseModel):
@@ -56,3 +68,8 @@ class CorporationEnrollmentMetadataCreate(BaseModel):
         Optional[FdicCashSweep], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    money_market_fund_sweep: Annotated[
+        Optional[MoneyMarketFundSweep], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""

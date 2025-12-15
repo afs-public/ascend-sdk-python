@@ -322,9 +322,9 @@ class BankRelationships(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.BankRelationshipsListBankRelationshipsResponse]
-        ):
+        def next_func() -> Optional[
+            operations.BankRelationshipsListBankRelationshipsResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -453,9 +453,9 @@ class BankRelationships(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.BankRelationshipsListBankRelationshipsResponse]
-        ):
+        def next_func() -> Optional[
+            operations.BankRelationshipsListBankRelationshipsResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 

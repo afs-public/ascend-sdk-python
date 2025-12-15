@@ -91,9 +91,9 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.RetirementConstraintsListContributionSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.RetirementConstraintsListContributionSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -218,9 +218,9 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.RetirementConstraintsListContributionSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.RetirementConstraintsListContributionSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -587,9 +587,9 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.RetirementConstraintsListDistributionSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.RetirementConstraintsListDistributionSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -714,9 +714,9 @@ class Retirements(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.RetirementConstraintsListDistributionSummariesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.RetirementConstraintsListDistributionSummariesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 

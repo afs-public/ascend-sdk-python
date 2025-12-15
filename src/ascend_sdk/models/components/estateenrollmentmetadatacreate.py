@@ -22,6 +22,18 @@ class EstateEnrollmentMetadataCreateDividendReinvestmentPlan(
     DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
 
 
+class EstateEnrollmentMetadataCreateMoneyMarketFundSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
 class EstateEnrollmentMetadataCreateTypedDict(TypedDict):
     r"""Enrollment metadata for estate enrollments"""
 
@@ -31,6 +43,10 @@ class EstateEnrollmentMetadataCreateTypedDict(TypedDict):
         EstateEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+    money_market_fund_sweep: NotRequired[
+        EstateEnrollmentMetadataCreateMoneyMarketFundSweep
+    ]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class EstateEnrollmentMetadataCreate(BaseModel):
@@ -44,3 +60,9 @@ class EstateEnrollmentMetadataCreate(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    money_market_fund_sweep: Annotated[
+        Optional[EstateEnrollmentMetadataCreateMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""

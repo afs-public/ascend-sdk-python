@@ -496,17 +496,17 @@ class NewTradeAllocation(BaseModel):
     price: OptionalNullable[RebookTradeAllocationResponsePrice] = UNSET
     r"""Price with requirement of 8 or less integral number and 8 or less fractional precision."""
 
-    price_adjustment: OptionalNullable[
-        RebookTradeAllocationResponsePriceAdjustment
-    ] = UNSET
+    price_adjustment: OptionalNullable[RebookTradeAllocationResponsePriceAdjustment] = (
+        UNSET
+    )
     r"""Price adjustment that will be applied to the net price of the security."""
 
     quantity: OptionalNullable[RebookTradeAllocationResponseQuantity] = UNSET
     r"""Quantity with requirement of 12 or less integral number and 5 or less fractional precision."""
 
-    settlement_date: OptionalNullable[
-        RebookTradeAllocationResponseSettlementDate
-    ] = UNSET
+    settlement_date: OptionalNullable[RebookTradeAllocationResponseSettlementDate] = (
+        UNSET
+    )
     r"""Defaults to T+1 for equities if this is not provided. Calculated using the execution_time field in Eastern Time."""
 
     side_modifier: Annotated[

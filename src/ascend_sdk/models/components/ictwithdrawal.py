@@ -233,6 +233,7 @@ class IctWithdrawalType(str, Enum, metaclass=utils.OpenEnumMeta):
     NET_INCOME_ATTRIBUTABLE = "NET_INCOME_ATTRIBUTABLE"
     REVOCATION = "REVOCATION"
     NON_REPORTABLE = "NON_REPORTABLE"
+    QUALIFIED_CHARITABLE_DISTRIBUTION = "QUALIFIED_CHARITABLE_DISTRIBUTION"
 
 
 class IctWithdrawalRetirementDistributionTypedDict(TypedDict):
@@ -259,9 +260,9 @@ class IctWithdrawalRetirementDistributionTypedDict(TypedDict):
 class IctWithdrawalRetirementDistribution(BaseModel):
     r"""Retirement distribution details for withdrawal from retirement account"""
 
-    federal_tax_withholding: OptionalNullable[
-        IctWithdrawalFederalTaxWithholding
-    ] = UNSET
+    federal_tax_withholding: OptionalNullable[IctWithdrawalFederalTaxWithholding] = (
+        UNSET
+    )
     r"""The federal tax withholding."""
 
     receiving_institution: Optional[str] = None
@@ -1222,9 +1223,9 @@ class IctWithdrawalTravelRuleTypedDict(TypedDict):
 class IctWithdrawalTravelRule(BaseModel):
     r"""The travel rule information for the ICT withdrawal"""
 
-    entity_originating_party: OptionalNullable[
-        IctWithdrawalEntityOriginatingParty
-    ] = UNSET
+    entity_originating_party: OptionalNullable[IctWithdrawalEntityOriginatingParty] = (
+        UNSET
+    )
     r"""An entity originating party"""
 
     entity_recipient_party: OptionalNullable[IctWithdrawalEntityRecipientParty] = UNSET
@@ -1240,9 +1241,9 @@ class IctWithdrawalTravelRule(BaseModel):
     ] = UNSET
     r"""An individual recipient party"""
 
-    originating_institution: OptionalNullable[
-        IctWithdrawalOriginatingInstitution
-    ] = UNSET
+    originating_institution: OptionalNullable[IctWithdrawalOriginatingInstitution] = (
+        UNSET
+    )
     r"""The name and account id of institution sourcing the funds. Always 'Apex Clearing' and investor account id for ICT withdrawals;"""
 
     recipient_institution: OptionalNullable[IctWithdrawalRecipientInstitution] = UNSET
@@ -1333,9 +1334,9 @@ class IctWithdrawal(BaseModel):
     ] = None
     r"""The name of the program that the ICT withdrawal is associated with."""
 
-    retirement_distribution: OptionalNullable[
-        IctWithdrawalRetirementDistribution
-    ] = UNSET
+    retirement_distribution: OptionalNullable[IctWithdrawalRetirementDistribution] = (
+        UNSET
+    )
     r"""Retirement distribution details for withdrawal from retirement account"""
 
     state: OptionalNullable[IctWithdrawalState] = UNSET

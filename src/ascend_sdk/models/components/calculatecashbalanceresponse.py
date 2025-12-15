@@ -279,9 +279,9 @@ class CalculateCashBalanceResponse(BaseModel):
     intraday_buy_trades: Optional[List[CalculateCashBalanceResponseTradeSummary]] = None
     r"""The account's intraday buy trades. The net amounts are **subtracted** from `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since trades have positive amounts, the calculated values will **decrease**."""
 
-    intraday_deposits: Optional[
-        List[CalculateCashBalanceResponseTransferSummary]
-    ] = None
+    intraday_deposits: Optional[List[CalculateCashBalanceResponseTransferSummary]] = (
+        None
+    )
     r"""The account's eligible intraday deposits that have posted to the ledger. Intraday deposits may be eligible based on mechanism (e.g. intraday ICT deposits are eligible for ICT withdrawals, but not ACH withdrawals). The amounts are **added** to `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since deposits have positive amounts, the calculated values will **increase**."""
 
     intraday_returns: Optional[List[CalculateCashBalanceResponseTransferSummary]] = None
@@ -301,17 +301,17 @@ class CalculateCashBalanceResponse(BaseModel):
     open_liquidity_amount: OptionalNullable[OpenLiquidityAmount] = UNSET
     r"""The account's starting liquidity for the day in USD as calculated by the margin system. It includes the value of all asset positions (e.g. cash, equities, fixed income, etc). It is used as the base to calculate `available_liquidity_amount`. This value can be negative."""
 
-    pending_debit_dividends_amount: OptionalNullable[
-        PendingDebitDividendsAmount
-    ] = UNSET
+    pending_debit_dividends_amount: OptionalNullable[PendingDebitDividendsAmount] = (
+        UNSET
+    )
     r"""The account's pending debit dividends in USD. The value is **subtracted** from `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. This value is always non-negative."""
 
     pending_debit_interest_amount: OptionalNullable[PendingDebitInterestAmount] = UNSET
     r"""The account's pending debit interest in USD. The value is **subtracted** from `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. This value is always non-negative."""
 
-    pending_withdrawals: Optional[
-        List[CalculateCashBalanceResponseTransferSummary]
-    ] = None
+    pending_withdrawals: Optional[List[CalculateCashBalanceResponseTransferSummary]] = (
+        None
+    )
     r"""The account's pending withdrawals. Pending withdrawals may need review and have yet to post to the ledger. The amounts are **added** to `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since withdrawals have negative amounts, the calculated values will **decrease**."""
 
     settled_cash_available_to_withdraw: OptionalNullable[
@@ -319,9 +319,9 @@ class CalculateCashBalanceResponse(BaseModel):
     ] = UNSET
     r"""The account's total settled balance in USD. Net balance of settled cash and settled cash equivalents This value can be positive or negative."""
 
-    trade_cash_available_to_withdraw: OptionalNullable[
-        TradeCashAvailableToWithdraw
-    ] = UNSET
+    trade_cash_available_to_withdraw: OptionalNullable[TradeCashAvailableToWithdraw] = (
+        UNSET
+    )
     r"""The account's total trade balance in USD. Real Time net balance of cash and cash equivalents in the investor account, inclusive of current day activity. This value can be positive or negative."""
 
     unadjusted_available_cash_to_withdraw_amount: OptionalNullable[
@@ -334,9 +334,9 @@ class CalculateCashBalanceResponse(BaseModel):
     ] = UNSET
     r"""The account's withheld deposit threshold. Amounts in `withheld_deposits` up to this threshold will be not be subtracted to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. This value is always non-negative."""
 
-    withheld_deposits: Optional[
-        List[CalculateCashBalanceResponseTransferSummary]
-    ] = None
+    withheld_deposits: Optional[List[CalculateCashBalanceResponseTransferSummary]] = (
+        None
+    )
     r"""The account's withheld deposits. Deposits are withheld if there is a risk of a return (e.g. ACH deposits). Typically, they are withheld for 5 business days after completing. The amounts are **subtracted** from `open_balance_amount` and `open_liquidity_amount` to calculate `available_cash_to_withdraw_amount` and `available_liquidity_amount`. Since deposits have positive amounts, the calculated values will **decrease**. However, withheld deposits will not be subtracted up to the `withheld_deposit_threshold_amount`."""
 
     @model_serializer(mode="wrap")

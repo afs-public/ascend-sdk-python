@@ -73,9 +73,9 @@ class PushSubscriptionDelivery(BaseModel):
     name: Optional[str] = None
     r"""The resource name of the delivery; Format: subscriptions/{subscription}/deliveries/{delivery}"""
 
-    result: Annotated[
-        Optional[Result], PlainValidator(validate_open_enum(False))
-    ] = None
+    result: Annotated[Optional[Result], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""The outcome of the delivery"""
 
     @model_serializer(mode="wrap")

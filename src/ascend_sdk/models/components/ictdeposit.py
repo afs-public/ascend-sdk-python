@@ -872,9 +872,9 @@ class IndividualRecipientPartyTypedDict(TypedDict):
 class IndividualRecipientParty(BaseModel):
     r"""An individual recipient party"""
 
-    address: OptionalNullable[
-        IctDepositTravelRuleIndividualRecipientPartyAddress
-    ] = UNSET
+    address: OptionalNullable[IctDepositTravelRuleIndividualRecipientPartyAddress] = (
+        UNSET
+    )
     r"""The address of the party"""
 
     family_name: Optional[str] = None

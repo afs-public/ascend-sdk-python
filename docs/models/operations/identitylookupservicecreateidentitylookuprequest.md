@@ -1,0 +1,9 @@
+# IdentityLookupServiceCreateIdentityLookupRequest
+
+
+## Fields
+
+| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                 | *str*                                                                              | :heavy_check_mark:                                                                 | The correspondent id.                                                              | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                         |
+| `identity_lookup_create`                                                           | [components.IdentityLookupCreate](../../models/components/identitylookupcreate.md) | :heavy_check_mark:                                                                 | N/A                                                                                |                                                                                    |

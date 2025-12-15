@@ -32,6 +32,4 @@ class AnyT(BaseModel):
 
     @additional_properties.setter
     def additional_properties(self, value):
-        self.__pydantic_extra__ = (
-            value  # pyright: ignore[reportIncompatibleVariableOverride]
-        )
+        self.__pydantic_extra__ = value  # pyright: ignore[reportIncompatibleVariableOverride]

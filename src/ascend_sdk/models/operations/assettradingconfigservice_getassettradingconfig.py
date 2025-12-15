@@ -49,9 +49,9 @@ class AssetTradingConfigServiceGetAssetTradingConfigResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    asset_trading_config: Optional[
-        components_assettradingconfig.AssetTradingConfig
-    ] = None
+    asset_trading_config: Optional[components_assettradingconfig.AssetTradingConfig] = (
+        None
+    )
     r"""OK"""
 
     status: Optional[components_status.Status] = None

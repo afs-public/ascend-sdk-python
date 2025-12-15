@@ -32,6 +32,7 @@ class AccountsListLegalNaturalPersonsRequestTypedDict(TypedDict):
     `tax_id`
     `tax_id_type`
     `investigation_id`
+    `foreign_identification.identification_number`
     """
 
 
@@ -70,6 +71,7 @@ class AccountsListLegalNaturalPersonsRequest(BaseModel):
     `tax_id`
     `tax_id_type`
     `investigation_id`
+    `foreign_identification.identification_number`
     """
 
 

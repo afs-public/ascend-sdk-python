@@ -496,17 +496,17 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
     price: OptionalNullable[CancelTradeAllocationResponsePrice] = UNSET
     r"""Price with requirement of 8 or less integral number and 8 or less fractional precision."""
 
-    price_adjustment: OptionalNullable[
-        CancelTradeAllocationResponsePriceAdjustment
-    ] = UNSET
+    price_adjustment: OptionalNullable[CancelTradeAllocationResponsePriceAdjustment] = (
+        UNSET
+    )
     r"""Price adjustment that will be applied to the net price of the security."""
 
     quantity: OptionalNullable[CancelTradeAllocationResponseQuantity] = UNSET
     r"""Quantity with requirement of 12 or less integral number and 5 or less fractional precision."""
 
-    settlement_date: OptionalNullable[
-        CancelTradeAllocationResponseSettlementDate
-    ] = UNSET
+    settlement_date: OptionalNullable[CancelTradeAllocationResponseSettlementDate] = (
+        UNSET
+    )
     r"""Defaults to T+1 for equities if this is not provided. Calculated using the execution_time field in Eastern Time."""
 
     side_modifier: Annotated[
@@ -641,9 +641,9 @@ class CancelTradeAllocationResponseTypedDict(TypedDict):
 class CancelTradeAllocationResponse(BaseModel):
     r"""A response for the cancel trade allocation method."""
 
-    trade_allocation: OptionalNullable[
-        CancelTradeAllocationResponseTradeAllocation
-    ] = UNSET
+    trade_allocation: OptionalNullable[CancelTradeAllocationResponseTradeAllocation] = (
+        UNSET
+    )
     r"""The trade allocation that was canceled."""
 
     @model_serializer(mode="wrap")

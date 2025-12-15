@@ -34,6 +34,14 @@ class BasketOrderAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
     MUTUAL_FUND = "MUTUAL_FUND"
 
 
+class BasketOrderCancelInitiator(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the RemoveOrderRequest"""
+
+    INITIATOR_UNSPECIFIED = "INITIATOR_UNSPECIFIED"
+    FIRM = "FIRM"
+    CLIENT = "CLIENT"
+
+
 class BasketOrderCumulativeNotionalValueTypedDict(TypedDict):
     r"""The product of order quantity & price, summed across all fills, reported in the currency specified in the order. (This will be rounded to 2 decimal places for USD currencies). Will be absent if an order has no fill information."""
 
@@ -46,6 +54,48 @@ class BasketOrderCumulativeNotionalValue(BaseModel):
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class BasketOrderExtraReportingDataTypedDict(TypedDict):
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
+
+    cancel_confirmed_time: NotRequired[Nullable[datetime]]
+
+
+class BasketOrderExtraReportingData(BaseModel):
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
+
+    cancel_confirmed_time: OptionalNullable[datetime] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["cancel_confirmed_time"]
+        nullable_fields = ["cancel_confirmed_time"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class BasketOrderFilledQuantityTypedDict(TypedDict):
@@ -219,10 +269,16 @@ class BasketOrderTypedDict(TypedDict):
     """
     basket_order_id: NotRequired[str]
     r"""System generated unique id for the basket order."""
+    cancel_initiator: NotRequired[BasketOrderCancelInitiator]
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the RemoveOrderRequest"""
+    client_cancel_received_time: NotRequired[Nullable[datetime]]
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the RemoveOrderRequest"""
+    client_cancel_sent_time: NotRequired[Nullable[datetime]]
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the RemoveOrderRequest"""
     client_order_id: NotRequired[str]
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     client_order_received_time: NotRequired[Nullable[datetime]]
-    r"""Time the order request was received by the client. Must be in the past."""
+    r"""Time the order request was received by the client. Must be in the past. Timezone will default to UTC if not provided."""
     create_time: NotRequired[Nullable[datetime]]
     r"""Time of the order creation"""
     cumulative_notional_value: NotRequired[
@@ -233,6 +289,8 @@ class BasketOrderTypedDict(TypedDict):
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
     executions: NotRequired[List[BasketTradingExecutionsTypedDict]]
     r"""The execution-level details that compose this order"""
+    extra_reporting_data: NotRequired[Nullable[BasketOrderExtraReportingDataTypedDict]]
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
     filled_quantity: NotRequired[Nullable[BasketOrderFilledQuantityTypedDict]]
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
     identifier: NotRequired[str]
@@ -291,18 +349,29 @@ class BasketOrder(BaseModel):
     basket_order_id: Optional[str] = None
     r"""System generated unique id for the basket order."""
 
+    cancel_initiator: Annotated[
+        Optional[BasketOrderCancelInitiator], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the RemoveOrderRequest"""
+
+    client_cancel_received_time: OptionalNullable[datetime] = UNSET
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the RemoveOrderRequest"""
+
+    client_cancel_sent_time: OptionalNullable[datetime] = UNSET
+    r"""Output only field for Equity Orders related to CAT reporting on behalf of clients. This field will be present when provided on the RemoveOrderRequest"""
+
     client_order_id: Optional[str] = None
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
 
     client_order_received_time: OptionalNullable[datetime] = UNSET
-    r"""Time the order request was received by the client. Must be in the past."""
+    r"""Time the order request was received by the client. Must be in the past. Timezone will default to UTC if not provided."""
 
     create_time: OptionalNullable[datetime] = UNSET
     r"""Time of the order creation"""
 
-    cumulative_notional_value: OptionalNullable[
-        BasketOrderCumulativeNotionalValue
-    ] = UNSET
+    cumulative_notional_value: OptionalNullable[BasketOrderCumulativeNotionalValue] = (
+        UNSET
+    )
     r"""The product of order quantity & price, summed across all fills, reported in the currency specified in the order. (This will be rounded to 2 decimal places for USD currencies). Will be absent if an order has no fill information."""
 
     currency_code: Optional[str] = None
@@ -310,6 +379,9 @@ class BasketOrder(BaseModel):
 
     executions: Optional[List[BasketTradingExecutions]] = None
     r"""The execution-level details that compose this order"""
+
+    extra_reporting_data: OptionalNullable[BasketOrderExtraReportingData] = UNSET
+    r"""Any reporting data provided by the SetExtraReportingData endpoint."""
 
     filled_quantity: OptionalNullable[BasketOrderFilledQuantity] = UNSET
     r"""The summed quantity value across all fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no fill information."""
@@ -384,12 +456,16 @@ class BasketOrder(BaseModel):
             "asset_type",
             "average_prices",
             "basket_order_id",
+            "cancel_initiator",
+            "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_order_id",
             "client_order_received_time",
             "create_time",
             "cumulative_notional_value",
             "currency_code",
             "executions",
+            "extra_reporting_data",
             "filled_quantity",
             "identifier",
             "identifier_type",
@@ -406,9 +482,12 @@ class BasketOrder(BaseModel):
             "time_in_force",
         ]
         nullable_fields = [
+            "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_order_received_time",
             "create_time",
             "cumulative_notional_value",
+            "extra_reporting_data",
             "filled_quantity",
             "last_update_time",
             "max_sell_quantity",

@@ -1438,9 +1438,9 @@ class Subscriber(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.SubscriberListPushSubscriptionDeliveriesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.SubscriberListPushSubscriptionDeliveriesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1575,9 +1575,9 @@ class Subscriber(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> (
-            Optional[operations.SubscriberListPushSubscriptionDeliveriesResponse]
-        ):
+        def next_func() -> Optional[
+            operations.SubscriberListPushSubscriptionDeliveriesResponse
+        ]:
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 

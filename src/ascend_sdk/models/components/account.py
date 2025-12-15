@@ -38,6 +38,14 @@ class AccountCatAccountHolderType(str, Enum, metaclass=utils.OpenEnumMeta):
     X_ERROR_ACCOUNT = "X_ERROR_ACCOUNT"
 
 
+class CftcOwnerType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates the CFTC (Commodity Futures Trading Commission) owner type of the account. This enum only applies to accounts regulated by the CFTC"""
+
+    CFTC_OWNER_TYPE_UNSPECIFIED = "CFTC_OWNER_TYPE_UNSPECIFIED"
+    CUSTOMER = "CUSTOMER"
+    PROPRIETARY = "PROPRIETARY"
+
+
 class Domicile(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates if the account is `DOMESTIC` or `FOREIGN`"""
 
@@ -385,7 +393,6 @@ class RegistrationType(str, Enum, metaclass=utils.OpenEnumMeta):
     INDIVIDUAL_REGISTRATION = "INDIVIDUAL_REGISTRATION"
     ESTATE_REGISTRATION = "ESTATE_REGISTRATION"
     TRADITIONAL_IRA_REGISTRATION = "TRADITIONAL_IRA_REGISTRATION"
-    SIMPLE_IRA_REGISTRATION = "SIMPLE_IRA_REGISTRATION"
     SEP_IRA_REGISTRATION = "SEP_IRA_REGISTRATION"
     ROTH_IRA_REGISTRATION = "ROTH_IRA_REGISTRATION"
     ROLLOVER_IRA_REGISTRATION = "ROLLOVER_IRA_REGISTRATION"
@@ -459,7 +466,7 @@ class AccountTaxProfileTypedDict(TypedDict):
     cost_basis_lot_disposal_method: NotRequired[AccountCostBasisLotDisposalMethod]
     r"""A method of determining the cost basis of an asset that has been sold or disposed of, by identifying which specific lot of the asset was sold and using the cost of that lot to calculate the cost basis; this method is commonly used for tax purposes to determine the amount of reportable capital gains or losses By default, this is set to `COST_BASIS_LOT_DISPOSAL_MIN_TAX_TERM`"""
     section_475_election: NotRequired[bool]
-    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code"""
+    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code. By default, this is set to `false`."""
 
 
 class AccountTaxProfile(BaseModel):
@@ -472,14 +479,14 @@ class AccountTaxProfile(BaseModel):
     r"""A method of determining the cost basis of an asset that has been sold or disposed of, by identifying which specific lot of the asset was sold and using the cost of that lot to calculate the cost basis; this method is commonly used for tax purposes to determine the amount of reportable capital gains or losses By default, this is set to `COST_BASIS_LOT_DISPOSAL_MIN_TAX_TERM`"""
 
     section_475_election: Optional[bool] = None
-    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code"""
+    r"""Indicates if the account is eligible to mark-to-market their securities and commodities holdings; Named after the related section of the IRS tax code. By default, this is set to `false`."""
 
 
 class AccountTypedDict(TypedDict):
     r"""An Account as represented in the account ecosystem."""
 
     accepts_issuer_direct_communication: NotRequired[bool]
-    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm"""
+    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm. By default, this is set to `false`."""
     account_group_id: NotRequired[str]
     r"""An Account Group is a way of segmenting accounts within a Correspondent; It is up to the client to define what these groups are and AFS Operations is responsible for configuring them; If the client requests additional groups/codes, they can be added; Examples of Account Groups could hypothetically include HNW (High Net Worth), GOLD (Gold Status Customer), and NWC (Northwest Branch Customer)"""
     account_id: NotRequired[str]
@@ -489,11 +496,13 @@ class AccountTypedDict(TypedDict):
     active_restrictions: NotRequired[List[str]]
     r"""The list of restrictions currently impacting a given account; Restrictions suspend one or more entitlements dependent on their mapping"""
     advised: NotRequired[bool]
-    r"""A boolean to indicate if an account is advised"""
+    r"""A boolean to indicate if an account is advised. By default, this is set to `false`."""
     agreements: NotRequired[List[AgreementTypedDict]]
     r"""The collection of legal agreements belonging to a given account"""
     cat_account_holder_type: NotRequired[AccountCatAccountHolderType]
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
+    cftc_owner_type: NotRequired[CftcOwnerType]
+    r"""Indicates the CFTC (Commodity Futures Trading Commission) owner type of the account. This enum only applies to accounts regulated by the CFTC"""
     close_time: NotRequired[Nullable[datetime]]
     r"""The time the account was closed; If the account is not closed, this is null"""
     correspondent_id: NotRequired[str]
@@ -517,7 +526,7 @@ class AccountTypedDict(TypedDict):
     investment_profile: NotRequired[Nullable[InvestmentProfileTypedDict]]
     r"""The account's goals and customer's financial profile; Used to assess customer fitness and is required by FINRA"""
     managed: NotRequired[bool]
-    r"""A boolean to indicate if an account is managed"""
+    r"""A boolean to indicate if an account is managed. By default, this is set to `false`."""
     margin_group_id: NotRequired[str]
     r"""An identifier generated for all non-cash accounts; Uses a combination of account type and owner information to tie accounts together in order to perform margin calculations"""
     name: NotRequired[str]
@@ -529,7 +538,7 @@ class AccountTypedDict(TypedDict):
     parties: NotRequired[List[PartyTypedDict]]
     r"""Parties associated with the account (e.g. custodian)."""
     pattern_day_trader: NotRequired[bool]
-    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days"""
+    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days. By default, this is set to `false`."""
     primary_registered_rep_id: NotRequired[str]
     r"""The primary registered representative for the account"""
     registration_type: NotRequired[RegistrationType]
@@ -545,14 +554,14 @@ class AccountTypedDict(TypedDict):
     trusted_contacts: NotRequired[List[TrustedContactTypedDict]]
     r"""A list of persons designated to verify the well being of the account holder."""
     wrap_fee_billed: NotRequired[bool]
-    r"""A boolean to indicate if an account is a wrap brokerage account"""
+    r"""A boolean to indicate if an account is a wrap brokerage account. By default, this is set to `false`."""
 
 
 class Account(BaseModel):
     r"""An Account as represented in the account ecosystem."""
 
     accepts_issuer_direct_communication: Optional[bool] = None
-    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm"""
+    r"""Indicates if the issuer of a security held by the account is permitted to communicate directly with the shareholder versus through the brokerage firm; This can include sending proxy statements, annual reports, and other important information directly to the shareholder's address on file with the brokerage firm. By default, this is set to `false`."""
 
     account_group_id: Optional[str] = None
     r"""An Account Group is a way of segmenting accounts within a Correspondent; It is up to the client to define what these groups are and AFS Operations is responsible for configuring them; If the client requests additional groups/codes, they can be added; Examples of Account Groups could hypothetically include HNW (High Net Worth), GOLD (Gold Status Customer), and NWC (Northwest Branch Customer)"""
@@ -567,7 +576,7 @@ class Account(BaseModel):
     r"""The list of restrictions currently impacting a given account; Restrictions suspend one or more entitlements dependent on their mapping"""
 
     advised: Optional[bool] = None
-    r"""A boolean to indicate if an account is advised"""
+    r"""A boolean to indicate if an account is advised. By default, this is set to `false`."""
 
     agreements: Optional[List[Agreement]] = None
     r"""The collection of legal agreements belonging to a given account"""
@@ -576,6 +585,11 @@ class Account(BaseModel):
         Optional[AccountCatAccountHolderType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
+
+    cftc_owner_type: Annotated[
+        Optional[CftcOwnerType], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates the CFTC (Commodity Futures Trading Commission) owner type of the account. This enum only applies to accounts regulated by the CFTC"""
 
     close_time: OptionalNullable[datetime] = UNSET
     r"""The time the account was closed; If the account is not closed, this is null"""
@@ -617,7 +631,7 @@ class Account(BaseModel):
     r"""The account's goals and customer's financial profile; Used to assess customer fitness and is required by FINRA"""
 
     managed: Optional[bool] = None
-    r"""A boolean to indicate if an account is managed"""
+    r"""A boolean to indicate if an account is managed. By default, this is set to `false`."""
 
     margin_group_id: Optional[str] = None
     r"""An identifier generated for all non-cash accounts; Uses a combination of account type and owner information to tie accounts together in order to perform margin calculations"""
@@ -637,7 +651,7 @@ class Account(BaseModel):
     r"""Parties associated with the account (e.g. custodian)."""
 
     pattern_day_trader: Optional[bool] = None
-    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days"""
+    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days. By default, this is set to `false`."""
 
     primary_registered_rep_id: Optional[str] = None
     r"""The primary registered representative for the account"""
@@ -667,7 +681,7 @@ class Account(BaseModel):
     r"""A list of persons designated to verify the well being of the account holder."""
 
     wrap_fee_billed: Optional[bool] = None
-    r"""A boolean to indicate if an account is a wrap brokerage account"""
+    r"""A boolean to indicate if an account is a wrap brokerage account. By default, this is set to `false`."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -680,6 +694,7 @@ class Account(BaseModel):
             "advised",
             "agreements",
             "cat_account_holder_type",
+            "cftc_owner_type",
             "close_time",
             "correspondent_id",
             "create_time",

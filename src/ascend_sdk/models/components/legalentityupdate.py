@@ -151,7 +151,7 @@ class LegalEntityUpdateTypedDict(TypedDict):
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
     large_trader: NotRequired[LargeTraderUpdateTypedDict]
     r"""A large trader."""
     legal_address: NotRequired[PostalAddressUpdateTypedDict]
@@ -176,7 +176,7 @@ class LegalEntityUpdateTypedDict(TypedDict):
     revocable_trust: NotRequired[bool]
     r"""Indicates whether the trust is a revocable trust. By default, this is set to `false`."""
     subject_to_backup_withholding: NotRequired[bool]
-    r"""Boolean indicator whether the LE is subject to backup withholding"""
+    r"""Boolean indicator whether the LE is subject to backup withholding. By default, this is set to `false`."""
     tax_id: NotRequired[str]
     r"""The full U.S. tax ID for a related entity; Must be provided with `EIN` tax ID type"""
     tax_id_type: NotRequired[LegalEntityUpdateTaxIDType]
@@ -256,7 +256,7 @@ class LegalEntityUpdate(BaseModel):
     """
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
 
     large_trader: Optional[LargeTraderUpdate] = None
     r"""A large trader."""
@@ -290,7 +290,7 @@ class LegalEntityUpdate(BaseModel):
     r"""Indicates whether the trust is a revocable trust. By default, this is set to `false`."""
 
     subject_to_backup_withholding: Optional[bool] = None
-    r"""Boolean indicator whether the LE is subject to backup withholding"""
+    r"""Boolean indicator whether the LE is subject to backup withholding. By default, this is set to `false`."""
 
     tax_id: Optional[str] = None
     r"""The full U.S. tax ID for a related entity; Must be provided with `EIN` tax ID type"""

@@ -485,6 +485,7 @@ class LegalEntityTaxpayerCertificationState(str, Enum, metaclass=utils.OpenEnumM
     )
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
+    PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
 
 
 class LegalEntityUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -672,7 +673,7 @@ class LegalEntityTypedDict(TypedDict):
     global_person_id: NotRequired[str]
     r"""Globally Unique identifier for a legal natural person"""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
     investigation_id: NotRequired[str]
     r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""
     large_trader: NotRequired[Nullable[LegalEntityLargeTraderTypedDict]]
@@ -783,7 +784,7 @@ class LegalEntity(BaseModel):
     r"""Globally Unique identifier for a legal natural person"""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
 
     investigation_id: Optional[str] = None
     r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""

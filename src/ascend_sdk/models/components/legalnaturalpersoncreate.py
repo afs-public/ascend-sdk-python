@@ -93,13 +93,13 @@ class LegalNaturalPersonCreateTypedDict(TypedDict):
     tax_profile: TaxProfileCreateTypedDict
     r"""Tax Profile pertaining to the Legal Entity or Natural Person."""
     accredited_investor: NotRequired[bool]
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
     adviser: NotRequired[bool]
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
     customer_identification_id: NotRequired[str]
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
     death_date: NotRequired[DateCreateTypedDict]
@@ -118,7 +118,7 @@ class LegalNaturalPersonCreateTypedDict(TypedDict):
     identity_verification_result: NotRequired[IdentityVerificationResultCreateTypedDict]
     r"""An identity verification result that clients may supply. This result represents data and confirmation attesting to identity verification."""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
     large_trader: NotRequired[LargeTraderCreateTypedDict]
     r"""A large trader."""
     marital_status: NotRequired[MaritalStatus]
@@ -136,7 +136,7 @@ class LegalNaturalPersonCreateTypedDict(TypedDict):
     politically_exposed_organization: NotRequired[str]
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
     subject_to_backup_withholding: NotRequired[bool]
-    r"""Boolean indicator whether the LNP is subject to backup withholding"""
+    r"""Boolean indicator whether the LNP is subject to backup withholding. By default, this is set to `false`."""
     tax_id: NotRequired[str]
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""
     tax_id_type: NotRequired[TaxIDType]
@@ -183,16 +183,16 @@ class LegalNaturalPersonCreate(BaseModel):
     r"""Tax Profile pertaining to the Legal Entity or Natural Person."""
 
     accredited_investor: Optional[bool] = None
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
 
     adviser: Optional[bool] = None
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
 
     control_person_company_symbols: Optional[str] = None
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
 
     correspondent_employee: Optional[bool] = None
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
 
     customer_identification_id: Optional[str] = None
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
@@ -218,7 +218,7 @@ class LegalNaturalPersonCreate(BaseModel):
     r"""An identity verification result that clients may supply. This result represents data and confirmation attesting to identity verification."""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
 
     large_trader: Optional[LargeTraderCreate] = None
     r"""A large trader."""
@@ -249,7 +249,7 @@ class LegalNaturalPersonCreate(BaseModel):
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
 
     subject_to_backup_withholding: Optional[bool] = None
-    r"""Boolean indicator whether the LNP is subject to backup withholding"""
+    r"""Boolean indicator whether the LNP is subject to backup withholding. By default, this is set to `false`."""
 
     tax_id: Optional[str] = None
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""

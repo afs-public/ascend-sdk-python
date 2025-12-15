@@ -3748,6 +3748,708 @@ class TestSimulation(BaseSDK):
 
         raise errors.SDKError("Unexpected response received", http_res)
 
+    def simulate_wire_deposit(
+        self,
+        *,
+        account_id: str,
+        simulate_wire_deposit_request_create: Union[
+            components.SimulateWireDepositRequestCreate,
+            components.SimulateWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsSimulateWireDepositResponse:
+        r"""Simulate Wire Deposit
+
+        Simulates the process of creating a wire deposit - FOR TESTING
+
+        :param account_id: The account id.
+        :param simulate_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsSimulateWireDepositRequest(
+            account_id=account_id,
+            simulate_wire_deposit_request_create=utils.get_pydantic_model(
+                simulate_wire_deposit_request_create,
+                components.SimulateWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits:simulate",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.simulate_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.SimulateWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_SimulateWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsSimulateWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsSimulateWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def simulate_wire_deposit_async(
+        self,
+        *,
+        account_id: str,
+        simulate_wire_deposit_request_create: Union[
+            components.SimulateWireDepositRequestCreate,
+            components.SimulateWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsSimulateWireDepositResponse:
+        r"""Simulate Wire Deposit
+
+        Simulates the process of creating a wire deposit - FOR TESTING
+
+        :param account_id: The account id.
+        :param simulate_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsSimulateWireDepositRequest(
+            account_id=account_id,
+            simulate_wire_deposit_request_create=utils.get_pydantic_model(
+                simulate_wire_deposit_request_create,
+                components.SimulateWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits:simulate",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.simulate_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.SimulateWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_SimulateWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsSimulateWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsSimulateWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def force_approve_wire_deposit(
+        self,
+        *,
+        account_id: str,
+        wire_deposit_id: str,
+        force_approve_wire_deposit_request_create: Union[
+            components.ForceApproveWireDepositRequestCreate,
+            components.ForceApproveWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsForceApproveWireDepositResponse:
+        r"""Force Approve Wire Deposit
+
+        Simulates the process of approving a wire deposit - FOR TESTING
+
+        :param account_id: The account id.
+        :param wire_deposit_id: The wireDeposit id.
+        :param force_approve_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsForceApproveWireDepositRequest(
+            account_id=account_id,
+            wire_deposit_id=wire_deposit_id,
+            force_approve_wire_deposit_request_create=utils.get_pydantic_model(
+                force_approve_wire_deposit_request_create,
+                components.ForceApproveWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceApprove",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.force_approve_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.ForceApproveWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_ForceApproveWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsForceApproveWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsForceApproveWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def force_approve_wire_deposit_async(
+        self,
+        *,
+        account_id: str,
+        wire_deposit_id: str,
+        force_approve_wire_deposit_request_create: Union[
+            components.ForceApproveWireDepositRequestCreate,
+            components.ForceApproveWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsForceApproveWireDepositResponse:
+        r"""Force Approve Wire Deposit
+
+        Simulates the process of approving a wire deposit - FOR TESTING
+
+        :param account_id: The account id.
+        :param wire_deposit_id: The wireDeposit id.
+        :param force_approve_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsForceApproveWireDepositRequest(
+            account_id=account_id,
+            wire_deposit_id=wire_deposit_id,
+            force_approve_wire_deposit_request_create=utils.get_pydantic_model(
+                force_approve_wire_deposit_request_create,
+                components.ForceApproveWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceApprove",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.force_approve_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.ForceApproveWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_ForceApproveWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsForceApproveWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsForceApproveWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def force_reject_wire_deposit(
+        self,
+        *,
+        account_id: str,
+        wire_deposit_id: str,
+        force_reject_wire_deposit_request_create: Union[
+            components.ForceRejectWireDepositRequestCreate,
+            components.ForceRejectWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsForceRejectWireDepositResponse:
+        r"""Force Reject Wire Deposit
+
+        Forces a rejection on an existing wire deposit pending review - FOR TESTING
+
+        :param account_id: The account id.
+        :param wire_deposit_id: The wireDeposit id.
+        :param force_reject_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsForceRejectWireDepositRequest(
+            account_id=account_id,
+            wire_deposit_id=wire_deposit_id,
+            force_reject_wire_deposit_request_create=utils.get_pydantic_model(
+                force_reject_wire_deposit_request_create,
+                components.ForceRejectWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceReject",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.force_reject_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.ForceRejectWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_ForceRejectWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsForceRejectWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsForceRejectWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def force_reject_wire_deposit_async(
+        self,
+        *,
+        account_id: str,
+        wire_deposit_id: str,
+        force_reject_wire_deposit_request_create: Union[
+            components.ForceRejectWireDepositRequestCreate,
+            components.ForceRejectWireDepositRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.WireDepositsForceRejectWireDepositResponse:
+        r"""Force Reject Wire Deposit
+
+        Forces a rejection on an existing wire deposit pending review - FOR TESTING
+
+        :param account_id: The account id.
+        :param wire_deposit_id: The wireDeposit id.
+        :param force_reject_wire_deposit_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.WireDepositsForceRejectWireDepositRequest(
+            account_id=account_id,
+            wire_deposit_id=wire_deposit_id,
+            force_reject_wire_deposit_request_create=utils.get_pydantic_model(
+                force_reject_wire_deposit_request_create,
+                components.ForceRejectWireDepositRequestCreate,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/wireDeposits/{wireDeposit_id}:forceReject",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.force_reject_wire_deposit_request_create,
+                False,
+                False,
+                "json",
+                components.ForceRejectWireDepositRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="WireDeposits_ForceRejectWireDeposit",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.WireDepositsForceRejectWireDepositResponse(
+                wire_deposit=unmarshal_json_response(
+                    Optional[components.WireDeposit], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.WireDepositsForceRejectWireDepositResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
     def force_approve_cash_journal(
         self,
         *,

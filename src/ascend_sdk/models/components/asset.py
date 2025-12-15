@@ -721,9 +721,9 @@ class MutualFund(BaseModel):
     fund_family: Optional[str] = None
     r"""Name of the fund company"""
 
-    large_order_notification_amount: OptionalNullable[
-        LargeOrderNotificationAmount
-    ] = UNSET
+    large_order_notification_amount: OptionalNullable[LargeOrderNotificationAmount] = (
+        UNSET
+    )
     r"""The threshold at which Apex would need to notify the fund family of an incoming large order."""
 
     mutual_fund_type: Annotated[
@@ -1328,9 +1328,9 @@ class Asset(BaseModel):
     symbol: Optional[str] = None
     r"""An arrangement of characters—usually letters and or numbers — usually representing securities on an exchange"""
 
-    type: Annotated[
-        Optional[AssetType1], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Annotated[Optional[AssetType1], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""The type or category of the asset"""
 
     usable: Optional[bool] = None

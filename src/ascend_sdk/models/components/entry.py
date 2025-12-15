@@ -164,9 +164,9 @@ class AccountTransfer(BaseModel):
     ] = None
     r"""The type of asset movement being performed within the lifecycle of an account transfer process"""
 
-    action: Annotated[
-        Optional[Action], PlainValidator(validate_open_enum(False))
-    ] = None
+    action: Annotated[Optional[Action], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""Indicates whether the account transfer is incoming or outgoing"""
 
     additional_instructions: Optional[str] = None
@@ -190,9 +190,9 @@ class AccountTransfer(BaseModel):
     institution: Optional[str] = None
     r"""Contra party institution for the account transfer"""
 
-    method: Annotated[
-        Optional[Method], PlainValidator(validate_open_enum(False))
-    ] = None
+    method: Annotated[Optional[Method], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""the method used for the account transfer"""
 
     @model_serializer(mode="wrap")
@@ -1266,9 +1266,9 @@ class CashDividend(BaseModel):
     substitute_payment: Optional[bool] = None
     r"""Indicates whether the corporate action event is a substitute payment"""
 
-    subtype: Annotated[
-        Optional[Subtype], PlainValidator(validate_open_enum(False))
-    ] = None
+    subtype: Annotated[Optional[Subtype], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""Corresponds to the subtype of corporaction type"""
 
     @model_serializer(mode="wrap")
@@ -6639,9 +6639,9 @@ class WithdrawalPendingReviewTypedDict(TypedDict):
 class WithdrawalPendingReview(BaseModel):
     r"""Used to record the movement of funds to/ from the pending_withdrawal memo location"""
 
-    review: Annotated[
-        Optional[Review], PlainValidator(validate_open_enum(False))
-    ] = None
+    review: Annotated[Optional[Review], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""Indicates the state of the withdrawal review"""
 
 
@@ -7265,9 +7265,9 @@ class Entry(BaseModel):
     settle_date: OptionalNullable[SettleDate] = UNSET
     r"""The date a given entry/ activity will officially settle"""
 
-    side: Annotated[
-        Optional[EntrySide], PlainValidator(validate_open_enum(False))
-    ] = None
+    side: Annotated[Optional[EntrySide], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""Denotes whether the trade is a buy or sell"""
 
     side_modifier: Annotated[
@@ -7304,9 +7304,9 @@ class Entry(BaseModel):
     transfer: OptionalNullable[EntryTransfer] = UNSET
     r"""Used to record more generic transfers of funds or securities and details related to the transfer. The transfer type and activity_description can be used to provide more specific context"""
 
-    type: Annotated[
-        Optional[EntryType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Annotated[Optional[EntryType], PlainValidator(validate_open_enum(False))] = (
+        None
+    )
     r"""The Type of the entry; determines the set of mandatory fields as well as informing downstream processes how to handle this record"""
 
     unit_split: OptionalNullable[UnitSplit] = UNSET

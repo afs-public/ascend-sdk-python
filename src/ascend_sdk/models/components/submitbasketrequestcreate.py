@@ -19,7 +19,7 @@ class SubmitBasketRequestCreateTypedDict(TypedDict):
     name: str
     r"""Format: correspondents/{correspondent}/baskets/{basket}"""
     client_basket_submit_time: NotRequired[Nullable[datetime]]
-    r"""Time the basket submission request was sent by the client. This is a required field for clients that we report on behalf of, and it will be validated accordingly."""
+    r"""Time the basket submission request was sent by the client. This is a required field for clients that we report on behalf of, and it will be validated accordingly. Timezone information will default to UTC if not provided."""
 
 
 class SubmitBasketRequestCreate(BaseModel):
@@ -29,7 +29,7 @@ class SubmitBasketRequestCreate(BaseModel):
     r"""Format: correspondents/{correspondent}/baskets/{basket}"""
 
     client_basket_submit_time: OptionalNullable[datetime] = UNSET
-    r"""Time the basket submission request was sent by the client. This is a required field for clients that we report on behalf of, and it will be validated accordingly."""
+    r"""Time the basket submission request was sent by the client. This is a required field for clients that we report on behalf of, and it will be validated accordingly. Timezone information will default to UTC if not provided."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

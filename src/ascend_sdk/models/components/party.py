@@ -17,6 +17,15 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class PartyCftcDocumentDeliveryPreference(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Delivery method instruction for CFTC documents for a given Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
+
+    DELIVERY_PREFERENCE_UNSPECIFIED = "DELIVERY_PREFERENCE_UNSPECIFIED"
+    DIGITAL = "DIGITAL"
+    PHYSICAL = "PHYSICAL"
+    SUPPRESS = "SUPPRESS"
+
+
 class PartyBusinessIndustrialClassification(str, Enum, metaclass=utils.OpenEnumMeta):
     BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED = (
         "BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED"
@@ -483,6 +492,7 @@ class PartyTaxpayerCertificationState(str, Enum, metaclass=utils.OpenEnumMeta):
     )
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
+    PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
 
 
 class PartyUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -667,7 +677,7 @@ class PartyLegalEntityTypedDict(TypedDict):
     global_person_id: NotRequired[str]
     r"""Globally Unique identifier for a legal natural person"""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
     investigation_id: NotRequired[str]
     r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""
     large_trader: NotRequired[Nullable[PartyLargeTraderTypedDict]]
@@ -776,7 +786,7 @@ class PartyLegalEntity(BaseModel):
     r"""Globally Unique identifier for a legal natural person"""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the entity is an institutional customer"""
+    r"""Indicates whether the entity is an institutional customer. By default, this is set to `false`."""
 
     investigation_id: Optional[str] = None
     r"""Investigation id relating to the Customer Identification Program (CIP) and Customer Due Diligence (CDD)."""
@@ -1945,6 +1955,7 @@ class PartyLegalNaturalPersonTaxpayerCertificationState(
     )
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
+    PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
 
 
 class PartyLegalNaturalPersonUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -2010,9 +2021,9 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
     ] = None
     r"""Federal tax classification."""
 
-    first_b_notice_date: OptionalNullable[
-        PartyLegalNaturalPersonFirstBNoticeDate
-    ] = UNSET
+    first_b_notice_date: OptionalNullable[PartyLegalNaturalPersonFirstBNoticeDate] = (
+        UNSET
+    )
     r"""Initial B Notice date."""
 
     irs_form_type: Annotated[
@@ -2103,9 +2114,9 @@ class PartyLegalNaturalPersonTypedDict(TypedDict):
     r"""Legal natural person."""
 
     accredited_investor: NotRequired[bool]
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
     adviser: NotRequired[bool]
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
     birth_date: NotRequired[Nullable[PartyBirthDateTypedDict]]
     r"""The legal day, month, and year of birth for a natural person."""
     citizenship_countries: NotRequired[List[str]]
@@ -2113,11 +2124,11 @@ class PartyLegalNaturalPersonTypedDict(TypedDict):
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
     correspondent_id: NotRequired[str]
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
     custodian_employee: NotRequired[bool]
-    r"""A flag to indicate whether this person is an employee of the correspondent."""
+    r"""A flag to indicate whether this person is an employee of the correspondent. By default, this is set to `false`."""
     customer_identification_id: NotRequired[str]
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
     death_date: NotRequired[Nullable[PartyDeathDateTypedDict]]
@@ -2146,7 +2157,7 @@ class PartyLegalNaturalPersonTypedDict(TypedDict):
     ]
     r"""Third-party data result used to verify the identity of an introduced investor. If the client identity_verification_model is PROVIDED_BY_CLIENT, this field is required"""
     institutional_customer: NotRequired[bool]
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
     investigation_id: NotRequired[str]
     r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""
     large_trader: NotRequired[Nullable[PartyLegalNaturalPersonLargeTraderTypedDict]]
@@ -2191,10 +2202,10 @@ class PartyLegalNaturalPerson(BaseModel):
     r"""Legal natural person."""
 
     accredited_investor: Optional[bool] = None
-    r"""Indicates whether the person is an accredited investor"""
+    r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
 
     adviser: Optional[bool] = None
-    r"""Indicates whether the person is an adviser"""
+    r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
 
     birth_date: OptionalNullable[PartyBirthDate] = UNSET
     r"""The legal day, month, and year of birth for a natural person."""
@@ -2206,13 +2217,13 @@ class PartyLegalNaturalPerson(BaseModel):
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
 
     correspondent_employee: Optional[bool] = None
-    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer."""
+    r"""Indicates the related owner record is an employee of the clearing broker's correspondent customer. By default, this is set to `false`."""
 
     correspondent_id: Optional[str] = None
     r"""A unique identifier referencing a Correspondent; A Client may have several operating Correspondents within its purview."""
 
     custodian_employee: Optional[bool] = None
-    r"""A flag to indicate whether this person is an employee of the correspondent."""
+    r"""A flag to indicate whether this person is an employee of the correspondent. By default, this is set to `false`."""
 
     customer_identification_id: Optional[str] = None
     r"""Customer identification id returned by the customer identification service which represents a single instance of an identity verification outcome for the specified customer. This verification result will be used as part of the full investigation."""
@@ -2246,13 +2257,13 @@ class PartyLegalNaturalPerson(BaseModel):
     global_person_id: Optional[str] = None
     r"""Globally Unique identifier for a legal natural person"""
 
-    identity_verification_result: OptionalNullable[
-        PartyIdentityVerificationResult
-    ] = UNSET
+    identity_verification_result: OptionalNullable[PartyIdentityVerificationResult] = (
+        UNSET
+    )
     r"""Third-party data result used to verify the identity of an introduced investor. If the client identity_verification_model is PROVIDED_BY_CLIENT, this field is required"""
 
     institutional_customer: Optional[bool] = None
-    r"""Indicates whether the person is an institutional customer"""
+    r"""Indicates whether the person is an institutional customer. By default, this is set to `false`."""
 
     investigation_id: Optional[str] = None
     r"""Investigation id relating a comprehensive investigation for a customer, encompassing the aggregation of identity verification results and watchlist screenings, conducted to support the Customer Identification Program (CIP) and Customer Due Diligence (CDD)"""
@@ -2676,6 +2687,8 @@ class PartyTradeConfirmationDeliveryPreference(str, Enum, metaclass=utils.OpenEn
 class PartyTypedDict(TypedDict):
     r"""A single record representing an owner or manager of an Account. Contains fully populated Party Identity object."""
 
+    cftc_document_delivery_preference: NotRequired[PartyCftcDocumentDeliveryPreference]
+    r"""Delivery method instruction for CFTC documents for a given Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
     email_address: NotRequired[str]
     r"""An email address indicated for account communications."""
     legal_entity: NotRequired[Nullable[PartyLegalEntityTypedDict]]
@@ -2714,6 +2727,12 @@ class PartyTypedDict(TypedDict):
 
 class Party(BaseModel):
     r"""A single record representing an owner or manager of an Account. Contains fully populated Party Identity object."""
+
+    cftc_document_delivery_preference: Annotated[
+        Optional[PartyCftcDocumentDeliveryPreference],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Delivery method instruction for CFTC documents for a given Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
 
     email_address: Optional[str] = None
     r"""An email address indicated for account communications."""
@@ -2780,6 +2799,7 @@ class Party(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
+            "cftc_document_delivery_preference",
             "email_address",
             "legal_entity",
             "legal_natural_person",
