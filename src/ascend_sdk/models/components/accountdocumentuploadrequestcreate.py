@@ -134,6 +134,7 @@ class DocumentType(str, Enum, metaclass=utils.OpenEnumMeta):
     CHANGE_OF_ADDRESS_REQUEST = "CHANGE_OF_ADDRESS_REQUEST"
     OPTIONS_AGREEMENT = "OPTIONS_AGREEMENT"
     STATE_WAIVER_FORM = "STATE_WAIVER_FORM"
+    ALTS_SUBSCRIPTION_AGREEMENT = "ALTS_SUBSCRIPTION_AGREEMENT"
 
 
 class AccountDocumentUploadRequestCreateTypedDict(TypedDict):

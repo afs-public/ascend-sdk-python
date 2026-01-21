@@ -18,7 +18,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class AddressTypedDict(TypedDict):
+class WireWithdrawalScheduleAddressTypedDict(TypedDict):
     r"""The address of the person or entity taking receipt of the wired funds. This will be populated automatically in the case of a valid first-party wire"""
 
     city: NotRequired[str]
@@ -33,7 +33,7 @@ class AddressTypedDict(TypedDict):
     r"""The street name and number relating to a party's legal or mailing address."""
 
 
-class Address(BaseModel):
+class WireWithdrawalScheduleAddress(BaseModel):
     r"""The address of the person or entity taking receipt of the wired funds. This will be populated automatically in the case of a valid first-party wire"""
 
     city: Optional[str] = None
@@ -61,7 +61,7 @@ class WireWithdrawalScheduleBeneficiaryTypedDict(TypedDict):
     r"""The bank account of the person or entity taking receipt of the wired funds. Limited to 25 characters if intermediaryDetails.account is set"""
     account_title: NotRequired[str]
     r"""The name of the person or entity taking receipt of the wired funds. This field defaults to the name of the account owner and should only be populated when performing a third party wire transfer"""
-    address: NotRequired[Nullable[AddressTypedDict]]
+    address: NotRequired[Nullable[WireWithdrawalScheduleAddressTypedDict]]
     r"""The address of the person or entity taking receipt of the wired funds. This will be populated automatically in the case of a valid first-party wire"""
     third_party: NotRequired[bool]
     r"""Indicates if this beneficiary is a third party beneficiary. A wire transfer is considered third party if the beneficiary is not the exact same person and/or entity that the funds originated from. This includes wire transfers where the originator account is an individual account and the beneficiary account is a joint account"""
@@ -76,7 +76,7 @@ class WireWithdrawalScheduleBeneficiary(BaseModel):
     account_title: Optional[str] = None
     r"""The name of the person or entity taking receipt of the wired funds. This field defaults to the name of the account owner and should only be populated when performing a third party wire transfer"""
 
-    address: OptionalNullable[Address] = UNSET
+    address: OptionalNullable[WireWithdrawalScheduleAddress] = UNSET
     r"""The address of the person or entity taking receipt of the wired funds. This will be populated automatically in the case of a valid first-party wire"""
 
     third_party: Optional[bool] = None
@@ -106,14 +106,14 @@ class WireWithdrawalScheduleBeneficiary(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
         return m
 
 
-class WireWithdrawalScheduleAddressTypedDict(TypedDict):
+class WireWithdrawalScheduleIntermediaryAddressTypedDict(TypedDict):
     r"""The address of the intermediary party"""
 
     city: NotRequired[str]
@@ -128,7 +128,7 @@ class WireWithdrawalScheduleAddressTypedDict(TypedDict):
     r"""The street name and number relating to a party's legal or mailing address."""
 
 
-class WireWithdrawalScheduleAddress(BaseModel):
+class WireWithdrawalScheduleIntermediaryAddress(BaseModel):
     r"""The address of the intermediary party"""
 
     city: Optional[str] = None
@@ -156,7 +156,7 @@ class IntermediaryTypedDict(TypedDict):
     r"""The account number of the intermediary party"""
     account_title: NotRequired[str]
     r"""The name of the intermediary party"""
-    address: NotRequired[Nullable[WireWithdrawalScheduleAddressTypedDict]]
+    address: NotRequired[Nullable[WireWithdrawalScheduleIntermediaryAddressTypedDict]]
     r"""The address of the intermediary party"""
 
 
@@ -169,7 +169,7 @@ class Intermediary(BaseModel):
     account_title: Optional[str] = None
     r"""The name of the intermediary party"""
 
-    address: OptionalNullable[WireWithdrawalScheduleAddress] = UNSET
+    address: OptionalNullable[WireWithdrawalScheduleIntermediaryAddress] = UNSET
     r"""The address of the intermediary party"""
 
     @model_serializer(mode="wrap")
@@ -196,7 +196,7 @@ class Intermediary(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -316,7 +316,7 @@ class InternationalBankDetails(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -365,7 +365,7 @@ class RecipientBank(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -452,7 +452,7 @@ class WireWithdrawalScheduleFederalTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -535,7 +535,7 @@ class WireWithdrawalScheduleStateTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -652,7 +652,7 @@ class WireWithdrawalScheduleRetirementDistribution(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -811,7 +811,7 @@ class WireWithdrawalScheduleScheduleProperties(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -879,7 +879,7 @@ class WireWithdrawalScheduleScheduleDetails(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -967,7 +967,7 @@ class WireWithdrawalSchedule(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

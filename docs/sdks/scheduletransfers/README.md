@@ -16,6 +16,11 @@
 * [get_ach_withdrawal_schedule](#get_ach_withdrawal_schedule) - Get ACH Withdrawal Schedule
 * [update_ach_withdrawal_schedule](#update_ach_withdrawal_schedule) - Update ACH Withdrawal Schedule
 * [cancel_ach_withdrawal_schedule](#cancel_ach_withdrawal_schedule) - Cancel ACH Withdrawal Schedule
+* [create_check_withdrawal_schedule](#create_check_withdrawal_schedule) - Create Check Withdrawal Schedule
+* [list_check_withdrawal_schedules](#list_check_withdrawal_schedules) - List Check Withdrawal Schedules
+* [get_check_withdrawal_schedule](#get_check_withdrawal_schedule) - Get Check Withdrawal Schedule
+* [update_check_withdrawal_schedule](#update_check_withdrawal_schedule) - Update Check Withdrawal Schedule
+* [cancel_check_withdrawal_schedule](#cancel_check_withdrawal_schedule) - Cancel Check Withdrawal Schedule
 * [create_wire_withdrawal_schedule](#create_wire_withdrawal_schedule) - Create Wire Withdrawal Schedule
 * [list_wire_withdrawal_schedules](#list_wire_withdrawal_schedules) - List Wire Withdrawal Schedules
 * [get_wire_withdrawal_schedule](#get_wire_withdrawal_schedule) - Get Wire Withdrawal Schedule
@@ -630,6 +635,283 @@ with SDK(
 | errors.Status    | 400, 403, 404    | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
+## create_check_withdrawal_schedule
+
+Creates a Check withdrawal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckWithdrawalSchedules_CreateCheckWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.create_check_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", check_withdrawal_schedule_create=components.CheckWithdrawalScheduleCreate(
+        delivery_method=components.DeliveryMethod.STANDARD,
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            client_schedule_id="ABC-123",
+            schedule_properties=components.SchedulePropertiesCreate(
+                start_date=components.DateCreate(),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+    ))
+
+    assert res.check_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.check_withdrawal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          | Example                                                                                              |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                         | *str*                                                                                                | :heavy_check_mark:                                                                                   | The account id.                                                                                      | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                           |
+| `check_withdrawal_schedule_create`                                                                   | [components.CheckWithdrawalScheduleCreate](../../models/components/checkwithdrawalschedulecreate.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |                                                                                                      |
+| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |                                                                                                      |
+
+### Response
+
+**[operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse](../../models/operations/checkwithdrawalschedulescreatecheckwithdrawalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 409    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## list_check_withdrawal_schedules
+
+Return a list of Check withdrawal schedules for the specified account and filter params
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckWithdrawalSchedules_ListCheckWithdrawalSchedules" method="get" path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.list_check_withdrawal_schedules(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", filter_="state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'", page_size=100, page_token="4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4")
+
+    assert res.list_check_withdrawal_schedules_response is not None
+
+    # Handle response
+    print(res.list_check_withdrawal_schedules_response)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                       | Type                                                                                                                                                                                                                            | Required                                                                                                                                                                                                                        | Description                                                                                                                                                                                                                     | Example                                                                                                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                                                                                                                                    | *str*                                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                              | The account id.                                                                                                                                                                                                                 | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                                                                                                                                      |
+| `filter_`                                                                                                                                                                                                                       | *Optional[str]*                                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                              | A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:<br/> `state`<br/> `start_date`<br/> `end_date` | state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'                                                                                                                                                       |
+| `page_size`                                                                                                                                                                                                                     | *Optional[int]*                                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                              | The maximum number of schedules to return. The service may return fewer than this value. If unspecified, at most 25 schedules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.           | 100                                                                                                                                                                                                                             |
+| `page_token`                                                                                                                                                                                                                    | *Optional[str]*                                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                              | The page token to request                                                                                                                                                                                                       | 4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4                                                                                                                                                                                     |
+| `retries`                                                                                                                                                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                              | Configuration to override the default retry behavior of the client.                                                                                                                                                             |                                                                                                                                                                                                                                 |
+
+### Response
+
+**[operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse](../../models/operations/checkwithdrawalscheduleslistcheckwithdrawalschedulesresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## get_check_withdrawal_schedule
+
+Gets a Check withdrawal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckWithdrawalSchedules_GetCheckWithdrawalSchedule" method="get" path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.get_check_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", check_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
+
+    assert res.check_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.check_withdrawal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `account_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | The account id.                                                     | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                          |
+| `check_withdrawal_schedule_id`                                      | *str*                                                               | :heavy_check_mark:                                                  | The checkWithdrawalSchedule id.                                     | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
+
+### Response
+
+**[operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse](../../models/operations/checkwithdrawalschedulesgetcheckwithdrawalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## update_check_withdrawal_schedule
+
+Updates the amount of a Check withdrawal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckWithdrawalSchedules_UpdateCheckWithdrawalSchedule" method="patch" path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.update_check_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", check_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", check_withdrawal_schedule_update={})
+
+    assert res.check_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.check_withdrawal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                 | Type                                                                                                                      | Required                                                                                                                  | Description                                                                                                               | Example                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                              | *str*                                                                                                                     | :heavy_check_mark:                                                                                                        | The account id.                                                                                                           | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                                |
+| `check_withdrawal_schedule_id`                                                                                            | *str*                                                                                                                     | :heavy_check_mark:                                                                                                        | The checkWithdrawalSchedule id.                                                                                           | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                                                                      |
+| `check_withdrawal_schedule_update`                                                                                        | [components.CheckWithdrawalScheduleUpdate](../../models/components/checkwithdrawalscheduleupdate.md)                      | :heavy_check_mark:                                                                                                        | N/A                                                                                                                       |                                                                                                                           |
+| `update_mask`                                                                                                             | *Optional[str]*                                                                                                           | :heavy_minus_sign:                                                                                                        | A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable |                                                                                                                           |
+| `retries`                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                          | :heavy_minus_sign:                                                                                                        | Configuration to override the default retry behavior of the client.                                                       |                                                                                                                           |
+
+### Response
+
+**[operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse](../../models/operations/checkwithdrawalschedulesupdatecheckwithdrawalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## cancel_check_withdrawal_schedule
+
+Cancels a Check withdrawal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckWithdrawalSchedules_CancelCheckWithdrawalSchedule" method="post" path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}:cancel" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.cancel_check_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", check_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_check_withdrawal_schedule_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/checkWithdrawalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
+    })
+
+    assert res.check_withdrawal_schedule is not None
+
+    # Handle response
+    print(res.check_withdrawal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                      | Type                                                                                                                           | Required                                                                                                                       | Description                                                                                                                    | Example                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `account_id`                                                                                                                   | *str*                                                                                                                          | :heavy_check_mark:                                                                                                             | The account id.                                                                                                                | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                                     |
+| `check_withdrawal_schedule_id`                                                                                                 | *str*                                                                                                                          | :heavy_check_mark:                                                                                                             | The checkWithdrawalSchedule id.                                                                                                | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                                                                           |
+| `cancel_check_withdrawal_schedule_request_create`                                                                              | [components.CancelCheckWithdrawalScheduleRequestCreate](../../models/components/cancelcheckwithdrawalschedulerequestcreate.md) | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            |                                                                                                                                |
+| `retries`                                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                               | :heavy_minus_sign:                                                                                                             | Configuration to override the default retry behavior of the client.                                                            |                                                                                                                                |
+
+### Response
+
+**[operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse](../../models/operations/checkwithdrawalschedulescancelcheckwithdrawalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
 ## create_wire_withdrawal_schedule
 
 Creates a Wire withdrawal transfer schedule
@@ -830,7 +1112,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.schedule_transfers.update_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", wire_withdrawal_schedule_update={})
+    res = sdk.schedule_transfers.update_wire_withdrawal_schedule(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", wire_withdrawal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", wire_withdrawal_schedule_update={}, update_mask="[object Object]")
 
     assert res.wire_withdrawal_schedule is not None
 
@@ -846,7 +1128,7 @@ with SDK(
 | `account_id`                                                                                                              | *str*                                                                                                                     | :heavy_check_mark:                                                                                                        | The account id.                                                                                                           | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                                |
 | `wire_withdrawal_schedule_id`                                                                                             | *str*                                                                                                                     | :heavy_check_mark:                                                                                                        | The wireWithdrawalSchedule id.                                                                                            | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                                                                      |
 | `wire_withdrawal_schedule_update`                                                                                         | [components.WireWithdrawalScheduleUpdate](../../models/components/wirewithdrawalscheduleupdate.md)                        | :heavy_check_mark:                                                                                                        | N/A                                                                                                                       |                                                                                                                           |
-| `update_mask`                                                                                                             | *Optional[str]*                                                                                                           | :heavy_minus_sign:                                                                                                        | A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable |                                                                                                                           |
+| `update_mask`                                                                                                             | *Optional[str]*                                                                                                           | :heavy_minus_sign:                                                                                                        | A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable | {<br/>"update_mask": "schedule_details.amount"<br/>}                                                                      |
 | `retries`                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                          | :heavy_minus_sign:                                                                                                        | Configuration to override the default retry behavior of the client.                                                       |                                                                                                                           |
 
 ### Response

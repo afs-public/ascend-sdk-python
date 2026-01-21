@@ -17,12 +17,16 @@ class PushSubscriptionCreateTypedDict(TypedDict):
     r"""The user-defined name for the subscription"""
     event_types: List[str]
     r"""Filter for event types; [\"\*\"] matches all values; Suffix wildcards using \"\*\" (e.g. [\"account.\*\"]) are supported"""
+    account_group_id: NotRequired[str]
+    r"""The id of the account group to receive events for; The subscription will receive events related to any of the accounts in the specified account group; This can only be set at creation time and is mutually exclusive with client_id and correspondent_id"""
     client_id: NotRequired[str]
-    r"""The client that owns the subscription. A client subscription will receive events for it and all of its correspondents. This can only be set at creation time and is mutually exclusive with correspondent_id."""
+    r"""The id of the client to receive events for; The subscription will receive events related to the specified client, and any of its correspondents and accounts; This can only be set at creation time and is mutually exclusive with correspondent_id and account_group_id"""
     correspondent_id: NotRequired[str]
-    r"""The correspondent that owns the subscription. A correspondent subscription will receive events only for itself. This can only be set at creation time and is mutually exclusive with client_id."""
+    r"""The id of the correspondent to receive events for; The subscription will receive events related to the specified correspondent and any of its accounts; This can only be set at creation time and is mutually exclusive with client_id and account_group_id"""
     http_callback: NotRequired[HTTPPushCallbackCreateTypedDict]
     r"""Configuration information about an HTTP target callback"""
+    owner: NotRequired[str]
+    r"""The organization that owns the subscription; Format: {org_type}/{org_id} This field can only be set at creation time and if it is not specified, then it will default to the target organization, unless the target is an account group, in which case this field is required"""
 
 
 class PushSubscriptionCreate(BaseModel):
@@ -34,11 +38,17 @@ class PushSubscriptionCreate(BaseModel):
     event_types: List[str]
     r"""Filter for event types; [\"\*\"] matches all values; Suffix wildcards using \"\*\" (e.g. [\"account.\*\"]) are supported"""
 
+    account_group_id: Optional[str] = None
+    r"""The id of the account group to receive events for; The subscription will receive events related to any of the accounts in the specified account group; This can only be set at creation time and is mutually exclusive with client_id and correspondent_id"""
+
     client_id: Optional[str] = None
-    r"""The client that owns the subscription. A client subscription will receive events for it and all of its correspondents. This can only be set at creation time and is mutually exclusive with correspondent_id."""
+    r"""The id of the client to receive events for; The subscription will receive events related to the specified client, and any of its correspondents and accounts; This can only be set at creation time and is mutually exclusive with correspondent_id and account_group_id"""
 
     correspondent_id: Optional[str] = None
-    r"""The correspondent that owns the subscription. A correspondent subscription will receive events only for itself. This can only be set at creation time and is mutually exclusive with client_id."""
+    r"""The id of the correspondent to receive events for; The subscription will receive events related to the specified correspondent and any of its accounts; This can only be set at creation time and is mutually exclusive with client_id and account_group_id"""
 
     http_callback: Optional[HTTPPushCallbackCreate] = None
     r"""Configuration information about an HTTP target callback"""
+
+    owner: Optional[str] = None
+    r"""The organization that owns the subscription; Format: {org_type}/{org_id} This field can only be set at creation time and if it is not specified, then it will default to the target organization, unless the target is an account group, in which case this field is required"""

@@ -14,7 +14,7 @@ class HTTPPushCallbackCreateTypedDict(TypedDict):
     url: str
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""
     timeout_seconds: NotRequired[int]
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""
 
 
 class HTTPPushCallbackCreate(BaseModel):
@@ -27,4 +27,4 @@ class HTTPPushCallbackCreate(BaseModel):
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""
 
     timeout_seconds: Optional[int] = None
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""

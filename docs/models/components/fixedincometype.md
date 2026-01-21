@@ -15,3 +15,4 @@ Type of fixed income security
 | `TREASURY`                      | TREASURY                        |
 | `GOVERNMENT`                    | GOVERNMENT                      |
 | `FOREIGN_GOVERNMENT`            | FOREIGN_GOVERNMENT              |
+| `EURO_BOND`                     | EURO_BOND                       |

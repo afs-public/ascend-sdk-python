@@ -21,7 +21,7 @@ class HTTPCallbackTypedDict(TypedDict):
     r"""The information about an HTTP target callback"""
 
     timeout_seconds: NotRequired[int]
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""
     url: NotRequired[str]
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""
 
@@ -30,7 +30,7 @@ class HTTPCallback(BaseModel):
     r"""The information about an HTTP target callback"""
 
     timeout_seconds: Optional[int] = None
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""
 
     url: Optional[str] = None
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""
@@ -49,10 +49,12 @@ class State(str, Enum, metaclass=utils.OpenEnumMeta):
 class PushSubscriptionTypedDict(TypedDict):
     r"""Configuration information about a push subscription"""
 
+    account_group_id: NotRequired[str]
+    r"""The id of the account group to receive events for; The subscription will receive events related to any of the accounts in the specified account group; This can only be set at creation time and is mutually exclusive with client_id and correspondent_id"""
     client_id: NotRequired[str]
-    r"""The client that owns the subscription. A client subscription will receive events for it and all of its correspondents. This can only be set at creation time and is mutually exclusive with correspondent_id."""
+    r"""The id of the client to receive events for; The subscription will receive events related to the specified client, and any of its correspondents and accounts; This can only be set at creation time and is mutually exclusive with correspondent_id and account_group_id"""
     correspondent_id: NotRequired[str]
-    r"""The correspondent that owns the subscription. A correspondent subscription will receive events only for itself. This can only be set at creation time and is mutually exclusive with client_id."""
+    r"""The id of the correspondent to receive events for; The subscription will receive events related to the specified correspondent and any of its accounts; This can only be set at creation time and is mutually exclusive with client_id and account_group_id"""
     display_name: NotRequired[str]
     r"""The user-defined name for the subscription"""
     event_types: NotRequired[List[str]]
@@ -61,6 +63,8 @@ class PushSubscriptionTypedDict(TypedDict):
     r"""The information about an HTTP target callback"""
     name: NotRequired[str]
     r"""The resource name of the subscription; Format: subscriptions/{subscription}"""
+    owner: NotRequired[str]
+    r"""The organization that owns the subscription; Format: {org_type}/{org_id} This field can only be set at creation time and if it is not specified, then it will default to the target organization, unless the target is an account group, in which case this field is required"""
     state: NotRequired[State]
     r"""The current status of the subscription"""
     subscription_id: NotRequired[str]
@@ -70,11 +74,14 @@ class PushSubscriptionTypedDict(TypedDict):
 class PushSubscription(BaseModel):
     r"""Configuration information about a push subscription"""
 
+    account_group_id: Optional[str] = None
+    r"""The id of the account group to receive events for; The subscription will receive events related to any of the accounts in the specified account group; This can only be set at creation time and is mutually exclusive with client_id and correspondent_id"""
+
     client_id: Optional[str] = None
-    r"""The client that owns the subscription. A client subscription will receive events for it and all of its correspondents. This can only be set at creation time and is mutually exclusive with correspondent_id."""
+    r"""The id of the client to receive events for; The subscription will receive events related to the specified client, and any of its correspondents and accounts; This can only be set at creation time and is mutually exclusive with correspondent_id and account_group_id"""
 
     correspondent_id: Optional[str] = None
-    r"""The correspondent that owns the subscription. A correspondent subscription will receive events only for itself. This can only be set at creation time and is mutually exclusive with client_id."""
+    r"""The id of the correspondent to receive events for; The subscription will receive events related to the specified correspondent and any of its accounts; This can only be set at creation time and is mutually exclusive with client_id and account_group_id"""
 
     display_name: Optional[str] = None
     r"""The user-defined name for the subscription"""
@@ -88,6 +95,9 @@ class PushSubscription(BaseModel):
     name: Optional[str] = None
     r"""The resource name of the subscription; Format: subscriptions/{subscription}"""
 
+    owner: Optional[str] = None
+    r"""The organization that owns the subscription; Format: {org_type}/{org_id} This field can only be set at creation time and if it is not specified, then it will default to the target organization, unless the target is an account group, in which case this field is required"""
+
     state: Annotated[Optional[State], PlainValidator(validate_open_enum(False))] = None
     r"""The current status of the subscription"""
 
@@ -97,12 +107,14 @@ class PushSubscription(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
+            "account_group_id",
             "client_id",
             "correspondent_id",
             "display_name",
             "event_types",
             "http_callback",
             "name",
+            "owner",
             "state",
             "subscription_id",
         ]
@@ -127,7 +139,7 @@ class PushSubscription(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

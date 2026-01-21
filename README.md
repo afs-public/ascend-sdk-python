@@ -492,6 +492,12 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [assign_large_trader_legal_entity](docs/sdks/personmanagement/README.md#assign_large_trader_legal_entity) - Assign Entity Large Trader
 * [end_large_trader](docs/sdks/personmanagement/README.md#end_large_trader) - End Entity Large Trader
 
+### [position_journals](docs/sdks/positionjournals/README.md)
+
+* [create_position_journal](docs/sdks/positionjournals/README.md#create_position_journal) - Create Position Journal
+* [get_position_journal](docs/sdks/positionjournals/README.md#get_position_journal) - Get Position Journal
+* [cancel_position_journal](docs/sdks/positionjournals/README.md#cancel_position_journal) - Cancel Position Journal
+
 ### [reader](docs/sdks/reader/README.md)
 
 * [list_event_messages](docs/sdks/reader/README.md#list_event_messages) - List Event Messages
@@ -517,6 +523,11 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#get_ach_withdrawal_schedule) - Get ACH Withdrawal Schedule
 * [update_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#update_ach_withdrawal_schedule) - Update ACH Withdrawal Schedule
 * [cancel_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#cancel_ach_withdrawal_schedule) - Cancel ACH Withdrawal Schedule
+* [create_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#create_check_withdrawal_schedule) - Create Check Withdrawal Schedule
+* [list_check_withdrawal_schedules](docs/sdks/scheduletransfers/README.md#list_check_withdrawal_schedules) - List Check Withdrawal Schedules
+* [get_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#get_check_withdrawal_schedule) - Get Check Withdrawal Schedule
+* [update_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#update_check_withdrawal_schedule) - Update Check Withdrawal Schedule
+* [cancel_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#cancel_check_withdrawal_schedule) - Cancel Check Withdrawal Schedule
 * [create_wire_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#create_wire_withdrawal_schedule) - Create Wire Withdrawal Schedule
 * [list_wire_withdrawal_schedules](docs/sdks/scheduletransfers/README.md#list_wire_withdrawal_schedules) - List Wire Withdrawal Schedules
 * [get_wire_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#get_wire_withdrawal_schedule) - Get Wire Withdrawal Schedule
@@ -537,6 +548,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ### [test_simulation](docs/sdks/testsimulation/README.md)
 
 * [simulate_create_check_deposit](docs/sdks/testsimulation/README.md#simulate_create_check_deposit) - Simulate Check Deposit Creation
+* [force_approve_check_deposit](docs/sdks/testsimulation/README.md#force_approve_check_deposit) - Check Deposit Approval
 * [force_approve_ach_deposit](docs/sdks/testsimulation/README.md#force_approve_ach_deposit) - ACH Deposit Approval
 * [force_noc_ach_deposit](docs/sdks/testsimulation/README.md#force_noc_ach_deposit) - NOC for a Deposit
 * [force_reject_ach_deposit](docs/sdks/testsimulation/README.md#force_reject_ach_deposit) - ACH Deposit Rejection
@@ -557,6 +569,8 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [force_reject_wire_deposit](docs/sdks/testsimulation/README.md#force_reject_wire_deposit) - Force Reject Wire Deposit
 * [force_approve_cash_journal](docs/sdks/testsimulation/README.md#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](docs/sdks/testsimulation/README.md#force_reject_cash_journal) - Force Reject Cash Journal
+* [force_approve_position_journal](docs/sdks/testsimulation/README.md#force_approve_position_journal) - Force Approve Position Journal
+* [force_reject_position_journal](docs/sdks/testsimulation/README.md#force_reject_position_journal) - Force Reject Position Journal
 
 ### [trade_allocation](docs/sdks/tradeallocation/README.md)
 

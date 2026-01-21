@@ -43,7 +43,7 @@ with SDK(
         asset_type=components.AssetType.EQUITY,
         client_order_id="a6d5258b-6b23-478a-8145-98e79d60427a",
         identifier="SBUX",
-        identifier_type=components.IdentifierType.SYMBOL,
+        identifier_type=components.OrderCreateIdentifierType.SYMBOL,
         order_date=components.DateCreate(),
         order_type=components.OrderType.MARKET,
         side=components.Side.BUY,
