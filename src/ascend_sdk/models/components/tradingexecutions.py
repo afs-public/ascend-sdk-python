@@ -57,14 +57,14 @@ class PrevailingMarketPrice(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class QuantityTypedDict(TypedDict):
+class TradingExecutionsQuantityTypedDict(TypedDict):
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
-class Quantity(BaseModel):
+class TradingExecutionsQuantity(BaseModel):
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""
 
     value: Optional[str] = None
@@ -84,7 +84,7 @@ class TradingExecutionsTypedDict(TypedDict):
     r"""The net currency amount exchanged in this transaction, in the order currency. Will only be present for orders of Fixed Income assets."""
     prevailing_market_price: NotRequired[Nullable[PrevailingMarketPriceTypedDict]]
     r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
-    quantity: NotRequired[Nullable[QuantityTypedDict]]
+    quantity: NotRequired[Nullable[TradingExecutionsQuantityTypedDict]]
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""
 
 
@@ -106,7 +106,7 @@ class TradingExecutions(BaseModel):
     prevailing_market_price: OptionalNullable[PrevailingMarketPrice] = UNSET
     r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
 
-    quantity: OptionalNullable[Quantity] = UNSET
+    quantity: OptionalNullable[TradingExecutionsQuantity] = UNSET
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""
 
     @model_serializer(mode="wrap")
@@ -146,7 +146,7 @@ class TradingExecutions(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

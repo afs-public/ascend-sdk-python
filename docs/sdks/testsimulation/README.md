@@ -6,6 +6,7 @@
 ### Available Operations
 
 * [simulate_create_check_deposit](#simulate_create_check_deposit) - Simulate Check Deposit Creation
+* [force_approve_check_deposit](#force_approve_check_deposit) - Check Deposit Approval
 * [force_approve_ach_deposit](#force_approve_ach_deposit) - ACH Deposit Approval
 * [force_noc_ach_deposit](#force_noc_ach_deposit) - NOC for a Deposit
 * [force_reject_ach_deposit](#force_reject_ach_deposit) - ACH Deposit Rejection
@@ -26,6 +27,8 @@
 * [force_reject_wire_deposit](#force_reject_wire_deposit) - Force Reject Wire Deposit
 * [force_approve_cash_journal](#force_approve_cash_journal) - Force Approve Cash Journal
 * [force_reject_cash_journal](#force_reject_cash_journal) - Force Reject Cash Journal
+* [force_approve_position_journal](#force_approve_position_journal) - Force Approve Position Journal
+* [force_reject_position_journal](#force_reject_position_journal) - Force Reject Position Journal
 
 ## simulate_create_check_deposit
 
@@ -80,6 +83,61 @@ with SDK(
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Status    | 400, 403         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## force_approve_check_deposit
+
+Force approval of an existing check deposit that is pending review FOR TESTING ONLY!
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CheckDeposits_ForceApproveCheckDeposit" method="post" path="/transfers/v1/accounts/{account_id}/checkDeposits/{checkDeposit_id}:forceApprove" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.force_approve_check_deposit(account_id="01H8FB90ZRRFWXB4XC2JPJ1D4Y", check_deposit_id="20230817000319", force_approve_check_deposit_request_create={
+        "name": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y/checkDeposits/20230817000319",
+    })
+
+    assert res.check_deposit is not None
+
+    # Handle response
+    print(res.check_deposit)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                            | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          | Example                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                         | *str*                                                                                                                | :heavy_check_mark:                                                                                                   | The account id.                                                                                                      | 01H8FB90ZRRFWXB4XC2JPJ1D4Y                                                                                           |
+| `check_deposit_id`                                                                                                   | *str*                                                                                                                | :heavy_check_mark:                                                                                                   | The checkDeposit id.                                                                                                 | 20230817000319                                                                                                       |
+| `force_approve_check_deposit_request_create`                                                                         | [components.ForceApproveCheckDepositRequestCreate](../../models/components/forceapprovecheckdepositrequestcreate.md) | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  |                                                                                                                      |
+| `retries`                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                     | :heavy_minus_sign:                                                                                                   | Configuration to override the default retry behavior of the client.                                                  |                                                                                                                      |
+
+### Response
+
+**[operations.CheckDepositsForceApproveCheckDepositResponse](../../models/operations/checkdepositsforceapprovecheckdepositresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## force_approve_ach_deposit
@@ -1187,4 +1245,112 @@ with SDK(
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Status    | 400, 403         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## force_approve_position_journal
+
+Forces approval of an existing position journal that is pending review FOR TESTING ONLY!
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="PositionJournals_ForceApprovePositionJournal" method="post" path="/transfers/v1/positionJournals/{positionJournal_id}:forceApprove" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.force_approve_position_journal(position_journal_id="20230817000319", force_approve_position_journal_request_create={
+        "name": "positionJournals/20230817000319",
+    })
+
+    assert res.position_journal is not None
+
+    # Handle response
+    print(res.position_journal)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                | Example                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `position_journal_id`                                                                                                      | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The positionJournal id.                                                                                                    | 20230817000319                                                                                                             |
+| `force_approve_position_journal_request_create`                                                                            | [components.ForceApprovePositionJournalRequestCreate](../../models/components/forceapprovepositionjournalrequestcreate.md) | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        |                                                                                                                            |
+| `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |                                                                                                                            |
+
+### Response
+
+**[operations.PositionJournalsForceApprovePositionJournalResponse](../../models/operations/positionjournalsforceapprovepositionjournalresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## force_reject_position_journal
+
+Forces rejection of an existing position journal that is pending review FOR TESTING ONLY!
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="PositionJournals_ForceRejectPositionJournal" method="post" path="/transfers/v1/positionJournals/{positionJournal_id}:forceReject" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.test_simulation.force_reject_position_journal(position_journal_id="20230817000319", force_reject_position_journal_request_create={
+        "name": "positionJournals/20230817000319",
+    })
+
+    assert res.position_journal is not None
+
+    # Handle response
+    print(res.position_journal)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              | Example                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `position_journal_id`                                                                                                    | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The positionJournal id.                                                                                                  | 20230817000319                                                                                                           |
+| `force_reject_position_journal_request_create`                                                                           | [components.ForceRejectPositionJournalRequestCreate](../../models/components/forcerejectpositionjournalrequestcreate.md) | :heavy_check_mark:                                                                                                       | N/A                                                                                                                      |                                                                                                                          |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |                                                                                                                          |
+
+### Response
+
+**[operations.PositionJournalsForceRejectPositionJournalResponse](../../models/operations/positionjournalsforcerejectpositionjournalresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |

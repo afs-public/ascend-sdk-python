@@ -47,7 +47,7 @@ class BrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
     PRINCIPAL = "PRINCIPAL"
 
 
-class IdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OrderCreateIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
 
     SYMBOL = "SYMBOL"
@@ -134,7 +134,7 @@ class OrderCreateTypedDict(TypedDict):
     r"""User-supplied unique order ID. Cannot be more than 40 characters long."""
     identifier: str
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
-    identifier_type: IdentifierType
+    identifier_type: OrderCreateIdentifierType
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
     order_date: DateCreateTypedDict
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
@@ -220,7 +220,7 @@ class OrderCreate(BaseModel):
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
 
     identifier_type: Annotated[
-        IdentifierType, PlainValidator(validate_open_enum(False))
+        OrderCreateIdentifierType, PlainValidator(validate_open_enum(False))
     ]
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
 
@@ -364,7 +364,7 @@ class OrderCreate(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

@@ -20,7 +20,7 @@ class CreateUploadLinkRequestCreateTypedDict(TypedDict):
     client_batch_source_id: str
     r"""User-provided identifier that relates this document with the signed link that will be generated for it; Required for all documents; Must be unique for each document in the request"""
     mime_type: str
-    r"""Media type for the document to be uploaded; Required for all documents; Must be one of: application/json, application/pdf, image/jpeg, image/png, text/csv, or text/plain"""
+    r"""Media type for the document to be uploaded; Required for all documents; Must be one of: application/json, application/pdf, image/jpeg, image/png, image/tiff, text/csv, or text/plain"""
     account_document_upload_request: NotRequired[
         AccountDocumentUploadRequestCreateTypedDict
     ]
@@ -36,7 +36,7 @@ class CreateUploadLinkRequestCreate(BaseModel):
     r"""User-provided identifier that relates this document with the signed link that will be generated for it; Required for all documents; Must be unique for each document in the request"""
 
     mime_type: str
-    r"""Media type for the document to be uploaded; Required for all documents; Must be one of: application/json, application/pdf, image/jpeg, image/png, text/csv, or text/plain"""
+    r"""Media type for the document to be uploaded; Required for all documents; Must be one of: application/json, application/pdf, image/jpeg, image/png, image/tiff, text/csv, or text/plain"""
 
     account_document_upload_request: Optional[AccountDocumentUploadRequestCreate] = None
     r"""Account document to be uploaded;"""

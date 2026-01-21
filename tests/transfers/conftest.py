@@ -676,3 +676,49 @@ def create_reuse_account_id(create_sdk, create_legal_natural_person_id):
         return res.account.account_id
     else:
         return None
+
+
+@pytest.fixture(scope="module")
+def create_position_journal_id(create_sdk, enrolled_account_id, withdrawal_account_id):
+    s = create_sdk
+
+    position_journal_request = components.PositionJournalCreate(
+        client_transfer_id=str(uuid.uuid4()),
+        destination_account=f"accounts/{enrolled_account_id}",
+        identifier="AAPL",
+        identifier_type=components.IdentifierType.SYMBOL,
+        quantity=components.DecimalCreate(value="1.0"),
+        source_account=f"accounts/{withdrawal_account_id}",
+        type=components.PositionJournalCreateType.REWARD,
+        fair_market_value=components.DecimalCreate(value="150.00"),
+        description="Stock reward for testing",
+    )
+
+    res = s.position_journals.create_position_journal(request=position_journal_request)
+    if res.http_meta.response.status_code == 200:
+        return res.position_journal.name.split("/")[-1]
+    else:
+        return None
+
+
+@pytest.fixture
+def pending_position_journal_id(create_sdk, enrolled_account_id, withdrawal_account_id):
+    s = create_sdk
+
+    position_journal_request = components.PositionJournalCreate(
+        client_transfer_id=str(uuid.uuid4()),
+        destination_account=f"accounts/{enrolled_account_id}",
+        identifier="AAPL",
+        identifier_type=components.IdentifierType.SYMBOL,
+        quantity=components.DecimalCreate(value="1.0"),
+        source_account=f"accounts/{withdrawal_account_id}",
+        type=components.PositionJournalCreateType.REWARD,
+        fair_market_value=components.DecimalCreate(value="150.00"),
+        description="Stock reward for force approve/reject testing",
+    )
+
+    res = s.position_journals.create_position_journal(request=position_journal_request)
+    if res.http_meta.response.status_code == 200:
+        return res.position_journal.name.split("/")[-1]
+    else:
+        return None

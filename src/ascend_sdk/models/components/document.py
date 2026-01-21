@@ -142,6 +142,7 @@ class DocumentDocumentType(str, Enum, metaclass=utils.OpenEnumMeta):
     CHANGE_OF_ADDRESS_REQUEST = "CHANGE_OF_ADDRESS_REQUEST"
     OPTIONS_AGREEMENT = "OPTIONS_AGREEMENT"
     STATE_WAIVER_FORM = "STATE_WAIVER_FORM"
+    ALTS_SUBSCRIPTION_AGREEMENT = "ALTS_SUBSCRIPTION_AGREEMENT"
 
 
 class UploadedDateTypedDict(TypedDict):
@@ -217,7 +218,7 @@ class AccountDocument(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -340,7 +341,7 @@ class IDDocument(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -368,6 +369,7 @@ class DocumentInvestorDocumentDocumentType(str, Enum, metaclass=utils.OpenEnumMe
     FORM_5498_ESA = "FORM_5498_ESA"
     FPSL_NEGATIVE_CONSENT_FORM = "FPSL_NEGATIVE_CONSENT_FORM"
     CRS_FORM = "CRS_FORM"
+    FPSL_CONFIRMATION = "FPSL_CONFIRMATION"
 
 
 class DocumentProcessDateTypedDict(TypedDict):
@@ -444,7 +446,7 @@ class InvestorDocument(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -520,7 +522,7 @@ class Document(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

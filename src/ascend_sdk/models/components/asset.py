@@ -224,6 +224,7 @@ class FixedIncomeType(str, Enum, metaclass=utils.OpenEnumMeta):
     TREASURY = "TREASURY"
     GOVERNMENT = "GOVERNMENT"
     FOREIGN_GOVERNMENT = "FOREIGN_GOVERNMENT"
+    EURO_BOND = "EURO_BOND"
 
 
 class AssetIssueDateTypedDict(TypedDict):
@@ -662,7 +663,7 @@ class FixedIncome(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -763,7 +764,7 @@ class MutualFund(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1048,7 +1049,7 @@ class OptionRoot(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1225,7 +1226,7 @@ class Option(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1384,7 +1385,7 @@ class Asset(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

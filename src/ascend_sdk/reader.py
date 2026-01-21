@@ -26,7 +26,7 @@ class Reader(BaseSDK):
 
         Gets a list of events.
 
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; If left empty, all events the user has permission to view are returned; Filter options include:  `name`  `message_id`  `event_type`  `publish_time`  `partition_key`  `client_id`  `correspondent_id`  `account_id`
+        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; If left empty, all events the user has permission to view are returned; Filter options include:  `name`  `message_id`  `event_type`  `publish_time`  `partition_key`  `client_id`  `correspondent_id`  `account_group_id`  `account_id`
         :param page_size: The number of entries to return in a single page; Default = 100; Maximum = 1000
         :param page_token: Page token used for pagination; Supplying a page token returns the next page of results
         :param retries: Override the default retry configuration for this method
@@ -154,7 +154,7 @@ class Reader(BaseSDK):
 
         Gets a list of events.
 
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; If left empty, all events the user has permission to view are returned; Filter options include:  `name`  `message_id`  `event_type`  `publish_time`  `partition_key`  `client_id`  `correspondent_id`  `account_id`
+        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; If left empty, all events the user has permission to view are returned; Filter options include:  `name`  `message_id`  `event_type`  `publish_time`  `partition_key`  `client_id`  `correspondent_id`  `account_group_id`  `account_id`
         :param page_size: The number of entries to return in a single page; Default = 100; Maximum = 1000
         :param page_token: Page token used for pagination; Supplying a page token returns the next page of results
         :param retries: Override the default retry configuration for this method

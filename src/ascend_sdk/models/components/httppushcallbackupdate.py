@@ -12,7 +12,7 @@ class HTTPPushCallbackUpdateTypedDict(TypedDict):
     client_secret: NotRequired[str]
     r"""A string that will be used to generate a signature for each event push request; This value cannot be more than 64KiB"""
     timeout_seconds: NotRequired[int]
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""
     url: NotRequired[str]
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""
 
@@ -24,7 +24,7 @@ class HTTPPushCallbackUpdate(BaseModel):
     r"""A string that will be used to generate a signature for each event push request; This value cannot be more than 64KiB"""
 
     timeout_seconds: Optional[int] = None
-    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery. If a value of 0 or no value is specified, the timeout will default to 10 seconds."""
+    r"""The maximum amount of time, in seconds, the service will wait for an acknowledgement of a delivery; If a value of 0 or no value is specified, the timeout will default to 10 seconds"""
 
     url: Optional[str] = None
     r"""The URL address of the client HTTP server that will receive the events via POST; URLs must be in the form of https://{domain}[/{path}]"""

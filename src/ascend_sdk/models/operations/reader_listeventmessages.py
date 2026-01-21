@@ -23,6 +23,7 @@ class ReaderListEventMessagesRequestTypedDict(TypedDict):
     `partition_key`
     `client_id`
     `correspondent_id`
+    `account_group_id`
     `account_id`
     """
     page_size: NotRequired[int]
@@ -45,6 +46,7 @@ class ReaderListEventMessagesRequest(BaseModel):
     `partition_key`
     `client_id`
     `correspondent_id`
+    `account_group_id`
     `account_id`
     """
 

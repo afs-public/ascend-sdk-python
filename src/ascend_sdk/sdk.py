@@ -39,6 +39,7 @@ if TYPE_CHECKING:
     from ascend_sdk.margins import Margins
     from ascend_sdk.orders import Orders
     from ascend_sdk.person_management import PersonManagement
+    from ascend_sdk.position_journals import PositionJournals
     from ascend_sdk.reader import Reader
     from ascend_sdk.retirements import Retirements
     from ascend_sdk.schedule_transfers import ScheduleTransfers
@@ -69,6 +70,7 @@ class SDK(BaseSDK):
     checks: "Checks"
     test_simulation: "TestSimulation"
     wires: "Wires"
+    position_journals: "PositionJournals"
     cash_balances: "CashBalances"
     fees_and_credits: "FeesAndCredits"
     account_transfers: "AccountTransfers"
@@ -107,6 +109,7 @@ class SDK(BaseSDK):
         "checks": ("ascend_sdk.checks", "Checks"),
         "test_simulation": ("ascend_sdk.test_simulation", "TestSimulation"),
         "wires": ("ascend_sdk.wires", "Wires"),
+        "position_journals": ("ascend_sdk.position_journals", "PositionJournals"),
         "cash_balances": ("ascend_sdk.cash_balances", "CashBalances"),
         "fees_and_credits": ("ascend_sdk.fees_and_credits", "FeesAndCredits"),
         "account_transfers": ("ascend_sdk.account_transfers", "AccountTransfers"),

@@ -17,6 +17,8 @@ from typing_extensions import NotRequired, TypedDict
 class EventMessageTypedDict(TypedDict):
     r"""Represents an envelope and the data of an event"""
 
+    account_group_id: NotRequired[str]
+    r"""The account group ID related to the event (if applicable)"""
     account_id: NotRequired[str]
     r"""The account ID related to the event (if applicable)"""
     client_id: NotRequired[str]
@@ -32,13 +34,16 @@ class EventMessageTypedDict(TypedDict):
     name: NotRequired[str]
     r"""The resource name of the event; Format: messages/{message}"""
     partition_key: NotRequired[str]
-    r"""A value, if present, is used to group related events together. Events with the same partition key are guaranteed to be sent to the consumer in the same order they were published."""
+    r"""A value, if present, is used to group related events together; Events with the same partition key are guaranteed to be sent to the consumer in the same order they were published"""
     publish_time: NotRequired[Nullable[datetime]]
     r"""The date and time of the event publication (not necessarily the time the event occurred)"""
 
 
 class EventMessage(BaseModel):
     r"""Represents an envelope and the data of an event"""
+
+    account_group_id: Optional[str] = None
+    r"""The account group ID related to the event (if applicable)"""
 
     account_id: Optional[str] = None
     r"""The account ID related to the event (if applicable)"""
@@ -62,7 +67,7 @@ class EventMessage(BaseModel):
     r"""The resource name of the event; Format: messages/{message}"""
 
     partition_key: Optional[str] = None
-    r"""A value, if present, is used to group related events together. Events with the same partition key are guaranteed to be sent to the consumer in the same order they were published."""
+    r"""A value, if present, is used to group related events together; Events with the same partition key are guaranteed to be sent to the consumer in the same order they were published"""
 
     publish_time: OptionalNullable[datetime] = UNSET
     r"""The date and time of the event publication (not necessarily the time the event occurred)"""
@@ -70,6 +75,7 @@ class EventMessage(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
+            "account_group_id",
             "account_id",
             "client_id",
             "correspondent_id",
@@ -101,7 +107,7 @@ class EventMessage(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
+                k not in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

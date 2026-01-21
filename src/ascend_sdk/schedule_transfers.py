@@ -2605,6 +2605,1172 @@ class ScheduleTransfers(BaseSDK):
 
         raise errors.SDKError("Unexpected response received", http_res)
 
+    def create_check_withdrawal_schedule(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_create: Union[
+            components.CheckWithdrawalScheduleCreate,
+            components.CheckWithdrawalScheduleCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse:
+        r"""Create Check Withdrawal Schedule
+
+        Creates a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleRequest(
+                account_id=account_id,
+                check_withdrawal_schedule_create=utils.get_pydantic_model(
+                    check_withdrawal_schedule_create,
+                    components.CheckWithdrawalScheduleCreate,
+                ),
+            )
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.check_withdrawal_schedule_create,
+                False,
+                False,
+                "json",
+                components.CheckWithdrawalScheduleCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_CreateCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "409", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def create_check_withdrawal_schedule_async(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_create: Union[
+            components.CheckWithdrawalScheduleCreate,
+            components.CheckWithdrawalScheduleCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse:
+        r"""Create Check Withdrawal Schedule
+
+        Creates a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleRequest(
+                account_id=account_id,
+                check_withdrawal_schedule_create=utils.get_pydantic_model(
+                    check_withdrawal_schedule_create,
+                    components.CheckWithdrawalScheduleCreate,
+                ),
+            )
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.check_withdrawal_schedule_create,
+                False,
+                False,
+                "json",
+                components.CheckWithdrawalScheduleCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_CreateCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "409", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesCreateCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def list_check_withdrawal_schedules(
+        self,
+        *,
+        account_id: str,
+        filter_: Optional[str] = None,
+        page_size: Optional[int] = None,
+        page_token: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse:
+        r"""List Check Withdrawal Schedules
+
+        Return a list of Check withdrawal schedules for the specified account and filter params
+
+        :param account_id: The account id.
+        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  `state`  `start_date`  `end_date`
+        :param page_size: The maximum number of schedules to return. The service may return fewer than this value. If unspecified, at most 25 schedules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.
+        :param page_token: The page token to request
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesRequest(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+            )
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_ListCheckWithdrawalSchedules",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse(
+                    list_check_withdrawal_schedules_response=unmarshal_json_response(
+                        Optional[components.ListCheckWithdrawalSchedulesResponse],
+                        http_res,
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse(
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def list_check_withdrawal_schedules_async(
+        self,
+        *,
+        account_id: str,
+        filter_: Optional[str] = None,
+        page_size: Optional[int] = None,
+        page_token: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse:
+        r"""List Check Withdrawal Schedules
+
+        Return a list of Check withdrawal schedules for the specified account and filter params
+
+        :param account_id: The account id.
+        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:  `state`  `start_date`  `end_date`
+        :param page_size: The maximum number of schedules to return. The service may return fewer than this value. If unspecified, at most 25 schedules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000.
+        :param page_token: The page token to request
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesRequest(
+                account_id=account_id,
+                filter_=filter_,
+                page_size=page_size,
+                page_token=page_token,
+            )
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_ListCheckWithdrawalSchedules",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse(
+                    list_check_withdrawal_schedules_response=unmarshal_json_response(
+                        Optional[components.ListCheckWithdrawalSchedulesResponse],
+                        http_res,
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesListCheckWithdrawalSchedulesResponse(
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def get_check_withdrawal_schedule(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse:
+        r"""Get Check Withdrawal Schedule
+
+        Gets a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleRequest(
+            account_id=account_id,
+            check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_GetCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse(
+                    check_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.CheckWithdrawalSchedule], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse(
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def get_check_withdrawal_schedule_async(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse:
+        r"""Get Check Withdrawal Schedule
+
+        Gets a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleRequest(
+            account_id=account_id,
+            check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_GetCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse(
+                    check_withdrawal_schedule=unmarshal_json_response(
+                        Optional[components.CheckWithdrawalSchedule], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return (
+                operations.CheckWithdrawalSchedulesGetCheckWithdrawalScheduleResponse(
+                    status=unmarshal_json_response(
+                        Optional[components.Status], http_res
+                    ),
+                    http_meta=components.HTTPMetadata(request=req, response=http_res),
+                )
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def update_check_withdrawal_schedule(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        check_withdrawal_schedule_update: Union[
+            components.CheckWithdrawalScheduleUpdate,
+            components.CheckWithdrawalScheduleUpdateTypedDict,
+        ],
+        update_mask: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse:
+        r"""Update Check Withdrawal Schedule
+
+        Updates the amount of a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param check_withdrawal_schedule_update:
+        :param update_mask: A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleRequest(
+                account_id=account_id,
+                check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+                update_mask=update_mask,
+                check_withdrawal_schedule_update=utils.get_pydantic_model(
+                    check_withdrawal_schedule_update,
+                    components.CheckWithdrawalScheduleUpdate,
+                ),
+            )
+        )
+
+        req = self._build_request(
+            method="PATCH",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.check_withdrawal_schedule_update,
+                False,
+                False,
+                "json",
+                components.CheckWithdrawalScheduleUpdate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_UpdateCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def update_check_withdrawal_schedule_async(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        check_withdrawal_schedule_update: Union[
+            components.CheckWithdrawalScheduleUpdate,
+            components.CheckWithdrawalScheduleUpdateTypedDict,
+        ],
+        update_mask: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse:
+        r"""Update Check Withdrawal Schedule
+
+        Updates the amount of a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param check_withdrawal_schedule_update:
+        :param update_mask: A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = (
+            operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleRequest(
+                account_id=account_id,
+                check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+                update_mask=update_mask,
+                check_withdrawal_schedule_update=utils.get_pydantic_model(
+                    check_withdrawal_schedule_update,
+                    components.CheckWithdrawalScheduleUpdate,
+                ),
+            )
+        )
+
+        req = self._build_request_async(
+            method="PATCH",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.check_withdrawal_schedule_update,
+                False,
+                False,
+                "json",
+                components.CheckWithdrawalScheduleUpdate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_UpdateCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def cancel_check_withdrawal_schedule(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        cancel_check_withdrawal_schedule_request_create: Union[
+            components.CancelCheckWithdrawalScheduleRequestCreate,
+            components.CancelCheckWithdrawalScheduleRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse:
+        r"""Cancel Check Withdrawal Schedule
+
+        Cancels a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param cancel_check_withdrawal_schedule_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleRequest(
+            account_id=account_id,
+            check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+            cancel_check_withdrawal_schedule_request_create=utils.get_pydantic_model(
+                cancel_check_withdrawal_schedule_request_create,
+                components.CancelCheckWithdrawalScheduleRequestCreate,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}:cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cancel_check_withdrawal_schedule_request_create,
+                False,
+                False,
+                "json",
+                components.CancelCheckWithdrawalScheduleRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_CancelCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def cancel_check_withdrawal_schedule_async(
+        self,
+        *,
+        account_id: str,
+        check_withdrawal_schedule_id: str,
+        cancel_check_withdrawal_schedule_request_create: Union[
+            components.CancelCheckWithdrawalScheduleRequestCreate,
+            components.CancelCheckWithdrawalScheduleRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse:
+        r"""Cancel Check Withdrawal Schedule
+
+        Cancels a Check withdrawal transfer schedule
+
+        :param account_id: The account id.
+        :param check_withdrawal_schedule_id: The checkWithdrawalSchedule id.
+        :param cancel_check_withdrawal_schedule_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleRequest(
+            account_id=account_id,
+            check_withdrawal_schedule_id=check_withdrawal_schedule_id,
+            cancel_check_withdrawal_schedule_request_create=utils.get_pydantic_model(
+                cancel_check_withdrawal_schedule_request_create,
+                components.CancelCheckWithdrawalScheduleRequestCreate,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/accounts/{account_id}/checkWithdrawalSchedules/{checkWithdrawalSchedule_id}:cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cancel_check_withdrawal_schedule_request_create,
+                False,
+                False,
+                "json",
+                components.CancelCheckWithdrawalScheduleRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CheckWithdrawalSchedules_CancelCheckWithdrawalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse(
+                check_withdrawal_schedule=unmarshal_json_response(
+                    Optional[components.CheckWithdrawalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CheckWithdrawalSchedulesCancelCheckWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
     def create_wire_withdrawal_schedule(
         self,
         *,
