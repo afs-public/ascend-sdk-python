@@ -96,6 +96,8 @@ class LegalNaturalPersonCreateTypedDict(TypedDict):
     r"""Indicates whether the person is an accredited investor. By default, this is set to `false`."""
     adviser: NotRequired[bool]
     r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
+    client_person_id: NotRequired[str]
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
@@ -187,6 +189,9 @@ class LegalNaturalPersonCreate(BaseModel):
 
     adviser: Optional[bool] = None
     r"""Indicates whether the person is an adviser. By default, this is set to `false`."""
+
+    client_person_id: Optional[str] = None
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
 
     control_person_company_symbols: Optional[str] = None
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""

@@ -62,7 +62,7 @@ class TradeCreateSide(str, Enum, metaclass=utils.OpenEnumMeta):
     SELL = "SELL"
 
 
-class SideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
+class TradeCreateSideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Side modifier for the trade."""
 
     SIDE_MODIFIER_UNSPECIFIED = "SIDE_MODIFIER_UNSPECIFIED"
@@ -216,7 +216,7 @@ class TradeCreateTypedDict(TypedDict):
 
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
-    side_modifier: NotRequired[SideModifier]
+    side_modifier: NotRequired[TradeCreateSideModifier]
     r"""Side modifier for the trade."""
     special_instructions: NotRequired[List[SpecialInstructions]]
     r"""An enumerated list of values used to indicate certain attributes about a trade (E.g. DISCRETION_EXERCISED, BROKER_LIQUIDATION) and/or trigger downstream processing rules (e.g. SUPPRESS_TRACE_REPORTING)"""
@@ -309,7 +309,7 @@ class TradeCreate(BaseModel):
     """
 
     side_modifier: Annotated[
-        Optional[SideModifier], PlainValidator(validate_open_enum(False))
+        Optional[TradeCreateSideModifier], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Side modifier for the trade."""
 

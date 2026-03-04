@@ -85,7 +85,7 @@ class Value(BaseModel):
 
 
 class OrderCommissionTypedDict(TypedDict):
-    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
+    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order. Only available for Equity, Mutual Fund, and Fixed Income orders."""
 
     type: NotRequired[OrderCommissionType]
     r"""The type of commission value being specified. Only the type of \"AMOUNT\" is supported."""
@@ -94,7 +94,7 @@ class OrderCommissionTypedDict(TypedDict):
 
 
 class OrderCommission(BaseModel):
-    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
+    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order. Only available for Equity, Mutual Fund, and Fixed Income orders."""
 
     type: Annotated[
         Optional[OrderCommissionType], PlainValidator(validate_open_enum(False))
@@ -128,7 +128,7 @@ class OrderCommission(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -184,7 +184,7 @@ class ExtraReportingData(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -293,7 +293,7 @@ class LetterOfIntent(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -366,7 +366,7 @@ class LimitPrice(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -374,20 +374,14 @@ class LimitPrice(BaseModel):
 
 
 class MaxSellQuantityTypedDict(TypedDict):
-    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
-
-    This will only be recognized for clients configured not to use OMS checks. When specified, must be greater than 0 and can't exceed 5 decimal places.
-    """
+    r"""The maximum number of shares to be sold for a notional SELL order of an Equity asset type. This field restricts the quantity to sell, even if the notional amount requires more shares to fulfill. REQUIRED if your account is not subject to Apex position checks, and PROHIBITED if your account is subject to Apex position checks. Refer to Position Check for details. When specified, must be greater than 0 and can't exceed 5 decimal places."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class MaxSellQuantity(BaseModel):
-    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
-
-    This will only be recognized for clients configured not to use OMS checks. When specified, must be greater than 0 and can't exceed 5 decimal places.
-    """
+    r"""The maximum number of shares to be sold for a notional SELL order of an Equity asset type. This field restricts the quantity to sell, even if the notional amount requires more shares to fulfill. REQUIRED if your account is not subject to Apex position checks, and PROHIBITED if your account is subject to Apex position checks. Refer to Position Check for details. When specified, must be greater than 0 and can't exceed 5 decimal places."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -408,7 +402,7 @@ class NotionalValue(BaseModel):
 
 
 class OrderDateTypedDict(TypedDict):
-    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
+    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
 
     day: NotRequired[int]
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -419,7 +413,7 @@ class OrderDateTypedDict(TypedDict):
 
 
 class OrderDate(BaseModel):
-    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
+    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
 
     day: Optional[int] = None
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -587,7 +581,7 @@ class RightsOfAccumulation(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -699,7 +693,7 @@ class StopPrice(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -707,7 +701,7 @@ class StopPrice(BaseModel):
 
 
 class OrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
@@ -755,7 +749,7 @@ class OrderTypedDict(TypedDict):
     account_id: NotRequired[str]
     r"""The identifier of the account transacting this order"""
     asset_id: NotRequired[str]
-    r"""Apex Asset ID for this asset. This will not be returned in the initial CreateOrder response and will be available after an order completes validation. If the provided identifier does not match any Apex asset available for trading, an OrderRejectReason of \"UNKNOWN_SECURITY\" will be returned and the asset_id will not be set."""
+    r"""Apex Asset ID for this asset. When the identifier_type is not ASSET_ID, this field will not be returned in the initial CreateOrder response and will be available after an order completes validation. If the provided identifier does not match any Apex asset available for trading, an OrderRejectReason of \"UNKNOWN_SECURITY\" will be returned and the asset_id will not be set."""
     asset_type: NotRequired[OrderAssetType]
     r"""The type of the asset in this order, which must be one of the following:
     EQUITY, MUTUAL_FUND, and FIXED_INCOME.
@@ -786,7 +780,7 @@ class OrderTypedDict(TypedDict):
     client_sent_time: NotRequired[Nullable[datetime]]
     r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
     commission: NotRequired[Nullable[OrderCommissionTypedDict]]
-    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
+    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order. Only available for Equity, Mutual Fund, and Fixed Income orders."""
     create_time: NotRequired[Nullable[datetime]]
     r"""Time of the order creation"""
     cumulative_notional_value: NotRequired[Nullable[CumulativeNotionalValueTypedDict]]
@@ -814,10 +808,7 @@ class OrderTypedDict(TypedDict):
     limit_price: NotRequired[Nullable[LimitPriceTypedDict]]
     r"""The limit price for this order."""
     max_sell_quantity: NotRequired[Nullable[MaxSellQuantityTypedDict]]
-    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
-
-    This will only be recognized for clients configured not to use OMS checks. When specified, must be greater than 0 and can't exceed 5 decimal places.
-    """
+    r"""The maximum number of shares to be sold for a notional SELL order of an Equity asset type. This field restricts the quantity to sell, even if the notional amount requires more shares to fulfill. REQUIRED if your account is not subject to Apex position checks, and PROHIBITED if your account is subject to Apex position checks. Refer to Position Check for details. When specified, must be greater than 0 and can't exceed 5 decimal places."""
     name: NotRequired[str]
     r"""System generated name of the order."""
     notional_value: NotRequired[Nullable[NotionalValueTypedDict]]
@@ -825,7 +816,7 @@ class OrderTypedDict(TypedDict):
     open: NotRequired[bool]
     r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
     order_date: NotRequired[Nullable[OrderDateTypedDict]]
-    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
+    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
     order_id: NotRequired[str]
     r"""System generated unique id for the order."""
     order_rejected_reason: NotRequired[OrderRejectedReason]
@@ -843,11 +834,11 @@ class OrderTypedDict(TypedDict):
     side: NotRequired[OrderSide]
     r"""The side of this order."""
     special_reporting_instructions: NotRequired[List[OrderSpecialReportingInstructions]]
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
     stop_price: NotRequired[Nullable[StopPriceTypedDict]]
     r"""The stop price for this order. Only allowed for equities."""
     time_in_force: NotRequired[OrderTimeInForce]
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
     time_in_force_expiration_date: NotRequired[
         Nullable[TimeInForceExpirationDateTypedDict]
     ]
@@ -863,7 +854,7 @@ class Order(BaseModel):
     r"""The identifier of the account transacting this order"""
 
     asset_id: Optional[str] = None
-    r"""Apex Asset ID for this asset. This will not be returned in the initial CreateOrder response and will be available after an order completes validation. If the provided identifier does not match any Apex asset available for trading, an OrderRejectReason of \"UNKNOWN_SECURITY\" will be returned and the asset_id will not be set."""
+    r"""Apex Asset ID for this asset. When the identifier_type is not ASSET_ID, this field will not be returned in the initial CreateOrder response and will be available after an order completes validation. If the provided identifier does not match any Apex asset available for trading, an OrderRejectReason of \"UNKNOWN_SECURITY\" will be returned and the asset_id will not be set."""
 
     asset_type: Annotated[
         Optional[OrderAssetType], PlainValidator(validate_open_enum(False))
@@ -914,7 +905,7 @@ class Order(BaseModel):
     r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
 
     commission: OptionalNullable[OrderCommission] = UNSET
-    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order."""
+    r"""A custom commission to be applied to this order. When specifying an AMOUNT type, the value represents a notional amount measured in the currency of the order. Only available for Equity, Mutual Fund, and Fixed Income orders."""
 
     create_time: OptionalNullable[datetime] = UNSET
     r"""Time of the order creation"""
@@ -958,10 +949,7 @@ class Order(BaseModel):
     r"""The limit price for this order."""
 
     max_sell_quantity: OptionalNullable[MaxSellQuantity] = UNSET
-    r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
-
-    This will only be recognized for clients configured not to use OMS checks. When specified, must be greater than 0 and can't exceed 5 decimal places.
-    """
+    r"""The maximum number of shares to be sold for a notional SELL order of an Equity asset type. This field restricts the quantity to sell, even if the notional amount requires more shares to fulfill. REQUIRED if your account is not subject to Apex position checks, and PROHIBITED if your account is subject to Apex position checks. Refer to Position Check for details. When specified, must be greater than 0 and can't exceed 5 decimal places."""
 
     name: Optional[str] = None
     r"""System generated name of the order."""
@@ -973,7 +961,7 @@ class Order(BaseModel):
     r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
 
     order_date: OptionalNullable[OrderDate] = UNSET
-    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is within 5 minutes prior to market close, the next valid market day may be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
+    r"""The date on which the order will go to the market: must either be \"today\" or the next valid trading day. If the current day is not a valid trading day, then the next valid market day must be specified. If the current time is after market close, and before midnight Eastern, then the next valid market day must be specified. In all other cases, the current day, Eastern must be specified."""
 
     order_id: Optional[str] = None
     r"""System generated unique id for the order."""
@@ -1015,7 +1003,7 @@ class Order(BaseModel):
             ]
         ]
     ] = None
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
 
     stop_price: OptionalNullable[StopPrice] = UNSET
     r"""The stop price for this order. Only allowed for equities."""
@@ -1023,7 +1011,7 @@ class Order(BaseModel):
     time_in_force: Annotated[
         Optional[OrderTimeInForce], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
 
     time_in_force_expiration_date: OptionalNullable[TimeInForceExpirationDate] = UNSET
     r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
@@ -1124,7 +1112,7 @@ class Order(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

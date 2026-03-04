@@ -111,7 +111,7 @@ with SDK(
 ### Error Classes
 **Primary errors:**
 * [`SDKBaseError`](./src/ascend_sdk/models/errors/sdkbaseerror.py): The base class for HTTP error responses.
-  * [`Status`](./src/ascend_sdk/models/errors/status.py): The status message serves as the general-purpose service error message. Each status message includes a gRPC error code, error message, and error details.
+  * [`Status`](./src/ascend_sdk/models/errors/status.py): The status message serves as the general-purpose service error message. Each status message includes a gRPC error code, error message, and error details. *
 
 <details><summary>Less common errors (5)</summary>
 
@@ -127,6 +127,8 @@ with SDK(
 * [`ResponseValidationError`](./src/ascend_sdk/models/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
+
+\* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
@@ -346,6 +348,30 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_ach_withdrawal](docs/sdks/achtransfers/README.md#get_ach_withdrawal) - Get ACH Withdrawal
 * [cancel_ach_withdrawal](docs/sdks/achtransfers/README.md#cancel_ach_withdrawal) - Cancel ACH Withdrawal
 
+### [alternative_account_accreditation](docs/sdks/alternativeaccountaccreditation/README.md)
+
+* [get_account_accreditation](docs/sdks/alternativeaccountaccreditation/README.md#get_account_accreditation) - Get Account Accreditation
+* [set_account_accreditation_type](docs/sdks/alternativeaccountaccreditation/README.md#set_account_accreditation_type) - Set Account Accreditation
+
+### [alternative_investment_documents](docs/sdks/alternativeinvestmentdocuments/README.md)
+
+* [list_alternative_investment_documents](docs/sdks/alternativeinvestmentdocuments/README.md#list_alternative_investment_documents) - List Alternative Investment Documents
+* [get_alternative_investment_document](docs/sdks/alternativeinvestmentdocuments/README.md#get_alternative_investment_document) - Get Alternative Investment Document
+* [download_alternative_investment_document](docs/sdks/alternativeinvestmentdocuments/README.md#download_alternative_investment_document) - Download Alternative Investment Documents
+
+### [alternative_investments](docs/sdks/alternativeinvestments/README.md)
+
+* [list_alternative_investments](docs/sdks/alternativeinvestments/README.md#list_alternative_investments) - List Alternative Investment Assets
+* [get_alternative_investment](docs/sdks/alternativeinvestments/README.md#get_alternative_investment) - Get Alternative Investment Asset
+
+### [alternative_orders](docs/sdks/alternativeorders/README.md)
+
+* [create_alternative_order](docs/sdks/alternativeorders/README.md#create_alternative_order) - Create Alternative Order
+* [list_alternative_orders](docs/sdks/alternativeorders/README.md#list_alternative_orders) - List Alternative Orders
+* [get_alternative_order](docs/sdks/alternativeorders/README.md#get_alternative_order) - Get Alternative Order
+* [retrieve_pending_investor_actions](docs/sdks/alternativeorders/README.md#retrieve_pending_investor_actions) - Get Pending Investor Actions
+* [settle_alternative_order](docs/sdks/alternativeorders/README.md#settle_alternative_order) - Simulate Alternative Order Booking
+
 ### [asset_trading_config](docs/sdks/assettradingconfig/README.md)
 
 * [get_asset_trading_config](docs/sdks/assettradingconfig/README.md#get_asset_trading_config) - Get Asset Trading Config
@@ -384,6 +410,11 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [list_compressed_orders](docs/sdks/basketorders/README.md#list_compressed_orders) - List Compressed Orders
 * [remove_orders](docs/sdks/basketorders/README.md#remove_orders) - Remove Basket Orders
 * [set_extra_reporting_data](docs/sdks/basketorders/README.md#set_extra_reporting_data) - Set Extra Reporting Data
+
+### [buying_power](docs/sdks/buyingpower/README.md)
+
+* [get_buying_power](docs/sdks/buyingpower/README.md#get_buying_power) - Get Buying Power
+* [get_asset_buying_power](docs/sdks/buyingpower/README.md#get_asset_buying_power) - Get Asset Buying Power
 
 ### [cash_balances](docs/sdks/cashbalances/README.md)
 
@@ -465,9 +496,18 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_activity](docs/sdks/ledger/README.md#get_activity) - Get Activity
 * [get_entry](docs/sdks/ledger/README.md#get_entry) - Get Entry
 
-### [margins](docs/sdks/margins/README.md)
+### [option_instructions](docs/sdks/optioninstructions/README.md)
 
-* [get_buying_power](docs/sdks/margins/README.md#get_buying_power) - Get Buying Power
+* [create_option_instruction](docs/sdks/optioninstructions/README.md#create_option_instruction) - Create Option Instruction
+* [list_option_instructions](docs/sdks/optioninstructions/README.md#list_option_instructions) - List Option Instructions
+* [get_option_instruction](docs/sdks/optioninstructions/README.md#get_option_instruction) - Get Option Instruction
+* [cancel_option_instruction](docs/sdks/optioninstructions/README.md#cancel_option_instruction) - Cancel Option Instruction
+
+### [option_orders](docs/sdks/optionorders/README.md)
+
+* [create_option_order](docs/sdks/optionorders/README.md#create_option_order) - Create Option Order
+* [get_option_order](docs/sdks/optionorders/README.md#get_option_order) - Get Option Order
+* [cancel_option_order](docs/sdks/optionorders/README.md#cancel_option_order) - Cancel Option Order
 
 ### [orders](docs/sdks/orders/README.md)
 
@@ -498,6 +538,24 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_position_journal](docs/sdks/positionjournals/README.md#get_position_journal) - Get Position Journal
 * [cancel_position_journal](docs/sdks/positionjournals/README.md#cancel_position_journal) - Cancel Position Journal
 
+### [pre_ipo_companies](docs/sdks/preipocompanies/README.md)
+
+* [list_pre_ipo_companies](docs/sdks/preipocompanies/README.md#list_pre_ipo_companies) - List Pre IPO Company
+* [get_pre_ipo_company](docs/sdks/preipocompanies/README.md#get_pre_ipo_company) - Get Pre IPO Company
+
+### [pre_ipo_funding_rounds](docs/sdks/preipofundingrounds/README.md)
+
+* [list_pre_ipo_company_funding_rounds](docs/sdks/preipofundingrounds/README.md#list_pre_ipo_company_funding_rounds) - List Pre IPO Company Funding Rounds
+* [get_pre_ipo_company_funding_round](docs/sdks/preipofundingrounds/README.md#get_pre_ipo_company_funding_round) - Get Pre IPO Company Funding Round
+
+### [pre_ipo_news_events](docs/sdks/preiponewsevents/README.md)
+
+* [list_pre_ipo_company_news_events](docs/sdks/preiponewsevents/README.md#list_pre_ipo_company_news_events) - List Pre IPO Company News Events
+
+### [pre_ipo_research_documents](docs/sdks/preiporesearchdocuments/README.md)
+
+* [list_pre_ipo_company_research_documents](docs/sdks/preiporesearchdocuments/README.md#list_pre_ipo_company_research_documents) - List Pre IPO Company Research Documents
+
 ### [reader](docs/sdks/reader/README.md)
 
 * [list_event_messages](docs/sdks/reader/README.md#list_event_messages) - List Event Messages
@@ -523,6 +581,11 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [get_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#get_ach_withdrawal_schedule) - Get ACH Withdrawal Schedule
 * [update_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#update_ach_withdrawal_schedule) - Update ACH Withdrawal Schedule
 * [cancel_ach_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#cancel_ach_withdrawal_schedule) - Cancel ACH Withdrawal Schedule
+* [create_cash_journal_schedule](docs/sdks/scheduletransfers/README.md#create_cash_journal_schedule) - Create Cash Journal Schedule
+* [get_cash_journal_schedule](docs/sdks/scheduletransfers/README.md#get_cash_journal_schedule) - Get Cash Journal Schedule
+* [update_cash_journal_schedule](docs/sdks/scheduletransfers/README.md#update_cash_journal_schedule) - Update Cash Journal Schedule
+* [cancel_cash_journal_schedule](docs/sdks/scheduletransfers/README.md#cancel_cash_journal_schedule) - Cancel Cash Journal Schedule
+* [search_cash_journal_schedules](docs/sdks/scheduletransfers/README.md#search_cash_journal_schedules) - Search Cash Journal Schedules
 * [create_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#create_check_withdrawal_schedule) - Create Check Withdrawal Schedule
 * [list_check_withdrawal_schedules](docs/sdks/scheduletransfers/README.md#list_check_withdrawal_schedules) - List Check Withdrawal Schedules
 * [get_check_withdrawal_schedule](docs/sdks/scheduletransfers/README.md#get_check_withdrawal_schedule) - Get Check Withdrawal Schedule

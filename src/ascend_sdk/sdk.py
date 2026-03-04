@@ -20,11 +20,20 @@ if TYPE_CHECKING:
     from ascend_sdk.account_management import AccountManagement
     from ascend_sdk.account_transfers import AccountTransfers
     from ascend_sdk.ach_transfers import ACHTransfers
+    from ascend_sdk.alternative_account_accreditation import (
+        AlternativeAccountAccreditation,
+    )
+    from ascend_sdk.alternative_investment_documents import (
+        AlternativeInvestmentDocuments,
+    )
+    from ascend_sdk.alternative_investments import AlternativeInvestments
+    from ascend_sdk.alternative_orders import AlternativeOrders
     from ascend_sdk.asset_trading_config import AssetTradingConfig
     from ascend_sdk.assets import Assets
     from ascend_sdk.authentication import Authentication
     from ascend_sdk.bank_relationships import BankRelationships
     from ascend_sdk.basket_orders import BasketOrders
+    from ascend_sdk.buying_power import BuyingPower
     from ascend_sdk.cash_balances import CashBalances
     from ascend_sdk.checks import Checks
     from ascend_sdk.data_retrieval import DataRetrieval
@@ -36,10 +45,15 @@ if TYPE_CHECKING:
     from ascend_sdk.investor_docs import InvestorDocs
     from ascend_sdk.journals import Journals
     from ascend_sdk.ledger import Ledger
-    from ascend_sdk.margins import Margins
+    from ascend_sdk.option_instructions import OptionInstructions
+    from ascend_sdk.option_orders import OptionOrders
     from ascend_sdk.orders import Orders
     from ascend_sdk.person_management import PersonManagement
     from ascend_sdk.position_journals import PositionJournals
+    from ascend_sdk.pre_ipo_companies import PreIPOCompanies
+    from ascend_sdk.pre_ipo_funding_rounds import PreIPOFundingRounds
+    from ascend_sdk.pre_ipo_news_events import PreIPONewsEvents
+    from ascend_sdk.pre_ipo_research_documents import PreIPOResearchDocuments
     from ascend_sdk.reader import Reader
     from ascend_sdk.retirements import Retirements
     from ascend_sdk.schedule_transfers import ScheduleTransfers
@@ -75,16 +89,26 @@ class SDK(BaseSDK):
     fees_and_credits: "FeesAndCredits"
     account_transfers: "AccountTransfers"
     orders: "Orders"
+    option_orders: "OptionOrders"
     fixed_income_pricing: "FixedIncomePricing"
     basket_orders: "BasketOrders"
     asset_trading_config: "AssetTradingConfig"
+    alternative_account_accreditation: "AlternativeAccountAccreditation"
+    alternative_orders: "AlternativeOrders"
+    alternative_investments: "AlternativeInvestments"
+    alternative_investment_documents: "AlternativeInvestmentDocuments"
+    pre_ipo_companies: "PreIPOCompanies"
+    pre_ipo_news_events: "PreIPONewsEvents"
+    pre_ipo_research_documents: "PreIPOResearchDocuments"
+    pre_ipo_funding_rounds: "PreIPOFundingRounds"
     trade_booking: "TradeBooking"
     trade_allocation: "TradeAllocation"
     assets: "Assets"
     ledger: "Ledger"
-    margins: "Margins"
+    buying_power: "BuyingPower"
     investor_docs: "InvestorDocs"
     data_retrieval: "DataRetrieval"
+    option_instructions: "OptionInstructions"
     _sub_sdk_map = {
         "authentication": ("ascend_sdk.authentication", "Authentication"),
         "reader": ("ascend_sdk.reader", "Reader"),
@@ -114,6 +138,7 @@ class SDK(BaseSDK):
         "fees_and_credits": ("ascend_sdk.fees_and_credits", "FeesAndCredits"),
         "account_transfers": ("ascend_sdk.account_transfers", "AccountTransfers"),
         "orders": ("ascend_sdk.orders", "Orders"),
+        "option_orders": ("ascend_sdk.option_orders", "OptionOrders"),
         "fixed_income_pricing": (
             "ascend_sdk.fixed_income_pricing",
             "FixedIncomePricing",
@@ -123,13 +148,37 @@ class SDK(BaseSDK):
             "ascend_sdk.asset_trading_config",
             "AssetTradingConfig",
         ),
+        "alternative_account_accreditation": (
+            "ascend_sdk.alternative_account_accreditation",
+            "AlternativeAccountAccreditation",
+        ),
+        "alternative_orders": ("ascend_sdk.alternative_orders", "AlternativeOrders"),
+        "alternative_investments": (
+            "ascend_sdk.alternative_investments",
+            "AlternativeInvestments",
+        ),
+        "alternative_investment_documents": (
+            "ascend_sdk.alternative_investment_documents",
+            "AlternativeInvestmentDocuments",
+        ),
+        "pre_ipo_companies": ("ascend_sdk.pre_ipo_companies", "PreIPOCompanies"),
+        "pre_ipo_news_events": ("ascend_sdk.pre_ipo_news_events", "PreIPONewsEvents"),
+        "pre_ipo_research_documents": (
+            "ascend_sdk.pre_ipo_research_documents",
+            "PreIPOResearchDocuments",
+        ),
+        "pre_ipo_funding_rounds": (
+            "ascend_sdk.pre_ipo_funding_rounds",
+            "PreIPOFundingRounds",
+        ),
         "trade_booking": ("ascend_sdk.trade_booking", "TradeBooking"),
         "trade_allocation": ("ascend_sdk.trade_allocation", "TradeAllocation"),
         "assets": ("ascend_sdk.assets", "Assets"),
         "ledger": ("ascend_sdk.ledger", "Ledger"),
-        "margins": ("ascend_sdk.margins", "Margins"),
+        "buying_power": ("ascend_sdk.buying_power", "BuyingPower"),
         "investor_docs": ("ascend_sdk.investor_docs", "InvestorDocs"),
         "data_retrieval": ("ascend_sdk.data_retrieval", "DataRetrieval"),
+        "option_instructions": ("ascend_sdk.option_instructions", "OptionInstructions"),
     }
 
     def __init__(

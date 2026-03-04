@@ -3,6 +3,7 @@ import os
 import random
 import time
 import uuid
+from datetime import date
 
 from ascend_sdk.models import components
 import pytest
@@ -588,9 +589,9 @@ def create_cash_journal_id(create_sdk, deceased_account_id, withdrawal_account_i
 
     cash_journal_request = components.CashJournalCreate(
         client_transfer_id=str(uuid.uuid4()),
-        destination_account="accounts/" + deceased_account_id,
+        destination_account=deceased_account_id,
         amount=components.DecimalCreate(value="500001.00"),
-        source_account="accounts/" + withdrawal_account_id,
+        source_account=withdrawal_account_id,
     )
 
     res = s.journals.create_cash_journal(request=cash_journal_request)
@@ -720,5 +721,128 @@ def pending_position_journal_id(create_sdk, enrolled_account_id, withdrawal_acco
     res = s.position_journals.create_position_journal(request=position_journal_request)
     if res.http_meta.response.status_code == 200:
         return res.position_journal.name.split("/")[-1]
+    else:
+        return None
+
+
+@pytest.fixture(scope="module")
+def create_option_order_id(create_sdk, enrolled_account_id):
+    s = create_sdk
+
+    # Fund Account with Credit
+    transfers_credit_create = components.TransfersCreditCreate(
+        amount=components.DecimalCreate(value="1000000.00"),
+        client_transfer_id=str(uuid.uuid4()),
+        description="Credit given as promotion",
+        type=components.TransfersCreditCreateType.PROMOTIONAL,
+    )
+
+    s.fees_and_credits.create_credit(
+        account_id=enrolled_account_id, transfers_credit_create=transfers_credit_create
+    )
+
+    today = date.today()
+    option_order_request = components.OptionOrderCreate(
+        broker_capacity=components.OptionOrderCreateBrokerCapacity.AGENCY,
+        client_order_id=str(uuid.uuid4()),
+        currency_code="USD",
+        legs=[
+            components.OptionOrderLegCreate(
+                asset_type=components.OptionOrderLegCreateAssetType.OPTION,
+                identifier="SBUX250221C00084000",
+                identifier_type=components.OptionOrderLegCreateIdentifierType.OSI,
+                ratio_quantity=1,
+                side=components.OptionOrderLegCreateSide.BUY,
+                side_modifier=components.SideModifier.OPEN,
+            ),
+        ],
+        limit_price=components.DecimalCreate(value="5.00"),
+        order_date=components.DateCreate(
+            year=str(today.year),
+            month=str(today.month),
+            day=str(today.day),
+        ),
+        order_type=components.OptionOrderCreateOrderType.LIMIT,
+        price_direction=components.PriceDirection.DEBIT,
+        quantity=components.DecimalCreate(value="1"),
+        time_in_force=components.OptionOrderCreateTimeInForce.DAY,
+    )
+
+    res = s.option_orders.create_option_order(
+        account_id=enrolled_account_id, option_order_create=option_order_request
+    )
+
+    if res.http_meta.response.status_code == 200:
+        return {
+            "option_order_id": res.option_order.option_order_id,
+        }
+    else:
+        return None
+
+
+@pytest.fixture(scope="module")
+def create_cash_journal_schedule_id(
+    create_sdk, withdrawal_account_id, enrolled_account_id
+):
+    s = create_sdk
+
+    today = datetime.datetime.now().date()
+    cash_journal_schedule_request = components.CashJournalScheduleCreate(
+        source_account=withdrawal_account_id,
+        destination_account=enrolled_account_id,
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            amount=components.DecimalCreate(value="10.00"),
+            client_schedule_id=str(uuid.uuid4()),
+            schedule_properties=components.SchedulePropertiesCreate(
+                occurrences=10,
+                start_date=components.DateCreate(
+                    year=str(today.year),
+                    month=str(today.month),
+                    day=str(today.day),
+                ),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+    )
+
+    res = s.schedule_transfers.create_cash_journal_schedule(
+        request=cash_journal_schedule_request,
+    )
+    if res.http_meta.response.status_code == 200:
+        return res.cash_journal_schedule.name.split("/")[-1]
+    else:
+        return None
+
+
+@pytest.fixture(scope="module")
+def create_check_withdrawal_schedule_id(create_sdk, enrolled_account_id):
+    s = create_sdk
+
+    today = datetime.datetime.now().date()
+    check_withdrawal_schedule_request = components.CheckWithdrawalScheduleCreate(
+        delivery_method=components.DeliveryMethod.STANDARD,
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            amount=components.DecimalCreate(value="10.00"),
+            client_schedule_id=str(uuid.uuid4()),
+            schedule_properties=components.SchedulePropertiesCreate(
+                occurrences=10,
+                start_date=components.DateCreate(
+                    year=str(today.year),
+                    month=str(today.month),
+                    day=str(today.day),
+                ),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+    )
+
+    res = s.schedule_transfers.create_check_withdrawal_schedule(
+        account_id=enrolled_account_id,
+        check_withdrawal_schedule_create=check_withdrawal_schedule_request,
+    )
+    if res.http_meta.response.status_code == 200:
+        return res.check_withdrawal_schedule.name.split("/")[-1]
     else:
         return None

@@ -209,11 +209,9 @@ class EmploymentTypedDict(TypedDict):
     start_year: NotRequired[int]
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """
 
 
@@ -252,11 +250,9 @@ class Employment(BaseModel):
     start_year: Optional[int] = None
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """
 
     @model_serializer(mode="wrap")
@@ -290,7 +286,7 @@ class Employment(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -435,7 +431,7 @@ class ForeignIdentification(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -559,7 +555,7 @@ class LegalNaturalPersonIdentityVerificationResult(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -632,7 +628,7 @@ class LegalNaturalPersonLargeTrader(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -799,7 +795,7 @@ class NaturalPersonFdd(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -974,7 +970,6 @@ class LegalNaturalPersonFederalTaxClassification(
 
     FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED = "FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED"
     INDIV_SOLEPROP_OR_SINGLEMEMBERLLC = "INDIV_SOLEPROP_OR_SINGLEMEMBERLLC"
-    PARTNERSHIP = "PARTNERSHIP"
     C_CORPORATION = "C_CORPORATION"
     S_CORPORATION = "S_CORPORATION"
     TRUST_ESTATE = "TRUST_ESTATE"
@@ -1190,7 +1185,7 @@ class TaxProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1208,6 +1203,8 @@ class LegalNaturalPersonTypedDict(TypedDict):
     r"""The legal day, month, and year of birth for a natural person."""
     citizenship_countries: NotRequired[List[str]]
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+    client_person_id: NotRequired[str]
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
@@ -1299,6 +1296,9 @@ class LegalNaturalPerson(BaseModel):
 
     citizenship_countries: Optional[List[str]] = None
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+
+    client_person_id: Optional[str] = None
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
 
     control_person_company_symbols: Optional[str] = None
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
@@ -1421,6 +1421,7 @@ class LegalNaturalPerson(BaseModel):
             "adviser",
             "birth_date",
             "citizenship_countries",
+            "client_person_id",
             "control_person_company_symbols",
             "correspondent_employee",
             "correspondent_id",
@@ -1485,7 +1486,7 @@ class LegalNaturalPerson(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

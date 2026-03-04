@@ -1,0 +1,13 @@
+# PreIpoCompanyFundingRoundClosing
+
+Closing details of a Pre IPO Company Funding Round.
+
+
+## Fields
+
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `issue_price`                                                                    | [OptionalNullable[components.IssuePrice]](../../models/components/issueprice.md) | :heavy_minus_sign:                                                               | The issue price of the closing.                                                  | {<br/>"value": "695.44"<br/>}                                                    |
+| `issue_time`                                                                     | [date](https://docs.python.org/3/library/datetime.html#date-objects)             | :heavy_minus_sign:                                                               | The time shares were issued.                                                     | 2025-09-30T04:00:00Z                                                             |
+| `name`                                                                           | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | The name of the closing.                                                         | Series E-5                                                                       |
+| `update_time`                                                                    | [date](https://docs.python.org/3/library/datetime.html#date-objects)             | :heavy_minus_sign:                                                               | The time the closing was updated.                                                | 2025-09-28T10:00:46.611232Z                                                      |

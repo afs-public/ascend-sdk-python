@@ -48,11 +48,9 @@ class EmploymentCreateTypedDict(TypedDict):
     start_year: NotRequired[int]
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """
 
 
@@ -88,9 +86,7 @@ class EmploymentCreate(BaseModel):
     start_year: Optional[int] = None
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """

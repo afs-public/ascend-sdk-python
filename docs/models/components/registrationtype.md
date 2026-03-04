@@ -21,7 +21,6 @@ The registration of the account (e.g. Individual, Joint, IRA, etc.)
 | `TRUST_REGISTRATION`                             | TRUST_REGISTRATION                               |
 | `CORPORATION_REGISTRATION`                       | CORPORATION_REGISTRATION                         |
 | `LLC_REGISTRATION`                               | LLC_REGISTRATION                                 |
-| `PARTNERSHIP_REGISTRATION`                       | PARTNERSHIP_REGISTRATION                         |
 | `OPERATING_REGISTRATION`                         | OPERATING_REGISTRATION                           |
 | `IRA_BENEFICIARY_TRADITIONAL_REGISTRATION`       | IRA_BENEFICIARY_TRADITIONAL_REGISTRATION         |
 | `IRA_BENEFICIARY_ROTH_REGISTRATION`              | IRA_BENEFICIARY_ROTH_REGISTRATION                |

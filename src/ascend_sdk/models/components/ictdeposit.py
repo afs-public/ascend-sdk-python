@@ -189,7 +189,7 @@ class IctDepositState(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -223,7 +223,7 @@ class IctDepositTransferStateState(str, Enum, metaclass=utils.OpenEnumMeta):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class TransferStateTypedDict(TypedDict):
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     actor: NotRequired[str]
     r"""The user or service that triggered the state update."""
@@ -253,7 +253,7 @@ class TransferStateTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class TransferState(BaseModel):
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     actor: Optional[str] = None
     r"""The user or service that triggered the state update."""
@@ -309,7 +309,7 @@ class TransferState(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -459,7 +459,7 @@ class EntityOriginatingParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -607,7 +607,7 @@ class EntityRecipientParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -755,7 +755,7 @@ class IndividualOriginatingParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -907,7 +907,7 @@ class IndividualRecipientParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1030,7 +1030,7 @@ class TravelRule(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1055,7 +1055,7 @@ class IctDepositTypedDict(TypedDict):
     state: NotRequired[Nullable[IctDepositStateTypedDict]]
     r"""The state of the ICT deposit"""
     transfer_state: NotRequired[Nullable[TransferStateTypedDict]]
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
     travel_rule: NotRequired[Nullable[TravelRuleTypedDict]]
     r"""The travel rule information for the ICT deposit"""
 
@@ -1089,7 +1089,7 @@ class IctDeposit(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = UNSET
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     travel_rule: OptionalNullable[TravelRule] = UNSET
     r"""The travel rule information for the ICT deposit"""
@@ -1133,7 +1133,7 @@ class IctDeposit(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

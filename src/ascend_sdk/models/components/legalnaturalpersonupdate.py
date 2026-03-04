@@ -77,6 +77,8 @@ class LegalNaturalPersonUpdateTypedDict(TypedDict):
     """
     citizenship_countries: NotRequired[List[str]]
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+    client_person_id: NotRequired[str]
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
@@ -162,6 +164,9 @@ class LegalNaturalPersonUpdate(BaseModel):
 
     citizenship_countries: Optional[List[str]] = None
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+
+    client_person_id: Optional[str] = None
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
 
     control_person_company_symbols: Optional[str] = None
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""

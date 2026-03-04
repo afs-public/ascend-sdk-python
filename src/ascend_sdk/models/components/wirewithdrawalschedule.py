@@ -106,7 +106,7 @@ class WireWithdrawalScheduleBeneficiary(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -196,7 +196,7 @@ class Intermediary(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -316,7 +316,7 @@ class InternationalBankDetails(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -365,7 +365,7 @@ class RecipientBank(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -452,7 +452,7 @@ class WireWithdrawalScheduleFederalTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -535,7 +535,7 @@ class WireWithdrawalScheduleStateTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -652,7 +652,7 @@ class WireWithdrawalScheduleRetirementDistribution(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -811,7 +811,7 @@ class WireWithdrawalScheduleScheduleProperties(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -879,7 +879,7 @@ class WireWithdrawalScheduleScheduleDetails(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -967,7 +967,7 @@ class WireWithdrawalSchedule(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

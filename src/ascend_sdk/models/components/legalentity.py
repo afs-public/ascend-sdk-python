@@ -108,7 +108,7 @@ class EntityDueDiligence(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -121,7 +121,6 @@ class LegalEntityEntityType(str, Enum, metaclass=utils.OpenEnumMeta):
     ENTITY_TYPE_UNSPECIFIED = "ENTITY_TYPE_UNSPECIFIED"
     CORPORATION = "CORPORATION"
     LIMITED_LIABILITY_COMPANY = "LIMITED_LIABILITY_COMPANY"
-    PARTNERSHIP = "PARTNERSHIP"
     TRUST = "TRUST"
     ESTATE = "ESTATE"
 
@@ -252,7 +251,7 @@ class LegalEntityLargeTrader(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -403,7 +402,6 @@ class LegalEntityFederalTaxClassification(str, Enum, metaclass=utils.OpenEnumMet
 
     FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED = "FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED"
     INDIV_SOLEPROP_OR_SINGLEMEMBERLLC = "INDIV_SOLEPROP_OR_SINGLEMEMBERLLC"
-    PARTNERSHIP = "PARTNERSHIP"
     C_CORPORATION = "C_CORPORATION"
     S_CORPORATION = "S_CORPORATION"
     TRUST_ESTATE = "TRUST_ESTATE"
@@ -620,7 +618,7 @@ class LegalEntityTaxProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -639,6 +637,8 @@ class LegalEntityTypedDict(TypedDict):
     business_industrial_classification: NotRequired[
         LegalEntityBusinessIndustrialClassification
     ]
+    client_entity_id: NotRequired[str]
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[LegalEntityCorporateStructure]
     r"""Corporate structure of the entity."""
     correspondent_id: NotRequired[str]
@@ -728,6 +728,9 @@ class LegalEntity(BaseModel):
         Optional[LegalEntityBusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+
+    client_entity_id: Optional[str] = None
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
 
     corporate_structure: Annotated[
         Optional[LegalEntityCorporateStructure],
@@ -846,6 +849,7 @@ class LegalEntity(BaseModel):
             "adviser",
             "broker_dealer",
             "business_industrial_classification",
+            "client_entity_id",
             "corporate_structure",
             "correspondent_id",
             "doing_business_as",
@@ -903,7 +907,7 @@ class LegalEntity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

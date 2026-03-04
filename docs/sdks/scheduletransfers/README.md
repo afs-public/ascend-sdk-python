@@ -16,6 +16,11 @@
 * [get_ach_withdrawal_schedule](#get_ach_withdrawal_schedule) - Get ACH Withdrawal Schedule
 * [update_ach_withdrawal_schedule](#update_ach_withdrawal_schedule) - Update ACH Withdrawal Schedule
 * [cancel_ach_withdrawal_schedule](#cancel_ach_withdrawal_schedule) - Cancel ACH Withdrawal Schedule
+* [create_cash_journal_schedule](#create_cash_journal_schedule) - Create Cash Journal Schedule
+* [get_cash_journal_schedule](#get_cash_journal_schedule) - Get Cash Journal Schedule
+* [update_cash_journal_schedule](#update_cash_journal_schedule) - Update Cash Journal Schedule
+* [cancel_cash_journal_schedule](#cancel_cash_journal_schedule) - Cancel Cash Journal Schedule
+* [search_cash_journal_schedules](#search_cash_journal_schedules) - Search Cash Journal Schedules
 * [create_check_withdrawal_schedule](#create_check_withdrawal_schedule) - Create Check Withdrawal Schedule
 * [list_check_withdrawal_schedules](#list_check_withdrawal_schedules) - List Check Withdrawal Schedules
 * [get_check_withdrawal_schedule](#get_check_withdrawal_schedule) - Get Check Withdrawal Schedule
@@ -633,6 +638,283 @@ with SDK(
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## create_cash_journal_schedule
+
+Creates a Cash Journal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CashJournalSchedules_CreateCashJournalSchedule" method="post" path="/transfers/v1/cashJournalSchedules" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.create_cash_journal_schedule(request=components.CashJournalScheduleCreate(
+        destination_account="accounts/01H8FB90ZRRFWXB4XC2JPJ1D5Z",
+        schedule_details=components.WithdrawalScheduleDetailsCreate(
+            client_schedule_id="ABC-123",
+            schedule_properties=components.SchedulePropertiesCreate(
+                start_date=components.DateCreate(),
+                time_unit=components.TimeUnit.MONTH,
+                unit_multiplier=1,
+            ),
+        ),
+        source_account="accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+    ))
+
+    assert res.cash_journal_schedule is not None
+
+    # Handle response
+    print(res.cash_journal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                    | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `request`                                                                                    | [components.CashJournalScheduleCreate](../../models/components/cashjournalschedulecreate.md) | :heavy_check_mark:                                                                           | The request object to use for the request.                                                   |
+| `retries`                                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                             | :heavy_minus_sign:                                                                           | Configuration to override the default retry behavior of the client.                          |
+
+### Response
+
+**[operations.CashJournalSchedulesCreateCashJournalScheduleResponse](../../models/operations/cashjournalschedulescreatecashjournalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 409    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## get_cash_journal_schedule
+
+Gets a Cash Journal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CashJournalSchedules_GetCashJournalSchedule" method="get" path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.get_cash_journal_schedule(cash_journal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1")
+
+    assert res.cash_journal_schedule is not None
+
+    # Handle response
+    print(res.cash_journal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `cash_journal_schedule_id`                                          | *str*                                                               | :heavy_check_mark:                                                  | The cashJournalSchedule id.                                         | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
+
+### Response
+
+**[operations.CashJournalSchedulesGetCashJournalScheduleResponse](../../models/operations/cashjournalschedulesgetcashjournalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## update_cash_journal_schedule
+
+Updates the amount of a Cash Journal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CashJournalSchedules_UpdateCashJournalSchedule" method="patch" path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.update_cash_journal_schedule(cash_journal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cash_journal_schedule_update={}, update_mask="[object Object]")
+
+    assert res.cash_journal_schedule is not None
+
+    # Handle response
+    print(res.cash_journal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                 | Type                                                                                                                      | Required                                                                                                                  | Description                                                                                                               | Example                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `cash_journal_schedule_id`                                                                                                | *str*                                                                                                                     | :heavy_check_mark:                                                                                                        | The cashJournalSchedule id.                                                                                               | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                                                                      |
+| `cash_journal_schedule_update`                                                                                            | [components.CashJournalScheduleUpdate](../../models/components/cashjournalscheduleupdate.md)                              | :heavy_check_mark:                                                                                                        | N/A                                                                                                                       |                                                                                                                           |
+| `update_mask`                                                                                                             | *Optional[str]*                                                                                                           | :heavy_minus_sign:                                                                                                        | A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable | {<br/>"update_mask": "schedule_details.amount"<br/>}                                                                      |
+| `retries`                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                          | :heavy_minus_sign:                                                                                                        | Configuration to override the default retry behavior of the client.                                                       |                                                                                                                           |
+
+### Response
+
+**[operations.CashJournalSchedulesUpdateCashJournalScheduleResponse](../../models/operations/cashjournalschedulesupdatecashjournalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## cancel_cash_journal_schedule
+
+Cancels a Cash Journal transfer schedule
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CashJournalSchedules_CancelCashJournalSchedule" method="post" path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}:cancel" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.cancel_cash_journal_schedule(cash_journal_schedule_id="40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1", cancel_cash_journal_schedule_request_create={
+        "name": "cashJournalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1",
+    })
+
+    assert res.cash_journal_schedule is not None
+
+    # Handle response
+    print(res.cash_journal_schedule)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                              | Type                                                                                                                   | Required                                                                                                               | Description                                                                                                            | Example                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `cash_journal_schedule_id`                                                                                             | *str*                                                                                                                  | :heavy_check_mark:                                                                                                     | The cashJournalSchedule id.                                                                                            | 40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1                                                                                   |
+| `cancel_cash_journal_schedule_request_create`                                                                          | [components.CancelCashJournalScheduleRequestCreate](../../models/components/cancelcashjournalschedulerequestcreate.md) | :heavy_check_mark:                                                                                                     | N/A                                                                                                                    |                                                                                                                        |
+| `retries`                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                       | :heavy_minus_sign:                                                                                                     | Configuration to override the default retry behavior of the client.                                                    |                                                                                                                        |
+
+### Response
+
+**[operations.CashJournalSchedulesCancelCashJournalScheduleResponse](../../models/operations/cashjournalschedulescancelcashjournalscheduleresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## search_cash_journal_schedules
+
+Search Cash Journal Schedules visible to the calling service account using the specified search parameters
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CashJournalSchedules_SearchCashJournalSchedules" method="get" path="/transfers/v1/cashJournalSchedules:search" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.schedule_transfers.search_cash_journal_schedules(request={
+        "source_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y",
+        "destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D5Z",
+        "filter_": "state == 'ACTIVE' && start_date > '2024-04-05' && end_date < '2024-08-10'",
+        "page_size": 100,
+        "page_token": "4ZHd3wAaMD1IQ0ZKS2BKV0FSRVdLW4VLWkY1R1B3MU4",
+    })
+
+    assert res.search_cash_journal_schedules_response is not None
+
+    # Handle response
+    print(res.search_cash_journal_schedules_response)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                            | Type                                                                                                                                                 | Required                                                                                                                                             | Description                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                            | [operations.CashJournalSchedulesSearchCashJournalSchedulesRequest](../../models/operations/cashjournalschedulessearchcashjournalschedulesrequest.md) | :heavy_check_mark:                                                                                                                                   | The request object to use for the request.                                                                                                           |
+| `retries`                                                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                     | :heavy_minus_sign:                                                                                                                                   | Configuration to override the default retry behavior of the client.                                                                                  |
+
+### Response
+
+**[operations.CashJournalSchedulesSearchCashJournalSchedulesResponse](../../models/operations/cashjournalschedulessearchcashjournalschedulesresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
 ## create_check_withdrawal_schedule

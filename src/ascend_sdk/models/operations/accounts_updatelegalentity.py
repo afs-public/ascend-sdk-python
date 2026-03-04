@@ -24,7 +24,7 @@ class AccountsUpdateLegalEntityRequestTypedDict(TypedDict):
     r"""The legalEntity id."""
     legal_entity_update: components_legalentityupdate.LegalEntityUpdateTypedDict
     update_mask: NotRequired[str]
-    r"""The list of fields to update. Updatable Fields `for_the_benefit_of` `tax_profile.withholding_state` `formation_date` `broker_dealer` `legal_address.address_lines` `legal_address.locality` `legal_address.administrative_area` `legal_address.region_code` `legal_address.postal_code` `exempt_verifying_beneficial_owners` `exempt_customer_reason` `foreign_financial_institution` `accredited_investor` `adviser` `regulated_investment_company` `lei_code` `entity_name` `tax_id` `tax_id_type` `institutional_customer` `operating_regions` `doing_business_as`"""
+    r"""The list of fields to update. Updatable Fields `for_the_benefit_of` `tax_profile.withholding_state` `formation_date` `broker_dealer` `legal_address.address_lines` `legal_address.locality` `legal_address.administrative_area` `legal_address.region_code` `legal_address.postal_code` `exempt_verifying_beneficial_owners` `exempt_customer_reason` `foreign_financial_institution` `accredited_investor` `adviser` `regulated_investment_company` `lei_code` `entity_name` `tax_id` `tax_id_type` `institutional_customer` `operating_regions` `doing_business_as` `related_document_ids` `business_industrial_classification` `entity_due_diligence.negative_news.negative_news_against_related_parties` `entity_due_diligence.negative_news.negative_news_against_related_parties_description`"""
 
 
 class AccountsUpdateLegalEntityRequest(BaseModel):
@@ -44,7 +44,7 @@ class AccountsUpdateLegalEntityRequest(BaseModel):
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The list of fields to update. Updatable Fields `for_the_benefit_of` `tax_profile.withholding_state` `formation_date` `broker_dealer` `legal_address.address_lines` `legal_address.locality` `legal_address.administrative_area` `legal_address.region_code` `legal_address.postal_code` `exempt_verifying_beneficial_owners` `exempt_customer_reason` `foreign_financial_institution` `accredited_investor` `adviser` `regulated_investment_company` `lei_code` `entity_name` `tax_id` `tax_id_type` `institutional_customer` `operating_regions` `doing_business_as`"""
+    r"""The list of fields to update. Updatable Fields `for_the_benefit_of` `tax_profile.withholding_state` `formation_date` `broker_dealer` `legal_address.address_lines` `legal_address.locality` `legal_address.administrative_area` `legal_address.region_code` `legal_address.postal_code` `exempt_verifying_beneficial_owners` `exempt_customer_reason` `foreign_financial_institution` `accredited_investor` `adviser` `regulated_investment_company` `lei_code` `entity_name` `tax_id` `tax_id_type` `institutional_customer` `operating_regions` `doing_business_as` `related_document_ids` `business_industrial_classification` `entity_due_diligence.negative_news.negative_news_against_related_parties` `entity_due_diligence.negative_news.negative_news_against_related_parties_description`"""
 
 
 class AccountsUpdateLegalEntityResponseTypedDict(TypedDict):

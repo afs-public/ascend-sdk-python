@@ -24,7 +24,34 @@ def test_margins_margins_real_time_get_buying_power():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.margins.get_buying_power(account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT")
+        res = sdk.buying_power.get_buying_power(account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT")
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+
+
+def test_margins_margins_real_time_get_asset_buying_power():
+    test_http_client = create_test_http_client("MarginsRealTime_GetAssetBuyingPower")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
+        security=components.Security(
+            api_key=os.getenv("API_KEY", "value"),
+            service_account_creds=components.ServiceAccountCreds(
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
+            ),
+        ),
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
+
+        res = sdk.buying_power.get_asset_buying_power(
+            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            asset_id="67587",
+        )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

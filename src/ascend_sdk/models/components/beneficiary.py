@@ -47,7 +47,6 @@ class BeneficiaryEntityType(str, Enum, metaclass=utils.OpenEnumMeta):
     ENTITY_TYPE_UNSPECIFIED = "ENTITY_TYPE_UNSPECIFIED"
     CORPORATION = "CORPORATION"
     LIMITED_LIABILITY_COMPANY = "LIMITED_LIABILITY_COMPANY"
-    PARTNERSHIP = "PARTNERSHIP"
     TRUST = "TRUST"
     ESTATE = "ESTATE"
 
@@ -158,7 +157,7 @@ class MailingAddress(BaseModel):
     r"""Optional. Sublocality of the address. For example, this can be neighborhoods, boroughs, districts."""
 
 
-class ShortCodeTypedDict(TypedDict):
+class BeneficiaryShortCodeTypedDict(TypedDict):
     r"""A short code.
 
     Reference(s):
@@ -175,7 +174,7 @@ class ShortCodeTypedDict(TypedDict):
     """
 
 
-class ShortCode(BaseModel):
+class BeneficiaryShortCode(BaseModel):
     r"""A short code.
 
     Reference(s):
@@ -193,7 +192,7 @@ class ShortCode(BaseModel):
     """
 
 
-class PhoneNumberTypedDict(TypedDict):
+class BeneficiaryPhoneNumberTypedDict(TypedDict):
     r"""The phone number for a party; Lives on the party record in the context of the account and does not commute to other accounts held by/for the person"""
 
     e164_number: NotRequired[str]
@@ -208,7 +207,7 @@ class PhoneNumberTypedDict(TypedDict):
 
     Note that no regions currently use extensions with short codes, so this field is normally only set in conjunction with an E.164 number. It is held separately from the E.164 number to allow for short code extensions in the future.
     """
-    short_code: NotRequired[Nullable[ShortCodeTypedDict]]
+    short_code: NotRequired[Nullable[BeneficiaryShortCodeTypedDict]]
     r"""A short code.
 
     Reference(s):
@@ -216,7 +215,7 @@ class PhoneNumberTypedDict(TypedDict):
     """
 
 
-class PhoneNumber(BaseModel):
+class BeneficiaryPhoneNumber(BaseModel):
     r"""The phone number for a party; Lives on the party record in the context of the account and does not commute to other accounts held by/for the person"""
 
     e164_number: Optional[str] = None
@@ -233,7 +232,7 @@ class PhoneNumber(BaseModel):
     Note that no regions currently use extensions with short codes, so this field is normally only set in conjunction with an E.164 number. It is held separately from the E.164 number to allow for short code extensions in the future.
     """
 
-    short_code: OptionalNullable[ShortCode] = UNSET
+    short_code: OptionalNullable[BeneficiaryShortCode] = UNSET
     r"""A short code.
 
     Reference(s):
@@ -264,7 +263,7 @@ class PhoneNumber(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -316,7 +315,7 @@ class BeneficiaryTypedDict(TypedDict):
     """
     middle_names: NotRequired[str]
     r"""Non-primary names representing a natural person; Name attributed to a person other than \"Given\" and \"Family\" names."""
-    phone_number: NotRequired[Nullable[PhoneNumberTypedDict]]
+    phone_number: NotRequired[Nullable[BeneficiaryPhoneNumberTypedDict]]
     r"""The phone number for a party; Lives on the party record in the context of the account and does not commute to other accounts held by/for the person"""
     relation_type: NotRequired[BeneficiaryRelationType]
     r"""The relationship of the beneficiary to the account owner"""
@@ -364,7 +363,7 @@ class Beneficiary(BaseModel):
     middle_names: Optional[str] = None
     r"""Non-primary names representing a natural person; Name attributed to a person other than \"Given\" and \"Family\" names."""
 
-    phone_number: OptionalNullable[PhoneNumber] = UNSET
+    phone_number: OptionalNullable[BeneficiaryPhoneNumber] = UNSET
     r"""The phone number for a party; Lives on the party record in the context of the account and does not commute to other accounts held by/for the person"""
 
     relation_type: Annotated[
@@ -418,7 +417,7 @@ class Beneficiary(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

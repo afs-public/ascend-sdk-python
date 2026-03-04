@@ -105,7 +105,7 @@ class SpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
@@ -148,7 +148,7 @@ class OrderCreateTypedDict(TypedDict):
     side: Side
     r"""The side of this order."""
     time_in_force: TimeInForce
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
     broker_capacity: NotRequired[BrokerCapacity]
     r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
     client_received_time: NotRequired[Nullable[datetime]]
@@ -191,7 +191,7 @@ class OrderCreateTypedDict(TypedDict):
     rights_of_accumulation: NotRequired[RightsOfAccumulationCreateTypedDict]
     r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
     special_reporting_instructions: NotRequired[List[SpecialReportingInstructions]]
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
     stop_price: NotRequired[StopPriceCreateTypedDict]
     r"""A stop price definition"""
     time_in_force_expiration_date: NotRequired[DateCreateTypedDict]
@@ -239,7 +239,7 @@ class OrderCreate(BaseModel):
     r"""The side of this order."""
 
     time_in_force: Annotated[TimeInForce, PlainValidator(validate_open_enum(False))]
-    r"""Regulatory requirements dictate that the system capture the intended time_in_force, which is why this a mandatory field."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
 
     broker_capacity: Annotated[
         Optional[BrokerCapacity], PlainValidator(validate_open_enum(False))
@@ -304,7 +304,7 @@ class OrderCreate(BaseModel):
             ]
         ]
     ] = None
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
 
     stop_price: Optional[StopPriceCreate] = None
     r"""A stop price definition"""
@@ -364,7 +364,7 @@ class OrderCreate(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

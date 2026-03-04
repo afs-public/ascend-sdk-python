@@ -19,6 +19,212 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict, deprecated
 
 
+class EstimatedValueDescriptor(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates whether the valuation represents estimate of investors' interest in the net assets of the program or estimate of the value of the security."""
+
+    ESTIMATED_VALUE_DESCRIPTOR_UNSPECIFIED = "ESTIMATED_VALUE_DESCRIPTOR_UNSPECIFIED"
+    IA = "IA"
+    SV = "SV"
+
+
+class OwnershipStructure(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Describes the legal entity structure of the alternative investment. Critical for tax treatment, regulatory compliance, and operational procedures."""
+
+    OWNERSHIP_STRUCTURE_UNSPECIFIED = "OWNERSHIP_STRUCTURE_UNSPECIFIED"
+    LIMITED_PARTNERSHIP = "LIMITED_PARTNERSHIP"
+    US_LLC = "US_LLC"
+    US_S_CORP = "US_S_CORP"
+    US_C_CORP = "US_C_CORP"
+    CAYMAN_ORDINARY_RESIDENT = "CAYMAN_ORDINARY_RESIDENT"
+    CAYMAN_EXEMPTED = "CAYMAN_EXEMPTED"
+    CAYMAN_ORDINARY_NONRESIDENT = "CAYMAN_ORDINARY_NONRESIDENT"
+    CAYMAN_LIMITED_DURATION_EXEMPTED = "CAYMAN_LIMITED_DURATION_EXEMPTED"
+    CAYMAN_FOREIGN = "CAYMAN_FOREIGN"
+    CAYMAN_TRUST = "CAYMAN_TRUST"
+    BVI_GUARANTEE_NO_SHARES = "BVI_GUARANTEE_NO_SHARES"
+    BVI_GUARANTEE_MAY_ISSUE_SHARES = "BVI_GUARANTEE_MAY_ISSUE_SHARES"
+    BVI_UNLIMITED_NO_SHARES = "BVI_UNLIMITED_NO_SHARES"
+    BVI_UNLIMITED_MAY_ISSUE_SHARES = "BVI_UNLIMITED_MAY_ISSUE_SHARES"
+    BERMUDA_LIMITED_BY_SHARES = "BERMUDA_LIMITED_BY_SHARES"
+    BERMUDA_LIMITED_BY_GUARANTEE = "BERMUDA_LIMITED_BY_GUARANTEE"
+    BERMUDA_UNLIMITED_LIABILITY = "BERMUDA_UNLIMITED_LIABILITY"
+    LUXEMBOURG_SA = "LUXEMBOURG_SA"
+    LUXEMBOURG_SARL = "LUXEMBOURG_SARL"
+    LUXEMBOURG_SNC = "LUXEMBOURG_SNC"
+    LUXEMBOURG_LIMITED_PARTNERSHIP = "LUXEMBOURG_LIMITED_PARTNERSHIP"
+    LUXEMBOURG_SC = "LUXEMBOURG_SC"
+    IRISH_PRIVATE_LIMITED = "IRISH_PRIVATE_LIMITED"
+    IRISH_PUBLIC_LIMITED = "IRISH_PUBLIC_LIMITED"
+    IRISH_LIMITED_BY_GUARANTEE = "IRISH_LIMITED_BY_GUARANTEE"
+    JERSEY_LLP = "JERSEY_LLP"
+    JERSEY_PUBLIC = "JERSEY_PUBLIC"
+    JERSEY_PRIVATE = "JERSEY_PRIVATE"
+    ISLE_OF_MAN_LLC = "ISLE_OF_MAN_LLC"
+    ISLE_OF_MAN_TRUST = "ISLE_OF_MAN_TRUST"
+    MAURITIUS_DOMESTIC = "MAURITIUS_DOMESTIC"
+    MAURITIUS_CATEGORY_I_GBL = "MAURITIUS_CATEGORY_I_GBL"
+    MAURITIUS_CATEGORY_II_GBL = "MAURITIUS_CATEGORY_II_GBL"
+    MAURITIUS_SOCIETE_COMMERCIALE = "MAURITIUS_SOCIETE_COMMERCIALE"
+    MAURITIUS_SOCIETE_EN_NOM = "MAURITIUS_SOCIETE_EN_NOM"
+    MAURITIUS_SOCIETE_CIVILE = "MAURITIUS_SOCIETE_CIVILE"
+    OTHER_OWNERSHIP = "OTHER_OWNERSHIP"
+    DELAWARE_BUSINESS_TRUST = "DELAWARE_BUSINESS_TRUST"
+    MASSACHUSETTS_BUSINESS_TRUST = "MASSACHUSETTS_BUSINESS_TRUST"
+    MARYLAND_REIT = "MARYLAND_REIT"
+    CAYMAN_EXEMPT_LIMITED_PARTNERSHIP = "CAYMAN_EXEMPT_LIMITED_PARTNERSHIP"
+    BVI_LIMITED_BY_SHARES = "BVI_LIMITED_BY_SHARES"
+    DELAWARE_STATUTORY_TRUST = "DELAWARE_STATUTORY_TRUST"
+
+
+class AssetTaxReportingStructure(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates whether the investment generates IRS Form 1099 or Schedule K-1 for tax reporting. Critical for year-end tax processing."""
+
+    TAX_REPORTING_STRUCTURE_UNSPECIFIED = "TAX_REPORTING_STRUCTURE_UNSPECIFIED"
+    FORM_1099 = "FORM_1099"
+    FORM_K1 = "FORM_K1"
+
+
+class UniversalFootnote(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Universal footnote combining valuation descriptor, source, and method information."""
+
+    UNIVERSAL_FOOTNOTE_UNSPECIFIED = "UNIVERSAL_FOOTNOTE_UNSPECIFIED"
+    A = "A"
+    B = "B"
+    C = "C"
+    D = "D"
+    E = "E"
+    F = "F"
+    G = "G"
+    H = "H"
+    I = "I"
+    J = "J"
+    K = "K"
+    L = "L"
+    M = "M"
+    N = "N"
+    O = "O"
+    P = "P"
+    Q = "Q"
+    R = "R"
+    S = "S"
+    T = "T"
+    U = "U"
+
+
+class ValuationFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates how often the asset is valued. Critical for pricing workflows, client expectations, and operational scheduling."""
+
+    VALUATION_FREQUENCY_UNSPECIFIED = "VALUATION_FREQUENCY_UNSPECIFIED"
+    DAILY = "DAILY"
+    WEEKLY = "WEEKLY"
+    BIWEEKLY = "BIWEEKLY"
+    MONTHLY = "MONTHLY"
+    SEMIMONTHLY = "SEMIMONTHLY"
+    QUARTERLY = "QUARTERLY"
+    ANNUALLY = "ANNUALLY"
+    OTHER = "OTHER"
+
+
+class ValuationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates the methodology used to determine the asset's value. Different valuation methods require different data sources and calculation workflows."""
+
+    VALUATION_METHOD_UNSPECIFIED = "VALUATION_METHOD_UNSPECIFIED"
+    IND = "IND"
+    GPC = "GPC"
+    GPU = "GPU"
+    BKV = "BKV"
+    REP = "REP"
+    SEC = "SEC"
+    PAR = "PAR"
+    MKT = "MKT"
+    AV = "AV"
+    GPS = "GPS"
+    TC = "TC"
+    ATO = "ATO"
+    ITO = "ITO"
+    NI = "NI"
+    NID = "NID"
+    LBR = "LBR"
+    N_A = "N_A"
+
+
+class ValuationSource(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates whether the valuation was provided by management of program, third part firm conducting independent valuation or by broker/dealer."""
+
+    VALUATION_SOURCE_UNSPECIFIED = "VALUATION_SOURCE_UNSPECIFIED"
+    MGT = "MGT"
+    IV = "IV"
+    BD = "BD"
+
+
+class AltInvestmentTypedDict(TypedDict):
+    r"""AltInvestment specific asset details"""
+
+    aip_sin: NotRequired[str]
+    r"""DTCC-assigned 16-character unique identifier for alternative investment products. Enables industry-wide standardization and DTCC AIP network integration."""
+    estimated_value_descriptor: NotRequired[EstimatedValueDescriptor]
+    r"""Indicates whether the valuation represents estimate of investors' interest in the net assets of the program or estimate of the value of the security."""
+    ownership_structure: NotRequired[OwnershipStructure]
+    r"""Describes the legal entity structure of the alternative investment. Critical for tax treatment, regulatory compliance, and operational procedures."""
+    tax_reporting_structure: NotRequired[AssetTaxReportingStructure]
+    r"""Indicates whether the investment generates IRS Form 1099 or Schedule K-1 for tax reporting. Critical for year-end tax processing."""
+    unitized_capital_indicator: NotRequired[bool]
+    r"""Indicates whether the investment uses unitized accounting (shares/units with NAV), or capital account accounting (member capital accounts). Critical for transaction processing and position reporting. A value of true means Unitized. A value of false means Capital Account."""
+    universal_footnote: NotRequired[UniversalFootnote]
+    r"""Universal footnote combining valuation descriptor, source, and method information."""
+    valuation_frequency: NotRequired[ValuationFrequency]
+    r"""Indicates how often the asset is valued. Critical for pricing workflows, client expectations, and operational scheduling."""
+    valuation_method: NotRequired[ValuationMethod]
+    r"""Indicates the methodology used to determine the asset's value. Different valuation methods require different data sources and calculation workflows."""
+    valuation_source: NotRequired[ValuationSource]
+    r"""Indicates whether the valuation was provided by management of program, third part firm conducting independent valuation or by broker/dealer."""
+
+
+class AltInvestment(BaseModel):
+    r"""AltInvestment specific asset details"""
+
+    aip_sin: Optional[str] = None
+    r"""DTCC-assigned 16-character unique identifier for alternative investment products. Enables industry-wide standardization and DTCC AIP network integration."""
+
+    estimated_value_descriptor: Annotated[
+        Optional[EstimatedValueDescriptor], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates whether the valuation represents estimate of investors' interest in the net assets of the program or estimate of the value of the security."""
+
+    ownership_structure: Annotated[
+        Optional[OwnershipStructure], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Describes the legal entity structure of the alternative investment. Critical for tax treatment, regulatory compliance, and operational procedures."""
+
+    tax_reporting_structure: Annotated[
+        Optional[AssetTaxReportingStructure], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates whether the investment generates IRS Form 1099 or Schedule K-1 for tax reporting. Critical for year-end tax processing."""
+
+    unitized_capital_indicator: Optional[bool] = None
+    r"""Indicates whether the investment uses unitized accounting (shares/units with NAV), or capital account accounting (member capital accounts). Critical for transaction processing and position reporting. A value of true means Unitized. A value of false means Capital Account."""
+
+    universal_footnote: Annotated[
+        Optional[UniversalFootnote], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Universal footnote combining valuation descriptor, source, and method information."""
+
+    valuation_frequency: Annotated[
+        Optional[ValuationFrequency], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates how often the asset is valued. Critical for pricing workflows, client expectations, and operational scheduling."""
+
+    valuation_method: Annotated[
+        Optional[ValuationMethod], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates the methodology used to determine the asset's value. Different valuation methods require different data sources and calculation workflows."""
+
+    valuation_source: Annotated[
+        Optional[ValuationSource], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates whether the valuation was provided by management of program, third part firm conducting independent valuation or by broker/dealer."""
+
+
 class CurrencyType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates the type of currency"""
 
@@ -142,7 +348,7 @@ class CouponType(str, Enum, metaclass=utils.OpenEnumMeta):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class DurationTypedDict(TypedDict):
-    r"""Weighted average time until a bond’s cash flows are received in years"""
+    r"""Weighted average time until a bond's cash flows are received in years"""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -152,7 +358,7 @@ class DurationTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class Duration(BaseModel):
-    r"""Weighted average time until a bond’s cash flows are received in years"""
+    r"""Weighted average time until a bond's cash flows are received in years"""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -464,7 +670,7 @@ class FixedIncomeTypedDict(TypedDict):
     coupon_type: NotRequired[CouponType]
     r"""Type of coupon rate"""
     duration: NotRequired[Nullable[DurationTypedDict]]
-    r"""Weighted average time until a bond’s cash flows are received in years"""
+    r"""Weighted average time until a bond's cash flows are received in years"""
     first_coupon_date: NotRequired[Nullable[FirstCouponDateTypedDict]]
     r"""date of first coupon"""
     fixed_income_status: NotRequired[FixedIncomeStatus]
@@ -536,7 +742,7 @@ class FixedIncome(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = UNSET
-    r"""Weighted average time until a bond’s cash flows are received in years"""
+    r"""Weighted average time until a bond's cash flows are received in years"""
 
     first_coupon_date: OptionalNullable[FirstCouponDate] = UNSET
     r"""date of first coupon"""
@@ -663,7 +869,7 @@ class FixedIncome(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -764,7 +970,7 @@ class MutualFund(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1049,7 +1255,7 @@ class OptionRoot(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1226,7 +1432,7 @@ class Option(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1244,12 +1450,15 @@ class AssetType1(str, Enum, metaclass=utils.OpenEnumMeta):
     FDIC_SYNTHETIC = "FDIC_SYNTHETIC"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
+    ALT_INVESTMENT = "ALT_INVESTMENT"
     INDEX = "INDEX"
 
 
 class AssetTypedDict(TypedDict):
     r"""Asset is the Apex representation of a security"""
 
+    alt_investment: NotRequired[Nullable[AltInvestmentTypedDict]]
+    r"""AltInvestment specific asset details"""
     asset_id: NotRequired[str]
     r"""Apex internal identifier assigned upon entry to every security."""
     currency: NotRequired[Nullable[CurrencyTypedDict]]
@@ -1286,6 +1495,9 @@ class AssetTypedDict(TypedDict):
 
 class Asset(BaseModel):
     r"""Asset is the Apex representation of a security"""
+
+    alt_investment: OptionalNullable[AltInvestment] = UNSET
+    r"""AltInvestment specific asset details"""
 
     asset_id: Optional[str] = None
     r"""Apex internal identifier assigned upon entry to every security."""
@@ -1340,6 +1552,7 @@ class Asset(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
+            "alt_investment",
             "asset_id",
             "currency",
             "cusip",
@@ -1358,6 +1571,7 @@ class Asset(BaseModel):
             "usable",
         ]
         nullable_fields = [
+            "alt_investment",
             "currency",
             "equity",
             "fixed_income",
@@ -1385,7 +1599,7 @@ class Asset(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

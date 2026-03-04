@@ -121,7 +121,7 @@ class DepositedFunds(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -216,7 +216,7 @@ class FinancialProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -302,7 +302,7 @@ class LowPricedSecurities(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -402,7 +402,7 @@ class PlannedActivity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -507,7 +507,7 @@ class EddAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -610,7 +610,7 @@ class CorporationEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -671,16 +671,6 @@ class EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan(
     DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
 
 
-class EnrollmentMoneyMarketFundSweep(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
-
-    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
-        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
-    )
-    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
-    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
-
-
 class EstateEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_ESTATE enrollment type"""
 
@@ -690,8 +680,6 @@ class EstateEnrollmentMetadataTypedDict(TypedDict):
         EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan
     ]
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
-    money_market_fund_sweep: NotRequired[EnrollmentMoneyMarketFundSweep]
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class EstateEnrollmentMetadata(BaseModel):
@@ -705,12 +693,6 @@ class EstateEnrollmentMetadata(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
-
-    money_market_fund_sweep: Annotated[
-        Optional[EnrollmentMoneyMarketFundSweep],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
 class EnrollmentForeignIndividualAccountEnrollmentMetadataDividendReinvestmentPlan(
@@ -793,7 +775,7 @@ class EnrollmentDepositedFunds(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -875,7 +857,7 @@ class EnrollmentFinancialProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -961,7 +943,7 @@ class EnrollmentLowPricedSecurities(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1055,7 +1037,7 @@ class EnrollmentPlannedActivity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1143,7 +1125,7 @@ class ForeignNaturalPersonAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1217,7 +1199,7 @@ class ForeignIndividualAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1310,7 +1292,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataDepositedFunds(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1398,7 +1380,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfile(BaseModel)
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1496,7 +1478,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecurities(BaseMod
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1610,7 +1592,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataPlannedActivity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1722,7 +1704,7 @@ class EnrollmentForeignNaturalPersonAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1796,7 +1778,7 @@ class ForeignJointAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2113,7 +2095,7 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2763,7 +2745,7 @@ class EnrollmentLlcEnrollmentMetadataDepositedFunds(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2860,7 +2842,7 @@ class EnrollmentLlcEnrollmentMetadataFinancialProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2946,7 +2928,7 @@ class EnrollmentLlcEnrollmentMetadataLowPricedSecurities(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3052,7 +3034,7 @@ class EnrollmentLlcEnrollmentMetadataPlannedActivity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3171,7 +3153,7 @@ class EnrollmentEddAccountEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3188,9 +3170,7 @@ class EnrollmentLlcEnrollmentMetadataFdicCashSweep(
     FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
 
 
-class EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class EnrollmentMoneyMarketFundSweep(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
     AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
@@ -3213,9 +3193,7 @@ class LlcEnrollmentMetadataTypedDict(TypedDict):
     r"""Enrollment metadata for entity accounts"""
     fdic_cash_sweep: NotRequired[EnrollmentLlcEnrollmentMetadataFdicCashSweep]
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
-    money_market_fund_sweep: NotRequired[
-        EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep
-    ]
+    money_market_fund_sweep: NotRequired[EnrollmentMoneyMarketFundSweep]
     r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
 
 
@@ -3240,7 +3218,7 @@ class LlcEnrollmentMetadata(BaseModel):
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
     money_market_fund_sweep: Annotated[
-        Optional[EnrollmentLlcEnrollmentMetadataMoneyMarketFundSweep],
+        Optional[EnrollmentMoneyMarketFundSweep],
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
@@ -3274,7 +3252,7 @@ class LlcEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3306,6 +3284,9 @@ class EnrollmentOperatingPurpose(str, Enum, metaclass=utils.OpenEnumMeta):
     PRINCIPAL_TRADING = "PRINCIPAL_TRADING"
     SAFEKEEPING_BOOK_ENTITY_DOMESTIC = "SAFEKEEPING_BOOK_ENTITY_DOMESTIC"
     FAIL = "FAIL"
+    WASH = "WASH"
+    SETTLEMENT = "SETTLEMENT"
+    TRANSFER_LOCATION = "TRANSFER_LOCATION"
 
 
 class EnrollmentTaxAuthority(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3447,7 +3428,7 @@ class OperatingEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3570,7 +3551,7 @@ class OrdersOptionsTradingEnrollmentMetadata(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -3703,6 +3684,7 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_IRA_BENEFICIARY_ROTH = "REGISTRATION_IRA_BENEFICIARY_ROTH"
     REGISTRATION_INDIVIDUAL_FOREIGN = "REGISTRATION_INDIVIDUAL_FOREIGN"
     REGISTRATION_CUSTODIAL = "REGISTRATION_CUSTODIAL"
+    REG_T_MARGIN = "REG_T_MARGIN"
     VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
 
 
@@ -4053,7 +4035,7 @@ class Enrollment(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

@@ -84,7 +84,7 @@ class BookingTradeRouteType(str, Enum, metaclass=utils.OpenEnumMeta):
     BOATS = "BOATS"
 
 
-class SettlementDateTypedDict(TypedDict):
+class BookingTradeSettlementDateTypedDict(TypedDict):
     r"""Defaults to T+1 for equities if this is not provided. Calculated by the execution's execution_time field in Eastern Time."""
 
     day: NotRequired[int]
@@ -95,7 +95,7 @@ class SettlementDateTypedDict(TypedDict):
     r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
 
 
-class SettlementDate(BaseModel):
+class BookingTradeSettlementDate(BaseModel):
     r"""Defaults to T+1 for equities if this is not provided. Calculated by the execution's execution_time field in Eastern Time."""
 
     day: Optional[int] = None
@@ -258,7 +258,7 @@ class BookingTradeTypedDict(TypedDict):
     r"""Street-level order id, unique by day per broker."""
     route_type: NotRequired[BookingTradeRouteType]
     r"""Route type for the trade."""
-    settlement_date: NotRequired[Nullable[SettlementDateTypedDict]]
+    settlement_date: NotRequired[Nullable[BookingTradeSettlementDateTypedDict]]
     r"""Defaults to T+1 for equities if this is not provided. Calculated by the execution's execution_time field in Eastern Time."""
     side: NotRequired[BookingTradeSide]
     r"""Denotes if the trade is a SELL or a BUY."""
@@ -347,7 +347,7 @@ class BookingTrade(BaseModel):
     ] = None
     r"""Route type for the trade."""
 
-    settlement_date: OptionalNullable[SettlementDate] = UNSET
+    settlement_date: OptionalNullable[BookingTradeSettlementDate] = UNSET
     r"""Defaults to T+1 for equities if this is not provided. Calculated by the execution's execution_time field in Eastern Time."""
 
     side: Annotated[
@@ -439,7 +439,7 @@ class BookingTrade(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

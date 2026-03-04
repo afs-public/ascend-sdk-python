@@ -39,6 +39,9 @@ class OperatingPurpose(str, Enum, metaclass=utils.OpenEnumMeta):
     PRINCIPAL_TRADING = "PRINCIPAL_TRADING"
     SAFEKEEPING_BOOK_ENTITY_DOMESTIC = "SAFEKEEPING_BOOK_ENTITY_DOMESTIC"
     FAIL = "FAIL"
+    WASH = "WASH"
+    SETTLEMENT = "SETTLEMENT"
+    TRANSFER_LOCATION = "TRANSFER_LOCATION"
 
 
 class OperatingEnrollmentMetadataCreateTypedDict(TypedDict):
