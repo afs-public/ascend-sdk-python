@@ -34,4 +34,5 @@ Otherwise, must be empty.
 | `REGISTRATION_IRA_BENEFICIARY_ROTH`        | REGISTRATION_IRA_BENEFICIARY_ROTH          |
 | `REGISTRATION_INDIVIDUAL_FOREIGN`          | REGISTRATION_INDIVIDUAL_FOREIGN            |
 | `REGISTRATION_CUSTODIAL`                   | REGISTRATION_CUSTODIAL                     |
+| `REG_T_MARGIN`                             | REG_T_MARGIN                               |
 | `VIRTUAL_ACCOUNT_NUMBER`                   | VIRTUAL_ACCOUNT_NUMBER                     |

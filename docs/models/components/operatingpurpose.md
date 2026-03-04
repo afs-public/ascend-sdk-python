@@ -29,3 +29,6 @@ The purpose of the operating account.
 | `PRINCIPAL_TRADING`                | PRINCIPAL_TRADING                  |
 | `SAFEKEEPING_BOOK_ENTITY_DOMESTIC` | SAFEKEEPING_BOOK_ENTITY_DOMESTIC   |
 | `FAIL`                             | FAIL                               |
+| `WASH`                             | WASH                               |
+| `SETTLEMENT`                       | SETTLEMENT                         |
+| `TRANSFER_LOCATION`                | TRANSFER_LOCATION                  |

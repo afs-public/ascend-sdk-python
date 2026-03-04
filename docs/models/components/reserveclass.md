@@ -13,3 +13,4 @@ The Reserve Class associated with the account
 | `FIRM`                      | FIRM                        |
 | `STREET`                    | STREET                      |
 | `G_L`                       | G_L                         |
+| `FUTURES_CUSTOMER`          | FUTURES_CUSTOMER            |

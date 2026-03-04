@@ -18,6 +18,7 @@ from ascend_sdk.types import (
 from ascend_sdk.utils import validate_open_enum
 from datetime import datetime
 from enum import Enum
+import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
@@ -36,6 +37,25 @@ class AccountCatAccountHolderType(str, Enum, metaclass=utils.OpenEnumMeta):
     V_AGENCY_AVERAGE_PRICE_ACCOUNT = "V_AGENCY_AVERAGE_PRICE_ACCOUNT"
     P_OTHER_PROPRIETARY = "P_OTHER_PROPRIETARY"
     X_ERROR_ACCOUNT = "X_ERROR_ACCOUNT"
+
+
+class CatReporterInformationTypedDict(TypedDict):
+    r"""The CAT reporter information for the account"""
+
+    originating_cat_reporter_crd: NotRequired[str]
+    r"""The prior CAT reporter's 7 digit CRD number; Must be provided with an `ORIGINATING_FDID`"""
+    originating_fdid: NotRequired[str]
+    r"""The previous FDID associated with the account; Must be unique and provided with an `ORIGINATING_CAT_REPORTER_CRD`"""
+
+
+class CatReporterInformation(BaseModel):
+    r"""The CAT reporter information for the account"""
+
+    originating_cat_reporter_crd: Optional[str] = None
+    r"""The prior CAT reporter's 7 digit CRD number; Must be provided with an `ORIGINATING_FDID`"""
+
+    originating_fdid: Optional[str] = None
+    r"""The previous FDID associated with the account; Must be unique and provided with an `ORIGINATING_CAT_REPORTER_CRD`"""
 
 
 class CftcOwnerType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -366,7 +386,7 @@ class InvestmentProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -405,7 +425,6 @@ class RegistrationType(str, Enum, metaclass=utils.OpenEnumMeta):
     TRUST_REGISTRATION = "TRUST_REGISTRATION"
     CORPORATION_REGISTRATION = "CORPORATION_REGISTRATION"
     LLC_REGISTRATION = "LLC_REGISTRATION"
-    PARTNERSHIP_REGISTRATION = "PARTNERSHIP_REGISTRATION"
     OPERATING_REGISTRATION = "OPERATING_REGISTRATION"
     IRA_BENEFICIARY_TRADITIONAL_REGISTRATION = (
         "IRA_BENEFICIARY_TRADITIONAL_REGISTRATION"
@@ -424,6 +443,7 @@ class ReserveClass(str, Enum, metaclass=utils.OpenEnumMeta):
     FIRM = "FIRM"
     STREET = "STREET"
     G_L = "G_L"
+    FUTURES_CUSTOMER = "FUTURES_CUSTOMER"
 
 
 class AccountState(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -501,8 +521,12 @@ class AccountTypedDict(TypedDict):
     r"""The collection of legal agreements belonging to a given account"""
     cat_account_holder_type: NotRequired[AccountCatAccountHolderType]
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
+    cat_reporter_information: NotRequired[Nullable[CatReporterInformationTypedDict]]
+    r"""The CAT reporter information for the account"""
     cftc_owner_type: NotRequired[CftcOwnerType]
     r"""Indicates the CFTC (Commodity Futures Trading Commission) owner type of the account. This enum only applies to accounts regulated by the CFTC"""
+    client_account_id: NotRequired[str]
+    r"""An external identifier for the account. This identifier does not have internal uniqueness constraints."""
     close_time: NotRequired[Nullable[datetime]]
     r"""The time the account was closed; If the account is not closed, this is null"""
     correspondent_id: NotRequired[str]
@@ -533,6 +557,8 @@ class AccountTypedDict(TypedDict):
     r"""The name field Format: accounts/{account}"""
     open_time: NotRequired[Nullable[datetime]]
     r"""The time the account was activated; Differs from `create_time` which is when the initial account record was created"""
+    originating_account_id: NotRequired[str]
+    r"""The previous account ID associated with the account; Must be unique"""
     ownership_type: NotRequired[OwnershipType]
     r"""A roll-up account classification based on the `registration_type`; Indicates what owns the account and/or if it is a special type (e.g., Joint, Estate, Retirement, etc.); Used primarily for reporting and high-level type identification"""
     parties: NotRequired[List[PartyTypedDict]]
@@ -586,10 +612,16 @@ class Account(BaseModel):
     ] = None
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
 
+    cat_reporter_information: OptionalNullable[CatReporterInformation] = UNSET
+    r"""The CAT reporter information for the account"""
+
     cftc_owner_type: Annotated[
         Optional[CftcOwnerType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Indicates the CFTC (Commodity Futures Trading Commission) owner type of the account. This enum only applies to accounts regulated by the CFTC"""
+
+    client_account_id: Optional[str] = None
+    r"""An external identifier for the account. This identifier does not have internal uniqueness constraints."""
 
     close_time: OptionalNullable[datetime] = UNSET
     r"""The time the account was closed; If the account is not closed, this is null"""
@@ -621,7 +653,12 @@ class Account(BaseModel):
     ] = None
     r"""Describes if the account is cash-only or has access to a form of margin"""
 
-    identifiers: Optional[List[Identifier]] = None
+    identifiers: Annotated[
+        Optional[List[Identifier]],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
     r"""A list of identifiers associated with the account"""
 
     interested_parties: Optional[List[InterestedParty]] = None
@@ -641,6 +678,9 @@ class Account(BaseModel):
 
     open_time: OptionalNullable[datetime] = UNSET
     r"""The time the account was activated; Differs from `create_time` which is when the initial account record was created"""
+
+    originating_account_id: Optional[str] = None
+    r"""The previous account ID associated with the account; Must be unique"""
 
     ownership_type: Annotated[
         Optional[OwnershipType], PlainValidator(validate_open_enum(False))
@@ -694,7 +734,9 @@ class Account(BaseModel):
             "advised",
             "agreements",
             "cat_account_holder_type",
+            "cat_reporter_information",
             "cftc_owner_type",
+            "client_account_id",
             "close_time",
             "correspondent_id",
             "create_time",
@@ -710,6 +752,7 @@ class Account(BaseModel):
             "margin_group_id",
             "name",
             "open_time",
+            "originating_account_id",
             "ownership_type",
             "parties",
             "pattern_day_trader",
@@ -723,6 +766,7 @@ class Account(BaseModel):
             "wrap_fee_billed",
         ]
         nullable_fields = [
+            "cat_reporter_information",
             "close_time",
             "create_time",
             "investment_profile",
@@ -749,7 +793,7 @@ class Account(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

@@ -52,7 +52,6 @@ class EntityType(str, Enum, metaclass=utils.OpenEnumMeta):
     ENTITY_TYPE_UNSPECIFIED = "ENTITY_TYPE_UNSPECIFIED"
     CORPORATION = "CORPORATION"
     LIMITED_LIABILITY_COMPANY = "LIMITED_LIABILITY_COMPANY"
-    PARTNERSHIP = "PARTNERSHIP"
     TRUST = "TRUST"
     ESTATE = "ESTATE"
 
@@ -137,6 +136,8 @@ class LegalEntityCreateTypedDict(TypedDict):
     broker_dealer: NotRequired[bool]
     r"""Indicates whether the entity is a broker dealer. By default, this is set to `false`."""
     business_industrial_classification: NotRequired[BusinessIndustrialClassification]
+    client_entity_id: NotRequired[str]
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[CorporateStructure]
     r"""Corporate structure of the entity."""
     doing_business_as: NotRequired[List[str]]
@@ -233,6 +234,9 @@ class LegalEntityCreate(BaseModel):
         Optional[BusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+
+    client_entity_id: Optional[str] = None
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
 
     corporate_structure: Annotated[
         Optional[CorporateStructure], PlainValidator(validate_open_enum(False))

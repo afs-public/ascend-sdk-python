@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 84c7e346129bb255bd3af8fb7e1464fe
-  docVersion: v1:20260112:uat:5e3b93765864
+  docChecksum: 2d2301af648574e02452022e6e5cae4c
+  docVersion: v1:20260227:uat:06c84009201f
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.8.2
-  configChecksum: 20a3fd7ee498596ac17316cb374b0093
+  releaseVersion: 1.8.3
+  configChecksum: aa1efb9897d866fa801b40238dc9b097
 features:
   python:
     additionalDependencies: 1.0.0
@@ -57,11 +57,14 @@ generatedFiles:
   - docs/models/components/accepttransferresponsetransferexternalaccount.md
   - docs/models/components/accepttransferresponsetransfertype.md
   - docs/models/components/account.md
+  - docs/models/components/accountaccreditation.md
   - docs/models/components/accountannualincomerangeusd.md
+  - docs/models/components/accountassetbuyingpower.md
   - docs/models/components/accountcataccountholdertype.md
   - docs/models/components/accountcostbasislotdisposalmethod.md
   - docs/models/components/accountdocument.md
   - docs/models/components/accountdocumentuploadrequestcreate.md
+  - docs/models/components/accountequity.md
   - docs/models/components/accountequityamount.md
   - docs/models/components/accountgoals.md
   - docs/models/components/accountgoalscreate.md
@@ -88,6 +91,7 @@ generatedFiles:
   - docs/models/components/accounttotalnetworthrangeusd.md
   - docs/models/components/accounttransfer.md
   - docs/models/components/accounttransfertype.md
+  - docs/models/components/accreditationtype.md
   - docs/models/components/accruedinterest.md
   - docs/models/components/accruedinterestamount.md
   - docs/models/components/accruedinterestamount1.md
@@ -356,6 +360,27 @@ generatedFiles:
   - docs/models/components/agreementstate.md
   - docs/models/components/allocation.md
   - docs/models/components/allocationpercentage.md
+  - docs/models/components/alternativeinvestment.md
+  - docs/models/components/alternativeinvestmentdocument.md
+  - docs/models/components/alternativeinvestmentdocumenttype.md
+  - docs/models/components/alternativeinvestmentissuertype.md
+  - docs/models/components/alternativeinvestmentmailingaddress.md
+  - docs/models/components/alternativeinvestmentregistrationtype.md
+  - docs/models/components/alternativeinvestmentstate.md
+  - docs/models/components/alternativeinvestmenttype.md
+  - docs/models/components/alternativeorder.md
+  - docs/models/components/alternativeordercreate.md
+  - docs/models/components/alternativeordercreateidentifiertype.md
+  - docs/models/components/alternativeordercreateside.md
+  - docs/models/components/alternativeordercumulativenotionalvalue.md
+  - docs/models/components/alternativeorderdistributiontype.md
+  - docs/models/components/alternativeorderfilledquantity.md
+  - docs/models/components/alternativeorderidentifiertype.md
+  - docs/models/components/alternativeordernotionalvalue.md
+  - docs/models/components/alternativeorderorderstatus.md
+  - docs/models/components/alternativeorderquantity.md
+  - docs/models/components/alternativeorderside.md
+  - docs/models/components/altinvestment.md
   - docs/models/components/amount.md
   - docs/models/components/amount1.md
   - docs/models/components/amount2.md
@@ -364,12 +389,27 @@ generatedFiles:
   - docs/models/components/askminimumquantity.md
   - docs/models/components/askquantity.md
   - docs/models/components/asset.md
+  - docs/models/components/assetbuyingpower.md
+  - docs/models/components/assetbuyingpoweraccountequityamount.md
+  - docs/models/components/assetbuyingpowerassetbuyingpowermaxamount.md
+  - docs/models/components/assetbuyingpowerbuyingpoweramount.md
+  - docs/models/components/assetbuyingpowerdaytradebuyingpoweramount.md
+  - docs/models/components/assetbuyingpowermaxamount.md
+  - docs/models/components/assetbuyingpowermaxpurchasequantity.md
+  - docs/models/components/assetbuyingpowerpercentagerequirements.md
+  - docs/models/components/assetbuyingpowerpositionmarketvalueamount.md
+  - docs/models/components/assetbuyingpowerrequirements.md
+  - docs/models/components/assetbuyingpowersmaamount.md
+  - docs/models/components/assetbuyingpowertotalexcessamount.md
+  - docs/models/components/assetbuyingpowertotalrequirementsamount.md
   - docs/models/components/assetcategory.md
   - docs/models/components/assetcreate.md
   - docs/models/components/assetcreatetype.md
   - docs/models/components/assetequitytype.md
   - docs/models/components/assetexpirationdate.md
   - docs/models/components/assetissuedate.md
+  - docs/models/components/assetspecific.md
+  - docs/models/components/assettaxreportingstructure.md
   - docs/models/components/assettradability.md
   - docs/models/components/assettradingconfig.md
   - docs/models/components/assettradingconfigassettype.md
@@ -382,6 +422,7 @@ generatedFiles:
   - docs/models/components/availableenrollment.md
   - docs/models/components/availableliquidityamount.md
   - docs/models/components/availablerestriction.md
+  - docs/models/components/averageprice.md
   - docs/models/components/bankaccount.md
   - docs/models/components/bankaccountcreate.md
   - docs/models/components/bankaccountcreatetype.md
@@ -437,7 +478,9 @@ generatedFiles:
   - docs/models/components/beneficiaryenrollmentmetadata.md
   - docs/models/components/beneficiaryenrollmentmetadatacreate.md
   - docs/models/components/beneficiaryentitytype.md
+  - docs/models/components/beneficiaryphonenumber.md
   - docs/models/components/beneficiaryrelationtype.md
+  - docs/models/components/beneficiaryshortcode.md
   - docs/models/components/beneficiarytaxidtype.md
   - docs/models/components/bidaskprice.md
   - docs/models/components/bidaskpriceprice.md
@@ -465,6 +508,7 @@ generatedFiles:
   - docs/models/components/bookingtradebrokercapacity.md
   - docs/models/components/bookingtradeidentifiertype.md
   - docs/models/components/bookingtraderoutetype.md
+  - docs/models/components/bookingtradesettlementdate.md
   - docs/models/components/bookingtradeside.md
   - docs/models/components/bookingtradesidemodifier.md
   - docs/models/components/bookingtradespecialinstructions.md
@@ -488,6 +532,7 @@ generatedFiles:
   - docs/models/components/cancelachwithdrawalschedulerequestcreate.md
   - docs/models/components/cancelbankrelationshiprequestcreate.md
   - docs/models/components/cancelcashjournalrequestcreate.md
+  - docs/models/components/cancelcashjournalschedulerequestcreate.md
   - docs/models/components/cancelcheckwithdrawalschedulerequestcreate.md
   - docs/models/components/cancelcreditrequestcreate.md
   - docs/models/components/cancelexecutionrequestcreate.md
@@ -507,6 +552,8 @@ generatedFiles:
   - docs/models/components/cancelictdepositrequestcreate.md
   - docs/models/components/cancelictwithdrawalrequestcreate.md
   - docs/models/components/cancelinitiator.md
+  - docs/models/components/canceloptioninstructionrequestcreate.md
+  - docs/models/components/canceloptionorderrequestcreate.md
   - docs/models/components/cancelorderrequestcreate.md
   - docs/models/components/cancelorderrequestcreatecancelinitiator.md
   - docs/models/components/cancelpositionjournalrequestcreate.md
@@ -566,6 +613,26 @@ generatedFiles:
   - docs/models/components/cashjournalretirementdistributionpercentage.md
   - docs/models/components/cashjournalretirementdistributionstatetaxwithholdingamount.md
   - docs/models/components/cashjournalretirementdistributiontype.md
+  - docs/models/components/cashjournalschedule.md
+  - docs/models/components/cashjournalscheduleamount.md
+  - docs/models/components/cashjournalschedulecreate.md
+  - docs/models/components/cashjournalscheduleenddate.md
+  - docs/models/components/cashjournalschedulefederaltaxwithholding.md
+  - docs/models/components/cashjournalschedulepercentage.md
+  - docs/models/components/cashjournalscheduleretirementcontribution.md
+  - docs/models/components/cashjournalscheduleretirementdistribution.md
+  - docs/models/components/cashjournalscheduleretirementdistributionamount.md
+  - docs/models/components/cashjournalscheduleretirementdistributionfederaltaxwithholdingamount.md
+  - docs/models/components/cashjournalscheduleretirementdistributionpercentage.md
+  - docs/models/components/cashjournalscheduleretirementdistributiontype.md
+  - docs/models/components/cashjournalschedulescheduledetails.md
+  - docs/models/components/cashjournalschedulescheduleproperties.md
+  - docs/models/components/cashjournalschedulestartdate.md
+  - docs/models/components/cashjournalschedulestate.md
+  - docs/models/components/cashjournalschedulestatetaxwithholding.md
+  - docs/models/components/cashjournalscheduletimeunit.md
+  - docs/models/components/cashjournalscheduletype.md
+  - docs/models/components/cashjournalscheduleupdate.md
   - docs/models/components/cashjournalstate.md
   - docs/models/components/cashjournalstatestate.md
   - docs/models/components/cashjournalstatetaxwithholding.md
@@ -573,6 +640,9 @@ generatedFiles:
   - docs/models/components/cashrate.md
   - docs/models/components/cashtype.md
   - docs/models/components/cataccountholdertype.md
+  - docs/models/components/catreporterinformation.md
+  - docs/models/components/catreporterinformationcreate.md
+  - docs/models/components/catreporterinformationupdate.md
   - docs/models/components/cftcdocumentdeliverypreference.md
   - docs/models/components/cftcownertype.md
   - docs/models/components/checkdeposit.md
@@ -663,8 +733,10 @@ generatedFiles:
   - docs/models/components/credit.md
   - docs/models/components/credittype.md
   - docs/models/components/cumulativenotionalvalue.md
+  - docs/models/components/cumulativenotionalvaluedirection.md
   - docs/models/components/currency.md
   - docs/models/components/currencytype.md
+  - docs/models/components/currentprice.md
   - docs/models/components/custodialenrollmentmetadata.md
   - docs/models/components/custodialenrollmentmetadatacreate.md
   - docs/models/components/custodialenrollmentmetadatacreatedividendreinvestmentplan.md
@@ -686,6 +758,7 @@ generatedFiles:
   - docs/models/components/date.md
   - docs/models/components/datecreate.md
   - docs/models/components/dateupdate.md
+  - docs/models/components/daytrade.md
   - docs/models/components/daytradebuyingpoweramount.md
   - docs/models/components/deactivateenrollmentrequestcreate.md
   - docs/models/components/deactivateenrollmentrequestcreateenrollmenttype.md
@@ -730,6 +803,7 @@ generatedFiles:
   - docs/models/components/domicile.md
   - docs/models/components/dowjonesdate.md
   - docs/models/components/dowjonesdetails.md
+  - docs/models/components/downloadalternativeinvestmentdocumentresponse.md
   - docs/models/components/drip.md
   - docs/models/components/duration.md
   - docs/models/components/eddaccountenrollmentmetadata.md
@@ -816,7 +890,6 @@ generatedFiles:
   - docs/models/components/enrollmentllcenrollmentmetadatainitialdepositamount.md
   - docs/models/components/enrollmentllcenrollmentmetadatalowpricedsecurities.md
   - docs/models/components/enrollmentllcenrollmentmetadatalowpricedsecuritiespercentage.md
-  - docs/models/components/enrollmentllcenrollmentmetadatamoneymarketfundsweep.md
   - docs/models/components/enrollmentllcenrollmentmetadataotheraccounts.md
   - docs/models/components/enrollmentllcenrollmentmetadataplannedactivity.md
   - docs/models/components/enrollmentllcenrollmentmetadataprimaryaccountactivitytype.md
@@ -873,6 +946,7 @@ generatedFiles:
   - docs/models/components/entrycorporateactiongeneralinformation.md
   - docs/models/components/entrydeliverycorporateactiongeneralinformation.md
   - docs/models/components/entrydeposittype.md
+  - docs/models/components/entrydistributiontype.md
   - docs/models/components/entryeffectivedate.md
   - docs/models/components/entryexchangecashrate.md
   - docs/models/components/entryexchangecorporateactiongeneralinformation.md
@@ -1005,11 +1079,11 @@ generatedFiles:
   - docs/models/components/estateenrollmentmetadata.md
   - docs/models/components/estateenrollmentmetadatacreate.md
   - docs/models/components/estateenrollmentmetadatacreatedividendreinvestmentplan.md
-  - docs/models/components/estateenrollmentmetadatacreatemoneymarketfundsweep.md
   - docs/models/components/estimatedaccruedinterest.md
   - docs/models/components/estimatedgrossamount.md
   - docs/models/components/estimatedgrosscreditamount.md
   - docs/models/components/estimatednetamount.md
+  - docs/models/components/estimatedvaluedescriptor.md
   - docs/models/components/eventmessage.md
   - docs/models/components/exchange.md
   - docs/models/components/execution.md
@@ -1265,6 +1339,8 @@ generatedFiles:
   - docs/models/components/iratraditionalenrollmentmetadatacreatefdiccashsweep.md
   - docs/models/components/irsformtype.md
   - docs/models/components/issuedate.md
+  - docs/models/components/issueprice.md
+  - docs/models/components/issuer.md
   - docs/models/components/issuesize.md
   - docs/models/components/jointcommunitypropertyenrollmentmetadata.md
   - docs/models/components/jointcommunitypropertyenrollmentmetadatacreate.md
@@ -1290,6 +1366,7 @@ generatedFiles:
   - docs/models/components/lastadjusteddate.md
   - docs/models/components/lastchangeddate.md
   - docs/models/components/lastcoupondate.md
+  - docs/models/components/lastvaluation.md
   - docs/models/components/latlngcreate.md
   - docs/models/components/legaladdress.md
   - docs/models/components/legaladdressverified.md
@@ -1357,6 +1434,9 @@ generatedFiles:
   - docs/models/components/listachwithdrawalschedulesresponse.md
   - docs/models/components/listactivitiesresponse.md
   - docs/models/components/listagreementsresponse.md
+  - docs/models/components/listalternativeinvestmentdocumentsresponse.md
+  - docs/models/components/listalternativeinvestmentsresponse.md
+  - docs/models/components/listalternativeordersresponse.md
   - docs/models/components/listassetsresponse.md
   - docs/models/components/listassettradingconfigsresponse.md
   - docs/models/components/listavailableenrollmentsresponse.md
@@ -1376,7 +1456,12 @@ generatedFiles:
   - docs/models/components/listinvestigationsresponse.md
   - docs/models/components/listlegalentitiesresponse.md
   - docs/models/components/listlegalnaturalpersonsresponse.md
+  - docs/models/components/listoptioninstructionsresponse.md
   - docs/models/components/listpositionsresponse.md
+  - docs/models/components/listpreipocompaniesresponse.md
+  - docs/models/components/listpreipocompanyfundingroundsresponse.md
+  - docs/models/components/listpreipocompanynewseventsresponse.md
+  - docs/models/components/listpreipocompanyresearchdocumentsresponse.md
   - docs/models/components/listpushsubscriptiondeliveriesresponse.md
   - docs/models/components/listpushsubscriptionsresponse.md
   - docs/models/components/listschedulesummariesresponse.md
@@ -1413,13 +1498,16 @@ generatedFiles:
   - docs/models/components/matchtypes.md
   - docs/models/components/maturity.md
   - docs/models/components/maturitydate.md
+  - docs/models/components/maxpurchasequantity.md
   - docs/models/components/maxsellquantity.md
   - docs/models/components/mechanism.md
   - docs/models/components/merger.md
   - docs/models/components/method.md
   - docs/models/components/microdepositamounts.md
   - docs/models/components/microdepositamountscreate.md
+  - docs/models/components/minimuminitialsubscriptionamount.md
   - docs/models/components/minimumquantity.md
+  - docs/models/components/minimumsubsequentsubscriptionamount.md
   - docs/models/components/money.md
   - docs/models/components/moneymarketfundsweep.md
   - docs/models/components/mutualfund.md
@@ -1447,6 +1535,7 @@ generatedFiles:
   - docs/models/components/noncitizenresidencycreate.md
   - docs/models/components/noncitizenresidencyupdate.md
   - docs/models/components/noncitizenresidencyupdateresidencystatus.md
+  - docs/models/components/nondaytrade.md
   - docs/models/components/nonet.md
   - docs/models/components/notionalvalue.md
   - docs/models/components/nsccstatus.md
@@ -1459,6 +1548,45 @@ generatedFiles:
   - docs/models/components/option.md
   - docs/models/components/optiondeliverable.md
   - docs/models/components/optiondeliverablequantity.md
+  - docs/models/components/optioninstruction.md
+  - docs/models/components/optioninstructioncreate.md
+  - docs/models/components/optioninstructioncreateidentifiertype.md
+  - docs/models/components/optioninstructioncreatetype.md
+  - docs/models/components/optioninstructionidentifiertype.md
+  - docs/models/components/optioninstructionquantity.md
+  - docs/models/components/optioninstructionstate.md
+  - docs/models/components/optioninstructiontype.md
+  - docs/models/components/optionorder.md
+  - docs/models/components/optionorderbrokercapacity.md
+  - docs/models/components/optionordercancelrejectedreason.md
+  - docs/models/components/optionordercreate.md
+  - docs/models/components/optionordercreatebrokercapacity.md
+  - docs/models/components/optionordercreateordertype.md
+  - docs/models/components/optionordercreatespecialreportinginstructions.md
+  - docs/models/components/optionordercreatetimeinforce.md
+  - docs/models/components/optionordercumulativenotionalvalue.md
+  - docs/models/components/optionorderleg.md
+  - docs/models/components/optionorderlegassettype.md
+  - docs/models/components/optionorderlegcreate.md
+  - docs/models/components/optionorderlegcreateassettype.md
+  - docs/models/components/optionorderlegcreateidentifiertype.md
+  - docs/models/components/optionorderlegcreateside.md
+  - docs/models/components/optionorderlegdirection.md
+  - docs/models/components/optionorderlegexecution.md
+  - docs/models/components/optionorderlegexecutionprice.md
+  - docs/models/components/optionorderlegexecutionquantity.md
+  - docs/models/components/optionorderlegidentifiertype.md
+  - docs/models/components/optionorderlegside.md
+  - docs/models/components/optionorderlegsidemodifier.md
+  - docs/models/components/optionorderlimitprice.md
+  - docs/models/components/optionorderorderdate.md
+  - docs/models/components/optionorderorderrejectedreason.md
+  - docs/models/components/optionorderorderstatus.md
+  - docs/models/components/optionorderordertype.md
+  - docs/models/components/optionorderpricedirection.md
+  - docs/models/components/optionorderquantity.md
+  - docs/models/components/optionorderspecialreportinginstructions.md
+  - docs/models/components/optionordertimeinforce.md
   - docs/models/components/optionroot.md
   - docs/models/components/optionroottradability.md
   - docs/models/components/optionslevel.md
@@ -1492,6 +1620,7 @@ generatedFiles:
   - docs/models/components/orderquantity.md
   - docs/models/components/orderrejectedreason.md
   - docs/models/components/orderrightsofaccumulationamount.md
+  - docs/models/components/ordersettlementtarget.md
   - docs/models/components/orderside.md
   - docs/models/components/ordersoptionstradingenrollmentmetadata.md
   - docs/models/components/ordersoptionstradingenrollmentmetadatacreate.md
@@ -1511,6 +1640,7 @@ generatedFiles:
   - docs/models/components/othersourcesofwealth.md
   - docs/models/components/othersourcesofwealthcreate.md
   - docs/models/components/othersourcesofwealthupdate.md
+  - docs/models/components/ownershipstructure.md
   - docs/models/components/ownershiptype.md
   - docs/models/components/party.md
   - docs/models/components/partybirthdate.md
@@ -1597,12 +1727,15 @@ generatedFiles:
   - docs/models/components/pendingdebitdividendsamount.md
   - docs/models/components/pendingdebitinterestamount.md
   - docs/models/components/pendingdrip.md
+  - docs/models/components/pendinginvestoraction.md
   - docs/models/components/pendingoutgoingacat.md
   - docs/models/components/pendingwithdrawal.md
   - docs/models/components/pennypilotindicator.md
   - docs/models/components/percent.md
   - docs/models/components/percentage.md
+  - docs/models/components/percentagerequirements.md
   - docs/models/components/periodstartdate.md
+  - docs/models/components/persharefeeamount.md
   - docs/models/components/person.md
   - docs/models/components/personaladdress.md
   - docs/models/components/personidentification.md
@@ -1613,6 +1746,7 @@ generatedFiles:
   - docs/models/components/phonenumbershortcodeupdate.md
   - docs/models/components/phonenumberupdate.md
   - docs/models/components/phonenumberverified.md
+  - docs/models/components/physicaladdress.md
   - docs/models/components/plannedactivity.md
   - docs/models/components/plannedactivitycreate.md
   - docs/models/components/position.md
@@ -1631,6 +1765,14 @@ generatedFiles:
   - docs/models/components/postaladdress.md
   - docs/models/components/postaladdresscreate.md
   - docs/models/components/postaladdressupdate.md
+  - docs/models/components/preipocompany.md
+  - docs/models/components/preipocompanyfundinground.md
+  - docs/models/components/preipocompanyfundingroundclosing.md
+  - docs/models/components/preipocompanynewsevent.md
+  - docs/models/components/preipocompanynewseventarticle.md
+  - docs/models/components/preipocompanyresearchdocument.md
+  - docs/models/components/preipocompanyresearchdocumenttype.md
+  - docs/models/components/preipocompanytype.md
   - docs/models/components/prevailingmarketprice.md
   - docs/models/components/previousprocessdate.md
   - docs/models/components/previousyeardeadline.md
@@ -1641,7 +1783,9 @@ generatedFiles:
   - docs/models/components/priceadjustmentpercent.md
   - docs/models/components/priceadjustmentrecord.md
   - docs/models/components/priceadjustmenttype.md
+  - docs/models/components/priceamount.md
   - docs/models/components/priceatissuance.md
+  - docs/models/components/pricedirection.md
   - docs/models/components/primaryaccountactivitytype.md
   - docs/models/components/prioryearendaccountbalance.md
   - docs/models/components/processdate.md
@@ -1649,6 +1793,7 @@ generatedFiles:
   - docs/models/components/prospectusdeliverypreference.md
   - docs/models/components/providedidentityverification.md
   - docs/models/components/proxydeliverypreference.md
+  - docs/models/components/publishdate.md
   - docs/models/components/pushsubscription.md
   - docs/models/components/pushsubscriptioncreate.md
   - docs/models/components/pushsubscriptiondelivery.md
@@ -1738,6 +1883,8 @@ generatedFiles:
   - docs/models/components/recipientbankbankidcreatetype.md
   - docs/models/components/recipientinstitution.md
   - docs/models/components/recorddate.md
+  - docs/models/components/recordstate.md
+  - docs/models/components/redemptionfrequency.md
   - docs/models/components/redemptionfull.md
   - docs/models/components/redemptionpartial.md
   - docs/models/components/registrationtype.md
@@ -1761,6 +1908,7 @@ generatedFiles:
   - docs/models/components/relatedpepdetails.md
   - docs/models/components/relatedpepdetailscreate.md
   - docs/models/components/relatedprofile.md
+  - docs/models/components/relation.md
   - docs/models/components/relationtype.md
   - docs/models/components/remainingcontributionallowed.md
   - docs/models/components/remainingdistributionrequired.md
@@ -1797,6 +1945,7 @@ generatedFiles:
   - docs/models/components/retrievefixedincomemarksresponseassetmark.md
   - docs/models/components/retrievefixedincomemarksresponseassetmarkaccruedinterestamount.md
   - docs/models/components/retrievefixedincomemarksresponseassetmarkidentifiertype.md
+  - docs/models/components/retrievependinginvestoractionsresponse.md
   - docs/models/components/retrievequoterequestcreate.md
   - docs/models/components/retrievequoterequestcreateassettype.md
   - docs/models/components/retrievequoterequestcreatebrokercapacity.md
@@ -1825,10 +1974,13 @@ generatedFiles:
   - docs/models/components/scheduledretirementcontributioncreatetype.md
   - docs/models/components/scheduleproperties.md
   - docs/models/components/schedulepropertiescreate.md
+  - docs/models/components/searchcashjournalschedulesresponse.md
   - docs/models/components/security.md
   - docs/models/components/selfieverified.md
   - docs/models/components/seriesdate.md
   - docs/models/components/serviceaccountcreds.md
+  - docs/models/components/setaccountaccreditationtyperequestcreate.md
+  - docs/models/components/setaccountaccreditationtyperequestcreateaccreditationtype.md
   - docs/models/components/setextrareportingdatarequestcreate.md
   - docs/models/components/setextrareportingdataresponse.md
   - docs/models/components/setextrareportingdataresponseassettype.md
@@ -1847,6 +1999,7 @@ generatedFiles:
   - docs/models/components/setextrareportingdataresponseside.md
   - docs/models/components/setextrareportingdataresponsespecialreportinginstructions.md
   - docs/models/components/setextrareportingdataresponsetimeinforce.md
+  - docs/models/components/settlealternativeorderrequestcreate.md
   - docs/models/components/settled.md
   - docs/models/components/settledate.md
   - docs/models/components/settledcashavailabletowithdraw.md
@@ -1880,10 +2033,13 @@ generatedFiles:
   - docs/models/components/stopprice.md
   - docs/models/components/stoppricecreate.md
   - docs/models/components/stoppricecreatetype.md
+  - docs/models/components/strategy.md
   - docs/models/components/strikemultiplier.md
   - docs/models/components/strikeprice.md
   - docs/models/components/strikepricemultiplier.md
   - docs/models/components/submitbasketrequestcreate.md
+  - docs/models/components/subscriptionfrequency.md
+  - docs/models/components/subscriptionorderprocess.md
   - docs/models/components/subtype.md
   - docs/models/components/sweep.md
   - docs/models/components/taxauthority.md
@@ -1897,6 +2053,7 @@ generatedFiles:
   - docs/models/components/taxprofileupdatefederaltaxclassification.md
   - docs/models/components/taxprofileupdateirsformtype.md
   - docs/models/components/taxprofileupdateustinstatus.md
+  - docs/models/components/taxreportingstructure.md
   - docs/models/components/taxwithholdingmetadata.md
   - docs/models/components/taxwithholdingmetadatacreate.md
   - docs/models/components/temporaltaxyear.md
@@ -1909,6 +2066,7 @@ generatedFiles:
   - docs/models/components/token.md
   - docs/models/components/toside.md
   - docs/models/components/totalexcessamount.md
+  - docs/models/components/totalfunding.md
   - docs/models/components/totalnetworthrangeusd.md
   - docs/models/components/totalrequirementsamount.md
   - docs/models/components/trade.md
@@ -1945,6 +2103,7 @@ generatedFiles:
   - docs/models/components/tradecreatebrokercapacity.md
   - docs/models/components/tradecreateidentifiertype.md
   - docs/models/components/tradecreateside.md
+  - docs/models/components/tradecreatesidemodifier.md
   - docs/models/components/tradedate.md
   - docs/models/components/tradevaluemultiplier.md
   - docs/models/components/tradingexecutedprice.md
@@ -2006,14 +2165,19 @@ generatedFiles:
   - docs/models/components/trustenrollmentmetadatacreatedividendreinvestmentplan.md
   - docs/models/components/trustenrollmentmetadatacreatefdiccashsweep.md
   - docs/models/components/trustenrollmentmetadatacreatemoneymarketfundsweep.md
+  - docs/models/components/twelvemonthtrailingrevenue.md
   - docs/models/components/type.md
   - docs/models/components/unadjustedavailablecashtowithdrawamount.md
   - docs/models/components/unitsplit.md
+  - docs/models/components/universalfootnote.md
   - docs/models/components/unrestricted.md
   - docs/models/components/updatedbankaccounttype.md
   - docs/models/components/uploadeddate.md
   - docs/models/components/uploadlink.md
   - docs/models/components/ustinstatus.md
+  - docs/models/components/valuationfrequency.md
+  - docs/models/components/valuationmethod.md
+  - docs/models/components/valuationsource.md
   - docs/models/components/value.md
   - docs/models/components/venue.md
   - docs/models/components/verificationmethod.md
@@ -2103,6 +2267,10 @@ generatedFiles:
   - docs/models/components/yieldrecordyieldtype.md
   - docs/models/components/yieldtype.md
   - docs/models/errors/status.md
+  - docs/models/operations/accountaccreditationservicegetaccountaccreditationrequest.md
+  - docs/models/operations/accountaccreditationservicegetaccountaccreditationresponse.md
+  - docs/models/operations/accountaccreditationservicesetaccountaccreditationtyperequest.md
+  - docs/models/operations/accountaccreditationservicesetaccountaccreditationtyperesponse.md
   - docs/models/operations/accountsaddpartyrequest.md
   - docs/models/operations/accountsaddpartyresponse.md
   - docs/models/operations/accountsaffirmagreementsrequest.md
@@ -2234,6 +2402,26 @@ generatedFiles:
   - docs/models/operations/achwithdrawalsforcereturnachwithdrawalresponse.md
   - docs/models/operations/achwithdrawalsgetachwithdrawalrequest.md
   - docs/models/operations/achwithdrawalsgetachwithdrawalresponse.md
+  - docs/models/operations/alternativeinvestmentdocumentsdownloadalternativeinvestmentdocumentrequest.md
+  - docs/models/operations/alternativeinvestmentdocumentsdownloadalternativeinvestmentdocumentresponse.md
+  - docs/models/operations/alternativeinvestmentdocumentsgetalternativeinvestmentdocumentrequest.md
+  - docs/models/operations/alternativeinvestmentdocumentsgetalternativeinvestmentdocumentresponse.md
+  - docs/models/operations/alternativeinvestmentdocumentslistalternativeinvestmentdocumentsrequest.md
+  - docs/models/operations/alternativeinvestmentdocumentslistalternativeinvestmentdocumentsresponse.md
+  - docs/models/operations/alternativeinvestmentsgetalternativeinvestmentrequest.md
+  - docs/models/operations/alternativeinvestmentsgetalternativeinvestmentresponse.md
+  - docs/models/operations/alternativeinvestmentslistalternativeinvestmentsrequest.md
+  - docs/models/operations/alternativeinvestmentslistalternativeinvestmentsresponse.md
+  - docs/models/operations/alternativeorderscreatealternativeorderrequest.md
+  - docs/models/operations/alternativeorderscreatealternativeorderresponse.md
+  - docs/models/operations/alternativeordersgetalternativeorderrequest.md
+  - docs/models/operations/alternativeordersgetalternativeorderresponse.md
+  - docs/models/operations/alternativeorderslistalternativeordersrequest.md
+  - docs/models/operations/alternativeorderslistalternativeordersresponse.md
+  - docs/models/operations/alternativeordersretrievependinginvestoractionsrequest.md
+  - docs/models/operations/alternativeordersretrievependinginvestoractionsresponse.md
+  - docs/models/operations/alternativeorderssettlealternativeorderrequest.md
+  - docs/models/operations/alternativeorderssettlealternativeorderresponse.md
   - docs/models/operations/assetsgetassetcorrespondentrequest.md
   - docs/models/operations/assetsgetassetcorrespondentresponse.md
   - docs/models/operations/assetsgetassetrequest.md
@@ -2316,6 +2504,15 @@ generatedFiles:
   - docs/models/operations/cashjournalscancelcashjournalrequest.md
   - docs/models/operations/cashjournalscancelcashjournalresponse.md
   - docs/models/operations/cashjournalscheckpartytyperesponse.md
+  - docs/models/operations/cashjournalschedulescancelcashjournalschedulerequest.md
+  - docs/models/operations/cashjournalschedulescancelcashjournalscheduleresponse.md
+  - docs/models/operations/cashjournalschedulescreatecashjournalscheduleresponse.md
+  - docs/models/operations/cashjournalschedulesgetcashjournalschedulerequest.md
+  - docs/models/operations/cashjournalschedulesgetcashjournalscheduleresponse.md
+  - docs/models/operations/cashjournalschedulessearchcashjournalschedulesrequest.md
+  - docs/models/operations/cashjournalschedulessearchcashjournalschedulesresponse.md
+  - docs/models/operations/cashjournalschedulesupdatecashjournalschedulerequest.md
+  - docs/models/operations/cashjournalschedulesupdatecashjournalscheduleresponse.md
   - docs/models/operations/cashjournalscreatecashjournalresponse.md
   - docs/models/operations/cashjournalsforceapprovecashjournalrequest.md
   - docs/models/operations/cashjournalsforceapprovecashjournalresponse.md
@@ -2348,6 +2545,14 @@ generatedFiles:
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationqueryparamview.md
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationrequest.md
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationresponse.md
+  - docs/models/operations/exerciseservicecanceloptioninstructionrequest.md
+  - docs/models/operations/exerciseservicecanceloptioninstructionresponse.md
+  - docs/models/operations/exerciseservicecreateoptioninstructionrequest.md
+  - docs/models/operations/exerciseservicecreateoptioninstructionresponse.md
+  - docs/models/operations/exerciseservicegetoptioninstructionrequest.md
+  - docs/models/operations/exerciseservicegetoptioninstructionresponse.md
+  - docs/models/operations/exerciseservicelistoptioninstructionsrequest.md
+  - docs/models/operations/exerciseservicelistoptioninstructionsresponse.md
   - docs/models/operations/feescancelfeerequest.md
   - docs/models/operations/feescancelfeeresponse.md
   - docs/models/operations/feescreatefeerequest.md
@@ -2401,9 +2606,17 @@ generatedFiles:
   - docs/models/operations/ledgerlistentriesresponse.md
   - docs/models/operations/ledgerlistpositionsrequest.md
   - docs/models/operations/ledgerlistpositionsresponse.md
+  - docs/models/operations/marginsrealtimegetassetbuyingpowerrequest.md
+  - docs/models/operations/marginsrealtimegetassetbuyingpowerresponse.md
   - docs/models/operations/marginsrealtimegetbuyingpowerrequest.md
   - docs/models/operations/marginsrealtimegetbuyingpowerresponse.md
   - docs/models/operations/mechanism.md
+  - docs/models/operations/optionorderservicecanceloptionorderrequest.md
+  - docs/models/operations/optionorderservicecanceloptionorderresponse.md
+  - docs/models/operations/optionorderservicecreateoptionorderrequest.md
+  - docs/models/operations/optionorderservicecreateoptionorderresponse.md
+  - docs/models/operations/optionorderservicegetoptionorderrequest.md
+  - docs/models/operations/optionorderservicegetoptionorderresponse.md
   - docs/models/operations/orderpriceservicepreviewordercostrequest.md
   - docs/models/operations/orderpriceservicepreviewordercostresponse.md
   - docs/models/operations/orderpriceserviceretrievefixedincomemarksrequest.md
@@ -2429,6 +2642,18 @@ generatedFiles:
   - docs/models/operations/positionjournalsforcerejectpositionjournalresponse.md
   - docs/models/operations/positionjournalsgetpositionjournalrequest.md
   - docs/models/operations/positionjournalsgetpositionjournalresponse.md
+  - docs/models/operations/preipocompaniesgetpreipocompanyrequest.md
+  - docs/models/operations/preipocompaniesgetpreipocompanyresponse.md
+  - docs/models/operations/preipocompanieslistpreipocompaniesrequest.md
+  - docs/models/operations/preipocompanieslistpreipocompaniesresponse.md
+  - docs/models/operations/preipocompanyfundingroundsgetpreipocompanyfundingroundrequest.md
+  - docs/models/operations/preipocompanyfundingroundsgetpreipocompanyfundingroundresponse.md
+  - docs/models/operations/preipocompanyfundingroundslistpreipocompanyfundingroundsrequest.md
+  - docs/models/operations/preipocompanyfundingroundslistpreipocompanyfundingroundsresponse.md
+  - docs/models/operations/preipocompanynewseventslistpreipocompanynewseventsrequest.md
+  - docs/models/operations/preipocompanynewseventslistpreipocompanynewseventsresponse.md
+  - docs/models/operations/preipocompanyresearchdocumentslistpreipocompanyresearchdocumentsrequest.md
+  - docs/models/operations/preipocompanyresearchdocumentslistpreipocompanyresearchdocumentsresponse.md
   - docs/models/operations/programdatefilterprogram.md
   - docs/models/operations/queryparamview.md
   - docs/models/operations/readergeteventmessagerequest.md
@@ -2498,11 +2723,16 @@ generatedFiles:
   - docs/sdks/accountmanagement/README.md
   - docs/sdks/accounttransfers/README.md
   - docs/sdks/achtransfers/README.md
+  - docs/sdks/alternativeaccountaccreditation/README.md
+  - docs/sdks/alternativeinvestmentdocuments/README.md
+  - docs/sdks/alternativeinvestments/README.md
+  - docs/sdks/alternativeorders/README.md
   - docs/sdks/assets/README.md
   - docs/sdks/assettradingconfig/README.md
   - docs/sdks/authentication/README.md
   - docs/sdks/bankrelationships/README.md
   - docs/sdks/basketorders/README.md
+  - docs/sdks/buyingpower/README.md
   - docs/sdks/cashbalances/README.md
   - docs/sdks/checks/README.md
   - docs/sdks/dataretrieval/README.md
@@ -2514,10 +2744,15 @@ generatedFiles:
   - docs/sdks/investordocs/README.md
   - docs/sdks/journals/README.md
   - docs/sdks/ledger/README.md
-  - docs/sdks/margins/README.md
+  - docs/sdks/optioninstructions/README.md
+  - docs/sdks/optionorders/README.md
   - docs/sdks/orders/README.md
   - docs/sdks/personmanagement/README.md
   - docs/sdks/positionjournals/README.md
+  - docs/sdks/preipocompanies/README.md
+  - docs/sdks/preipofundingrounds/README.md
+  - docs/sdks/preiponewsevents/README.md
+  - docs/sdks/preiporesearchdocuments/README.md
   - docs/sdks/reader/README.md
   - docs/sdks/retirements/README.md
   - docs/sdks/scheduletransfers/README.md
@@ -2541,12 +2776,17 @@ generatedFiles:
   - src/ascend_sdk/account_management.py
   - src/ascend_sdk/account_transfers.py
   - src/ascend_sdk/ach_transfers.py
+  - src/ascend_sdk/alternative_account_accreditation.py
+  - src/ascend_sdk/alternative_investment_documents.py
+  - src/ascend_sdk/alternative_investments.py
+  - src/ascend_sdk/alternative_orders.py
   - src/ascend_sdk/asset_trading_config.py
   - src/ascend_sdk/assets.py
   - src/ascend_sdk/authentication.py
   - src/ascend_sdk/bank_relationships.py
   - src/ascend_sdk/basesdk.py
   - src/ascend_sdk/basket_orders.py
+  - src/ascend_sdk/buying_power.py
   - src/ascend_sdk/cash_balances.py
   - src/ascend_sdk/checks.py
   - src/ascend_sdk/data_retrieval.py
@@ -2559,7 +2799,6 @@ generatedFiles:
   - src/ascend_sdk/investor_docs.py
   - src/ascend_sdk/journals.py
   - src/ascend_sdk/ledger.py
-  - src/ascend_sdk/margins.py
   - src/ascend_sdk/models/__init__.py
   - src/ascend_sdk/models/components/__init__.py
   - src/ascend_sdk/models/components/acatsasset.py
@@ -2567,6 +2806,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/accepttransferrequestcreate.py
   - src/ascend_sdk/models/components/accepttransferresponse.py
   - src/ascend_sdk/models/components/account.py
+  - src/ascend_sdk/models/components/accountaccreditation.py
   - src/ascend_sdk/models/components/accountdocumentuploadrequestcreate.py
   - src/ascend_sdk/models/components/accountgoalscreate.py
   - src/ascend_sdk/models/components/accountgoalsupdate.py
@@ -2593,8 +2833,13 @@ generatedFiles:
   - src/ascend_sdk/models/components/affirmagreementsrequestcreate.py
   - src/ascend_sdk/models/components/affirmagreementsresponse.py
   - src/ascend_sdk/models/components/agreement.py
+  - src/ascend_sdk/models/components/alternativeinvestment.py
+  - src/ascend_sdk/models/components/alternativeinvestmentdocument.py
+  - src/ascend_sdk/models/components/alternativeorder.py
+  - src/ascend_sdk/models/components/alternativeordercreate.py
   - src/ascend_sdk/models/components/any.py
   - src/ascend_sdk/models/components/asset.py
+  - src/ascend_sdk/models/components/assetbuyingpower.py
   - src/ascend_sdk/models/components/assetcreate.py
   - src/ascend_sdk/models/components/assettradingconfig.py
   - src/ascend_sdk/models/components/assignlargetraderrequestcreate.py
@@ -2635,6 +2880,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/cancelachwithdrawalschedulerequestcreate.py
   - src/ascend_sdk/models/components/cancelbankrelationshiprequestcreate.py
   - src/ascend_sdk/models/components/cancelcashjournalrequestcreate.py
+  - src/ascend_sdk/models/components/cancelcashjournalschedulerequestcreate.py
   - src/ascend_sdk/models/components/cancelcheckwithdrawalschedulerequestcreate.py
   - src/ascend_sdk/models/components/cancelcreditrequestcreate.py
   - src/ascend_sdk/models/components/cancelexecutionrequestcreate.py
@@ -2642,6 +2888,8 @@ generatedFiles:
   - src/ascend_sdk/models/components/cancelfeerequestcreate.py
   - src/ascend_sdk/models/components/cancelictdepositrequestcreate.py
   - src/ascend_sdk/models/components/cancelictwithdrawalrequestcreate.py
+  - src/ascend_sdk/models/components/canceloptioninstructionrequestcreate.py
+  - src/ascend_sdk/models/components/canceloptionorderrequestcreate.py
   - src/ascend_sdk/models/components/cancelorderrequestcreate.py
   - src/ascend_sdk/models/components/cancelpositionjournalrequestcreate.py
   - src/ascend_sdk/models/components/canceltradeallocationrequestcreate.py
@@ -2653,6 +2901,11 @@ generatedFiles:
   - src/ascend_sdk/models/components/cashjournal.py
   - src/ascend_sdk/models/components/cashjournalconstraints.py
   - src/ascend_sdk/models/components/cashjournalcreate.py
+  - src/ascend_sdk/models/components/cashjournalschedule.py
+  - src/ascend_sdk/models/components/cashjournalschedulecreate.py
+  - src/ascend_sdk/models/components/cashjournalscheduleupdate.py
+  - src/ascend_sdk/models/components/catreporterinformationcreate.py
+  - src/ascend_sdk/models/components/catreporterinformationupdate.py
   - src/ascend_sdk/models/components/checkdeposit.py
   - src/ascend_sdk/models/components/checkpartytyperequestcreate.py
   - src/ascend_sdk/models/components/checkpartytyperesponse.py
@@ -2693,6 +2946,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/distributionsummary.py
   - src/ascend_sdk/models/components/document.py
   - src/ascend_sdk/models/components/dowjonesdate.py
+  - src/ascend_sdk/models/components/downloadalternativeinvestmentdocumentresponse.py
   - src/ascend_sdk/models/components/eddaccountenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/employmentcreate.py
   - src/ascend_sdk/models/components/employmentupdate.py
@@ -2812,6 +3066,9 @@ generatedFiles:
   - src/ascend_sdk/models/components/listachwithdrawalschedulesresponse.py
   - src/ascend_sdk/models/components/listactivitiesresponse.py
   - src/ascend_sdk/models/components/listagreementsresponse.py
+  - src/ascend_sdk/models/components/listalternativeinvestmentdocumentsresponse.py
+  - src/ascend_sdk/models/components/listalternativeinvestmentsresponse.py
+  - src/ascend_sdk/models/components/listalternativeordersresponse.py
   - src/ascend_sdk/models/components/listassetsresponse.py
   - src/ascend_sdk/models/components/listassettradingconfigsresponse.py
   - src/ascend_sdk/models/components/listavailableenrollmentsresponse.py
@@ -2831,7 +3088,12 @@ generatedFiles:
   - src/ascend_sdk/models/components/listinvestigationsresponse.py
   - src/ascend_sdk/models/components/listlegalentitiesresponse.py
   - src/ascend_sdk/models/components/listlegalnaturalpersonsresponse.py
+  - src/ascend_sdk/models/components/listoptioninstructionsresponse.py
   - src/ascend_sdk/models/components/listpositionsresponse.py
+  - src/ascend_sdk/models/components/listpreipocompaniesresponse.py
+  - src/ascend_sdk/models/components/listpreipocompanyfundingroundsresponse.py
+  - src/ascend_sdk/models/components/listpreipocompanynewseventsresponse.py
+  - src/ascend_sdk/models/components/listpreipocompanyresearchdocumentsresponse.py
   - src/ascend_sdk/models/components/listpushsubscriptiondeliveriesresponse.py
   - src/ascend_sdk/models/components/listpushsubscriptionsresponse.py
   - src/ascend_sdk/models/components/listschedulesummariesresponse.py
@@ -2858,6 +3120,13 @@ generatedFiles:
   - src/ascend_sdk/models/components/noncitizenresidencyupdate.py
   - src/ascend_sdk/models/components/operatingenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/optiondeliverable.py
+  - src/ascend_sdk/models/components/optioninstruction.py
+  - src/ascend_sdk/models/components/optioninstructioncreate.py
+  - src/ascend_sdk/models/components/optionorder.py
+  - src/ascend_sdk/models/components/optionordercreate.py
+  - src/ascend_sdk/models/components/optionorderleg.py
+  - src/ascend_sdk/models/components/optionorderleg_execution.py
+  - src/ascend_sdk/models/components/optionorderlegcreate.py
   - src/ascend_sdk/models/components/order.py
   - src/ascend_sdk/models/components/ordercostpreviewrequestcreate.py
   - src/ascend_sdk/models/components/ordercostpreviewresponse.py
@@ -2869,7 +3138,9 @@ generatedFiles:
   - src/ascend_sdk/models/components/party.py
   - src/ascend_sdk/models/components/partyrequestcreate.py
   - src/ascend_sdk/models/components/partyrequestupdate.py
+  - src/ascend_sdk/models/components/pendinginvestoraction.py
   - src/ascend_sdk/models/components/personidentification.py
+  - src/ascend_sdk/models/components/phonenumber.py
   - src/ascend_sdk/models/components/phonenumber_shortcodecreate.py
   - src/ascend_sdk/models/components/phonenumber_shortcodeupdate.py
   - src/ascend_sdk/models/components/phonenumbercreate.py
@@ -2882,6 +3153,12 @@ generatedFiles:
   - src/ascend_sdk/models/components/postaladdress.py
   - src/ascend_sdk/models/components/postaladdresscreate.py
   - src/ascend_sdk/models/components/postaladdressupdate.py
+  - src/ascend_sdk/models/components/preipocompany.py
+  - src/ascend_sdk/models/components/preipocompanyfundinground.py
+  - src/ascend_sdk/models/components/preipocompanyfundinground_closing.py
+  - src/ascend_sdk/models/components/preipocompanynewsevent.py
+  - src/ascend_sdk/models/components/preipocompanynewsevent_article.py
+  - src/ascend_sdk/models/components/preipocompanyresearchdocument.py
   - src/ascend_sdk/models/components/priceadjustmentcreate.py
   - src/ascend_sdk/models/components/pushsubscription.py
   - src/ascend_sdk/models/components/pushsubscriptioncreate.py
@@ -2919,6 +3196,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/retrievefixedincomemarksrequestcreate.py
   - src/ascend_sdk/models/components/retrievefixedincomemarksresponse.py
   - src/ascend_sdk/models/components/retrievefixedincomemarksresponse_assetmark.py
+  - src/ascend_sdk/models/components/retrievependinginvestoractionsresponse.py
   - src/ascend_sdk/models/components/retrievequoterequestcreate.py
   - src/ascend_sdk/models/components/retrievequoteresponse.py
   - src/ascend_sdk/models/components/reusebankrelationshiprequestcreate.py
@@ -2927,9 +3205,12 @@ generatedFiles:
   - src/ascend_sdk/models/components/sanctionslistdetail.py
   - src/ascend_sdk/models/components/scheduledretirementcontributioncreate.py
   - src/ascend_sdk/models/components/schedulepropertiescreate.py
+  - src/ascend_sdk/models/components/searchcashjournalschedulesresponse.py
   - src/ascend_sdk/models/components/security.py
+  - src/ascend_sdk/models/components/setaccountaccreditationtyperequestcreate.py
   - src/ascend_sdk/models/components/setextrareportingdatarequestcreate.py
   - src/ascend_sdk/models/components/setextrareportingdataresponse.py
+  - src/ascend_sdk/models/components/settlealternativeorderrequestcreate.py
   - src/ascend_sdk/models/components/simulatecreatecheckdepositrequestcreate.py
   - src/ascend_sdk/models/components/simulatewiredepositrequestcreate.py
   - src/ascend_sdk/models/components/snapshot.py
@@ -2988,6 +3269,8 @@ generatedFiles:
   - src/ascend_sdk/models/errors/sdkerror.py
   - src/ascend_sdk/models/errors/status.py
   - src/ascend_sdk/models/operations/__init__.py
+  - src/ascend_sdk/models/operations/accountaccreditationservice_getaccountaccreditation.py
+  - src/ascend_sdk/models/operations/accountaccreditationservice_setaccountaccreditationtype.py
   - src/ascend_sdk/models/operations/accounts_addparty.py
   - src/ascend_sdk/models/operations/accounts_affirmagreements.py
   - src/ascend_sdk/models/operations/accounts_assignlargetrader.py
@@ -3055,6 +3338,16 @@ generatedFiles:
   - src/ascend_sdk/models/operations/achwithdrawalschedules_getachwithdrawalschedule.py
   - src/ascend_sdk/models/operations/achwithdrawalschedules_listachwithdrawalschedules.py
   - src/ascend_sdk/models/operations/achwithdrawalschedules_updateachwithdrawalschedule.py
+  - src/ascend_sdk/models/operations/alternativeinvestmentdocuments_downloadalternativeinvestmentdocument.py
+  - src/ascend_sdk/models/operations/alternativeinvestmentdocuments_getalternativeinvestmentdocument.py
+  - src/ascend_sdk/models/operations/alternativeinvestmentdocuments_listalternativeinvestmentdocuments.py
+  - src/ascend_sdk/models/operations/alternativeinvestments_getalternativeinvestment.py
+  - src/ascend_sdk/models/operations/alternativeinvestments_listalternativeinvestments.py
+  - src/ascend_sdk/models/operations/alternativeorders_createalternativeorder.py
+  - src/ascend_sdk/models/operations/alternativeorders_getalternativeorder.py
+  - src/ascend_sdk/models/operations/alternativeorders_listalternativeorders.py
+  - src/ascend_sdk/models/operations/alternativeorders_retrievependinginvestoractions.py
+  - src/ascend_sdk/models/operations/alternativeorders_settlealternativeorder.py
   - src/ascend_sdk/models/operations/assets_getasset.py
   - src/ascend_sdk/models/operations/assets_getasset_correspondent.py
   - src/ascend_sdk/models/operations/assets_listassets_1.py
@@ -3100,6 +3393,11 @@ generatedFiles:
   - src/ascend_sdk/models/operations/cashjournals_forceapprovecashjournal.py
   - src/ascend_sdk/models/operations/cashjournals_forcerejectcashjournal.py
   - src/ascend_sdk/models/operations/cashjournals_getcashjournal.py
+  - src/ascend_sdk/models/operations/cashjournalschedules_cancelcashjournalschedule.py
+  - src/ascend_sdk/models/operations/cashjournalschedules_createcashjournalschedule.py
+  - src/ascend_sdk/models/operations/cashjournalschedules_getcashjournalschedule.py
+  - src/ascend_sdk/models/operations/cashjournalschedules_searchcashjournalschedules.py
+  - src/ascend_sdk/models/operations/cashjournalschedules_updatecashjournalschedule.py
   - src/ascend_sdk/models/operations/checkdeposits_forceapprovecheckdeposit.py
   - src/ascend_sdk/models/operations/checkdeposits_getcheckdeposit.py
   - src/ascend_sdk/models/operations/checkdeposits_simulatecreatecheckdeposit.py
@@ -3112,6 +3410,10 @@ generatedFiles:
   - src/ascend_sdk/models/operations/credits_createcredit.py
   - src/ascend_sdk/models/operations/credits_getcredit.py
   - src/ascend_sdk/models/operations/customeridentificationresultservice_getcustomeridentification.py
+  - src/ascend_sdk/models/operations/exerciseservice_canceloptioninstruction.py
+  - src/ascend_sdk/models/operations/exerciseservice_createoptioninstruction.py
+  - src/ascend_sdk/models/operations/exerciseservice_getoptioninstruction.py
+  - src/ascend_sdk/models/operations/exerciseservice_listoptioninstructions.py
   - src/ascend_sdk/models/operations/fees_cancelfee.py
   - src/ascend_sdk/models/operations/fees_createfee.py
   - src/ascend_sdk/models/operations/fees_getfee.py
@@ -3139,7 +3441,11 @@ generatedFiles:
   - src/ascend_sdk/models/operations/ledger_listactivities.py
   - src/ascend_sdk/models/operations/ledger_listentries.py
   - src/ascend_sdk/models/operations/ledger_listpositions.py
+  - src/ascend_sdk/models/operations/marginsrealtime_getassetbuyingpower.py
   - src/ascend_sdk/models/operations/marginsrealtime_getbuyingpower.py
+  - src/ascend_sdk/models/operations/optionorderservice_canceloptionorder.py
+  - src/ascend_sdk/models/operations/optionorderservice_createoptionorder.py
+  - src/ascend_sdk/models/operations/optionorderservice_getoptionorder.py
   - src/ascend_sdk/models/operations/orderpriceservice_previewordercost.py
   - src/ascend_sdk/models/operations/orderpriceservice_retrievefixedincomemarks.py
   - src/ascend_sdk/models/operations/orderpriceservice_retrievequote.py
@@ -3153,6 +3459,12 @@ generatedFiles:
   - src/ascend_sdk/models/operations/positionjournals_forceapprovepositionjournal.py
   - src/ascend_sdk/models/operations/positionjournals_forcerejectpositionjournal.py
   - src/ascend_sdk/models/operations/positionjournals_getpositionjournal.py
+  - src/ascend_sdk/models/operations/preipocompanies_getpreipocompany.py
+  - src/ascend_sdk/models/operations/preipocompanies_listpreipocompanies.py
+  - src/ascend_sdk/models/operations/preipocompanyfundingrounds_getpreipocompanyfundinground.py
+  - src/ascend_sdk/models/operations/preipocompanyfundingrounds_listpreipocompanyfundingrounds.py
+  - src/ascend_sdk/models/operations/preipocompanynewsevents_listpreipocompanynewsevents.py
+  - src/ascend_sdk/models/operations/preipocompanyresearchdocuments_listpreipocompanyresearchdocuments.py
   - src/ascend_sdk/models/operations/reader_geteventmessage.py
   - src/ascend_sdk/models/operations/reader_listeventmessages.py
   - src/ascend_sdk/models/operations/retirementconstraints_listcontributionsummaries.py
@@ -3184,9 +3496,15 @@ generatedFiles:
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_getwirewithdrawalschedule.py
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_listwirewithdrawalschedules.py
   - src/ascend_sdk/models/operations/wirewithdrawalschedules_updatewirewithdrawalschedule.py
+  - src/ascend_sdk/option_instructions.py
+  - src/ascend_sdk/option_orders.py
   - src/ascend_sdk/orders.py
   - src/ascend_sdk/person_management.py
   - src/ascend_sdk/position_journals.py
+  - src/ascend_sdk/pre_ipo_companies.py
+  - src/ascend_sdk/pre_ipo_funding_rounds.py
+  - src/ascend_sdk/pre_ipo_news_events.py
+  - src/ascend_sdk/pre_ipo_research_documents.py
   - src/ascend_sdk/py.typed
   - src/ascend_sdk/reader.py
   - src/ascend_sdk/retirements.py
@@ -3218,6 +3536,10 @@ generatedFiles:
   - src/ascend_sdk/utils/values.py
   - src/ascend_sdk/wires.py
   - tests/__init__.py
+  - tests/test_alternative_account_accreditation.py
+  - tests/test_alternative_investment_documents.py
+  - tests/test_alternative_investments.py
+  - tests/test_alternative_orders.py
   - tests/test_asset_trading_config.py
   - tests/test_assets.py
   - tests/test_checks.py
@@ -3227,6 +3549,10 @@ generatedFiles:
   - tests/test_margins.py
   - tests/test_order.py
   - tests/test_person_management.py
+  - tests/test_pre_ipo_companies.py
+  - tests/test_pre_ipo_funding_rounds.py
+  - tests/test_pre_ipo_news_events.py
+  - tests/test_pre_ipo_research_documents.py
   - tests/test_subscriber.py
   - tests/test_test_simulation.py
 examples:
@@ -5173,7 +5499,7 @@ examples:
         path:
           account_id: "<id>"
       requestBody:
-        application/json: {"asset_type": "FIXED_INCOME", "identifier": "37833100", "identifier_type": "CUSIP", "limit_price": {"price": {}, "type": "PRICE_PER_UNIT"}, "parent": "<value>", "quantity": {}}
+        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "limit_price": {"price": {}, "type": "PRICE_PER_UNIT"}, "parent": "<value>", "quantity": {}}
       responses:
         "200":
           application/json: {}
@@ -5189,7 +5515,7 @@ examples:
         path:
           account_id: "<id>"
       requestBody:
-        application/json: {"asset_type": "FIXED_INCOME", "identifier": "37833100", "identifier_type": "CUSIP", "parent": "<value>"}
+        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "parent": "<value>"}
       responses:
         "200":
           application/json: {}
@@ -5782,7 +6108,7 @@ examples:
       parameters:
         path:
           correspondent_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
-          asset_id: "[null]"
+          asset_id: "-"
       responses:
         "200":
           application/json: {}
@@ -6049,6 +6375,440 @@ examples:
           application/json: {}
         default:
           application/json: {}
+  CashJournalSchedules_CreateCashJournalSchedule:
+    speakeasy-default-cash-journal-schedules-create-cash-journal-schedule:
+      requestBody:
+        application/json: {"destination_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D5Z", "schedule_details": {"client_schedule_id": "ABC-123", "schedule_properties": {"start_date": {}, "time_unit": "MONTH", "unit_multiplier": 1}}, "source_account": "accounts/01H8FB90ZRRFWXB4XC2JPJ1D4Y"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournalSchedules_GetCashJournalSchedule:
+    speakeasy-default-cash-journal-schedules-get-cash-journal-schedule:
+      parameters:
+        path:
+          cashJournalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournalSchedules_UpdateCashJournalSchedule:
+    speakeasy-default-cash-journal-schedules-update-cash-journal-schedule:
+      parameters:
+        path:
+          cashJournalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournalSchedules_CancelCashJournalSchedule:
+    speakeasy-default-cash-journal-schedules-cancel-cash-journal-schedule:
+      parameters:
+        path:
+          cashJournalSchedule_id: "40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"
+      requestBody:
+        application/json: {"name": "cashJournalSchedules/40eb6b6f-76ff-4dc9-b8a0-b65a7658f8b1"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  CashJournalSchedules_SearchCashJournalSchedules:
+    speakeasy-default-cash-journal-schedules-search-cash-journal-schedules:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        default:
+          application/json: {}
+  OptionOrderService_CreateOptionOrder:
+    speakeasy-default-option-order-service-create-option-order:
+      parameters:
+        path:
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+      requestBody:
+        application/json: {"broker_capacity": "AGENCY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "currency_code": "USD", "legs": [], "limit_price": {}, "order_date": {}, "order_type": "LIMIT", "price_direction": "CREDIT", "quantity": {}, "time_in_force": "DAY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  OptionOrderService_GetOptionOrder:
+    speakeasy-default-option-order-service-get-option-order:
+      parameters:
+        path:
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+          optionOrder_id: "ebb0c9b5-2c74-45c9-a4ab-40596b778706"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  OptionOrderService_CancelOptionOrder:
+    speakeasy-default-option-order-service-cancel-option-order:
+      parameters:
+        path:
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+          optionOrder_id: "ebb0c9b5-2c74-45c9-a4ab-40596b778706"
+      requestBody:
+        application/json: {"name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/optionOrders/ebb0c9b5-2c74-45c9-a4ab-40596b778706"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountAccreditationService_GetAccountAccreditation:
+    speakeasy-default-account-accreditation-service-get-account-accreditation:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountAccreditationService_SetAccountAccreditationType:
+    speakeasy-default-account-accreditation-service-set-account-accreditation-type:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+      requestBody:
+        application/json: {"accreditation_type": "NET_WORTH_GT_1M", "name": "accounts/01JR8YQT40WAQT8S95ZQGS1QN0/accreditation"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeOrders_CreateAlternativeOrder:
+    speakeasy-default-alternative-orders-create-alternative-order:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+      requestBody:
+        application/json: {"client_order_id": "f5074670-1b25-439f-9b5c-702027660800", "identifier": "8395", "identifier_type": "ASSET_ID", "side": "BUY"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeOrders_ListAlternativeOrders:
+    speakeasy-default-alternative-orders-list-alternative-orders:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeOrders_GetAlternativeOrder:
+    speakeasy-default-alternative-orders-get-alternative-order:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+          alternativeOrder_id: "01H5TSDAD9MQ98B8KF36J3Q8P9"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeOrders_RetrievePendingInvestorActions:
+    speakeasy-default-alternative-orders-retrieve-pending-investor-actions:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+          alternativeOrder_id: "01H5TSDAD9MQ98B8KF36J3Q8P9"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeOrders_SettleAlternativeOrder:
+    speakeasy-default-alternative-orders-settle-alternative-order:
+      parameters:
+        path:
+          account_id: "01JR8YQT40WAQT8S95ZQGS1QN0"
+          alternativeOrder_id: "01H5TSDAD9MQ98B8KF36J3Q8P9"
+      requestBody:
+        application/json: {"name": "accounts/01JR8YQT40WAQT8S95ZQGS1QN0/alternativeOrders/01H5TSDAD9MQ98B8KF36J3Q8P9"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeInvestments_ListAlternativeInvestments:
+    speakeasy-default-alternative-investments-list-alternative-investments:
+      parameters:
+        path:
+          asset_id: "-"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeInvestments_GetAlternativeInvestment:
+    speakeasy-default-alternative-investments-get-alternative-investment:
+      parameters:
+        path:
+          asset_id: "123"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeInvestmentDocuments_ListAlternativeInvestmentDocuments:
+    speakeasy-default-alternative-investment-documents-list-alternative-investment-documents:
+      parameters:
+        path:
+          asset_id: "123"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeInvestmentDocuments_GetAlternativeInvestmentDocument:
+    speakeasy-default-alternative-investment-documents-get-alternative-investment-document:
+      parameters:
+        path:
+          asset_id: "123"
+          alternativeInvestmentDocument_id: "01H7YH8QKZJ8V4Q2X8F4G6JQ2B"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AlternativeInvestmentDocuments_DownloadAlternativeInvestmentDocument:
+    speakeasy-default-alternative-investment-documents-download-alternative-investment-document:
+      parameters:
+        path:
+          asset_id: "123"
+          alternativeInvestmentDocument_id: "01H7YH8QKZJ8V4Q2X8F4G6JQ2B"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanies_ListPreIpoCompanies:
+    speakeasy-default-pre-ipo-companies-list-pre-ipo-companies:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanies_GetPreIpoCompany:
+    speakeasy-default-pre-ipo-companies-get-pre-ipo-company:
+      parameters:
+        path:
+          preIpoCompany_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanyNewsEvents_ListPreIpoCompanyNewsEvents:
+    speakeasy-default-pre-ipo-company-news-events-list-pre-ipo-company-news-events:
+      parameters:
+        path:
+          preIpoCompany_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanyResearchDocuments_ListPreIpoCompanyResearchDocuments:
+    speakeasy-default-pre-ipo-company-research-documents-list-pre-ipo-company-research-documents:
+      parameters:
+        path:
+          preIpoCompany_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanyFundingRounds_ListPreIpoCompanyFundingRounds:
+    speakeasy-default-pre-ipo-company-funding-rounds-list-pre-ipo-company-funding-rounds:
+      parameters:
+        path:
+          preIpoCompany_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  PreIpoCompanyFundingRounds_GetPreIpoCompanyFundingRound:
+    speakeasy-default-pre-ipo-company-funding-rounds-get-pre-ipo-company-funding-round:
+      parameters:
+        path:
+          preIpoCompany_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          fundingRound_id: "5f29def7-445a-46e1-b0af-e475c5481820"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  MarginsRealTime_GetAssetBuyingPower:
+    speakeasy-default-margins-real-time-get-asset-buying-power:
+      parameters:
+        path:
+          account_id: "01HMS9S15AKBHBD8GPW33P2PMH"
+          asset_id: "67587"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  ExerciseService_CreateOptionInstruction:
+    speakeasy-default-exercise-service-create-option-instruction:
+      parameters:
+        path:
+          account_id: "ACC123456"
+          asset_id: "12345"
+      requestBody:
+        application/json: {"account_id": "01JTNGZM8PWRR6MHBCC6TEG9HE", "identifier": "AAPL250620P00090000", "identifier_type": "OSI", "quantity": {}, "type": "DO_NOT_EXERCISE"}
+      responses:
+        "200":
+          application/json: {}
+        default:
+          application/json: {}
+  ExerciseService_ListOptionInstructions:
+    speakeasy-default-exercise-service-list-option-instructions:
+      parameters:
+        path:
+          account_id: "ACC123456"
+          asset_id: "12345"
+      responses:
+        "200":
+          application/json: {}
+        default:
+          application/json: {}
+  ExerciseService_GetOptionInstruction:
+    speakeasy-default-exercise-service-get-option-instruction:
+      parameters:
+        path:
+          account_id: "ACC123456"
+          asset_id: "12345"
+          instruction_id: "abc12345"
+      responses:
+        "200":
+          application/json: {}
+        default:
+          application/json: {}
+  ExerciseService_CancelOptionInstruction:
+    speakeasy-default-exercise-service-cancel-option-instruction:
+      parameters:
+        path:
+          account_id: "ACC123456"
+          asset_id: "12345"
+          instruction_id: "abc12345"
+      requestBody:
+        application/json: {"name": "accounts/ACC123456/assets/12345/instructions/abc12345"}
+      responses:
+        "200":
+          application/json: {}
+        default:
+          application/json: {}
 examplesVersion: 1.0.2
 generatedTests:
   Accounts_ListLegalNaturalPersons: "2025-08-11T18:04:36Z"
@@ -6068,3 +6828,21 @@ generatedTests:
   AssetTradingConfigService_GetAssetTradingConfig: "2025-10-06T21:33:30Z"
   AssetTradingConfigService_ListAssetTradingConfigs: "2025-10-06T21:33:30Z"
   OrderService_ListCorrespondentOrders: "2025-10-09T21:29:27Z"
+  AccountAccreditationService_GetAccountAccreditation: "2026-02-27T12:15:16Z"
+  AccountAccreditationService_SetAccountAccreditationType: "2026-02-27T12:15:16Z"
+  AlternativeOrders_CreateAlternativeOrder: "2026-02-27T12:15:16Z"
+  AlternativeOrders_ListAlternativeOrders: "2026-02-27T12:15:16Z"
+  AlternativeOrders_GetAlternativeOrder: "2026-02-27T12:15:16Z"
+  AlternativeOrders_RetrievePendingInvestorActions: "2026-02-27T12:15:16Z"
+  AlternativeInvestments_ListAlternativeInvestments: "2026-02-27T12:15:16Z"
+  AlternativeInvestments_GetAlternativeInvestment: "2026-02-27T12:15:16Z"
+  AlternativeInvestmentDocuments_ListAlternativeInvestmentDocuments: "2026-02-27T12:15:16Z"
+  AlternativeInvestmentDocuments_GetAlternativeInvestmentDocument: "2026-02-27T12:15:16Z"
+  AlternativeInvestmentDocuments_DownloadAlternativeInvestmentDocument: "2026-02-27T12:15:16Z"
+  AlternativeOrders_SettleAlternativeOrder: "2026-02-27T12:15:16Z"
+  PreIpoCompanies_ListPreIpoCompanies: "2026-02-27T12:15:16Z"
+  PreIpoCompanies_GetPreIpoCompany: "2026-02-27T12:15:16Z"
+  PreIpoCompanyNewsEvents_ListPreIpoCompanyNewsEvents: "2026-02-27T12:15:16Z"
+  PreIpoCompanyResearchDocuments_ListPreIpoCompanyResearchDocuments: "2026-02-27T12:15:16Z"
+  PreIpoCompanyFundingRounds_ListPreIpoCompanyFundingRounds: "2026-02-27T12:15:16Z"
+  PreIpoCompanyFundingRounds_GetPreIpoCompanyFundingRound: "2026-02-27T12:15:16Z"

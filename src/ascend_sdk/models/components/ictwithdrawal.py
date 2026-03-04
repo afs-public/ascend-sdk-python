@@ -115,7 +115,7 @@ class IctWithdrawalFederalTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -198,7 +198,7 @@ class IctWithdrawalStateTaxWithholding(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -313,7 +313,7 @@ class IctWithdrawalRetirementDistribution(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -426,7 +426,7 @@ class IctWithdrawalState(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -460,7 +460,7 @@ class IctWithdrawalTransferStateState(str, Enum, metaclass=utils.OpenEnumMeta):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class IctWithdrawalTransferStateTypedDict(TypedDict):
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     actor: NotRequired[str]
     r"""The user or service that triggered the state update."""
@@ -490,7 +490,7 @@ class IctWithdrawalTransferStateTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class IctWithdrawalTransferState(BaseModel):
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     actor: Optional[str] = None
     r"""The user or service that triggered the state update."""
@@ -546,7 +546,7 @@ class IctWithdrawalTransferState(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -694,7 +694,7 @@ class IctWithdrawalEntityOriginatingParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -842,7 +842,7 @@ class IctWithdrawalEntityRecipientParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -994,7 +994,7 @@ class IctWithdrawalIndividualOriginatingParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1146,7 +1146,7 @@ class IctWithdrawalIndividualRecipientParty(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1287,7 +1287,7 @@ class IctWithdrawalTravelRule(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1312,7 +1312,7 @@ class IctWithdrawalTypedDict(TypedDict):
     state: NotRequired[Nullable[IctWithdrawalStateTypedDict]]
     r"""The state of the ICT withdrawal"""
     transfer_state: NotRequired[Nullable[IctWithdrawalTransferStateTypedDict]]
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
     travel_rule: NotRequired[Nullable[IctWithdrawalTravelRuleTypedDict]]
     r"""The travel rule information for the ICT withdrawal"""
 
@@ -1348,7 +1348,7 @@ class IctWithdrawal(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = UNSET
-    r"""Deprecated, use state instead"""
+    r"""Deprecated: use state instead"""
 
     travel_rule: OptionalNullable[IctWithdrawalTravelRule] = UNSET
     r"""The travel rule information for the ICT withdrawal"""
@@ -1392,7 +1392,7 @@ class IctWithdrawal(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

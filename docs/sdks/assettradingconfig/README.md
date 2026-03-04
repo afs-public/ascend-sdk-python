@@ -87,7 +87,7 @@ with SDK(
 
     res = sdk.asset_trading_config.list_asset_trading_configs(request={
         "correspondent_id": "01HBRQ5BW6ZAY4BNWP4GWRD80X",
-        "asset_id": "",
+        "asset_id": "-",
         "page_size": 100,
         "page_token": "Mv-BAwEBCVBhZ2VUb2tlbgH_ggABAgEPUmVxdWVzdENoZWNrc3VtAQYAAQJJZAEMAAAAD_-CAfzrRtzkAQQ1MDA3AA==",
         "filter_": "symbol == 'SBUX' && asset_type == 'EQUITY'",

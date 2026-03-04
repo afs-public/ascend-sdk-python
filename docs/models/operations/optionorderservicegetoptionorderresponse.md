@@ -1,0 +1,10 @@
+# OptionOrderServiceGetOptionOrderResponse
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `http_meta`                                                                                      | [components.HTTPMetadata](../../models/components/httpmetadata.md)                               | :heavy_check_mark:                                                                               | N/A                                                                                              |
+| `option_order`                                                                                   | [Optional[components.OptionOrder]](../../models/components/optionorder.md)                       | :heavy_minus_sign:                                                                               | OK                                                                                               |
+| `status`                                                                                         | [Optional[components.Status]](../../models/components/status.md)                                 | :heavy_minus_sign:                                                                               | INVALID_ARGUMENT: The account_id or the option_order_id could not be determined for the request. |

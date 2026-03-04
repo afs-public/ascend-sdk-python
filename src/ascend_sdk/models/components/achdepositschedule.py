@@ -39,7 +39,7 @@ class AchDepositScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class AchDepositScheduleIraContributionTypedDict(TypedDict):
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     tax_year: NotRequired[int]
     r"""Tax year for which the contribution is applied. Current year is always valid; prior year is only valid before tax deadline. Must be in \"YYYY\" format."""
@@ -51,7 +51,7 @@ class AchDepositScheduleIraContributionTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class AchDepositScheduleIraContribution(BaseModel):
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     tax_year: Optional[int] = None
     r"""Tax year for which the contribution is applied. Current year is always valid; prior year is only valid before tax deadline. Must be in \"YYYY\" format."""
@@ -270,7 +270,7 @@ class AchDepositScheduleScheduleProperties(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -326,7 +326,7 @@ class ScheduleDetails(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -339,7 +339,7 @@ class AchDepositScheduleTypedDict(TypedDict):
     bank_relationship: NotRequired[str]
     r"""The name of the bank relationship to be used in the ACH transaction"""
     ira_contribution: NotRequired[Nullable[AchDepositScheduleIraContributionTypedDict]]
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
     name: NotRequired[str]
     r"""The name of the ACH Deposit transfer schedule"""
     retirement_contribution: NotRequired[
@@ -362,7 +362,7 @@ class AchDepositSchedule(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = UNSET
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     name: Optional[str] = None
     r"""The name of the ACH Deposit transfer schedule"""
@@ -409,7 +409,7 @@ class AchDepositSchedule(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

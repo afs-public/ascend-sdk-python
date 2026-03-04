@@ -54,7 +54,6 @@ class LegalEntityUpdateEntityType(str, Enum, metaclass=utils.OpenEnumMeta):
     ENTITY_TYPE_UNSPECIFIED = "ENTITY_TYPE_UNSPECIFIED"
     CORPORATION = "CORPORATION"
     LIMITED_LIABILITY_COMPANY = "LIMITED_LIABILITY_COMPANY"
-    PARTNERSHIP = "PARTNERSHIP"
     TRUST = "TRUST"
     ESTATE = "ESTATE"
 
@@ -116,6 +115,8 @@ class LegalEntityUpdateTypedDict(TypedDict):
     business_industrial_classification: NotRequired[
         LegalEntityUpdateBusinessIndustrialClassification
     ]
+    client_entity_id: NotRequired[str]
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[LegalEntityUpdateCorporateStructure]
     r"""Corporate structure of the entity."""
     correspondent_id: NotRequired[str]
@@ -201,6 +202,9 @@ class LegalEntityUpdate(BaseModel):
         Optional[LegalEntityUpdateBusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+
+    client_entity_id: Optional[str] = None
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
 
     corporate_structure: Annotated[
         Optional[LegalEntityUpdateCorporateStructure],

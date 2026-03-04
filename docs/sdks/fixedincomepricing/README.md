@@ -35,7 +35,7 @@ with SDK(
 
     res = sdk.fixed_income_pricing.preview_order_cost(account_id="<id>", order_cost_preview_request_create=components.OrderCostPreviewRequestCreate(
         asset_type=components.OrderCostPreviewRequestCreateAssetType.FIXED_INCOME,
-        identifier="37833100",
+        identifier="037833100",
         identifier_type=components.OrderCostPreviewRequestCreateIdentifierType.CUSIP,
         limit_price=components.LimitPriceCreate(
             price=components.DecimalCreate(),
@@ -98,7 +98,7 @@ with SDK(
 
     res = sdk.fixed_income_pricing.retrieve_quote(account_id="<id>", retrieve_quote_request_create={
         "asset_type": components.RetrieveQuoteRequestCreateAssetType.FIXED_INCOME,
-        "identifier": "37833100",
+        "identifier": "037833100",
         "identifier_type": components.RetrieveQuoteRequestCreateIdentifierType.CUSIP,
         "parent": "<value>",
     })

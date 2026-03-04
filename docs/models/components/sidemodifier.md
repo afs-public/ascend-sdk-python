@@ -1,6 +1,6 @@
 # SideModifier
 
-Side modifier for the trade.
+The open/close modification of the side, signaling whether this option order leg intends to OPEN a new position, or to CLOSE an existing one.
 
 
 ## Values
@@ -8,8 +8,5 @@ Side modifier for the trade.
 | Name                        | Value                       |
 | --------------------------- | --------------------------- |
 | `SIDE_MODIFIER_UNSPECIFIED` | SIDE_MODIFIER_UNSPECIFIED   |
-| `SHORT`                     | SHORT                       |
-| `SHORT_EXEMPT`              | SHORT_EXEMPT                |
-| `SHORT_COVER`               | SHORT_COVER                 |
 | `OPEN`                      | OPEN                        |
 | `CLOSE`                     | CLOSE                       |

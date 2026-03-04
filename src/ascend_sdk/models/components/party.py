@@ -115,7 +115,7 @@ class PartyEntityDueDiligence(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -128,7 +128,6 @@ class PartyEntityType(str, Enum, metaclass=utils.OpenEnumMeta):
     ENTITY_TYPE_UNSPECIFIED = "ENTITY_TYPE_UNSPECIFIED"
     CORPORATION = "CORPORATION"
     LIMITED_LIABILITY_COMPANY = "LIMITED_LIABILITY_COMPANY"
-    PARTNERSHIP = "PARTNERSHIP"
     TRUST = "TRUST"
     ESTATE = "ESTATE"
 
@@ -259,7 +258,7 @@ class PartyLargeTrader(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -410,7 +409,6 @@ class PartyFederalTaxClassification(str, Enum, metaclass=utils.OpenEnumMeta):
 
     FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED = "FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED"
     INDIV_SOLEPROP_OR_SINGLEMEMBERLLC = "INDIV_SOLEPROP_OR_SINGLEMEMBERLLC"
-    PARTNERSHIP = "PARTNERSHIP"
     C_CORPORATION = "C_CORPORATION"
     S_CORPORATION = "S_CORPORATION"
     TRUST_ESTATE = "TRUST_ESTATE"
@@ -624,7 +622,7 @@ class PartyTaxProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -643,6 +641,8 @@ class PartyLegalEntityTypedDict(TypedDict):
     business_industrial_classification: NotRequired[
         PartyBusinessIndustrialClassification
     ]
+    client_entity_id: NotRequired[str]
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[PartyCorporateStructure]
     r"""Corporate structure of the entity."""
     correspondent_id: NotRequired[str]
@@ -732,6 +732,9 @@ class PartyLegalEntity(BaseModel):
         Optional[PartyBusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+
+    client_entity_id: Optional[str] = None
+    r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
 
     corporate_structure: Annotated[
         Optional[PartyCorporateStructure], PlainValidator(validate_open_enum(False))
@@ -848,6 +851,7 @@ class PartyLegalEntity(BaseModel):
             "adviser",
             "broker_dealer",
             "business_industrial_classification",
+            "client_entity_id",
             "corporate_structure",
             "correspondent_id",
             "doing_business_as",
@@ -905,7 +909,7 @@ class PartyLegalEntity(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1104,11 +1108,9 @@ class PartyEmploymentTypedDict(TypedDict):
     start_year: NotRequired[int]
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """
 
 
@@ -1146,11 +1148,9 @@ class PartyEmployment(BaseModel):
     start_year: Optional[int] = None
     r"""**Field Dependencies:**
 
-    Required if `employment_status` is one of:
+    Must be empty if `employment_status` is ___not___ one of:
     - `EMPLOYED`
     - `SELF_EMPLOYED`
-
-    Otherwise, must be empty.
     """
 
     @model_serializer(mode="wrap")
@@ -1184,7 +1184,7 @@ class PartyEmployment(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1329,7 +1329,7 @@ class PartyForeignIdentification(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1453,7 +1453,7 @@ class PartyIdentityVerificationResult(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1526,7 +1526,7 @@ class PartyLegalNaturalPersonLargeTrader(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1695,7 +1695,7 @@ class PartyNaturalPersonFdd(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -1869,7 +1869,6 @@ class PartyLegalNaturalPersonFederalTaxClassification(
 
     FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED = "FEDERAL_TAX_CLASSIFICATION_UNSPECIFIED"
     INDIV_SOLEPROP_OR_SINGLEMEMBERLLC = "INDIV_SOLEPROP_OR_SINGLEMEMBERLLC"
-    PARTNERSHIP = "PARTNERSHIP"
     C_CORPORATION = "C_CORPORATION"
     S_CORPORATION = "S_CORPORATION"
     TRUST_ESTATE = "TRUST_ESTATE"
@@ -2103,7 +2102,7 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2121,6 +2120,8 @@ class PartyLegalNaturalPersonTypedDict(TypedDict):
     r"""The legal day, month, and year of birth for a natural person."""
     citizenship_countries: NotRequired[List[str]]
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+    client_person_id: NotRequired[str]
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
     control_person_company_symbols: NotRequired[str]
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
     correspondent_employee: NotRequired[bool]
@@ -2212,6 +2213,9 @@ class PartyLegalNaturalPerson(BaseModel):
 
     citizenship_countries: Optional[List[str]] = None
     r"""This is used for tax (treaty) and country block list considerations Maximum list of two 2-char CLDR Code citizenship countries, e.g. US, CA"""
+
+    client_person_id: Optional[str] = None
+    r"""An external identifier for the legal natural person. This identifier does not have internal uniqueness constraints."""
 
     control_person_company_symbols: Optional[str] = None
     r"""A list of ticker symbols in which the underlying person is a control person; control persons are defined as having significant influence over a company’s management and operations, typically through ownership of a large percentage of the company’s voting stock or through positions on the company’s board of directors or executive team"""
@@ -2333,6 +2337,7 @@ class PartyLegalNaturalPerson(BaseModel):
             "adviser",
             "birth_date",
             "citizenship_countries",
+            "client_person_id",
             "control_person_company_symbols",
             "correspondent_employee",
             "correspondent_id",
@@ -2397,7 +2402,7 @@ class PartyLegalNaturalPerson(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2616,7 +2621,7 @@ class PartyPhoneNumber(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 
@@ -2840,7 +2845,7 @@ class Party(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

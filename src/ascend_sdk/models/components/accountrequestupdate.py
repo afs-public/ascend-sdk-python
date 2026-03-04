@@ -5,6 +5,10 @@ from .accounttaxprofileupdate import (
     AccountTaxProfileUpdate,
     AccountTaxProfileUpdateTypedDict,
 )
+from .catreporterinformationupdate import (
+    CatReporterInformationUpdate,
+    CatReporterInformationUpdateTypedDict,
+)
 from .identifierupdate import IdentifierUpdate, IdentifierUpdateTypedDict
 from .interestedpartyupdate import InterestedPartyUpdate, InterestedPartyUpdateTypedDict
 from .investmentprofileupdate import (
@@ -17,6 +21,7 @@ from ascend_sdk import utils
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
+import pydantic
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -45,6 +50,10 @@ class AccountRequestUpdateTypedDict(TypedDict):
     r"""A boolean to indicate if an account is advised"""
     cat_account_holder_type: NotRequired[AccountRequestUpdateCatAccountHolderType]
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
+    cat_reporter_information: NotRequired[CatReporterInformationUpdateTypedDict]
+    r"""A single record representing the originating_fdid and originating_cat_reporter_crd"""
+    client_account_id: NotRequired[str]
+    r"""An external identifier for the account. This identifier does not have internal uniqueness constraints."""
     identifiers: NotRequired[List[IdentifierUpdateTypedDict]]
     r"""A list of identifiers associated with the account"""
     interested_parties: NotRequired[List[InterestedPartyUpdateTypedDict]]
@@ -53,6 +62,8 @@ class AccountRequestUpdateTypedDict(TypedDict):
     r"""Investor profile."""
     managed: NotRequired[bool]
     r"""A boolean to indicate if an account is managed"""
+    originating_account_id: NotRequired[str]
+    r"""The previous account ID associated with the account; Must be unique"""
     parties: NotRequired[List[PartyRequestUpdateTypedDict]]
     r"""Parties associated with the account (e.g. custodian)."""
     primary_registered_rep_id: NotRequired[str]
@@ -80,7 +91,18 @@ class AccountRequestUpdate(BaseModel):
     ] = None
     r"""The FINRA CAT classification for the Account Holder; Is set automatically based on attributes of the owners and account type"""
 
-    identifiers: Optional[List[IdentifierUpdate]] = None
+    cat_reporter_information: Optional[CatReporterInformationUpdate] = None
+    r"""A single record representing the originating_fdid and originating_cat_reporter_crd"""
+
+    client_account_id: Optional[str] = None
+    r"""An external identifier for the account. This identifier does not have internal uniqueness constraints."""
+
+    identifiers: Annotated[
+        Optional[List[IdentifierUpdate]],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
     r"""A list of identifiers associated with the account"""
 
     interested_parties: Optional[List[InterestedPartyUpdate]] = None
@@ -91,6 +113,9 @@ class AccountRequestUpdate(BaseModel):
 
     managed: Optional[bool] = None
     r"""A boolean to indicate if an account is managed"""
+
+    originating_account_id: Optional[str] = None
+    r"""The previous account ID associated with the account; Must be unique"""
 
     parties: Optional[List[PartyRequestUpdate]] = None
     r"""Parties associated with the account (e.g. custodian)."""

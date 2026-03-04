@@ -26,7 +26,7 @@ class CashJournalConstraintsContributionConstraintsTypedDict(TypedDict):
     r"""Contribution constraints for the destination account"""
 
     only_allow_current_year: NotRequired[bool]
-    r"""Deprecated! This value is determined based on the current date relative to the tax deadline. It will be inaccurate in cases where the previous year contribution deadline is not the tax deadline (e.g. `RECHARACTERIZATION`). Please refer to the `valid_types.previous_year_deadline` field instead."""
+    r"""Deprecated: please refer to the `valid_types.previous_year_deadline` field instead This value is determined based on the current date relative to the tax deadline. It will be inaccurate in cases where the previous year contribution deadline is not the tax deadline (e.g. `RECHARACTERIZATION`)."""
     valid_types: NotRequired[List[ContributionConstraintsContributionTypeInfoTypedDict]]
     r"""Valid contribution types"""
 
@@ -40,7 +40,7 @@ class CashJournalConstraintsContributionConstraints(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = None
-    r"""Deprecated! This value is determined based on the current date relative to the tax deadline. It will be inaccurate in cases where the previous year contribution deadline is not the tax deadline (e.g. `RECHARACTERIZATION`). Please refer to the `valid_types.previous_year_deadline` field instead."""
+    r"""Deprecated: please refer to the `valid_types.previous_year_deadline` field instead This value is determined based on the current date relative to the tax deadline. It will be inaccurate in cases where the previous year contribution deadline is not the tax deadline (e.g. `RECHARACTERIZATION`)."""
 
     valid_types: Optional[List[ContributionConstraintsContributionTypeInfo]] = None
     r"""Valid contribution types"""
@@ -115,7 +115,7 @@ class CashJournalConstraints(BaseModel):
             if val is not None and val != UNSET_SENTINEL:
                 m[k] = val
             elif val != UNSET_SENTINEL and (
-                k not in optional_fields or (optional_nullable and is_set)
+                not k in optional_fields or (optional_nullable and is_set)
             ):
                 m[k] = val
 

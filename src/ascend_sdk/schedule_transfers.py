@@ -4,10 +4,10 @@ from .basesdk import BaseSDK
 from ascend_sdk import utils
 from ascend_sdk._hooks import HookContext
 from ascend_sdk.models import components, errors, operations
-from ascend_sdk.types import OptionalNullable, UNSET
+from ascend_sdk.types import BaseModel, OptionalNullable, UNSET
 from ascend_sdk.utils.unmarshal_json_response import unmarshal_json_response
 from jsonpath import JSONPath
-from typing import Any, Dict, List, Mapping, Optional, Union
+from typing import Any, Dict, List, Mapping, Optional, Union, cast
 
 
 class ScheduleTransfers(BaseSDK):
@@ -2599,6 +2599,1092 @@ class ScheduleTransfers(BaseSDK):
             raise errors.SDKError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "default", "application/json"):
             return operations.AchWithdrawalSchedulesCancelAchWithdrawalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def create_cash_journal_schedule(
+        self,
+        *,
+        request: Union[
+            components.CashJournalScheduleCreate,
+            components.CashJournalScheduleCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesCreateCashJournalScheduleResponse:
+        r"""Create Cash Journal Schedule
+
+        Creates a Cash Journal transfer schedule
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, components.CashJournalScheduleCreate)
+        request = cast(components.CashJournalScheduleCreate, request)
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/cashJournalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", components.CashJournalScheduleCreate
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_CreateCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "409", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesCreateCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesCreateCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def create_cash_journal_schedule_async(
+        self,
+        *,
+        request: Union[
+            components.CashJournalScheduleCreate,
+            components.CashJournalScheduleCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesCreateCashJournalScheduleResponse:
+        r"""Create Cash Journal Schedule
+
+        Creates a Cash Journal transfer schedule
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, components.CashJournalScheduleCreate)
+        request = cast(components.CashJournalScheduleCreate, request)
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/cashJournalSchedules",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", components.CashJournalScheduleCreate
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_CreateCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "409", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesCreateCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "409"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesCreateCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def get_cash_journal_schedule(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesGetCashJournalScheduleResponse:
+        r"""Get Cash Journal Schedule
+
+        Gets a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesGetCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_GetCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesGetCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesGetCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def get_cash_journal_schedule_async(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesGetCashJournalScheduleResponse:
+        r"""Get Cash Journal Schedule
+
+        Gets a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesGetCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_GetCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesGetCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesGetCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def update_cash_journal_schedule(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        cash_journal_schedule_update: Union[
+            components.CashJournalScheduleUpdate,
+            components.CashJournalScheduleUpdateTypedDict,
+        ],
+        update_mask: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesUpdateCashJournalScheduleResponse:
+        r"""Update Cash Journal Schedule
+
+        Updates the amount of a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param cash_journal_schedule_update:
+        :param update_mask: A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesUpdateCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+            update_mask=update_mask,
+            cash_journal_schedule_update=utils.get_pydantic_model(
+                cash_journal_schedule_update, components.CashJournalScheduleUpdate
+            ),
+        )
+
+        req = self._build_request(
+            method="PATCH",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cash_journal_schedule_update,
+                False,
+                False,
+                "json",
+                components.CashJournalScheduleUpdate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_UpdateCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesUpdateCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesUpdateCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def update_cash_journal_schedule_async(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        cash_journal_schedule_update: Union[
+            components.CashJournalScheduleUpdate,
+            components.CashJournalScheduleUpdateTypedDict,
+        ],
+        update_mask: Optional[str] = None,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesUpdateCashJournalScheduleResponse:
+        r"""Update Cash Journal Schedule
+
+        Updates the amount of a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param cash_journal_schedule_update:
+        :param update_mask: A field mask representing the update. Note: only the 'schedule_details.amount' field of a schedule is currently updatable
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesUpdateCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+            update_mask=update_mask,
+            cash_journal_schedule_update=utils.get_pydantic_model(
+                cash_journal_schedule_update, components.CashJournalScheduleUpdate
+            ),
+        )
+
+        req = self._build_request_async(
+            method="PATCH",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cash_journal_schedule_update,
+                False,
+                False,
+                "json",
+                components.CashJournalScheduleUpdate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_UpdateCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesUpdateCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesUpdateCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def cancel_cash_journal_schedule(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        cancel_cash_journal_schedule_request_create: Union[
+            components.CancelCashJournalScheduleRequestCreate,
+            components.CancelCashJournalScheduleRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesCancelCashJournalScheduleResponse:
+        r"""Cancel Cash Journal Schedule
+
+        Cancels a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param cancel_cash_journal_schedule_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesCancelCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+            cancel_cash_journal_schedule_request_create=utils.get_pydantic_model(
+                cancel_cash_journal_schedule_request_create,
+                components.CancelCashJournalScheduleRequestCreate,
+            ),
+        )
+
+        req = self._build_request(
+            method="POST",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}:cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cancel_cash_journal_schedule_request_create,
+                False,
+                False,
+                "json",
+                components.CancelCashJournalScheduleRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_CancelCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesCancelCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesCancelCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def cancel_cash_journal_schedule_async(
+        self,
+        *,
+        cash_journal_schedule_id: str,
+        cancel_cash_journal_schedule_request_create: Union[
+            components.CancelCashJournalScheduleRequestCreate,
+            components.CancelCashJournalScheduleRequestCreateTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesCancelCashJournalScheduleResponse:
+        r"""Cancel Cash Journal Schedule
+
+        Cancels a Cash Journal transfer schedule
+
+        :param cash_journal_schedule_id: The cashJournalSchedule id.
+        :param cancel_cash_journal_schedule_request_create:
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = operations.CashJournalSchedulesCancelCashJournalScheduleRequest(
+            cash_journal_schedule_id=cash_journal_schedule_id,
+            cancel_cash_journal_schedule_request_create=utils.get_pydantic_model(
+                cancel_cash_journal_schedule_request_create,
+                components.CancelCashJournalScheduleRequestCreate,
+            ),
+        )
+
+        req = self._build_request_async(
+            method="POST",
+            path="/transfers/v1/cashJournalSchedules/{cashJournalSchedule_id}:cancel",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cancel_cash_journal_schedule_request_create,
+                False,
+                False,
+                "json",
+                components.CancelCashJournalScheduleRequestCreate,
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_CancelCashJournalSchedule",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "404", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesCancelCashJournalScheduleResponse(
+                cash_journal_schedule=unmarshal_json_response(
+                    Optional[components.CashJournalSchedule], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403", "404"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesCancelCashJournalScheduleResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    def search_cash_journal_schedules(
+        self,
+        *,
+        request: Union[
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequest,
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequestTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesSearchCashJournalSchedulesResponse:
+        r"""Search Cash Journal Schedules
+
+        Search Cash Journal Schedules visible to the calling service account using the specified search parameters
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request,
+                operations.CashJournalSchedulesSearchCashJournalSchedulesRequest,
+            )
+        request = cast(
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequest, request
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/transfers/v1/cashJournalSchedules:search",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_SearchCashJournalSchedules",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesSearchCashJournalSchedulesResponse(
+                search_cash_journal_schedules_response=unmarshal_json_response(
+                    Optional[components.SearchCashJournalSchedulesResponse], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesSearchCashJournalSchedulesResponse(
+                status=unmarshal_json_response(Optional[components.Status], http_res),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        raise errors.SDKError("Unexpected response received", http_res)
+
+    async def search_cash_journal_schedules_async(
+        self,
+        *,
+        request: Union[
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequest,
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequestTypedDict,
+        ],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> operations.CashJournalSchedulesSearchCashJournalSchedulesResponse:
+        r"""Search Cash Journal Schedules
+
+        Search Cash Journal Schedules visible to the calling service account using the specified search parameters
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(
+                request,
+                operations.CashJournalSchedulesSearchCashJournalSchedulesRequest,
+            )
+        request = cast(
+            operations.CashJournalSchedulesSearchCashJournalSchedulesRequest, request
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/transfers/v1/cashJournalSchedules:search",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["4XX", "5XX"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="CashJournalSchedules_SearchCashJournalSchedules",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "403", "4XX", "5XX"],
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.CashJournalSchedulesSearchCashJournalSchedulesResponse(
+                search_cash_journal_schedules_response=unmarshal_json_response(
+                    Optional[components.SearchCashJournalSchedulesResponse], http_res
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, ["400", "403"], "application/json"):
+            response_data = unmarshal_json_response(errors.StatusData, http_res)
+            raise errors.Status(response_data, http_res)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.CashJournalSchedulesSearchCashJournalSchedulesResponse(
                 status=unmarshal_json_response(Optional[components.Status], http_res),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )

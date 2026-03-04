@@ -40,7 +40,7 @@ class AchDepositScheduleCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class IraContributionTypedDict(TypedDict):
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     tax_year: int
     r"""Tax year for which the contribution is applied. Current year is always valid; prior year is only valid before tax deadline. Must be in \"YYYY\" format."""
@@ -52,7 +52,7 @@ class IraContributionTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class IraContribution(BaseModel):
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     tax_year: int
     r"""Tax year for which the contribution is applied. Current year is always valid; prior year is only valid before tax deadline. Must be in \"YYYY\" format."""
@@ -71,7 +71,7 @@ class AchDepositScheduleCreateTypedDict(TypedDict):
     schedule_details: DepositScheduleDetailsCreateTypedDict
     r"""Details of deposit schedule transfers"""
     ira_contribution: NotRequired[IraContributionTypedDict]
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
     retirement_contribution: NotRequired[ScheduledRetirementContributionCreateTypedDict]
     r"""The retirement contribution details for a scheduled deposit"""
 
@@ -91,7 +91,7 @@ class AchDepositScheduleCreate(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = None
-    r"""The ira contribution info for an IRA account. Deprecated, see retirement_contribution_details"""
+    r"""Deprecated: see retirement_contribution_details The ira contribution info for an IRA account."""
 
     retirement_contribution: Optional[ScheduledRetirementContributionCreate] = None
     r"""The retirement contribution details for a scheduled deposit"""

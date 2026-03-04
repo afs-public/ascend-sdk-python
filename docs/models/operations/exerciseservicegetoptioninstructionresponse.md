@@ -1,0 +1,10 @@
+# ExerciseServiceGetOptionInstructionResponse
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `http_meta`                                                                            | [components.HTTPMetadata](../../models/components/httpmetadata.md)                     | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `option_instruction`                                                                   | [Optional[components.OptionInstruction]](../../models/components/optioninstruction.md) | :heavy_minus_sign:                                                                     | OK                                                                                     |
+| `status`                                                                               | [Optional[components.Status]](../../models/components/status.md)                       | :heavy_minus_sign:                                                                     | Default error response                                                                 |
