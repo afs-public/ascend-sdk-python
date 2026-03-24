@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 2d2301af648574e02452022e6e5cae4c
-  docVersion: v1:20260227:uat:06c84009201f
+  docChecksum: f79ffaf404005bb4e882718017d914d6
+  docVersion: v1:20260323:uat:35c1f0c6e7e6
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.8.3
-  configChecksum: aa1efb9897d866fa801b40238dc9b097
+  releaseVersion: 1.8.4
+  configChecksum: ffe9e48269dfd507363b6038f3c1d7a1
 features:
   python:
     additionalDependencies: 1.0.0
@@ -187,6 +187,7 @@ generatedFiles:
   - docs/models/components/activitydrip.md
   - docs/models/components/activitydripaction.md
   - docs/models/components/activityeffectivedate.md
+  - docs/models/components/activityeventcontractsettlement.md
   - docs/models/components/activityexchange.md
   - docs/models/components/activityexchangecashrate.md
   - docs/models/components/activityexchangecorporateactiongeneralinformation.md
@@ -240,6 +241,7 @@ generatedFiles:
   - docs/models/components/activitynamechangeeffectivedate.md
   - docs/models/components/activitynamechangequantity.md
   - docs/models/components/activitynetamount.md
+  - docs/models/components/activityoutcome.md
   - docs/models/components/activitypaydate.md
   - docs/models/components/activitypaymentdate.md
   - docs/models/components/activitypaymentinkind.md
@@ -331,6 +333,8 @@ generatedFiles:
   - docs/models/components/activitytradepriceadjustmentrecord.md
   - docs/models/components/activitytradepriceadjustmenttype.md
   - docs/models/components/activitytransfer.md
+  - docs/models/components/activitytransferfairmarketvalue.md
+  - docs/models/components/activitytransferfairmarketvaluedate.md
   - docs/models/components/activitytransfertype.md
   - docs/models/components/activitytype.md
   - docs/models/components/activityunitsplit.md
@@ -954,6 +958,7 @@ generatedFiles:
   - docs/models/components/entryfactordenominator.md
   - docs/models/components/entryfactornumerator.md
   - docs/models/components/entryfairmarketvalue.md
+  - docs/models/components/entryfairmarketvaluedate.md
   - docs/models/components/entryfee.md
   - docs/models/components/entryfeetype.md
   - docs/models/components/entryflipbrokercapacity.md
@@ -1062,6 +1067,7 @@ generatedFiles:
   - docs/models/components/entrytradepriceadjustmentamount.md
   - docs/models/components/entrytradepriceadjustmenttype.md
   - docs/models/components/entrytransfer.md
+  - docs/models/components/entrytransferfairmarketvalue.md
   - docs/models/components/entrytransfertype.md
   - docs/models/components/entrytype.md
   - docs/models/components/entryunitsplitcorporateactiongeneralinformation.md
@@ -1084,6 +1090,7 @@ generatedFiles:
   - docs/models/components/estimatedgrosscreditamount.md
   - docs/models/components/estimatednetamount.md
   - docs/models/components/estimatedvaluedescriptor.md
+  - docs/models/components/eventcontractsettlement.md
   - docs/models/components/eventmessage.md
   - docs/models/components/exchange.md
   - docs/models/components/execution.md
@@ -1259,6 +1266,7 @@ generatedFiles:
   - docs/models/components/identitylookupshortcode.md
   - docs/models/components/identitylookupstate.md
   - docs/models/components/identitylookuptype.md
+  - docs/models/components/identityreporteddeceased.md
   - docs/models/components/identityverification.md
   - docs/models/components/identityverificationresult.md
   - docs/models/components/identityverificationresultcreate.md
@@ -1429,6 +1437,7 @@ generatedFiles:
   - docs/models/components/liquidation.md
   - docs/models/components/liquidityneeds.md
   - docs/models/components/liquidnetworthrangeusd.md
+  - docs/models/components/listaccountordersresponse.md
   - docs/models/components/listaccountsresponse.md
   - docs/models/components/listachdepositschedulesresponse.md
   - docs/models/components/listachwithdrawalschedulesresponse.md
@@ -1640,6 +1649,7 @@ generatedFiles:
   - docs/models/components/othersourcesofwealth.md
   - docs/models/components/othersourcesofwealthcreate.md
   - docs/models/components/othersourcesofwealthupdate.md
+  - docs/models/components/outcome.md
   - docs/models/components/ownershipstructure.md
   - docs/models/components/ownershiptype.md
   - docs/models/components/party.md
@@ -2629,6 +2639,8 @@ generatedFiles:
   - docs/models/operations/orderservicecreateorderresponse.md
   - docs/models/operations/orderservicegetorderrequest.md
   - docs/models/operations/orderservicegetorderresponse.md
+  - docs/models/operations/orderservicelistaccountordersrequest.md
+  - docs/models/operations/orderservicelistaccountordersresponse.md
   - docs/models/operations/orderservicelistcorrespondentordersrequest.md
   - docs/models/operations/orderservicelistcorrespondentordersresponse.md
   - docs/models/operations/orderservicesetextrareportingdatarequest.md
@@ -3061,6 +3073,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/limitpricecreate.py
   - src/ascend_sdk/models/components/linkdocumentsrequestcreate.py
   - src/ascend_sdk/models/components/linkdocumentsresponse.py
+  - src/ascend_sdk/models/components/listaccountordersresponse.py
   - src/ascend_sdk/models/components/listaccountsresponse.py
   - src/ascend_sdk/models/components/listachdepositschedulesresponse.py
   - src/ascend_sdk/models/components/listachwithdrawalschedulesresponse.py
@@ -3452,6 +3465,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/orderservice_cancelorder.py
   - src/ascend_sdk/models/operations/orderservice_createorder.py
   - src/ascend_sdk/models/operations/orderservice_getorder.py
+  - src/ascend_sdk/models/operations/orderservice_listaccountorders.py
   - src/ascend_sdk/models/operations/orderservice_listcorrespondentorders.py
   - src/ascend_sdk/models/operations/orderservice_setextrareportingdata.py
   - src/ascend_sdk/models/operations/positionjournals_cancelpositionjournal.py
@@ -5967,8 +5981,8 @@ examples:
     speakeasy-default-ledger-get-entry:
       parameters:
         path:
-          account_id: "{\"account_id\":\"\"}"
-          entry_id: "{\"entry_id\":\"\"}"
+          account_id: "{account_id}"
+          entry_id: "{entry_id}"
       responses:
         "200":
           application/json: {}
@@ -6806,6 +6820,20 @@ examples:
         application/json: {"name": "accounts/ACC123456/assets/12345/instructions/abc12345"}
       responses:
         "200":
+          application/json: {}
+        default:
+          application/json: {}
+  OrderService_ListAccountOrders:
+    speakeasy-default-order-service-list-account-orders:
+      parameters:
+        path:
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
           application/json: {}
         default:
           application/json: {}

@@ -37,10 +37,11 @@ class AssetType(str, Enum, metaclass=utils.OpenEnumMeta):
     EQUITY = "EQUITY"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
+    EVENT_CONTRACT = "EVENT_CONTRACT"
 
 
 class BrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -48,15 +49,16 @@ class BrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderCreateIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
 
+    ASSET_ID = "ASSET_ID"
     SYMBOL = "SYMBOL"
     CUSIP = "CUSIP"
     ISIN = "ISIN"
 
 
 class OrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
 
     LIMIT = "LIMIT"
     MARKET = "MARKET"
@@ -105,10 +107,13 @@ class SpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
+    GOOD_TILL_CANCELED = "GOOD_TILL_CANCELED"
+    IMMEDIATE_OR_CANCEL = "IMMEDIATE_OR_CANCEL"
+    FILL_OR_KILL = "FILL_OR_KILL"
 
 
 class TradingSession(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -135,7 +140,7 @@ class OrderCreateTypedDict(TypedDict):
     identifier: str
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
     identifier_type: OrderCreateIdentifierType
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
     order_date: DateCreateTypedDict
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
 
@@ -144,13 +149,13 @@ class OrderCreateTypedDict(TypedDict):
     Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
     order_type: OrderType
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
     side: Side
     r"""The side of this order."""
     time_in_force: TimeInForce
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
     broker_capacity: NotRequired[BrokerCapacity]
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
     client_received_time: NotRequired[Nullable[datetime]]
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
     client_sent_time: NotRequired[Nullable[datetime]]
@@ -222,7 +227,7 @@ class OrderCreate(BaseModel):
     identifier_type: Annotated[
         OrderCreateIdentifierType, PlainValidator(validate_open_enum(False))
     ]
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
 
     order_date: DateCreate
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
@@ -233,18 +238,18 @@ class OrderCreate(BaseModel):
     """
 
     order_type: Annotated[OrderType, PlainValidator(validate_open_enum(False))]
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
 
     side: Annotated[Side, PlainValidator(validate_open_enum(False))]
     r"""The side of this order."""
 
     time_in_force: Annotated[TimeInForce, PlainValidator(validate_open_enum(False))]
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
 
     broker_capacity: Annotated[
         Optional[BrokerCapacity], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
     r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""

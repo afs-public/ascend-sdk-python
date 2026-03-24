@@ -15,6 +15,7 @@ class IdentificationType(str, Enum, metaclass=utils.OpenEnumMeta):
 
     TYPE_UNSPECIFIED = "TYPE_UNSPECIFIED"
     SSN = "SSN"
+    CPF = "CPF"
 
 
 class IdentificationTypedDict(TypedDict):

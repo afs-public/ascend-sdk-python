@@ -59,6 +59,15 @@ class IdentificationNumberVerified(str, Enum, metaclass=utils.OpenEnumMeta):
     INCONCLUSIVE = "INCONCLUSIVE"
 
 
+class IdentityReportedDeceased(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Whether or not the identity has been reported as deceased This is determined by parsing the vendor response for deceased indicators from the SSA Death Master File Equifax-specific indicators: reason codes \"90\" (SSN Death Indicator) or \"SQ\" (SSN reported as deceased) null/unset = not checked or unable to determine, false = checked and not deceased, true = deceased"""
+
+    DECEASED_UNSPECIFIED = "DECEASED_UNSPECIFIED"
+    DECEASED = "DECEASED"
+    NOT_DECEASED = "NOT_DECEASED"
+    UNKNOWN = "UNKNOWN"
+
+
 class IdentityVerificationTypes(str, Enum, metaclass=utils.OpenEnumMeta):
     IDENTITY_VERIFICATION_TYPE_UNSPECIFIED = "IDENTITY_VERIFICATION_TYPE_UNSPECIFIED"
     DATABASE = "DATABASE"
@@ -131,6 +140,8 @@ class CustomerIdentificationResultTypedDict(TypedDict):
     r"""The id relating to the external vendor"""
     identification_number_verified: NotRequired[IdentificationNumberVerified]
     r"""Whether or not the customer identification number was verified"""
+    identity_reported_deceased: NotRequired[IdentityReportedDeceased]
+    r"""Whether or not the identity has been reported as deceased This is determined by parsing the vendor response for deceased indicators from the SSA Death Master File Equifax-specific indicators: reason codes \"90\" (SSN Death Indicator) or \"SQ\" (SSN reported as deceased) null/unset = not checked or unable to determine, false = checked and not deceased, true = deceased"""
     identity_verification_types: NotRequired[List[IdentityVerificationTypes]]
     r"""Describes the type(s) of Identity Verification that was performed"""
     legal_address_verified: NotRequired[LegalAddressVerified]
@@ -192,6 +203,11 @@ class CustomerIdentificationResult(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""Whether or not the customer identification number was verified"""
+
+    identity_reported_deceased: Annotated[
+        Optional[IdentityReportedDeceased], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Whether or not the identity has been reported as deceased This is determined by parsing the vendor response for deceased indicators from the SSA Death Master File Equifax-specific indicators: reason codes \"90\" (SSN Death Indicator) or \"SQ\" (SSN reported as deceased) null/unset = not checked or unable to determine, false = checked and not deceased, true = deceased"""
 
     identity_verification_types: Optional[
         List[

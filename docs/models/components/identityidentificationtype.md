@@ -18,3 +18,4 @@ Otherwise, must be empty.
 | `PASSPORT`         | PASSPORT           |
 | `DRIVERS_LICENSE`  | DRIVERS_LICENSE    |
 | `ITIN`             | ITIN               |
+| `ID_CARD`          | ID_CARD            |

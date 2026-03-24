@@ -29,10 +29,11 @@ class OrderAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
     EQUITY = "EQUITY"
     FIXED_INCOME = "FIXED_INCOME"
     MUTUAL_FUND = "MUTUAL_FUND"
+    EVENT_CONTRACT = "EVENT_CONTRACT"
 
 
 class OrderBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -206,8 +207,9 @@ class FilledQuantity(BaseModel):
 
 
 class OrderIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
 
+    ASSET_ID = "ASSET_ID"
     SYMBOL = "SYMBOL"
     CUSIP = "CUSIP"
     ISIN = "ISIN"
@@ -388,14 +390,14 @@ class MaxSellQuantity(BaseModel):
 
 
 class NotionalValueTypedDict(TypedDict):
-    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
+    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value. For Event Contracts: Not supported, you must specify a `quantity` value."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class NotionalValue(BaseModel):
-    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
+    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value. For Event Contracts: Not supported, you must specify a `quantity` value."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -494,7 +496,7 @@ class OrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
 
     LIMIT = "LIMIT"
     MARKET = "MARKET"
@@ -503,28 +505,28 @@ class OrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OrderPrevailingMarketPriceTypedDict(TypedDict):
-    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
+    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Can be up to 8 decimal places when asset_type = FIXED_INCOME. Will be absent if an order has no executions."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class OrderPrevailingMarketPrice(BaseModel):
-    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
+    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Can be up to 8 decimal places when asset_type = FIXED_INCOME. Will be absent if an order has no executions."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class OrderQuantityTypedDict(TypedDict):
-    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. Either a quantity or notional_value MUST be specified (but not both)."""
+    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. For Event Contracts: Represents the number of contracts being ordered, and must be whole numbers for BUY orders or up to a maximum of 2 decimal places for SELL orders. Either a quantity or notional_value MUST be specified (but not both)."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class OrderQuantity(BaseModel):
-    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. Either a quantity or notional_value MUST be specified (but not both)."""
+    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. For Event Contracts: Represents the number of contracts being ordered, and must be whole numbers for BUY orders or up to a maximum of 2 decimal places for SELL orders. Either a quantity or notional_value MUST be specified (but not both)."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -701,10 +703,13 @@ class StopPrice(BaseModel):
 
 
 class OrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
 
     DAY = "DAY"
     GOOD_TILL_DATE = "GOOD_TILL_DATE"
+    GOOD_TILL_CANCELED = "GOOD_TILL_CANCELED"
+    IMMEDIATE_OR_CANCEL = "IMMEDIATE_OR_CANCEL"
+    FILL_OR_KILL = "FILL_OR_KILL"
 
 
 class TimeInForceExpirationDateTypedDict(TypedDict):
@@ -759,10 +764,10 @@ class OrderTypedDict(TypedDict):
 
     When asset_type = EQUITY or MUTUAL_FUND, there will be at most one value present, with a type of PRICE_PER_UNIT. This will have up to 4 decimal places for USD amounts less than $1, and a maximum of two for larger USD amounts.
 
-    When asset_type = FIXED_INCOME, there may be more than one value present which would have a type other than PRICE_PER_UNIT. Price values in PERCENTAGE_OF_PAR will have up to 4 decimal places of precision, and price values measured in yields will support up to 5 decimal places.
+    When asset_type = FIXED_INCOME, there may be more than one value present which would have a type other than PRICE_PER_UNIT. Price values in PERCENTAGE_OF_PAR will have up to 8 decimal places of precision, and price values measured in yields will support up to 7 decimal places.
     """
     broker_capacity: NotRequired[OrderBrokerCapacity]
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
     cancel_initiator: NotRequired[CancelInitiator]
     r"""Output only field that is required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. This field denotes the initiator of the cancel request. This field will be present when provided on the CancelOrderRequest"""
     cancel_reason: NotRequired[str]
@@ -800,7 +805,7 @@ class OrderTypedDict(TypedDict):
     identifier_issuing_region_code: NotRequired[str]
     r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
     identifier_type: NotRequired[OrderIdentifierType]
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
     r"""Time of the last order update"""
     letter_of_intent: NotRequired[Nullable[LetterOfIntentTypedDict]]
@@ -812,7 +817,7 @@ class OrderTypedDict(TypedDict):
     name: NotRequired[str]
     r"""System generated name of the order."""
     notional_value: NotRequired[Nullable[NotionalValueTypedDict]]
-    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
+    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value. For Event Contracts: Not supported, you must specify a `quantity` value."""
     open: NotRequired[bool]
     r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
     order_date: NotRequired[Nullable[OrderDateTypedDict]]
@@ -824,11 +829,11 @@ class OrderTypedDict(TypedDict):
     order_status: NotRequired[OrderStatus]
     r"""The processing status of the order"""
     order_type: NotRequired[OrderOrderType]
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
     prevailing_market_price: NotRequired[Nullable[OrderPrevailingMarketPriceTypedDict]]
-    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
+    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Can be up to 8 decimal places when asset_type = FIXED_INCOME. Will be absent if an order has no executions."""
     quantity: NotRequired[Nullable[OrderQuantityTypedDict]]
-    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. Either a quantity or notional_value MUST be specified (but not both)."""
+    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. For Event Contracts: Represents the number of contracts being ordered, and must be whole numbers for BUY orders or up to a maximum of 2 decimal places for SELL orders. Either a quantity or notional_value MUST be specified (but not both)."""
     rights_of_accumulation: NotRequired[Nullable[RightsOfAccumulationTypedDict]]
     r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
     side: NotRequired[OrderSide]
@@ -838,7 +843,7 @@ class OrderTypedDict(TypedDict):
     stop_price: NotRequired[Nullable[StopPriceTypedDict]]
     r"""The stop price for this order. Only allowed for equities."""
     time_in_force: NotRequired[OrderTimeInForce]
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
     time_in_force_expiration_date: NotRequired[
         Nullable[TimeInForceExpirationDateTypedDict]
     ]
@@ -868,13 +873,13 @@ class Order(BaseModel):
 
     When asset_type = EQUITY or MUTUAL_FUND, there will be at most one value present, with a type of PRICE_PER_UNIT. This will have up to 4 decimal places for USD amounts less than $1, and a maximum of two for larger USD amounts.
 
-    When asset_type = FIXED_INCOME, there may be more than one value present which would have a type other than PRICE_PER_UNIT. Price values in PERCENTAGE_OF_PAR will have up to 4 decimal places of precision, and price values measured in yields will support up to 5 decimal places.
+    When asset_type = FIXED_INCOME, there may be more than one value present which would have a type other than PRICE_PER_UNIT. Price values in PERCENTAGE_OF_PAR will have up to 8 decimal places of precision, and price values measured in yields will support up to 7 decimal places.
     """
 
     broker_capacity: Annotated[
         Optional[OrderBrokerCapacity], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Defaults to \"AGENCY\" if not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed."""
+    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     cancel_initiator: Annotated[
         Optional[CancelInitiator], PlainValidator(validate_open_enum(False))
@@ -937,7 +942,7 @@ class Order(BaseModel):
     identifier_type: Annotated[
         Optional[OrderIdentifierType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported"""
+    r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
 
     last_update_time: OptionalNullable[datetime] = UNSET
     r"""Time of the last order update"""
@@ -955,7 +960,7 @@ class Order(BaseModel):
     r"""System generated name of the order."""
 
     notional_value: OptionalNullable[NotionalValue] = UNSET
-    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value."""
+    r"""Notional quantity of the order, measured in USD. Maximum 2 decimal place precision. For Equities: This represents the maximum amount to be spent. The final order may may have a smaller notional amount. For Mutual Funds: Only supported for BUY orders. The order will be transacted at the full notional amount specified. For Fixed Income: Not supported, you must specify a `quantity` value. For Event Contracts: Not supported, you must specify a `quantity` value."""
 
     open: Optional[bool] = None
     r"""A value derived from the order_status, indicating whether the order is still open. The statuses that indicate an order is open are: PENDING_NEW, NEW, PENDING_QUEUED, QUEUED, PARTIALLY_FILLED, and PENDING_CANCEL. An order with any other status is not considered open."""
@@ -979,13 +984,13 @@ class Order(BaseModel):
     order_type: Annotated[
         Optional[OrderOrderType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported."""
+    r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
 
     prevailing_market_price: OptionalNullable[OrderPrevailingMarketPrice] = UNSET
-    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Will be absent if an order has no executions."""
+    r"""The prevailing market price, calculated as a weighted average of the fills in this order, up to a maximum of 5 decimal places. Can be up to 8 decimal places when asset_type = FIXED_INCOME. Will be absent if an order has no executions."""
 
     quantity: OptionalNullable[OrderQuantity] = UNSET
-    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. Either a quantity or notional_value MUST be specified (but not both)."""
+    r"""Numeric quantity of the order. For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places. For Fixed Income: Represents the par (face-value) amount being ordered, and may not exceed two decimal places for USD-based currencies. For Event Contracts: Represents the number of contracts being ordered, and must be whole numbers for BUY orders or up to a maximum of 2 decimal places for SELL orders. Either a quantity or notional_value MUST be specified (but not both)."""
 
     rights_of_accumulation: OptionalNullable[RightsOfAccumulation] = UNSET
     r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
@@ -1011,7 +1016,7 @@ class Order(BaseModel):
     time_in_force: Annotated[
         Optional[OrderTimeInForce], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed."""
+    r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
 
     time_in_force_expiration_date: OptionalNullable[TimeInForceExpirationDate] = UNSET
     r"""The date till which a GOOD_TILL_DATE order will remain valid. If the order is a STOP/MIT order with TimeInForce as GOOD_TILL_DATE, then this must be populated."""
