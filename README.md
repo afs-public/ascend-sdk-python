@@ -512,6 +512,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ### [orders](docs/sdks/orders/README.md)
 
 * [create_order](docs/sdks/orders/README.md#create_order) - Create Order
+* [list_account_orders](docs/sdks/orders/README.md#list_account_orders) - List Account Orders
 * [get_order](docs/sdks/orders/README.md#get_order) - Get Order
 * [cancel_order](docs/sdks/orders/README.md#cancel_order) - Cancel Order
 * [set_extra_reporting_data](docs/sdks/orders/README.md#set_extra_reporting_data) - Set Extra Reporting Data
@@ -781,5 +782,29 @@ logging.basicConfig(level=logging.DEBUG)
 s = SDK(debug_logger=logging.getLogger("ascend_sdk"))
 ```
 <!-- End Debugging [debug] -->
+
+## Qase TestOps Integration
+
+Test results can be automatically reported to [Qase TestOps](https://app.qase.io/project/CDX) for centralized visibility.
+
+### Environment Variables
+
+| Variable | Description |
+| --- | --- |
+| `QASE_MODE` | Set to `testops` to enable reporting (default: off) |
+| `QASE_TESTOPS_API_TOKEN` | Qase API token for authentication |
+| `QASE_TESTOPS_PROJECT` | Qase project code (default: `CDX`) |
+
+### Running Tests with Qase Reporting
+
+```bash
+# Without Qase (default)
+.venv/bin/pytest tests/ -v
+
+# With Qase reporting enabled
+QASE_MODE=testops QASE_TESTOPS_API_TOKEN=<token> .venv/bin/pytest tests/ -v
+```
+
+Qase reporting is disabled by default via `addopts = "--qase-mode=off"` in `pyproject.toml`. Setting `QASE_MODE=testops` as an environment variable overrides this.
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->

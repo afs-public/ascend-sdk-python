@@ -1,0 +1,11 @@
+{
+  "mode": "testops",
+  "fallback": "report",
+  "testops": {
+    "project": "CDX",
+    "run": {
+      "title": "Ascend SDK Python Tests",
+      "complete": true
+    }
+  }
+}

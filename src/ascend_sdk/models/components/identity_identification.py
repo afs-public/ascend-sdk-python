@@ -25,6 +25,7 @@ class IdentityIdentificationType(str, Enum, metaclass=utils.OpenEnumMeta):
     PASSPORT = "PASSPORT"
     DRIVERS_LICENSE = "DRIVERS_LICENSE"
     ITIN = "ITIN"
+    ID_CARD = "ID_CARD"
 
 
 class IdentityIdentificationTypedDict(TypedDict):

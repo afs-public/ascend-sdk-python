@@ -396,7 +396,7 @@ class InvestigationNameSuffix(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InvestigationExecutionDateTypedDict(TypedDict):
-    r"""The date identity verification was performed. Must be formatted as an ISO-8601 YYYY-MM-DD"""
+    r"""The date identity verification was performed."""
 
     day: NotRequired[int]
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -407,7 +407,7 @@ class InvestigationExecutionDateTypedDict(TypedDict):
 
 
 class InvestigationExecutionDate(BaseModel):
-    r"""The date identity verification was performed. Must be formatted as an ISO-8601 YYYY-MM-DD"""
+    r"""The date identity verification was performed."""
 
     day: Optional[int] = None
     r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
@@ -426,8 +426,10 @@ class ProvidedIdentityVerificationTypedDict(TypedDict):
     r"""Indicates whether the identity's address was verified"""
     birth_date_verified: NotRequired[bool]
     r"""Indicates whether the identity's date of birth was verified"""
+    client_directly_verified_id_docs: NotRequired[bool]
+    r"""Indicates that the client directly verified the ID documents rather than using a third-party vendor (self-inspected)"""
     execution_date: NotRequired[Nullable[InvestigationExecutionDateTypedDict]]
-    r"""The date identity verification was performed. Must be formatted as an ISO-8601 YYYY-MM-DD"""
+    r"""The date identity verification was performed."""
     external_case_id: NotRequired[str]
     r"""Client-generated identifier associated with the KYC results for the appropriate case"""
     identity_verification_document_ids: NotRequired[List[str]]
@@ -453,8 +455,11 @@ class ProvidedIdentityVerification(BaseModel):
     birth_date_verified: Optional[bool] = None
     r"""Indicates whether the identity's date of birth was verified"""
 
+    client_directly_verified_id_docs: Optional[bool] = None
+    r"""Indicates that the client directly verified the ID documents rather than using a third-party vendor (self-inspected)"""
+
     execution_date: OptionalNullable[InvestigationExecutionDate] = UNSET
-    r"""The date identity verification was performed. Must be formatted as an ISO-8601 YYYY-MM-DD"""
+    r"""The date identity verification was performed."""
 
     external_case_id: Optional[str] = None
     r"""Client-generated identifier associated with the KYC results for the appropriate case"""
@@ -482,6 +487,7 @@ class ProvidedIdentityVerification(BaseModel):
         optional_fields = [
             "address_verified",
             "birth_date_verified",
+            "client_directly_verified_id_docs",
             "execution_date",
             "external_case_id",
             "identity_verification_document_ids",

@@ -68,6 +68,8 @@ class ActivityAccountTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     RECLAIM = "RECLAIM"
     POSITION_TRANSFER_FUND = "POSITION_TRANSFER_FUND"
     SPONSORED_TRANSFER = "SPONSORED_TRANSFER"
+    DRS_TRANSFER = "DRS_TRANSFER"
+    DWAC_TRANSFER = "DWAC_TRANSFER"
 
 
 class ActivityAction(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -1627,6 +1629,37 @@ class ActivityDrip(BaseModel):
         Optional[ActivityDripAction], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Denotes whether the reinvestment is pending or complete"""
+
+
+class ActivityOutcome(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The determined outcome of the event"""
+
+    EVENT_CONTRACT_OUTCOME_UNSPECIFIED = "EVENT_CONTRACT_OUTCOME_UNSPECIFIED"
+    FAVORABLE = "FAVORABLE"
+    UNFAVORABLE = "UNFAVORABLE"
+    VOID = "VOID"
+    TIE = "TIE"
+
+
+class ActivityEventContractSettlementTypedDict(TypedDict):
+    r"""Used to record the settlement/payout of event contracts based on real-world event outcomes"""
+
+    exchange: NotRequired[str]
+    r"""The exchange that issued the event contract"""
+    outcome: NotRequired[ActivityOutcome]
+    r"""The determined outcome of the event"""
+
+
+class ActivityEventContractSettlement(BaseModel):
+    r"""Used to record the settlement/payout of event contracts based on real-world event outcomes"""
+
+    exchange: Optional[str] = None
+    r"""The exchange that issued the event contract"""
+
+    outcome: Annotated[
+        Optional[ActivityOutcome], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""The determined outcome of the event"""
 
 
 class ActivityExchangeCashRateTypedDict(TypedDict):
@@ -5664,6 +5697,44 @@ class ActivityTrade(BaseModel):
         return m
 
 
+class ActivityTransferFairMarketValueTypedDict(TypedDict):
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityTransferFairMarketValue(BaseModel):
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityTransferFairMarketValueDateTypedDict(TypedDict):
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
+    day: NotRequired[int]
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+    month: NotRequired[int]
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+    year: NotRequired[int]
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
+class ActivityTransferFairMarketValueDate(BaseModel):
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
+    day: Optional[int] = None
+    r"""Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant."""
+
+    month: Optional[int] = None
+    r"""Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day."""
+
+    year: Optional[int] = None
+    r"""Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year."""
+
+
 class ActivityTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Provides more granular detail on the purpose of transfer"""
 
@@ -5673,6 +5744,11 @@ class ActivityTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
     MIGRATION = "MIGRATION"
     MANUAL_ADJUSTMENT = "MANUAL_ADJUSTMENT"
     INTERNAL_CONVERSION = "INTERNAL_CONVERSION"
+    FREE_RECEIVE = "FREE_RECEIVE"
+    FREE_DELIVER = "FREE_DELIVER"
+    STOCK_REWARD = "STOCK_REWARD"
+    TOKENIZATION_TRANSFER = "TOKENIZATION_TRANSFER"
+    ESCHEATMENT = "ESCHEATMENT"
 
 
 class ActivityTransferTypedDict(TypedDict):
@@ -5682,6 +5758,12 @@ class ActivityTransferTypedDict(TypedDict):
     r"""Free form text for additional sweep messages or instructions"""
     client_brokerage: NotRequired[str]
     r"""String field that can be populated with the broker dealer undergoing a clearing platform conversion. Used for activity description purposes"""
+    fair_market_value: NotRequired[Nullable[ActivityTransferFairMarketValueTypedDict]]
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+    fair_market_value_date: NotRequired[
+        Nullable[ActivityTransferFairMarketValueDateTypedDict]
+    ]
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
     transfer_type: NotRequired[ActivityTransferType]
     r"""Provides more granular detail on the purpose of transfer"""
 
@@ -5695,10 +5777,54 @@ class ActivityTransfer(BaseModel):
     client_brokerage: Optional[str] = None
     r"""String field that can be populated with the broker dealer undergoing a clearing platform conversion. Used for activity description purposes"""
 
+    fair_market_value: OptionalNullable[ActivityTransferFairMarketValue] = UNSET
+    r"""Total value of the securities being transferred. Used for sponsored transfers activity to ensure cost basis is accurately moved with the assets to the new account"""
+
+    fair_market_value_date: OptionalNullable[ActivityTransferFairMarketValueDate] = (
+        UNSET
+    )
+    r"""Date from which the asset was valued and used in the fair market value calculation"""
+
     transfer_type: Annotated[
         Optional[ActivityTransferType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""Provides more granular detail on the purpose of transfer"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "additional_instructions",
+            "client_brokerage",
+            "fair_market_value",
+            "fair_market_value_date",
+            "transfer_type",
+        ]
+        nullable_fields = ["fair_market_value", "fair_market_value_date"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class ActivityType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6329,6 +6455,10 @@ class ActivityTypedDict(TypedDict):
     r"""Used to record deposits of funds into an account and capture details related to the deposit"""
     drip: NotRequired[Nullable[ActivityDripTypedDict]]
     r"""Used to record the movement of funds to/ from the pending_drip memo location"""
+    event_contract_settlement: NotRequired[
+        Nullable[ActivityEventContractSettlementTypedDict]
+    ]
+    r"""Used to record the settlement/payout of event contracts based on real-world event outcomes"""
     exchange: NotRequired[Nullable[ActivityExchangeTypedDict]]
     r"""Used to record the exchange of certificates for a new security or cash and details related to the exchange"""
     fee: NotRequired[Nullable[ActivityFeeTypedDict]]
@@ -6363,6 +6493,8 @@ class ActivityTypedDict(TypedDict):
     r"""the process date of the next activity(nil if the next_activity_id is an empty string)"""
     none: NotRequired[Nullable[NoneTTypedDict]]
     r"""None"""
+    originating_resource_name: NotRequired[str]
+    r"""The resource name of the API resource that originated this ledger entry or activity. This field enables clients to link ledger activities back to their source transactions for reconciliation purposes. This field will only be populated when the client has direct access to the referenced resource via the Ascend API's."""
     payment_in_kind: NotRequired[Nullable[ActivityPaymentInKindTypedDict]]
     r"""Used to record payments on interest-bearing securities where the payment is made in additional securities rather than cash and details related to the payment"""
     previous_activity_id: NotRequired[str]
@@ -6530,6 +6662,9 @@ class Activity(BaseModel):
     drip: OptionalNullable[ActivityDrip] = UNSET
     r"""Used to record the movement of funds to/ from the pending_drip memo location"""
 
+    event_contract_settlement: OptionalNullable[ActivityEventContractSettlement] = UNSET
+    r"""Used to record the settlement/payout of event contracts based on real-world event outcomes"""
+
     exchange: OptionalNullable[ActivityExchange] = UNSET
     r"""Used to record the exchange of certificates for a new security or cash and details related to the exchange"""
 
@@ -6580,6 +6715,9 @@ class Activity(BaseModel):
 
     none: OptionalNullable[NoneT] = UNSET
     r"""None"""
+
+    originating_resource_name: Optional[str] = None
+    r"""The resource name of the API resource that originated this ledger entry or activity. This field enables clients to link ledger activities back to their source transactions for reconciliation purposes. This field will only be populated when the client has direct access to the referenced resource via the Ascend API's."""
 
     payment_in_kind: OptionalNullable[ActivityPaymentInKind] = UNSET
     r"""Used to record payments on interest-bearing securities where the payment is made in additional securities rather than cash and details related to the payment"""
@@ -6728,6 +6866,7 @@ class Activity(BaseModel):
             "currency_code",
             "deposit",
             "drip",
+            "event_contract_settlement",
             "exchange",
             "fee",
             "fees",
@@ -6745,6 +6884,7 @@ class Activity(BaseModel):
             "next_activity_id",
             "next_activity_process_date",
             "none",
+            "originating_resource_name",
             "payment_in_kind",
             "previous_activity_id",
             "previous_process_date",
@@ -6800,6 +6940,7 @@ class Activity(BaseModel):
             "credit",
             "deposit",
             "drip",
+            "event_contract_settlement",
             "exchange",
             "fee",
             "fpsl",

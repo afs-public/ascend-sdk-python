@@ -22,6 +22,22 @@ def test_orders_orders_get_order_get_order1(
     assert res.http_meta.response.status_code == 200
 
 
+def test_orders_orders_list_account_orders_list_account_orders1(
+    create_sdk, enrolled_account_id, create_order_id
+):
+    s = create_sdk
+
+    assert s is not None
+
+    res = s.orders.list_account_orders(account_id=enrolled_account_id)
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.list_account_orders_response is not None
+    assert res.list_account_orders_response.orders is not None
+    assert len(res.list_account_orders_response.orders) > 0
+
+
 def test_orders_orders_cancel_order_cancel_order1(
     create_sdk, enrolled_account_id, create_order_id
 ):

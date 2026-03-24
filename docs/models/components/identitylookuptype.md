@@ -9,3 +9,4 @@ The type of identification document
 | ------------------ | ------------------ |
 | `TYPE_UNSPECIFIED` | TYPE_UNSPECIFIED   |
 | `SSN`              | SSN                |
+| `CPF`              | CPF                |

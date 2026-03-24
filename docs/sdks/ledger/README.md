@@ -253,7 +253,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.ledger.get_entry(account_id="[object Object]", entry_id="[object Object]")
+    res = sdk.ledger.get_entry(account_id="{account_id}", entry_id="{entry_id}")
 
     assert res.entry is not None
 
@@ -266,8 +266,8 @@ with SDK(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `account_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | The account id.                                                     | {<br/>"account_id": ""<br/>}                                        |
-| `entry_id`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The entry id.                                                       | {<br/>"entry_id": ""<br/>}                                          |
+| `account_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | The account id.                                                     | {account_id}                                                        |
+| `entry_id`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The entry id.                                                       | {entry_id}                                                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
 
 ### Response

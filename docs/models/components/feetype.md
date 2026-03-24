@@ -50,3 +50,6 @@ The type of fee being assessed
 | `PRINT_CHECK_AT_FIRM`                    | PRINT_CHECK_AT_FIRM                      |
 | `VOIDED_CHECK`                           | VOIDED_CHECK                             |
 | `STOP_PAYMENT_AFTER_180_DAYS`            | STOP_PAYMENT_AFTER_180_DAYS              |
+| `CONFIRM`                                | CONFIRM                                  |
+| `CLEARING`                               | CLEARING                                 |
+| `PROMOTIONAL_CREDIT_CLAWBACK`            | PROMOTIONAL_CREDIT_CLAWBACK              |

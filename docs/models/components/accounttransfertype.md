@@ -17,3 +17,5 @@ The type of asset movement being performed within the lifecycle of an account tr
 | `RECLAIM`                           | RECLAIM                             |
 | `POSITION_TRANSFER_FUND`            | POSITION_TRANSFER_FUND              |
 | `SPONSORED_TRANSFER`                | SPONSORED_TRANSFER                  |
+| `DRS_TRANSFER`                      | DRS_TRANSFER                        |
+| `DWAC_TRANSFER`                     | DWAC_TRANSFER                       |
