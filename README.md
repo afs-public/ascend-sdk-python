@@ -330,6 +330,9 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [list_available_restrictions](docs/sdks/accountmanagement/README.md#list_available_restrictions) - List Available Restrictions
 * [create_restriction](docs/sdks/accountmanagement/README.md#create_restriction) - Create Restriction
 * [end_restriction](docs/sdks/accountmanagement/README.md#end_restriction) - End Restriction
+* [create_note](docs/sdks/accountmanagement/README.md#create_note) - Create Note (Account)
+* [list_notes](docs/sdks/accountmanagement/README.md#list_notes) - List Notes (Account)
+* [get_note](docs/sdks/accountmanagement/README.md#get_note) - Get Note (Account)
 
 ### [account_transfers](docs/sdks/accounttransfers/README.md)
 

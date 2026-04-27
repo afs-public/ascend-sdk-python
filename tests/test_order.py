@@ -38,6 +38,35 @@ def test_order_order_set_extra_reporting_data():
         assert res.http_meta.response.status_code == 200
 
 
+def test_order_order_list_account_orders():
+    test_http_client = create_test_http_client("Order_ListAccountOrders")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
+        security=components.Security(
+            api_key=os.getenv("API_KEY", "value"),
+            service_account_creds=components.ServiceAccountCreds(
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
+            ),
+        ),
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
+
+        res = sdk.orders.list_account_orders(
+            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            filter_="",
+            page_size=25,
+            page_token="",
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+
+
 def test_order_order_list_correspondent_orders():
     test_http_client = create_test_http_client("Order_ListCorrespondentOrders")
 

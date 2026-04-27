@@ -66,6 +66,12 @@ if TYPE_CHECKING:
         AccountsCreateLegalNaturalPersonResponse,
         AccountsCreateLegalNaturalPersonResponseTypedDict,
     )
+    from .accounts_createnote import (
+        AccountsCreateNoteRequest,
+        AccountsCreateNoteRequestTypedDict,
+        AccountsCreateNoteResponse,
+        AccountsCreateNoteResponseTypedDict,
+    )
     from .accounts_createrestriction import (
         AccountsCreateRestrictionRequest,
         AccountsCreateRestrictionRequestTypedDict,
@@ -139,6 +145,12 @@ if TYPE_CHECKING:
         AccountsGetLegalNaturalPersonResponse,
         AccountsGetLegalNaturalPersonResponseTypedDict,
     )
+    from .accounts_getnote import (
+        AccountsGetNoteRequest,
+        AccountsGetNoteRequestTypedDict,
+        AccountsGetNoteResponse,
+        AccountsGetNoteResponseTypedDict,
+    )
     from .accounts_listaccounts import (
         AccountsListAccountsRequest,
         AccountsListAccountsRequestTypedDict,
@@ -193,6 +205,12 @@ if TYPE_CHECKING:
         AccountsListLegalNaturalPersonsRequestTypedDict,
         AccountsListLegalNaturalPersonsResponse,
         AccountsListLegalNaturalPersonsResponseTypedDict,
+    )
+    from .accounts_listnotes import (
+        AccountsListNotesRequest,
+        AccountsListNotesRequestTypedDict,
+        AccountsListNotesResponse,
+        AccountsListNotesResponseTypedDict,
     )
     from .accounts_removeparty import (
         AccountsRemovePartyRequest,
@@ -1422,6 +1440,10 @@ __all__ = [
     "AccountsCreateLegalEntityResponseTypedDict",
     "AccountsCreateLegalNaturalPersonResponse",
     "AccountsCreateLegalNaturalPersonResponseTypedDict",
+    "AccountsCreateNoteRequest",
+    "AccountsCreateNoteRequestTypedDict",
+    "AccountsCreateNoteResponse",
+    "AccountsCreateNoteResponseTypedDict",
     "AccountsCreateRestrictionRequest",
     "AccountsCreateRestrictionRequestTypedDict",
     "AccountsCreateRestrictionResponse",
@@ -1470,6 +1492,10 @@ __all__ = [
     "AccountsGetLegalNaturalPersonRequestTypedDict",
     "AccountsGetLegalNaturalPersonResponse",
     "AccountsGetLegalNaturalPersonResponseTypedDict",
+    "AccountsGetNoteRequest",
+    "AccountsGetNoteRequestTypedDict",
+    "AccountsGetNoteResponse",
+    "AccountsGetNoteResponseTypedDict",
     "AccountsListAccountsRequest",
     "AccountsListAccountsRequestTypedDict",
     "AccountsListAccountsResponse",
@@ -1506,6 +1532,10 @@ __all__ = [
     "AccountsListLegalNaturalPersonsRequestTypedDict",
     "AccountsListLegalNaturalPersonsResponse",
     "AccountsListLegalNaturalPersonsResponseTypedDict",
+    "AccountsListNotesRequest",
+    "AccountsListNotesRequestTypedDict",
+    "AccountsListNotesResponse",
+    "AccountsListNotesResponseTypedDict",
     "AccountsRemovePartyRequest",
     "AccountsRemovePartyRequestTypedDict",
     "AccountsRemovePartyResponse",
@@ -2305,6 +2335,10 @@ _dynamic_imports: dict[str, str] = {
     "AccountsCreateLegalEntityResponseTypedDict": ".accounts_createlegalentity",
     "AccountsCreateLegalNaturalPersonResponse": ".accounts_createlegalnaturalperson",
     "AccountsCreateLegalNaturalPersonResponseTypedDict": ".accounts_createlegalnaturalperson",
+    "AccountsCreateNoteRequest": ".accounts_createnote",
+    "AccountsCreateNoteRequestTypedDict": ".accounts_createnote",
+    "AccountsCreateNoteResponse": ".accounts_createnote",
+    "AccountsCreateNoteResponseTypedDict": ".accounts_createnote",
     "AccountsCreateRestrictionRequest": ".accounts_createrestriction",
     "AccountsCreateRestrictionRequestTypedDict": ".accounts_createrestriction",
     "AccountsCreateRestrictionResponse": ".accounts_createrestriction",
@@ -2354,6 +2388,10 @@ _dynamic_imports: dict[str, str] = {
     "AccountsGetLegalNaturalPersonRequestTypedDict": ".accounts_getlegalnaturalperson",
     "AccountsGetLegalNaturalPersonResponse": ".accounts_getlegalnaturalperson",
     "AccountsGetLegalNaturalPersonResponseTypedDict": ".accounts_getlegalnaturalperson",
+    "AccountsGetNoteRequest": ".accounts_getnote",
+    "AccountsGetNoteRequestTypedDict": ".accounts_getnote",
+    "AccountsGetNoteResponse": ".accounts_getnote",
+    "AccountsGetNoteResponseTypedDict": ".accounts_getnote",
     "AccountsListAccountsRequest": ".accounts_listaccounts",
     "AccountsListAccountsRequestTypedDict": ".accounts_listaccounts",
     "AccountsListAccountsResponse": ".accounts_listaccounts",
@@ -2391,6 +2429,10 @@ _dynamic_imports: dict[str, str] = {
     "AccountsListLegalNaturalPersonsRequestTypedDict": ".accounts_listlegalnaturalpersons",
     "AccountsListLegalNaturalPersonsResponse": ".accounts_listlegalnaturalpersons",
     "AccountsListLegalNaturalPersonsResponseTypedDict": ".accounts_listlegalnaturalpersons",
+    "AccountsListNotesRequest": ".accounts_listnotes",
+    "AccountsListNotesRequestTypedDict": ".accounts_listnotes",
+    "AccountsListNotesResponse": ".accounts_listnotes",
+    "AccountsListNotesResponseTypedDict": ".accounts_listnotes",
     "AccountsRemovePartyRequest": ".accounts_removeparty",
     "AccountsRemovePartyRequestTypedDict": ".accounts_removeparty",
     "AccountsRemovePartyResponse": ".accounts_removeparty",

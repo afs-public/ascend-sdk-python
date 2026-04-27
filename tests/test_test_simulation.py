@@ -6,6 +6,36 @@ import os
 from tests.test_client import create_test_http_client
 
 
+def test_test_simulation_check_deposits_force_approve_check_deposit():
+    test_http_client = create_test_http_client("CheckDeposits_ForceApproveCheckDeposit")
+
+    with SDK(
+        server_url=os.getenv("SERVICE_ACCOUNT_CREDS_URL", ""),
+        security=components.Security(
+            api_key=os.getenv("API_KEY", "value"),
+            service_account_creds=components.ServiceAccountCreds(
+                private_key=os.getenv("SERVICE_ACCOUNT_CREDS_PRIVATE_KEY", "value"),
+                name=os.getenv("SERVICE_ACCOUNT_CREDS_NAME", "value"),
+                organization=os.getenv("SERVICE_ACCOUNT_CREDS_ORGANIZATION", "value"),
+                type=os.getenv("SERVICE_ACCOUNT_CREDS_TYPE", "value"),
+            ),
+        ),
+        client=test_http_client,
+    ) as sdk:
+        assert sdk is not None
+
+        res = sdk.test_simulation.force_approve_check_deposit(
+            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            check_deposit_id="20250811022796",
+            force_approve_check_deposit_request_create={
+                "name": "accounts/01JHGTEPC6ZTAHCFRH2MD3VJJT/checkDeposits/20250811022796",
+            },
+        )
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+
+
 def test_test_simulation_check_deposits_simulate_create_check_deposit():
     test_http_client = create_test_http_client(
         "CheckDeposits_SimulateCreateCheckDeposit"

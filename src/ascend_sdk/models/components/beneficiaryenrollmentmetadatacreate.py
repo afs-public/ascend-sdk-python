@@ -11,16 +11,16 @@ class BeneficiaryEnrollmentMetadataCreateTypedDict(TypedDict):
     r"""Enrollment metadata for the BENEFICIARY_DESIGNATION enrollment type."""
 
     primary_beneficiaries: List[BeneficiaryCreateTypedDict]
-    r"""At least one primary beneficiary must be provided, with a maximum of five primary beneficiaries."""
+    r"""At least one primary beneficiary must be provided, with a maximum of ten primary beneficiaries."""
     contingent_beneficiaries: NotRequired[List[BeneficiaryCreateTypedDict]]
-    r"""Contingent Beneficiary list is optional, with a maximum of five contingent beneficiaries."""
+    r"""Contingent Beneficiary list is optional, with a maximum of ten contingent beneficiaries."""
 
 
 class BeneficiaryEnrollmentMetadataCreate(BaseModel):
     r"""Enrollment metadata for the BENEFICIARY_DESIGNATION enrollment type."""
 
     primary_beneficiaries: List[BeneficiaryCreate]
-    r"""At least one primary beneficiary must be provided, with a maximum of five primary beneficiaries."""
+    r"""At least one primary beneficiary must be provided, with a maximum of ten primary beneficiaries."""
 
     contingent_beneficiaries: Optional[List[BeneficiaryCreate]] = None
-    r"""Contingent Beneficiary list is optional, with a maximum of five contingent beneficiaries."""
+    r"""Contingent Beneficiary list is optional, with a maximum of ten contingent beneficiaries."""

@@ -200,6 +200,42 @@ def test_account_management_accounts_end_restriction_end_restrictions(
     assert res.http_meta.response.status_code == 200
 
 
+def test_account_management_accounts_create_note_create_note1(create_note_id):
+    assert create_note_id is not None
+
+
+def test_account_management_accounts_get_note_get_note1(
+    create_sdk, create_account_id, create_note_id
+):
+    s = create_sdk
+
+    assert s is not None
+
+    res = s.account_management.get_note(
+        account_id=create_account_id, note_id=create_note_id
+    )
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.note is not None
+    assert res.note.note_id == create_note_id
+
+
+def test_account_management_accounts_list_notes_list_notes1(
+    create_sdk, create_account_id
+):
+    s = create_sdk
+
+    assert s is not None
+
+    res = s.account_management.list_notes(account_id=create_account_id)
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.list_notes_response is not None
+    assert len(res.list_notes_response.notes) > 0
+
+
 def test_account_management_accounts_close_account_close_account1(
     create_sdk, create_account_id
 ):
