@@ -87,7 +87,7 @@ class Subscriber(BaseSDK):
                 security_source=self.sdk_configuration.security,
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "409", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "403", "409", "429", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
@@ -100,7 +100,7 @@ class Subscriber(BaseSDK):
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "409"], "application/json"
+            http_res, ["400", "401", "403", "409", "429"], "application/json"
         ):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
             raise errors.Status(response_data, http_res)
@@ -197,7 +197,7 @@ class Subscriber(BaseSDK):
                 security_source=self.sdk_configuration.security,
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "409", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "403", "409", "429", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
@@ -210,7 +210,7 @@ class Subscriber(BaseSDK):
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(
-            http_res, ["400", "401", "403", "409"], "application/json"
+            http_res, ["400", "401", "403", "409", "429"], "application/json"
         ):
             response_data = unmarshal_json_response(errors.StatusData, http_res)
             raise errors.Status(response_data, http_res)

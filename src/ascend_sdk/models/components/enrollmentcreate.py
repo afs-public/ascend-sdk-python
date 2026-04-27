@@ -89,6 +89,14 @@ from .ordersoptionstradingenrollmentmetadatacreate import (
     OrdersOptionsTradingEnrollmentMetadataCreate,
     OrdersOptionsTradingEnrollmentMetadataCreateTypedDict,
 )
+from .partnershipenrollmentmetadatacreate import (
+    PartnershipEnrollmentMetadataCreate,
+    PartnershipEnrollmentMetadataCreateTypedDict,
+)
+from .soleproprietorshipenrollmentmetadatacreate import (
+    SoleProprietorshipEnrollmentMetadataCreate,
+    SoleProprietorshipEnrollmentMetadataCreateTypedDict,
+)
 from .trustenrollmentmetadatacreate import (
     TrustEnrollmentMetadataCreate,
     TrustEnrollmentMetadataCreateTypedDict,
@@ -135,6 +143,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_TRUST = "REGISTRATION_TRUST"
     REGISTRATION_CORPORATION = "REGISTRATION_CORPORATION"
     REGISTRATION_LLC = "REGISTRATION_LLC"
+    REGISTRATION_PARTNERSHIP = "REGISTRATION_PARTNERSHIP"
     CASH_FDIC_CASH_SWEEP = "CASH_FDIC_CASH_SWEEP"
     RETIREMENT_BENEFICIARY_DESIGNATION = "RETIREMENT_BENEFICIARY_DESIGNATION"
     DIVIDEND_REINVESTMENT_PLAN = "DIVIDEND_REINVESTMENT_PLAN"
@@ -146,6 +155,8 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_CUSTODIAL = "REGISTRATION_CUSTODIAL"
     REG_T_MARGIN = "REG_T_MARGIN"
     VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
+    REGISTRATION_FUTURES = "REGISTRATION_FUTURES"
+    EVENT_CONTRACTS_KALSHI = "EVENT_CONTRACTS_KALSHI"
 
 
 class EnrollmentCreateTypedDict(TypedDict):
@@ -230,6 +241,14 @@ class EnrollmentCreateTypedDict(TypedDict):
         OrdersOptionsTradingEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+    partnership_enrollment_metadata: NotRequired[
+        PartnershipEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
+    sole_proprietorship_enrollment_metadata: NotRequired[
+        SoleProprietorshipEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the SOLE_PROPRIETORSHIP enrollment type"""
     trust_enrollment_metadata: NotRequired[TrustEnrollmentMetadataCreateTypedDict]
     virtual_account_number_enrollment_metadata: NotRequired[
         VirtualAccountNumberEnrollmentMetadataCreateTypedDict
@@ -338,6 +357,16 @@ class EnrollmentCreate(BaseModel):
         OrdersOptionsTradingEnrollmentMetadataCreate
     ] = None
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
+    partnership_enrollment_metadata: Optional[PartnershipEnrollmentMetadataCreate] = (
+        None
+    )
+    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
+
+    sole_proprietorship_enrollment_metadata: Optional[
+        SoleProprietorshipEnrollmentMetadataCreate
+    ] = None
+    r"""Enrollment metadata for the SOLE_PROPRIETORSHIP enrollment type"""
 
     trust_enrollment_metadata: Optional[TrustEnrollmentMetadataCreate] = None
 

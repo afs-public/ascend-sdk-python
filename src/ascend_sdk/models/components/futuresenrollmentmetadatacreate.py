@@ -5,8 +5,10 @@ from ascend_sdk import utils
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
+import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FuturesInvestmentObjective(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -30,17 +32,17 @@ class FuturesEnrollmentMetadataCreateTypedDict(TypedDict):
     r"""Indicates whether the futures account is owned or controlled by a FCM"""
     funds_owned_by_account_owner: bool
     r"""Indicates whether the funds in the futures account are owned by the account owner"""
-    futures_experience: bool
-    r"""Indicates whether the account owner has prior experience trading futures"""
     futures_investment_objective: FuturesInvestmentObjective
     r"""The primary investment objective for the futures account"""
-    investment_retired_funds: bool
-    r"""Indicates whether the account will trade investment retired funds"""
-    options_experience: bool
-    r"""Indicates whether the account owner has experience with various trading options and strategies"""
     understand_futures_risks: bool
     r"""Indicates whether the account owner understands the risks associated with trading futures"""
-    understand_loss_beyond_funds: bool
+    futures_experience: NotRequired[bool]
+    r"""Indicates whether the account owner has prior experience trading futures"""
+    investment_retired_funds: NotRequired[bool]
+    r"""Indicates whether the account will trade investment retired funds"""
+    options_experience: NotRequired[bool]
+    r"""Indicates whether the account owner has experience with various trading options and strategies"""
+    understand_loss_beyond_funds: NotRequired[bool]
     r"""Indicates whether the account owner understands that losses can exceed deposited funds"""
 
 
@@ -59,22 +61,42 @@ class FuturesEnrollmentMetadataCreate(BaseModel):
     funds_owned_by_account_owner: bool
     r"""Indicates whether the funds in the futures account are owned by the account owner"""
 
-    futures_experience: bool
-    r"""Indicates whether the account owner has prior experience trading futures"""
-
     futures_investment_objective: Annotated[
         FuturesInvestmentObjective, PlainValidator(validate_open_enum(False))
     ]
     r"""The primary investment objective for the futures account"""
 
-    investment_retired_funds: bool
-    r"""Indicates whether the account will trade investment retired funds"""
-
-    options_experience: bool
-    r"""Indicates whether the account owner has experience with various trading options and strategies"""
-
     understand_futures_risks: bool
     r"""Indicates whether the account owner understands the risks associated with trading futures"""
 
-    understand_loss_beyond_funds: bool
+    futures_experience: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""Indicates whether the account owner has prior experience trading futures"""
+
+    investment_retired_funds: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""Indicates whether the account will trade investment retired funds"""
+
+    options_experience: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""Indicates whether the account owner has experience with various trading options and strategies"""
+
+    understand_loss_beyond_funds: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
     r"""Indicates whether the account owner understands that losses can exceed deposited funds"""

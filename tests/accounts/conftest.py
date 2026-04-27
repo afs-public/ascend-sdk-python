@@ -220,3 +220,20 @@ def create_restriction_code(create_sdk, create_account_id):
         return res.restriction.restriction_code
     else:
         return None
+
+
+@pytest.fixture(scope="module")
+def create_note_id(create_sdk, create_account_id):
+    s = create_sdk
+
+    note_request = components.NoteCreate(
+        content="Test note content for account management",
+    )
+
+    res = s.account_management.create_note(
+        account_id=create_account_id, note_create=note_request
+    )
+    if res.http_meta.response.status_code == 200:
+        return res.note.note_id
+    else:
+        return None

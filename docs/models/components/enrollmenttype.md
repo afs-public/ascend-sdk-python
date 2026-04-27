@@ -23,6 +23,7 @@ The enrollment type.
 | `REGISTRATION_TRUST`                       | REGISTRATION_TRUST                         |
 | `REGISTRATION_CORPORATION`                 | REGISTRATION_CORPORATION                   |
 | `REGISTRATION_LLC`                         | REGISTRATION_LLC                           |
+| `REGISTRATION_PARTNERSHIP`                 | REGISTRATION_PARTNERSHIP                   |
 | `CASH_FDIC_CASH_SWEEP`                     | CASH_FDIC_CASH_SWEEP                       |
 | `RETIREMENT_BENEFICIARY_DESIGNATION`       | RETIREMENT_BENEFICIARY_DESIGNATION         |
 | `DIVIDEND_REINVESTMENT_PLAN`               | DIVIDEND_REINVESTMENT_PLAN                 |
@@ -32,3 +33,5 @@ The enrollment type.
 | `REGISTRATION_CUSTODIAL`                   | REGISTRATION_CUSTODIAL                     |
 | `REG_T_MARGIN`                             | REG_T_MARGIN                               |
 | `VIRTUAL_ACCOUNT_NUMBER`                   | VIRTUAL_ACCOUNT_NUMBER                     |
+| `REGISTRATION_FUTURES`                     | REGISTRATION_FUTURES                       |
+| `EVENT_CONTRACTS_KALSHI`                   | EVENT_CONTRACTS_KALSHI                     |
