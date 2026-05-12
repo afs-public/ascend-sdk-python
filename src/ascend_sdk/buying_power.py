@@ -64,12 +64,12 @@ class BuyingPower(BaseSDK):
                 retries = self.sdk_configuration.retry_config
             else:
                 retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 60000), True
                 )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["4XX", "5XX"])
+            retry_config = (retries, ["504", "429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -168,12 +168,12 @@ class BuyingPower(BaseSDK):
                 retries = self.sdk_configuration.retry_config
             else:
                 retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 60000), True
                 )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["4XX", "5XX"])
+            retry_config = (retries, ["504", "429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -275,12 +275,12 @@ class BuyingPower(BaseSDK):
                 retries = self.sdk_configuration.retry_config
             else:
                 retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 60000), True
                 )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["4XX", "5XX"])
+            retry_config = (retries, ["504", "429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -382,12 +382,12 @@ class BuyingPower(BaseSDK):
                 retries = self.sdk_configuration.retry_config
             else:
                 retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 15000), True
+                    "backoff", utils.BackoffStrategy(500, 5000, 1.5, 60000), True
                 )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["4XX", "5XX"])
+            retry_config = (retries, ["504", "429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(

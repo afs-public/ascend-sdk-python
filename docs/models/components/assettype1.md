@@ -17,3 +17,4 @@ The type or category of the asset
 | `MUTUAL_FUND`      | MUTUAL_FUND        |
 | `ALT_INVESTMENT`   | ALT_INVESTMENT     |
 | `INDEX`            | INDEX              |
+| `EVENT_CONTRACT`   | EVENT_CONTRACT     |
