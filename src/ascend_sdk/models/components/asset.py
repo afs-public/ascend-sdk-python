@@ -1452,6 +1452,7 @@ class AssetType1(str, Enum, metaclass=utils.OpenEnumMeta):
     MUTUAL_FUND = "MUTUAL_FUND"
     ALT_INVESTMENT = "ALT_INVESTMENT"
     INDEX = "INDEX"
+    EVENT_CONTRACT = "EVENT_CONTRACT"
 
 
 class AssetTypedDict(TypedDict):
