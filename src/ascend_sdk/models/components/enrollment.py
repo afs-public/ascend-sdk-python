@@ -660,6 +660,57 @@ class CustodialEnrollmentMetadata(BaseModel):
     r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
 
 
+class EnrollmentCustodialIraRothEnrollmentMetadataDividendReinvestmentPlan(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
+        "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
+    )
+    DIVIDEND_REINVESTMENT_ENROLL = "DIVIDEND_REINVESTMENT_ENROLL"
+    DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
+
+
+class EnrollmentCustodialIraRothEnrollmentMetadataFdicCashSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
+    FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
+    FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
+
+
+class CustodialIraRothEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
+
+    dividend_reinvestment_plan: NotRequired[
+        EnrollmentCustodialIraRothEnrollmentMetadataDividendReinvestmentPlan
+    ]
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+    fdic_cash_sweep: NotRequired[
+        EnrollmentCustodialIraRothEnrollmentMetadataFdicCashSweep
+    ]
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+
+class CustodialIraRothEnrollmentMetadata(BaseModel):
+    r"""Metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
+
+    dividend_reinvestment_plan: Annotated[
+        Optional[EnrollmentCustodialIraRothEnrollmentMetadataDividendReinvestmentPlan],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    fdic_cash_sweep: Annotated[
+        Optional[EnrollmentCustodialIraRothEnrollmentMetadataFdicCashSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+
 class EnrollmentEstateEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -3579,612 +3630,6 @@ class OrdersOptionsTradingEnrollmentMetadata(BaseModel):
         return m
 
 
-class EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
-
-    AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
-        "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
-    )
-    DIVIDEND_REINVESTMENT_ENROLL = "DIVIDEND_REINVESTMENT_ENROLL"
-    DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
-
-
-class EnrollmentPartnershipEnrollmentMetadataInitialDepositAmountTypedDict(TypedDict):
-    r"""The initial deposit amount in USD"""
-
-    value: NotRequired[str]
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataInitialDepositAmount(BaseModel):
-    r"""The initial deposit amount in USD"""
-
-    value: Optional[str] = None
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataDepositedFundsTypedDict(TypedDict):
-    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
-
-    initial_deposit_amount: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataInitialDepositAmountTypedDict]
-    ]
-    r"""The initial deposit amount in USD"""
-    initial_deposit_source: NotRequired[str]
-    r"""The source of the initial deposit"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataDepositedFunds(BaseModel):
-    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
-
-    initial_deposit_amount: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataInitialDepositAmount
-    ] = UNSET
-    r"""The initial deposit amount in USD"""
-
-    initial_deposit_source: Optional[str] = None
-    r"""The source of the initial deposit"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["initial_deposit_amount", "initial_deposit_source"]
-        nullable_fields = ["initial_deposit_amount"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""The client determined account risk rating of the entity customer"""
-
-    DETERMINED_ACCOUNT_RISK_RATING_UNSPECIFIED = (
-        "DETERMINED_ACCOUNT_RISK_RATING_UNSPECIFIED"
-    )
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-
-
-class EnrollmentPartnershipEnrollmentMetadataOtherAccountsTypedDict(TypedDict):
-    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
-
-    account_names: NotRequired[List[str]]
-    r"""Other account names held at Apex"""
-    account_numbers: NotRequired[List[str]]
-    r"""Other account numbers held at Apex"""
-    owner_has_other_accounts_at_apex: NotRequired[bool]
-    r"""The owner has other accounts at Apex"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataOtherAccounts(BaseModel):
-    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
-
-    account_names: Optional[List[str]] = None
-    r"""Other account names held at Apex"""
-
-    account_numbers: Optional[List[str]] = None
-    r"""Other account numbers held at Apex"""
-
-    owner_has_other_accounts_at_apex: Optional[bool] = None
-    r"""The owner has other accounts at Apex"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataFinancialProfileTypedDict(TypedDict):
-    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
-
-    banking_relationships: NotRequired[List[str]]
-    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
-    other_accounts: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataOtherAccountsTypedDict]
-    ]
-    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
-    primary_source_of_deposited_funds: NotRequired[str]
-    r"""The primary source of funds that will be deposited to this account"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataFinancialProfile(BaseModel):
-    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
-
-    banking_relationships: Optional[List[str]] = None
-    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
-
-    other_accounts: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataOtherAccounts
-    ] = UNSET
-    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
-
-    primary_source_of_deposited_funds: Optional[str] = None
-    r"""The primary source of funds that will be deposited to this account"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "banking_relationships",
-            "other_accounts",
-            "primary_source_of_deposited_funds",
-        ]
-        nullable_fields = ["other_accounts"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetailsTypedDict(
-    TypedDict
-):
-    r"""The foreign bond trading countries details"""
-
-    foreign_bond_trading: NotRequired[bool]
-    r"""Does the account anticipate trading in foreign bonds"""
-    foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
-    r"""The foreign bond trading countries details. If yes, than please provide details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetails(BaseModel):
-    r"""The foreign bond trading countries details"""
-
-    foreign_bond_trading: Optional[bool] = None
-    r"""Does the account anticipate trading in foreign bonds"""
-
-    foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
-    r"""The foreign bond trading countries details. If yes, than please provide details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict(
-    TypedDict
-):
-    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
-
-    value: NotRequired[str]
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentage(BaseModel):
-    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
-
-    value: Optional[str] = None
-    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesTypedDict(TypedDict):
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-
-    low_priced_securities: NotRequired[bool]
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-    low_priced_securities_percentage: NotRequired[
-        Nullable[
-            EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict
-        ]
-    ]
-    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataLowPricedSecurities(BaseModel):
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-
-    low_priced_securities: Optional[bool] = None
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-
-    low_priced_securities_percentage: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentage
-    ] = UNSET
-    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
-        nullable_fields = ["low_priced_securities_percentage"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""The primary account activity type"""
-
-    PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED = (
-        "PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED"
-    )
-    ACTIVE_TRADING = "ACTIVE_TRADING"
-    SHORT_TERM_INVESTING = "SHORT_TERM_INVESTING"
-    LONG_TERM_INVESTING = "LONG_TERM_INVESTING"
-
-
-class EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
-
-    WITHDRAWAL_FREQUENCY_UNSPECIFIED = "WITHDRAWAL_FREQUENCY_UNSPECIFIED"
-    FREQUENT = "FREQUENT"
-    OCCASIONAL = "OCCASIONAL"
-    RARE = "RARE"
-
-
-class EnrollmentPartnershipEnrollmentMetadataPlannedActivityTypedDict(TypedDict):
-    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
-
-    foreign_bond_trading_details: NotRequired[
-        Nullable[
-            EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetailsTypedDict
-        ]
-    ]
-    r"""The foreign bond trading countries details"""
-    low_priced_securities: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesTypedDict]
-    ]
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-    primary_account_activity_type: NotRequired[
-        EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType
-    ]
-    r"""The primary account activity type"""
-    withdrawal_frequency: NotRequired[
-        EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency
-    ]
-    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataPlannedActivity(BaseModel):
-    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
-
-    foreign_bond_trading_details: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetails
-    ] = UNSET
-    r"""The foreign bond trading countries details"""
-
-    low_priced_securities: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataLowPricedSecurities
-    ] = UNSET
-    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
-
-    primary_account_activity_type: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""The primary account activity type"""
-
-    withdrawal_frequency: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "foreign_bond_trading_details",
-            "low_priced_securities",
-            "primary_account_activity_type",
-            "withdrawal_frequency",
-        ]
-        nullable_fields = ["foreign_bond_trading_details", "low_priced_securities"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class EnrollmentPartnershipEnrollmentMetadataRelatedPepDetailsTypedDict(TypedDict):
-    r"""Information about the related politically exposed persons"""
-
-    direct_or_indirect_related_peps: NotRequired[bool]
-    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
-    related_peps: NotRequired[List[RelatedPepTypedDict]]
-    r"""Related Peps"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataRelatedPepDetails(BaseModel):
-    r"""Information about the related politically exposed persons"""
-
-    direct_or_indirect_related_peps: Optional[bool] = None
-    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
-
-    related_peps: Optional[List[RelatedPep]] = None
-    r"""Related Peps"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadataTypedDict(
-    TypedDict
-):
-    r"""Enrollment metadata for entity accounts"""
-
-    deposited_funds: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataDepositedFundsTypedDict]
-    ]
-    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
-    determined_account_risk_rating: NotRequired[
-        EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating
-    ]
-    r"""The client determined account risk rating of the entity customer"""
-    financial_profile: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataFinancialProfileTypedDict]
-    ]
-    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
-    planned_activity: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataPlannedActivityTypedDict]
-    ]
-    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
-    related_pep_details: NotRequired[
-        Nullable[EnrollmentPartnershipEnrollmentMetadataRelatedPepDetailsTypedDict]
-    ]
-    r"""Information about the related politically exposed persons"""
-    scope_of_business: NotRequired[str]
-    r"""The scope of the business for the entity customer"""
-
-
-class EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadata(BaseModel):
-    r"""Enrollment metadata for entity accounts"""
-
-    deposited_funds: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataDepositedFunds
-    ] = UNSET
-    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
-
-    determined_account_risk_rating: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""The client determined account risk rating of the entity customer"""
-
-    financial_profile: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataFinancialProfile
-    ] = UNSET
-    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
-
-    planned_activity: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataPlannedActivity
-    ] = UNSET
-    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
-
-    related_pep_details: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataRelatedPepDetails
-    ] = UNSET
-    r"""Information about the related politically exposed persons"""
-
-    scope_of_business: Optional[str] = None
-    r"""The scope of the business for the entity customer"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "deposited_funds",
-            "determined_account_risk_rating",
-            "financial_profile",
-            "planned_activity",
-            "related_pep_details",
-            "scope_of_business",
-        ]
-        nullable_fields = [
-            "deposited_funds",
-            "financial_profile",
-            "planned_activity",
-            "related_pep_details",
-        ]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class EnrollmentPartnershipEnrollmentMetadataFdicCashSweep(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
-
-    AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
-    FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
-    FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
-
-
-class EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
-
-    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
-        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
-    )
-    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
-    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
-
-
-class PartnershipEnrollmentMetadataTypedDict(TypedDict):
-    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
-
-    dividend_reinvestment_plan: NotRequired[
-        EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan
-    ]
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
-    edd_account_enrollment_metadata: NotRequired[
-        Nullable[
-            EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadataTypedDict
-        ]
-    ]
-    r"""Enrollment metadata for entity accounts"""
-    fdic_cash_sweep: NotRequired[EnrollmentPartnershipEnrollmentMetadataFdicCashSweep]
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
-    money_market_fund_sweep: NotRequired[
-        EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep
-    ]
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
-
-
-class PartnershipEnrollmentMetadata(BaseModel):
-    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
-
-    dividend_reinvestment_plan: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
-
-    edd_account_enrollment_metadata: OptionalNullable[
-        EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadata
-    ] = UNSET
-    r"""Enrollment metadata for entity accounts"""
-
-    fdic_cash_sweep: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataFdicCashSweep],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
-
-    money_market_fund_sweep: Annotated[
-        Optional[EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
-    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "dividend_reinvestment_plan",
-            "edd_account_enrollment_metadata",
-            "fdic_cash_sweep",
-            "money_market_fund_sweep",
-        ]
-        nullable_fields = ["edd_account_enrollment_metadata"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
 class EnrollmentSoleProprietorshipEnrollmentMetadataDividendReinvestmentPlan(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -4371,6 +3816,7 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_JOINT_CP = "REGISTRATION_JOINT_CP"
     REGISTRATION_ESTATE = "REGISTRATION_ESTATE"
     REGISTRATION_IRA_TRADITIONAL = "REGISTRATION_IRA_TRADITIONAL"
+    REGISTRATION_IRA_SIMPLE = "REGISTRATION_IRA_SIMPLE"
     REGISTRATION_IRA_SEP = "REGISTRATION_IRA_SEP"
     REGISTRATION_IRA_ROTH = "REGISTRATION_IRA_ROTH"
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
@@ -4391,6 +3837,7 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
     VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
     REGISTRATION_FUTURES = "REGISTRATION_FUTURES"
     EVENT_CONTRACTS_KALSHI = "EVENT_CONTRACTS_KALSHI"
+    REGISTRATION_CUSTODIAL_IRA_ROTH = "REGISTRATION_CUSTODIAL_IRA_ROTH"
 
 
 class VirtualAccountNumberEnrollmentMetadataTypedDict(TypedDict):
@@ -4429,6 +3876,10 @@ class EnrollmentTypedDict(TypedDict):
         Nullable[CustodialEnrollmentMetadataTypedDict]
     ]
     r"""Metadata for the REGISTRATION_CUSTODIAL type"""
+    custodial_ira_roth_enrollment_metadata: NotRequired[
+        Nullable[CustodialIraRothEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
     enrollment_id: NotRequired[str]
     r"""A system-generated unique identifier referencing a single instance of an enrollment; Used to access the record after creation"""
     enrollment_time: NotRequired[Nullable[datetime]]
@@ -4505,10 +3956,6 @@ class EnrollmentTypedDict(TypedDict):
         Nullable[OrdersOptionsTradingEnrollmentMetadataTypedDict]
     ]
     r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
-    partnership_enrollment_metadata: NotRequired[
-        Nullable[PartnershipEnrollmentMetadataTypedDict]
-    ]
-    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
     principal_approver_id: NotRequired[str]
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
     sole_proprietorship_enrollment_metadata: NotRequired[
@@ -4549,6 +3996,11 @@ class Enrollment(BaseModel):
 
     custodial_enrollment_metadata: OptionalNullable[CustodialEnrollmentMetadata] = UNSET
     r"""Metadata for the REGISTRATION_CUSTODIAL type"""
+
+    custodial_ira_roth_enrollment_metadata: OptionalNullable[
+        CustodialIraRothEnrollmentMetadata
+    ] = UNSET
+    r"""Metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
 
     enrollment_id: Optional[str] = None
     r"""A system-generated unique identifier referencing a single instance of an enrollment; Used to access the record after creation"""
@@ -4640,11 +4092,6 @@ class Enrollment(BaseModel):
     ] = UNSET
     r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
 
-    partnership_enrollment_metadata: OptionalNullable[PartnershipEnrollmentMetadata] = (
-        UNSET
-    )
-    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
-
     principal_approver_id: Optional[str] = None
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
 
@@ -4681,6 +4128,7 @@ class Enrollment(BaseModel):
             "consent_method",
             "corporation_enrollment_metadata",
             "custodial_enrollment_metadata",
+            "custodial_ira_roth_enrollment_metadata",
             "enrollment_id",
             "enrollment_time",
             "estate_enrollment_metadata",
@@ -4703,7 +4151,6 @@ class Enrollment(BaseModel):
             "name",
             "operating_enrollment_metadata",
             "orders_options_trading_enrollment_metadata",
-            "partnership_enrollment_metadata",
             "principal_approver_id",
             "sole_proprietorship_enrollment_metadata",
             "state",
@@ -4716,6 +4163,7 @@ class Enrollment(BaseModel):
             "beneficiary_enrollment_metadata",
             "corporation_enrollment_metadata",
             "custodial_enrollment_metadata",
+            "custodial_ira_roth_enrollment_metadata",
             "enrollment_time",
             "estate_enrollment_metadata",
             "foreign_individual_account_enrollment_metadata",
@@ -4736,7 +4184,6 @@ class Enrollment(BaseModel):
             "llc_enrollment_metadata",
             "operating_enrollment_metadata",
             "orders_options_trading_enrollment_metadata",
-            "partnership_enrollment_metadata",
             "sole_proprietorship_enrollment_metadata",
             "trust_enrollment_metadata",
             "unenrollment_time",

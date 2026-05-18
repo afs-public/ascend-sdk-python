@@ -25,7 +25,7 @@ def test_person_management_accounts_list_legal_natural_persons():
         assert sdk is not None
 
         res = sdk.person_management.list_legal_natural_persons(
-            page_size=25, page_token="", filter_=""
+            page_size=25, page_token="", order_by="given_name desc", filter_=""
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None

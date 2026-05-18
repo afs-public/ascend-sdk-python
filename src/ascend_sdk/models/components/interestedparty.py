@@ -18,7 +18,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class CftcDocumentDeliveryPreference(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
+    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Not set for interested parties (no email collected); only applies to CFTC regulated accounts"""
 
     DELIVERY_PREFERENCE_UNSPECIFIED = "DELIVERY_PREFERENCE_UNSPECIFIED"
     DIGITAL = "DIGITAL"
@@ -154,7 +154,7 @@ class InterestedPartyTypedDict(TypedDict):
     r"""An interested party."""
 
     cftc_document_delivery_preference: NotRequired[CftcDocumentDeliveryPreference]
-    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
+    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Not set for interested parties (no email collected); only applies to CFTC regulated accounts"""
     interested_party_id: NotRequired[str]
     r"""A system-generated unique identifier for an Interested Party on an account; Used to access the record after creation"""
     mailing_address: NotRequired[Nullable[InterestedPartyMailingAddressTypedDict]]
@@ -186,7 +186,7 @@ class InterestedParty(BaseModel):
         Optional[CftcDocumentDeliveryPreference],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Defaults to `DIGITAL` on futures account creation Only applies to CFTC regulated accounts"""
+    r"""Delivery method instruction for CFTC documents for a given Interested Party record; Not set for interested parties (no email collected); only applies to CFTC regulated accounts"""
 
     interested_party_id: Optional[str] = None
     r"""A system-generated unique identifier for an Interested Party on an account; Used to access the record after creation"""

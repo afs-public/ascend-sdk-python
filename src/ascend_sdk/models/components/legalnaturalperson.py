@@ -803,6 +803,8 @@ class NaturalPersonFdd(BaseModel):
 
 
 class LegalNaturalPersonResidencyStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The residency status of the non-citizen resident."""
+
     RESIDENCY_STATUS_UNSPECIFIED = "RESIDENCY_STATUS_UNSPECIFIED"
     US_PERMANENT_RESIDENT = "US_PERMANENT_RESIDENT"
     US_TEMPORARY_RESIDENT = "US_TEMPORARY_RESIDENT"
@@ -813,6 +815,7 @@ class NonCitizenResidencyTypedDict(TypedDict):
     r"""Facilitates non-citizen lawful US residents to open domestic accounts"""
 
     residency_status: NotRequired[LegalNaturalPersonResidencyStatus]
+    r"""The residency status of the non-citizen resident."""
 
 
 class NonCitizenResidency(BaseModel):
@@ -822,6 +825,7 @@ class NonCitizenResidency(BaseModel):
         Optional[LegalNaturalPersonResidencyStatus],
         PlainValidator(validate_open_enum(False)),
     ] = None
+    r"""The residency status of the non-citizen resident."""
 
 
 class PersonalAddressTypedDict(TypedDict):
@@ -1273,6 +1277,8 @@ class LegalNaturalPersonTypedDict(TypedDict):
     r"""A Party's self-disclosed list of names representing family members who are politically exposed."""
     politically_exposed_organization: NotRequired[str]
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
+    tax_form_id: NotRequired[str]
+    r"""Unique identifier for the tax form associated with this legal natural person. This identifier is assigned after successful consent to tax certification"""
     tax_id: NotRequired[str]
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""
     tax_id_last_four: NotRequired[str]
@@ -1401,6 +1407,9 @@ class LegalNaturalPerson(BaseModel):
     politically_exposed_organization: Optional[str] = None
     r"""A Party's self-disclosed list of named politically exposed organizations they are personally associated with."""
 
+    tax_form_id: Optional[str] = None
+    r"""Unique identifier for the tax form associated with this legal natural person. This identifier is assigned after successful consent to tax certification"""
+
     tax_id: Optional[str] = None
     r"""The full U.S. tax ID for a related person; Must be provided with `ITIN` or `SSN` tax ID type"""
 
@@ -1450,6 +1459,7 @@ class LegalNaturalPerson(BaseModel):
             "personal_address",
             "politically_exposed_immediate_family_names",
             "politically_exposed_organization",
+            "tax_form_id",
             "tax_id",
             "tax_id_last_four",
             "tax_id_type",

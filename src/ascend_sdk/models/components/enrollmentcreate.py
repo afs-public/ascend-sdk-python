@@ -13,6 +13,10 @@ from .custodialenrollmentmetadatacreate import (
     CustodialEnrollmentMetadataCreate,
     CustodialEnrollmentMetadataCreateTypedDict,
 )
+from .custodialirarothenrollmentmetadatacreate import (
+    CustodialIRARothEnrollmentMetadataCreate,
+    CustodialIRARothEnrollmentMetadataCreateTypedDict,
+)
 from .estateenrollmentmetadatacreate import (
     EstateEnrollmentMetadataCreate,
     EstateEnrollmentMetadataCreateTypedDict,
@@ -89,10 +93,6 @@ from .ordersoptionstradingenrollmentmetadatacreate import (
     OrdersOptionsTradingEnrollmentMetadataCreate,
     OrdersOptionsTradingEnrollmentMetadataCreateTypedDict,
 )
-from .partnershipenrollmentmetadatacreate import (
-    PartnershipEnrollmentMetadataCreate,
-    PartnershipEnrollmentMetadataCreateTypedDict,
-)
 from .soleproprietorshipenrollmentmetadatacreate import (
     SoleProprietorshipEnrollmentMetadataCreate,
     SoleProprietorshipEnrollmentMetadataCreateTypedDict,
@@ -137,6 +137,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     REGISTRATION_JOINT_CP = "REGISTRATION_JOINT_CP"
     REGISTRATION_ESTATE = "REGISTRATION_ESTATE"
     REGISTRATION_IRA_TRADITIONAL = "REGISTRATION_IRA_TRADITIONAL"
+    REGISTRATION_IRA_SIMPLE = "REGISTRATION_IRA_SIMPLE"
     REGISTRATION_IRA_SEP = "REGISTRATION_IRA_SEP"
     REGISTRATION_IRA_ROTH = "REGISTRATION_IRA_ROTH"
     REGISTRATION_IRA_ROLLOVER = "REGISTRATION_IRA_ROLLOVER"
@@ -157,6 +158,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
     VIRTUAL_ACCOUNT_NUMBER = "VIRTUAL_ACCOUNT_NUMBER"
     REGISTRATION_FUTURES = "REGISTRATION_FUTURES"
     EVENT_CONTRACTS_KALSHI = "EVENT_CONTRACTS_KALSHI"
+    REGISTRATION_CUSTODIAL_IRA_ROTH = "REGISTRATION_CUSTODIAL_IRA_ROTH"
 
 
 class EnrollmentCreateTypedDict(TypedDict):
@@ -175,15 +177,21 @@ class EnrollmentCreateTypedDict(TypedDict):
     corporation_enrollment_metadata: NotRequired[
         CorporationEnrollmentMetadataCreateTypedDict
     ]
+    r"""Enrollment metadata for corporation accounts."""
     custodial_enrollment_metadata: NotRequired[
         CustodialEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the CUSTODIAL enrollment type"""
+    custodial_ira_roth_enrollment_metadata: NotRequired[
+        CustodialIRARothEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
     estate_enrollment_metadata: NotRequired[EstateEnrollmentMetadataCreateTypedDict]
     r"""Enrollment metadata for estate enrollments"""
     foreign_individual_account_enrollment_metadata: NotRequired[
         ForeignIndividualAccountEnrollmentMetadataCreateTypedDict
     ]
+    r"""Enrollment metadata for foreign individual accounts."""
     foreign_joint_account_enrollment_metadata: NotRequired[
         ForeignJointAccountEnrollmentMetadataCreateTypedDict
     ]
@@ -233,6 +241,7 @@ class EnrollmentCreateTypedDict(TypedDict):
     ]
     r"""Enrollment metadata for the With Right of Survivorship enrollment type"""
     llc_enrollment_metadata: NotRequired[LLCEnrollmentMetadataCreateTypedDict]
+    r"""Enrollment metadata for LLC accounts."""
     operating_enrollment_metadata: NotRequired[
         OperatingEnrollmentMetadataCreateTypedDict
     ]
@@ -241,15 +250,12 @@ class EnrollmentCreateTypedDict(TypedDict):
         OrdersOptionsTradingEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
-    partnership_enrollment_metadata: NotRequired[
-        PartnershipEnrollmentMetadataCreateTypedDict
-    ]
-    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
     sole_proprietorship_enrollment_metadata: NotRequired[
         SoleProprietorshipEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the SOLE_PROPRIETORSHIP enrollment type"""
     trust_enrollment_metadata: NotRequired[TrustEnrollmentMetadataCreateTypedDict]
+    r"""Enrollment metadata for trust accounts."""
     virtual_account_number_enrollment_metadata: NotRequired[
         VirtualAccountNumberEnrollmentMetadataCreateTypedDict
     ]
@@ -279,9 +285,15 @@ class EnrollmentCreate(BaseModel):
     corporation_enrollment_metadata: Optional[CorporationEnrollmentMetadataCreate] = (
         None
     )
+    r"""Enrollment metadata for corporation accounts."""
 
     custodial_enrollment_metadata: Optional[CustodialEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for the CUSTODIAL enrollment type"""
+
+    custodial_ira_roth_enrollment_metadata: Optional[
+        CustodialIRARothEnrollmentMetadataCreate
+    ] = None
+    r"""Enrollment metadata for the REGISTRATION_CUSTODIAL_IRA_ROTH enrollment type"""
 
     estate_enrollment_metadata: Optional[EstateEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for estate enrollments"""
@@ -289,6 +301,7 @@ class EnrollmentCreate(BaseModel):
     foreign_individual_account_enrollment_metadata: Optional[
         ForeignIndividualAccountEnrollmentMetadataCreate
     ] = None
+    r"""Enrollment metadata for foreign individual accounts."""
 
     foreign_joint_account_enrollment_metadata: Optional[
         ForeignJointAccountEnrollmentMetadataCreate
@@ -349,6 +362,7 @@ class EnrollmentCreate(BaseModel):
     r"""Enrollment metadata for the With Right of Survivorship enrollment type"""
 
     llc_enrollment_metadata: Optional[LLCEnrollmentMetadataCreate] = None
+    r"""Enrollment metadata for LLC accounts."""
 
     operating_enrollment_metadata: Optional[OperatingEnrollmentMetadataCreate] = None
     r"""Enrollment metadata for the REGISTRATION_OPERATING enrollment type."""
@@ -358,17 +372,13 @@ class EnrollmentCreate(BaseModel):
     ] = None
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
 
-    partnership_enrollment_metadata: Optional[PartnershipEnrollmentMetadataCreate] = (
-        None
-    )
-    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
-
     sole_proprietorship_enrollment_metadata: Optional[
         SoleProprietorshipEnrollmentMetadataCreate
     ] = None
     r"""Enrollment metadata for the SOLE_PROPRIETORSHIP enrollment type"""
 
     trust_enrollment_metadata: Optional[TrustEnrollmentMetadataCreate] = None
+    r"""Enrollment metadata for trust accounts."""
 
     virtual_account_number_enrollment_metadata: Optional[
         VirtualAccountNumberEnrollmentMetadataCreate

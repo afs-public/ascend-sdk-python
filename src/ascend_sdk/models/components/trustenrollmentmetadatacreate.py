@@ -54,6 +54,8 @@ class OpenedOnBehalfOf(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class TrustEnrollmentMetadataCreateTypedDict(TypedDict):
+    r"""Enrollment metadata for trust accounts."""
+
     opened_on_behalf_of: OpenedOnBehalfOf
     r"""Trust account is opened on behalf of"""
     dividend_reinvestment_plan: NotRequired[
@@ -69,6 +71,8 @@ class TrustEnrollmentMetadataCreateTypedDict(TypedDict):
 
 
 class TrustEnrollmentMetadataCreate(BaseModel):
+    r"""Enrollment metadata for trust accounts."""
+
     opened_on_behalf_of: Annotated[
         OpenedOnBehalfOf, PlainValidator(validate_open_enum(False))
     ]

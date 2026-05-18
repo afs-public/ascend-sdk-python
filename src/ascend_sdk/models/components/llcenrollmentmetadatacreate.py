@@ -47,6 +47,8 @@ class LLCEnrollmentMetadataCreateMoneyMarketFundSweep(
 
 
 class LLCEnrollmentMetadataCreateTypedDict(TypedDict):
+    r"""Enrollment metadata for LLC accounts."""
+
     dividend_reinvestment_plan: NotRequired[
         LLCEnrollmentMetadataCreateDividendReinvestmentPlan
     ]
@@ -64,6 +66,8 @@ class LLCEnrollmentMetadataCreateTypedDict(TypedDict):
 
 
 class LLCEnrollmentMetadataCreate(BaseModel):
+    r"""Enrollment metadata for LLC accounts."""
+
     dividend_reinvestment_plan: Annotated[
         Optional[LLCEnrollmentMetadataCreateDividendReinvestmentPlan],
         PlainValidator(validate_open_enum(False)),

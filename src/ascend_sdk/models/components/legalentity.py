@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class LegalEntityBusinessIndustrialClassification(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""The Standard Industrial Classification (SIC) of the entity."""
+
     BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED = (
         "BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED"
     )
@@ -639,6 +641,7 @@ class LegalEntityTypedDict(TypedDict):
     business_industrial_classification: NotRequired[
         LegalEntityBusinessIndustrialClassification
     ]
+    r"""The Standard Industrial Classification (SIC) of the entity."""
     client_entity_id: NotRequired[str]
     r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[LegalEntityCorporateStructure]
@@ -704,6 +707,8 @@ class LegalEntityTypedDict(TypedDict):
     r"""Document ids related to the legal entity. At least one is required for RIA correspondents when creating Estate or Trust accounts."""
     revocable_trust: NotRequired[bool]
     r"""Indicates whether the trust is a revocable trust. By default, this is set to `false`."""
+    tax_form_id: NotRequired[str]
+    r"""Unique identifier for the tax form associated with this legal entity. This identifier is assigned after successful consent to tax certification"""
     tax_id: NotRequired[str]
     r"""The full U.S. tax ID for a related entity; Must be provided with `EIN` tax ID type"""
     tax_id_last_four: NotRequired[str]
@@ -730,6 +735,7 @@ class LegalEntity(BaseModel):
         Optional[LegalEntityBusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+    r"""The Standard Industrial Classification (SIC) of the entity."""
 
     client_entity_id: Optional[str] = None
     r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
@@ -830,6 +836,9 @@ class LegalEntity(BaseModel):
     revocable_trust: Optional[bool] = None
     r"""Indicates whether the trust is a revocable trust. By default, this is set to `false`."""
 
+    tax_form_id: Optional[str] = None
+    r"""Unique identifier for the tax form associated with this legal entity. This identifier is assigned after successful consent to tax certification"""
+
     tax_id: Optional[str] = None
     r"""The full U.S. tax ID for a related entity; Must be provided with `EIN` tax ID type"""
 
@@ -877,6 +886,7 @@ class LegalEntity(BaseModel):
             "regulated_investment_company",
             "related_document_ids",
             "revocable_trust",
+            "tax_form_id",
             "tax_id",
             "tax_id_last_four",
             "tax_id_type",

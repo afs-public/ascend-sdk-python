@@ -230,6 +230,12 @@ if TYPE_CHECKING:
         AccountsUpdateAccountResponse,
         AccountsUpdateAccountResponseTypedDict,
     )
+    from .accounts_updateaccountgroup import (
+        AccountsUpdateAccountGroupRequest,
+        AccountsUpdateAccountGroupRequestTypedDict,
+        AccountsUpdateAccountGroupResponse,
+        AccountsUpdateAccountGroupResponseTypedDict,
+    )
     from .accounts_updateinterestedparty import (
         AccountsUpdateInterestedPartyRequest,
         AccountsUpdateInterestedPartyRequestTypedDict,
@@ -1544,6 +1550,10 @@ __all__ = [
     "AccountsReplacePartyRequestTypedDict",
     "AccountsReplacePartyResponse",
     "AccountsReplacePartyResponseTypedDict",
+    "AccountsUpdateAccountGroupRequest",
+    "AccountsUpdateAccountGroupRequestTypedDict",
+    "AccountsUpdateAccountGroupResponse",
+    "AccountsUpdateAccountGroupResponseTypedDict",
     "AccountsUpdateAccountRequest",
     "AccountsUpdateAccountRequestTypedDict",
     "AccountsUpdateAccountResponse",
@@ -2445,6 +2455,10 @@ _dynamic_imports: dict[str, str] = {
     "AccountsUpdateAccountRequestTypedDict": ".accounts_updateaccount",
     "AccountsUpdateAccountResponse": ".accounts_updateaccount",
     "AccountsUpdateAccountResponseTypedDict": ".accounts_updateaccount",
+    "AccountsUpdateAccountGroupRequest": ".accounts_updateaccountgroup",
+    "AccountsUpdateAccountGroupRequestTypedDict": ".accounts_updateaccountgroup",
+    "AccountsUpdateAccountGroupResponse": ".accounts_updateaccountgroup",
+    "AccountsUpdateAccountGroupResponseTypedDict": ".accounts_updateaccountgroup",
     "AccountsUpdateInterestedPartyRequest": ".accounts_updateinterestedparty",
     "AccountsUpdateInterestedPartyRequestTypedDict": ".accounts_updateinterestedparty",
     "AccountsUpdateInterestedPartyResponse": ".accounts_updateinterestedparty",

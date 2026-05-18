@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: b892cd8bce5822b456302bef9c91109b
-  docVersion: v1:20260512:uat:dd3486b54c08
+  docChecksum: a4d6cb82123eaa1be499950ba1fe9f44
+  docVersion: v1:20260518:uat:21f073ab387d
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.8.7
-  configChecksum: 3567cd253b521c7b9e094cdb39e2b484
+  releaseVersion: 1.8.8
+  configChecksum: 08b53a25784871e1cec68c0f738e09a2
 features:
   python:
     additionalDependencies: 1.0.0
@@ -745,6 +745,10 @@ generatedFiles:
   - docs/models/components/custodialenrollmentmetadatacreate.md
   - docs/models/components/custodialenrollmentmetadatacreatedividendreinvestmentplan.md
   - docs/models/components/custodialenrollmentmetadatacreatefdiccashsweep.md
+  - docs/models/components/custodialirarothenrollmentmetadata.md
+  - docs/models/components/custodialirarothenrollmentmetadatacreate.md
+  - docs/models/components/custodialirarothenrollmentmetadatacreatedividendreinvestmentplan.md
+  - docs/models/components/custodialirarothenrollmentmetadatacreatefdiccashsweep.md
   - docs/models/components/customeridentification.md
   - docs/models/components/customeridentificationbirthdate.md
   - docs/models/components/customeridentificationlegaladdress.md
@@ -836,6 +840,8 @@ generatedFiles:
   - docs/models/components/enrollmentcreate.md
   - docs/models/components/enrollmentcreateconsentmethod.md
   - docs/models/components/enrollmentcreatetype.md
+  - docs/models/components/enrollmentcustodialirarothenrollmentmetadatadividendreinvestmentplan.md
+  - docs/models/components/enrollmentcustodialirarothenrollmentmetadatafdiccashsweep.md
   - docs/models/components/enrollmentdepositedfunds.md
   - docs/models/components/enrollmentdeterminedaccountriskrating.md
   - docs/models/components/enrollmentdividendreinvestmentplan.md
@@ -906,22 +912,6 @@ generatedFiles:
   - docs/models/components/enrollmentoperatingpurpose.md
   - docs/models/components/enrollmentoptionslevel.md
   - docs/models/components/enrollmentotheraccounts.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatadepositedfunds.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatadeterminedaccountriskrating.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatadividendreinvestmentplan.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadataeddaccountenrollmentmetadata.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatafdiccashsweep.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatafinancialprofile.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadataforeignbondtradingdetails.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatainitialdepositamount.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatalowpricedsecurities.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatalowpricedsecuritiespercentage.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatamoneymarketfundsweep.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadataotheraccounts.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadataplannedactivity.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadataprimaryaccountactivitytype.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatarelatedpepdetails.md
-  - docs/models/components/enrollmentpartnershipenrollmentmetadatawithdrawalfrequency.md
   - docs/models/components/enrollmentplannedactivity.md
   - docs/models/components/enrollmentprimaryaccountactivitytype.md
   - docs/models/components/enrollmentrelatedpepdetails.md
@@ -1674,11 +1664,6 @@ generatedFiles:
   - docs/models/components/outcome.md
   - docs/models/components/ownershipstructure.md
   - docs/models/components/ownershiptype.md
-  - docs/models/components/partnershipenrollmentmetadata.md
-  - docs/models/components/partnershipenrollmentmetadatacreate.md
-  - docs/models/components/partnershipenrollmentmetadatacreatedividendreinvestmentplan.md
-  - docs/models/components/partnershipenrollmentmetadatacreatefdiccashsweep.md
-  - docs/models/components/partnershipenrollmentmetadatacreatemoneymarketfundsweep.md
   - docs/models/components/party.md
   - docs/models/components/partybirthdate.md
   - docs/models/components/partybusinessindustrialclassification.md
@@ -2213,6 +2198,7 @@ generatedFiles:
   - docs/models/components/unitsplit.md
   - docs/models/components/universalfootnote.md
   - docs/models/components/unrestricted.md
+  - docs/models/components/updateaccountgrouprequestupdate.md
   - docs/models/components/updatedbankaccounttype.md
   - docs/models/components/uploadeddate.md
   - docs/models/components/uploadlink.md
@@ -2380,6 +2366,8 @@ generatedFiles:
   - docs/models/operations/accountsremovepartyresponse.md
   - docs/models/operations/accountsreplacepartyrequest.md
   - docs/models/operations/accountsreplacepartyresponse.md
+  - docs/models/operations/accountsupdateaccountgrouprequest.md
+  - docs/models/operations/accountsupdateaccountgroupresponse.md
   - docs/models/operations/accountsupdateaccountrequest.md
   - docs/models/operations/accountsupdateaccountresponse.md
   - docs/models/operations/accountsupdateinterestedpartyrequest.md
@@ -2975,6 +2963,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/countrydetail.py
   - src/ascend_sdk/models/components/createuploadlinkrequestcreate.py
   - src/ascend_sdk/models/components/custodialenrollmentmetadatacreate.py
+  - src/ascend_sdk/models/components/custodialirarothenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/customeridentification.py
   - src/ascend_sdk/models/components/customeridentification_result.py
   - src/ascend_sdk/models/components/customerprofilecreate.py
@@ -3189,7 +3178,6 @@ generatedFiles:
   - src/ascend_sdk/models/components/otheraccountscreate.py
   - src/ascend_sdk/models/components/othersourcesofwealthcreate.py
   - src/ascend_sdk/models/components/othersourcesofwealthupdate.py
-  - src/ascend_sdk/models/components/partnershipenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/party.py
   - src/ascend_sdk/models/components/partyrequestcreate.py
   - src/ascend_sdk/models/components/partyrequestupdate.py
@@ -3297,6 +3285,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/trustedcontactcreate.py
   - src/ascend_sdk/models/components/trustedcontactupdate.py
   - src/ascend_sdk/models/components/trustenrollmentmetadatacreate.py
+  - src/ascend_sdk/models/components/updateaccountgrouprequestupdate.py
   - src/ascend_sdk/models/components/uploadlink.py
   - src/ascend_sdk/models/components/verifyidentitylookuprequestcreate.py
   - src/ascend_sdk/models/components/verifymicrodepositsrequestcreate.py
@@ -3363,6 +3352,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/accounts_removeparty.py
   - src/ascend_sdk/models/operations/accounts_replaceparty.py
   - src/ascend_sdk/models/operations/accounts_updateaccount.py
+  - src/ascend_sdk/models/operations/accounts_updateaccountgroup.py
   - src/ascend_sdk/models/operations/accounts_updateinterestedparty.py
   - src/ascend_sdk/models/operations/accounts_updatelegalentity.py
   - src/ascend_sdk/models/operations/accounts_updatelegalnaturalperson.py
@@ -6919,6 +6909,22 @@ examples:
         path:
           account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
           note_id: "8096110d-fb55-4f9d-b883-b84f0b70d3ea"
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  Accounts_UpdateAccountGroup:
+    speakeasy-default-accounts-update-account-group:
+      parameters:
+        path:
+          account_id: "01HC3MAQ4DR9QN1V8MJ4CN1HMK"
+      requestBody:
+        application/json: {}
       responses:
         "200":
           application/json: {}

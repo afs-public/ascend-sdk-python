@@ -9,9 +9,11 @@ class AssignLargeTraderRequestCreateTypedDict(TypedDict):
     r"""The request to assign a Large Trader ID to a Legal Natural Person/Legal Entity."""
 
     large_trader_id: str
+    r"""The Large Trader ID to assign"""
 
 
 class AssignLargeTraderRequestCreate(BaseModel):
     r"""The request to assign a Large Trader ID to a Legal Natural Person/Legal Entity."""
 
     large_trader_id: str
+    r"""The Large Trader ID to assign"""

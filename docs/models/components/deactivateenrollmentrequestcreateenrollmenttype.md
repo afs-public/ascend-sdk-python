@@ -21,6 +21,7 @@ Otherwise, must be empty.
 | `REGISTRATION_JOINT_CP`                    | REGISTRATION_JOINT_CP                      |
 | `REGISTRATION_ESTATE`                      | REGISTRATION_ESTATE                        |
 | `REGISTRATION_IRA_TRADITIONAL`             | REGISTRATION_IRA_TRADITIONAL               |
+| `REGISTRATION_IRA_SIMPLE`                  | REGISTRATION_IRA_SIMPLE                    |
 | `REGISTRATION_IRA_SEP`                     | REGISTRATION_IRA_SEP                       |
 | `REGISTRATION_IRA_ROTH`                    | REGISTRATION_IRA_ROTH                      |
 | `REGISTRATION_IRA_ROLLOVER`                | REGISTRATION_IRA_ROLLOVER                  |
@@ -39,3 +40,4 @@ Otherwise, must be empty.
 | `VIRTUAL_ACCOUNT_NUMBER`                   | VIRTUAL_ACCOUNT_NUMBER                     |
 | `REGISTRATION_FUTURES`                     | REGISTRATION_FUTURES                       |
 | `EVENT_CONTRACTS_KALSHI`                   | EVENT_CONTRACTS_KALSHI                     |
+| `REGISTRATION_CUSTODIAL_IRA_ROTH`          | REGISTRATION_CUSTODIAL_IRA_ROTH            |

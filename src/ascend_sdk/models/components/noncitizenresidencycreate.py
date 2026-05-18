@@ -10,6 +10,8 @@ from typing_extensions import Annotated, TypedDict
 
 
 class ResidencyStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The residency status of the non-citizen resident."""
+
     RESIDENCY_STATUS_UNSPECIFIED = "RESIDENCY_STATUS_UNSPECIFIED"
     US_PERMANENT_RESIDENT = "US_PERMANENT_RESIDENT"
     US_TEMPORARY_RESIDENT = "US_TEMPORARY_RESIDENT"
@@ -20,6 +22,7 @@ class NonCitizenResidencyCreateTypedDict(TypedDict):
     r"""Non Citizenship Residency to facilitate non-Citizen lawful US residents to open domestic accounts."""
 
     residency_status: ResidencyStatus
+    r"""The residency status of the non-citizen resident."""
 
 
 class NonCitizenResidencyCreate(BaseModel):
@@ -28,3 +31,4 @@ class NonCitizenResidencyCreate(BaseModel):
     residency_status: Annotated[
         ResidencyStatus, PlainValidator(validate_open_enum(False))
     ]
+    r"""The residency status of the non-citizen resident."""

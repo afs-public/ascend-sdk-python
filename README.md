@@ -316,6 +316,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 * [list_accounts](docs/sdks/accountmanagement/README.md#list_accounts) - List Accounts
 * [update_account](docs/sdks/accountmanagement/README.md#update_account) - Update Account
+* [update_account_group](docs/sdks/accountmanagement/README.md#update_account_group) - Update Account Group
 * [add_party](docs/sdks/accountmanagement/README.md#add_party) - Add Party
 * [update_party](docs/sdks/accountmanagement/README.md#update_party) - Update Party
 * [replace_party](docs/sdks/accountmanagement/README.md#replace_party) - Replace Party
