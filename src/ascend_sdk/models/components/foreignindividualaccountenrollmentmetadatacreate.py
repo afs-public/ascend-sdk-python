@@ -37,6 +37,8 @@ class ForeignIndividualAccountEnrollmentMetadataCreateFdicCashSweep(
 
 
 class ForeignIndividualAccountEnrollmentMetadataCreateTypedDict(TypedDict):
+    r"""Enrollment metadata for foreign individual accounts."""
+
     foreign_natural_person_account_enrollment_metadata: (
         ForeignNaturalPersonAccountEnrollmentMetadataCreateTypedDict
     )
@@ -52,6 +54,8 @@ class ForeignIndividualAccountEnrollmentMetadataCreateTypedDict(TypedDict):
 
 
 class ForeignIndividualAccountEnrollmentMetadataCreate(BaseModel):
+    r"""Enrollment metadata for foreign individual accounts."""
+
     foreign_natural_person_account_enrollment_metadata: (
         ForeignNaturalPersonAccountEnrollmentMetadataCreate
     )

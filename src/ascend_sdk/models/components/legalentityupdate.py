@@ -21,6 +21,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class LegalEntityUpdateBusinessIndustrialClassification(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""The Standard Industrial Classification (SIC) of the entity."""
+
     BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED = (
         "BUSINESS_INDUSTRIAL_CLASSIFICATION_UNSPECIFIED"
     )
@@ -116,6 +118,7 @@ class LegalEntityUpdateTypedDict(TypedDict):
     business_industrial_classification: NotRequired[
         LegalEntityUpdateBusinessIndustrialClassification
     ]
+    r"""The Standard Industrial Classification (SIC) of the entity."""
     client_entity_id: NotRequired[str]
     r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""
     corporate_structure: NotRequired[LegalEntityUpdateCorporateStructure]
@@ -203,6 +206,7 @@ class LegalEntityUpdate(BaseModel):
         Optional[LegalEntityUpdateBusinessIndustrialClassification],
         PlainValidator(validate_open_enum(False)),
     ] = None
+    r"""The Standard Industrial Classification (SIC) of the entity."""
 
     client_entity_id: Optional[str] = None
     r"""An external identifier for the legal entity. This identifier does not have internal uniqueness constraints."""

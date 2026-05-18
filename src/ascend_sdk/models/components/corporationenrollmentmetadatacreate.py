@@ -43,6 +43,8 @@ class MoneyMarketFundSweep(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CorporationEnrollmentMetadataCreateTypedDict(TypedDict):
+    r"""Enrollment metadata for corporation accounts."""
+
     dividend_reinvestment_plan: NotRequired[DividendReinvestmentPlan]
     r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
     edd_account_enrollment_metadata: NotRequired[
@@ -56,6 +58,8 @@ class CorporationEnrollmentMetadataCreateTypedDict(TypedDict):
 
 
 class CorporationEnrollmentMetadataCreate(BaseModel):
+    r"""Enrollment metadata for corporation accounts."""
+
     dividend_reinvestment_plan: Annotated[
         Optional[DividendReinvestmentPlan], PlainValidator(validate_open_enum(False))
     ] = None

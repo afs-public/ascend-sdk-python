@@ -1,6 +1,28 @@
+import os
 import time
 
 from ascend_sdk.models import components
+
+
+def test_account_management_accounts_update_account_group_update_account_group1(
+    create_sdk, create_account_id
+):
+    s = create_sdk
+
+    assert s is not None
+
+    request = components.UpdateAccountGroupRequestUpdate(
+        account_group_id=os.getenv("ACCOUNT_GROUP_ID"),
+    )
+
+    res = s.account_management.update_account_group(
+        account_id=create_account_id,
+        update_account_group_request_update=request,
+    )
+    assert res.http_meta is not None
+    assert res.http_meta.response is not None
+    assert res.http_meta.response.status_code == 200
+    assert res.account is not None
 
 
 def test_account_management_accounts_update_account_update_account1(

@@ -28,12 +28,13 @@ class AgreementSource(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class AgreementState(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The status of an agreement which blocks an enrollment; `REQUIRED` if not yet received, or `AFFIRMED` if acknowledgement has been received by AFS"""
+    r"""The lifecycle state of an agreement associated with an enrollment."""
 
     AGREEMENT_STATE_UNSPECIFIED = "AGREEMENT_STATE_UNSPECIFIED"
     REQUIRED = "REQUIRED"
     AFFIRMED = "AFFIRMED"
     VOIDED = "VOIDED"
+    AFFIRMATION_OPTIONAL = "AFFIRMATION_OPTIONAL"
 
 
 class AgreementTypedDict(TypedDict):
@@ -48,7 +49,7 @@ class AgreementTypedDict(TypedDict):
     agreement_source: NotRequired[AgreementSource]
     r"""An internal indicator from where the agreement was generated; Typically `ACCOUNTS_SERVICE` if accessing our public APIs"""
     agreement_state: NotRequired[AgreementState]
-    r"""The status of an agreement which blocks an enrollment; `REQUIRED` if not yet received, or `AFFIRMED` if acknowledgement has been received by AFS"""
+    r"""The lifecycle state of an agreement associated with an enrollment."""
     agreement_uri: NotRequired[str]
     r"""A URI referencing a static PDF containing the legalese of a given agreement; All agreements of the same nature link to the same publicly-available PDF."""
     agreement_version: NotRequired[str]
@@ -83,7 +84,7 @@ class Agreement(BaseModel):
     agreement_state: Annotated[
         Optional[AgreementState], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The status of an agreement which blocks an enrollment; `REQUIRED` if not yet received, or `AFFIRMED` if acknowledgement has been received by AFS"""
+    r"""The lifecycle state of an agreement associated with an enrollment."""
 
     agreement_uri: Optional[str] = None
     r"""A URI referencing a static PDF containing the legalese of a given agreement; All agreements of the same nature link to the same publicly-available PDF."""
