@@ -41,6 +41,20 @@ class AssetBuyingPowerDayTradeBuyingPowerAmount(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class AssetBuyingPowerIntradayBuyingPowerAmountTypedDict(TypedDict):
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class AssetBuyingPowerIntradayBuyingPowerAmount(BaseModel):
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class AssetBuyingPowerSmaAmountTypedDict(TypedDict):
     r"""The sma_amount is the special memorandum account amount in USD, returned from the request. This will only be populated for margin accounts and is the margin equity minus the RegT requirements."""
 
@@ -66,8 +80,12 @@ class AccountAssetBuyingPowerTypedDict(TypedDict):
         Nullable[AssetBuyingPowerDayTradeBuyingPowerAmountTypedDict]
     ]
     r"""The day_trade_buying_power_issued_amount is the day trade buying power of the account in USD, returned from the request. If the is_day_trade_buying_power_allowed boolean is true this will be set from day_trade_buying_power_issued value returned from the margins calculator, or else if it is false it will be set from buying_power_issued value returned from the margins calculator."""
+    intraday_buying_power_amount: NotRequired[
+        Nullable[AssetBuyingPowerIntradayBuyingPowerAmountTypedDict]
+    ]
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
     is_day_trade_buying_power_allowed: NotRequired[bool]
-    r"""The is_day_trade_buying_power_allowed boolean will be true if the account is a Margin account, PDT is true and SOD Account equity >= $25,000, otherwise it will be false."""
+    r"""is_day_trade_buying_power_allowed indicates whether day trade buying power is available for the account."""
     sma_amount: NotRequired[Nullable[AssetBuyingPowerSmaAmountTypedDict]]
     r"""The sma_amount is the special memorandum account amount in USD, returned from the request. This will only be populated for margin accounts and is the margin equity minus the RegT requirements."""
 
@@ -83,8 +101,13 @@ class AccountAssetBuyingPower(BaseModel):
     ] = UNSET
     r"""The day_trade_buying_power_issued_amount is the day trade buying power of the account in USD, returned from the request. If the is_day_trade_buying_power_allowed boolean is true this will be set from day_trade_buying_power_issued value returned from the margins calculator, or else if it is false it will be set from buying_power_issued value returned from the margins calculator."""
 
+    intraday_buying_power_amount: OptionalNullable[
+        AssetBuyingPowerIntradayBuyingPowerAmount
+    ] = UNSET
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
     is_day_trade_buying_power_allowed: Optional[bool] = None
-    r"""The is_day_trade_buying_power_allowed boolean will be true if the account is a Margin account, PDT is true and SOD Account equity >= $25,000, otherwise it will be false."""
+    r"""is_day_trade_buying_power_allowed indicates whether day trade buying power is available for the account."""
 
     sma_amount: OptionalNullable[AssetBuyingPowerSmaAmount] = UNSET
     r"""The sma_amount is the special memorandum account amount in USD, returned from the request. This will only be populated for margin accounts and is the margin equity minus the RegT requirements."""
@@ -94,12 +117,14 @@ class AccountAssetBuyingPower(BaseModel):
         optional_fields = [
             "buying_power_amount",
             "day_trade_buying_power_amount",
+            "intraday_buying_power_amount",
             "is_day_trade_buying_power_allowed",
             "sma_amount",
         ]
         nullable_fields = [
             "buying_power_amount",
             "day_trade_buying_power_amount",
+            "intraday_buying_power_amount",
             "sma_amount",
         ]
         null_default_fields = []

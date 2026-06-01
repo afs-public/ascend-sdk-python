@@ -28,6 +28,14 @@ class OptionOrderBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
     PRINCIPAL = "PRINCIPAL"
 
 
+class OptionOrderCancelInitiator(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Whether the cancel was initiated by the correspondent firm (FIRM) or the customer (CLIENT). Populated from the CancelOptionOrderRequest."""
+
+    INITIATOR_UNSPECIFIED = "INITIATOR_UNSPECIFIED"
+    FIRM = "FIRM"
+    CLIENT = "CLIENT"
+
+
 class OptionOrderCancelRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Used to denote when a cancel request has been rejected."""
 
@@ -64,6 +72,48 @@ class CumulativeNotionalValueDirection(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBIT_CREDIT_TYPE_UNSPECIFIED = "DEBIT_CREDIT_TYPE_UNSPECIFIED"
     DEBIT = "DEBIT"
     CREDIT = "CREDIT"
+
+
+class OptionOrderExtraReportingDataTypedDict(TypedDict):
+    r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
+
+    cancel_confirmed_time: NotRequired[Nullable[datetime]]
+
+
+class OptionOrderExtraReportingData(BaseModel):
+    r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
+
+    cancel_confirmed_time: OptionalNullable[datetime] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["cancel_confirmed_time"]
+        nullable_fields = ["cancel_confirmed_time"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class OptionOrderLimitPriceTypedDict(TypedDict):
@@ -145,6 +195,7 @@ class OptionOrderOrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     INVALID_ORDER_QUANTITY = "INVALID_ORDER_QUANTITY"
     CLIENT_RECEIVED_TIME_REQUIRED = "CLIENT_RECEIVED_TIME_REQUIRED"
     UNSUPPORTED_PRICE_VALUE = "UNSUPPORTED_PRICE_VALUE"
+    BOX_TRADES_PROHIBITED = "BOX_TRADES_PROHIBITED"
 
 
 class OptionOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -237,14 +288,22 @@ class OptionOrderTypedDict(TypedDict):
     r"""The identifier of the account transacting this option order"""
     broker_capacity: NotRequired[OptionOrderBrokerCapacity]
     r"""The capacity in which the broker is acting for this option order."""
+    cancel_initiator: NotRequired[OptionOrderCancelInitiator]
+    r"""Whether the cancel was initiated by the correspondent firm (FIRM) or the customer (CLIENT). Populated from the CancelOptionOrderRequest."""
     cancel_reason: NotRequired[str]
     r"""Used to explain why an option order is canceled"""
     cancel_rejected_reason: NotRequired[OptionOrderCancelRejectedReason]
     r"""Used to denote when a cancel request has been rejected."""
+    client_cancel_received_time: NotRequired[Nullable[datetime]]
+    r"""The time the correspondent received the cancel instruction from the customer. Populated from the CancelOptionOrderRequest."""
+    client_cancel_sent_time: NotRequired[Nullable[datetime]]
+    r"""The time the correspondent sent the cancel request. Populated from the CancelOptionOrderRequest."""
     client_order_id: NotRequired[str]
     r"""User-supplied unique option order ID. Cannot be more than 40 characters long."""
     client_received_time: NotRequired[Nullable[datetime]]
     r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    client_sent_time: NotRequired[Nullable[datetime]]
+    r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
     create_time: NotRequired[Nullable[datetime]]
     r"""Time of the option order creation"""
     cumulative_notional_value: NotRequired[
@@ -255,6 +314,8 @@ class OptionOrderTypedDict(TypedDict):
     r"""This represents the direction of the total filled notional value, which will be present if the `cumulative_notional_value` is also present. If there are no executions, this value will be absent. When the summed notional value of all CREDIT legs exceeds that of the DEBIT legs a CREDIT will be reported here; otherwise a DEBIT will be reported."""
     currency_code: NotRequired[str]
     r"""Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+    extra_reporting_data: NotRequired[Nullable[OptionOrderExtraReportingDataTypedDict]]
+    r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
     fees: NotRequired[List[TradingFeeTypedDict]]
     r"""Fees that will be applied to this option order."""
     last_update_time: NotRequired[Nullable[datetime]]
@@ -298,6 +359,11 @@ class OptionOrder(BaseModel):
     ] = None
     r"""The capacity in which the broker is acting for this option order."""
 
+    cancel_initiator: Annotated[
+        Optional[OptionOrderCancelInitiator], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Whether the cancel was initiated by the correspondent firm (FIRM) or the customer (CLIENT). Populated from the CancelOptionOrderRequest."""
+
     cancel_reason: Optional[str] = None
     r"""Used to explain why an option order is canceled"""
 
@@ -307,11 +373,20 @@ class OptionOrder(BaseModel):
     ] = None
     r"""Used to denote when a cancel request has been rejected."""
 
+    client_cancel_received_time: OptionalNullable[datetime] = UNSET
+    r"""The time the correspondent received the cancel instruction from the customer. Populated from the CancelOptionOrderRequest."""
+
+    client_cancel_sent_time: OptionalNullable[datetime] = UNSET
+    r"""The time the correspondent sent the cancel request. Populated from the CancelOptionOrderRequest."""
+
     client_order_id: Optional[str] = None
     r"""User-supplied unique option order ID. Cannot be more than 40 characters long."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
     r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+
+    client_sent_time: OptionalNullable[datetime] = UNSET
+    r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
 
     create_time: OptionalNullable[datetime] = UNSET
     r"""Time of the option order creation"""
@@ -329,6 +404,9 @@ class OptionOrder(BaseModel):
 
     currency_code: Optional[str] = None
     r"""Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+
+    extra_reporting_data: OptionalNullable[OptionOrderExtraReportingData] = UNSET
+    r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
 
     fees: Optional[List[TradingFee]] = None
     r"""Fees that will be applied to this option order."""
@@ -395,14 +473,19 @@ class OptionOrder(BaseModel):
         optional_fields = [
             "account_id",
             "broker_capacity",
+            "cancel_initiator",
             "cancel_reason",
             "cancel_rejected_reason",
+            "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_order_id",
             "client_received_time",
+            "client_sent_time",
             "create_time",
             "cumulative_notional_value",
             "cumulative_notional_value_direction",
             "currency_code",
+            "extra_reporting_data",
             "fees",
             "last_update_time",
             "legs",
@@ -419,9 +502,13 @@ class OptionOrder(BaseModel):
             "time_in_force",
         ]
         nullable_fields = [
+            "client_cancel_received_time",
+            "client_cancel_sent_time",
             "client_received_time",
+            "client_sent_time",
             "create_time",
             "cumulative_notional_value",
+            "extra_reporting_data",
             "last_update_time",
             "limit_price",
             "order_date",

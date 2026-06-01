@@ -93,8 +93,8 @@ with SDK(
 ) as sdk:
 
     res = sdk.option_instructions.list_option_instructions(request={
-        "account_id": "ACC123456",
-        "asset_id": "12345",
+        "account_id": "-",
+        "asset_id": "-",
         "page_size": 50,
         "page_token": "eyJvZmZzZXQiOjUwfQ==",
         "filter_": "type == 'DO_NOT_EXERCISE' && account_id == '12345'",

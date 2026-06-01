@@ -126,6 +126,8 @@ class OptionOrderCreateTypedDict(TypedDict):
     r"""Must be the value \"DAY\". Regulatory requirements dictate the system captures the intended time_in_force, which is why this a mandatory field."""
     client_received_time: NotRequired[Nullable[datetime]]
     r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    client_sent_time: NotRequired[Nullable[datetime]]
+    r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
     fees: NotRequired[List[FeeCreateTypedDict]]
     r"""Fees that will be applied to this option order."""
     special_reporting_instructions: NotRequired[
@@ -193,6 +195,9 @@ class OptionOrderCreate(BaseModel):
     client_received_time: OptionalNullable[datetime] = UNSET
     r"""Required for any client who is having Apex do CAT reporting on their behalf."""
 
+    client_sent_time: OptionalNullable[datetime] = UNSET
+    r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
+
     fees: Optional[List[FeeCreate]] = None
     r"""Fees that will be applied to this option order."""
 
@@ -210,10 +215,11 @@ class OptionOrderCreate(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "client_received_time",
+            "client_sent_time",
             "fees",
             "special_reporting_instructions",
         ]
-        nullable_fields = ["client_received_time"]
+        nullable_fields = ["client_received_time", "client_sent_time"]
         null_default_fields = []
 
         serialized = handler(self)

@@ -7,7 +7,8 @@ from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
 from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OptionInstructionCreateIdentifierType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -45,6 +46,8 @@ class OptionInstructionCreateTypedDict(TypedDict):
     """
     type: OptionInstructionCreateType
     r"""Type of instruction"""
+    client_reference: NotRequired[str]
+    r"""Client-provided reference for tracking and duplicate detection on the client side"""
 
 
 class OptionInstructionCreate(BaseModel):
@@ -73,3 +76,6 @@ class OptionInstructionCreate(BaseModel):
         OptionInstructionCreateType, PlainValidator(validate_open_enum(False))
     ]
     r"""Type of instruction"""
+
+    client_reference: Optional[str] = None
+    r"""Client-provided reference for tracking and duplicate detection on the client side"""

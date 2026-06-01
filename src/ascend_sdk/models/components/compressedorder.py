@@ -139,7 +139,7 @@ class CompressedOrderOrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CompressedOrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The execution type of this order. Only MARKET is supported."""
+    r"""The execution type of this order."""
 
     ORDER_TYPE_UNSPECIFIED = "ORDER_TYPE_UNSPECIFIED"
     MARKET = "MARKET"
@@ -228,7 +228,7 @@ class CompressedOrderTypedDict(TypedDict):
     order_status: NotRequired[CompressedOrderOrderStatus]
     r"""The processing status of the order"""
     order_type: NotRequired[CompressedOrderOrderType]
-    r"""The execution type of this order. Only MARKET is supported."""
+    r"""The execution type of this order."""
     quantity: NotRequired[Nullable[CompressedOrderQuantityTypedDict]]
     r"""Numeric quantity of the order. Either a quantity or notional_value MUST be specified (but not both). For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places."""
     side: NotRequired[CompressedOrderSide]
@@ -313,7 +313,7 @@ class CompressedOrder(BaseModel):
     order_type: Annotated[
         Optional[CompressedOrderOrderType], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""The execution type of this order. Only MARKET is supported."""
+    r"""The execution type of this order."""
 
     quantity: OptionalNullable[CompressedOrderQuantity] = UNSET
     r"""Numeric quantity of the order. Either a quantity or notional_value MUST be specified (but not both). For Equities: Represents the number of shares, must be greater than zero and may not exceed 5 decimal places. For Mutual Funds: Only supported for SELL orders. Represents the number of shares, up to a maximum of 3 decimal places."""

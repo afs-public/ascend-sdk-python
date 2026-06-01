@@ -426,6 +426,8 @@ class ProvidedIdentityVerificationTypedDict(TypedDict):
     r"""Indicates whether the identity's address was verified"""
     birth_date_verified: NotRequired[bool]
     r"""Indicates whether the identity's date of birth was verified"""
+    client_directly_verified_document_ids: NotRequired[List[str]]
+    r"""A collection of unique identifiers provided by the documents api that correspond to identity documents that were directly verified by the client rather than through a third-party vendor. Functions identically to raw_vendor_data_document_id for triggering IDV re-evaluation."""
     client_directly_verified_id_docs: NotRequired[bool]
     r"""Indicates that the client directly verified the ID documents rather than using a third-party vendor (self-inspected)"""
     execution_date: NotRequired[Nullable[InvestigationExecutionDateTypedDict]]
@@ -454,6 +456,9 @@ class ProvidedIdentityVerification(BaseModel):
 
     birth_date_verified: Optional[bool] = None
     r"""Indicates whether the identity's date of birth was verified"""
+
+    client_directly_verified_document_ids: Optional[List[str]] = None
+    r"""A collection of unique identifiers provided by the documents api that correspond to identity documents that were directly verified by the client rather than through a third-party vendor. Functions identically to raw_vendor_data_document_id for triggering IDV re-evaluation."""
 
     client_directly_verified_id_docs: Optional[bool] = None
     r"""Indicates that the client directly verified the ID documents rather than using a third-party vendor (self-inspected)"""
@@ -487,6 +492,7 @@ class ProvidedIdentityVerification(BaseModel):
         optional_fields = [
             "address_verified",
             "birth_date_verified",
+            "client_directly_verified_document_ids",
             "client_directly_verified_id_docs",
             "execution_date",
             "external_case_id",

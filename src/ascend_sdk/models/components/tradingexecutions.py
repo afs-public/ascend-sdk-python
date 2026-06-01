@@ -80,6 +80,8 @@ class TradingExecutionsTypedDict(TypedDict):
     r"""The prices at which the order was executed. For Equities: there will be one price measured in PRICE_PER_UNIT (using the order currency). For Fixed Income assets: there will always be an entry measured in the PERCENTAGE_OF_PAR (100 X cost / total par value), and there may be additional entries measured in yield."""
     executed_time: NotRequired[Nullable[datetime]]
     r"""The timestamp that this fill was transacted at the market"""
+    execution_id: NotRequired[str]
+    r"""This id field represents the unique id of the execution"""
     gross_credit_amount: NotRequired[Nullable[GrossCreditAmountTypedDict]]
     r"""The net currency amount exchanged in this transaction, in the order currency. Will only be present for orders of Fixed Income assets."""
     prevailing_market_price: NotRequired[Nullable[PrevailingMarketPriceTypedDict]]
@@ -100,6 +102,9 @@ class TradingExecutions(BaseModel):
     executed_time: OptionalNullable[datetime] = UNSET
     r"""The timestamp that this fill was transacted at the market"""
 
+    execution_id: Optional[str] = None
+    r"""This id field represents the unique id of the execution"""
+
     gross_credit_amount: OptionalNullable[GrossCreditAmount] = UNSET
     r"""The net currency amount exchanged in this transaction, in the order currency. Will only be present for orders of Fixed Income assets."""
 
@@ -115,6 +120,7 @@ class TradingExecutions(BaseModel):
             "accrued_interest_amount",
             "executed_prices",
             "executed_time",
+            "execution_id",
             "gross_credit_amount",
             "prevailing_market_price",
             "quantity",

@@ -478,6 +478,14 @@ class OrderRejectedReason(str, Enum, metaclass=utils.OpenEnumMeta):
     ASSET_NOT_SET_UP_FOR_ROUND_UPS = "ASSET_NOT_SET_UP_FOR_ROUND_UPS"
     BELOW_ROUND_UP_MINIMUM = "BELOW_ROUND_UP_MINIMUM"
     STOP_PRICE_BELOW_MARKET_PRICE = "STOP_PRICE_BELOW_MARKET_PRICE"
+    POSITION_THRESHOLD_VIOLATION = "POSITION_THRESHOLD_VIOLATION"
+    UNSUPPORTED_PRICE_VALUE = "UNSUPPORTED_PRICE_VALUE"
+    ASSET_NOT_SHORTABLE = "ASSET_NOT_SHORTABLE"
+    BOX_TRADES_PROHIBITED = "BOX_TRADES_PROHIBITED"
+    DESK_ORDER_NOT_ALLOWED = "DESK_ORDER_NOT_ALLOWED"
+    UNSUPPORTED_TRADING_SESSION_FOR_ASSET = "UNSUPPORTED_TRADING_SESSION_FOR_ASSET"
+    UNSUPPORTED_ORDER_TYPE_FOR_ASSET = "UNSUPPORTED_ORDER_TYPE_FOR_ASSET"
+    UNSUPPORTED_TIME_IN_FORCE_FOR_ASSET = "UNSUPPORTED_TIME_IN_FORCE_FOR_ASSET"
 
 
 class OrderStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -803,7 +811,7 @@ class OrderTypedDict(TypedDict):
     identifier: NotRequired[str]
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
     identifier_issuing_region_code: NotRequired[str]
-    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes * identifier_issuing_region_code should match the issuing_region_code from the Assets API or the order will be REJECTED"""
     identifier_type: NotRequired[OrderIdentifierType]
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
@@ -937,7 +945,7 @@ class Order(BaseModel):
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
 
     identifier_issuing_region_code: Optional[str] = None
-    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes * identifier_issuing_region_code should match the issuing_region_code from the Assets API or the order will be REJECTED"""
 
     identifier_type: Annotated[
         Optional[OrderIdentifierType], PlainValidator(validate_open_enum(False))
