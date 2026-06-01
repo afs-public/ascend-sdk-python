@@ -55,6 +55,20 @@ class DayTradeBuyingPowerAmount(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class IntradayBuyingPowerAmountTypedDict(TypedDict):
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class IntradayBuyingPowerAmount(BaseModel):
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class PositionMarketValueAmountTypedDict(TypedDict):
     r"""The position_market_value in USD returned from the request."""
 
@@ -173,8 +187,12 @@ class BuyingPowerTypedDict(TypedDict):
         Nullable[DayTradeBuyingPowerAmountTypedDict]
     ]
     r"""The day_trade_buying_power_issued_amount is the day trade buying power of the account in USD, returned from the request. If the is_day_trade_buying_power_allowed boolean is true this will be set from day_trade_buying_power_issued value returned from the margins calculator, or else if it is false it will be set from buying_power_issued value returned from the margins calculator."""
+    intraday_buying_power_amount: NotRequired[
+        Nullable[IntradayBuyingPowerAmountTypedDict]
+    ]
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
     is_day_trade_buying_power_allowed: NotRequired[bool]
-    r"""The is_day_trade_buying_power_allowed boolean will be true if the account is a Margin account, PDT is true and SOD Account equity >= $25,000, otherwise it will be false."""
+    r"""is_day_trade_buying_power_allowed indicates whether day trade buying power is available for the account."""
     name: NotRequired[str]
     r"""The service generated name of the BuyingPower Format: accounts/{account_id}/buyingPower"""
     position_market_value_amount: NotRequired[
@@ -202,8 +220,11 @@ class BuyingPower(BaseModel):
     day_trade_buying_power_amount: OptionalNullable[DayTradeBuyingPowerAmount] = UNSET
     r"""The day_trade_buying_power_issued_amount is the day trade buying power of the account in USD, returned from the request. If the is_day_trade_buying_power_allowed boolean is true this will be set from day_trade_buying_power_issued value returned from the margins calculator, or else if it is false it will be set from buying_power_issued value returned from the margins calculator."""
 
+    intraday_buying_power_amount: OptionalNullable[IntradayBuyingPowerAmount] = UNSET
+    r"""The intraday_buying_power_amount is the intraday trade buying power of the account in USD, returned from the request."""
+
     is_day_trade_buying_power_allowed: Optional[bool] = None
-    r"""The is_day_trade_buying_power_allowed boolean will be true if the account is a Margin account, PDT is true and SOD Account equity >= $25,000, otherwise it will be false."""
+    r"""is_day_trade_buying_power_allowed indicates whether day trade buying power is available for the account."""
 
     name: Optional[str] = None
     r"""The service generated name of the BuyingPower Format: accounts/{account_id}/buyingPower"""
@@ -224,6 +245,7 @@ class BuyingPower(BaseModel):
             "account_id",
             "buying_power_amount",
             "day_trade_buying_power_amount",
+            "intraday_buying_power_amount",
             "is_day_trade_buying_power_allowed",
             "name",
             "position_market_value_amount",
@@ -234,6 +256,7 @@ class BuyingPower(BaseModel):
             "account_equity_amount",
             "buying_power_amount",
             "day_trade_buying_power_amount",
+            "intraday_buying_power_amount",
             "position_market_value_amount",
             "requirements",
             "sma_amount",

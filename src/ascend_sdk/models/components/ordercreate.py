@@ -167,7 +167,7 @@ class OrderCreateTypedDict(TypedDict):
     fees: NotRequired[List[FeeCreateTypedDict]]
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
     identifier_issuing_region_code: NotRequired[str]
-    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes * identifier_issuing_region_code should match the issuing_region_code from the Assets API or the order will be REJECTED"""
     letter_of_intent: NotRequired[LetterOfIntentCreateTypedDict]
     r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months."""
     limit_price: NotRequired[LimitPriceCreateTypedDict]
@@ -267,7 +267,7 @@ class OrderCreate(BaseModel):
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
 
     identifier_issuing_region_code: Optional[str] = None
-    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes"""
+    r"""A string attribute denoting the country of issuance or where the asset is trading. * Only available for Mutual Fund and Fixed Income orders. * Only available when the identifier_type is SYMBOL or CUSIP. * Defaults to US when the identifier_type is SYMBOL or CUSIP. * Complies with ISO-3166 Alpha-2 Codes * identifier_issuing_region_code should match the issuing_region_code from the Assets API or the order will be REJECTED"""
 
     letter_of_intent: Optional[LetterOfIntentCreate] = None
     r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months."""

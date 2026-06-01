@@ -65,6 +65,8 @@ class OptionInstructionTypedDict(TypedDict):
 
     account_id: NotRequired[str]
     r"""Account identifier"""
+    client_reference: NotRequired[str]
+    r"""Client-provided reference for tracking and duplicate detection on the client side"""
     create_time: NotRequired[Nullable[datetime]]
     r"""The time the instruction was created"""
     identifier: NotRequired[str]
@@ -92,6 +94,9 @@ class OptionInstruction(BaseModel):
 
     account_id: Optional[str] = None
     r"""Account identifier"""
+
+    client_reference: Optional[str] = None
+    r"""Client-provided reference for tracking and duplicate detection on the client side"""
 
     create_time: OptionalNullable[datetime] = UNSET
     r"""The time the instruction was created"""
@@ -134,6 +139,7 @@ class OptionInstruction(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "account_id",
+            "client_reference",
             "create_time",
             "identifier",
             "identifier_type",

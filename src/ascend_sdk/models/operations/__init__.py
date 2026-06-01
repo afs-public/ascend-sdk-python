@@ -1086,6 +1086,12 @@ if TYPE_CHECKING:
         OptionOrderServiceGetOptionOrderResponse,
         OptionOrderServiceGetOptionOrderResponseTypedDict,
     )
+    from .optionorderservice_setoptionextrareportingdata import (
+        OptionOrderServiceSetOptionExtraReportingDataRequest,
+        OptionOrderServiceSetOptionExtraReportingDataRequestTypedDict,
+        OptionOrderServiceSetOptionExtraReportingDataResponse,
+        OptionOrderServiceSetOptionExtraReportingDataResponseTypedDict,
+    )
     from .orderpriceservice_previewordercost import (
         OrderPriceServicePreviewOrderCostRequest,
         OrderPriceServicePreviewOrderCostRequestTypedDict,
@@ -2102,6 +2108,10 @@ __all__ = [
     "OptionOrderServiceGetOptionOrderRequestTypedDict",
     "OptionOrderServiceGetOptionOrderResponse",
     "OptionOrderServiceGetOptionOrderResponseTypedDict",
+    "OptionOrderServiceSetOptionExtraReportingDataRequest",
+    "OptionOrderServiceSetOptionExtraReportingDataRequestTypedDict",
+    "OptionOrderServiceSetOptionExtraReportingDataResponse",
+    "OptionOrderServiceSetOptionExtraReportingDataResponseTypedDict",
     "OrderPriceServicePreviewOrderCostRequest",
     "OrderPriceServicePreviewOrderCostRequestTypedDict",
     "OrderPriceServicePreviewOrderCostResponse",
@@ -3025,6 +3035,10 @@ _dynamic_imports: dict[str, str] = {
     "OptionOrderServiceGetOptionOrderRequestTypedDict": ".optionorderservice_getoptionorder",
     "OptionOrderServiceGetOptionOrderResponse": ".optionorderservice_getoptionorder",
     "OptionOrderServiceGetOptionOrderResponseTypedDict": ".optionorderservice_getoptionorder",
+    "OptionOrderServiceSetOptionExtraReportingDataRequest": ".optionorderservice_setoptionextrareportingdata",
+    "OptionOrderServiceSetOptionExtraReportingDataRequestTypedDict": ".optionorderservice_setoptionextrareportingdata",
+    "OptionOrderServiceSetOptionExtraReportingDataResponse": ".optionorderservice_setoptionextrareportingdata",
+    "OptionOrderServiceSetOptionExtraReportingDataResponseTypedDict": ".optionorderservice_setoptionextrareportingdata",
     "OrderPriceServicePreviewOrderCostRequest": ".orderpriceservice_previewordercost",
     "OrderPriceServicePreviewOrderCostRequestTypedDict": ".orderpriceservice_previewordercost",
     "OrderPriceServicePreviewOrderCostResponse": ".orderpriceservice_previewordercost",

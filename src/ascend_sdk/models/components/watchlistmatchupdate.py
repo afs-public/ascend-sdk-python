@@ -11,13 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class WatchlistMatchUpdateMatchState(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The match state for a profile, one of:
-    - `MATCH_UNSPECIFIED` - Default/Null value.
-    - `CONFIRMED_MATCH` - Match is confirmed.
-    - `POTENTIAL_MATCH` - Match is a potential.
-    - `NO_MATCH` - Match is confirmed not to be a match.
-    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
-    """
+    r"""The match state for a profile"""
 
     MATCH_UNSPECIFIED = "MATCH_UNSPECIFIED"
     CONFIRMED_MATCH = "CONFIRMED_MATCH"
@@ -32,13 +26,7 @@ class WatchlistMatchUpdateTypedDict(TypedDict):
     exclude_from_screening: NotRequired[bool]
     r"""Identifies that a confirmed watchlist match can be excluded when calculating the related screen state"""
     match_state: NotRequired[WatchlistMatchUpdateMatchState]
-    r"""The match state for a profile, one of:
-    - `MATCH_UNSPECIFIED` - Default/Null value.
-    - `CONFIRMED_MATCH` - Match is confirmed.
-    - `POTENTIAL_MATCH` - Match is a potential.
-    - `NO_MATCH` - Match is confirmed not to be a match.
-    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
-    """
+    r"""The match state for a profile"""
     watchlist_id: NotRequired[str]
     r"""Indicates the watchlist source for a given match"""
     watchlist_item_id: NotRequired[int]
@@ -55,13 +43,7 @@ class WatchlistMatchUpdate(BaseModel):
         Optional[WatchlistMatchUpdateMatchState],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""The match state for a profile, one of:
-    - `MATCH_UNSPECIFIED` - Default/Null value.
-    - `CONFIRMED_MATCH` - Match is confirmed.
-    - `POTENTIAL_MATCH` - Match is a potential.
-    - `NO_MATCH` - Match is confirmed not to be a match.
-    - `INCONCLUSIVE` - Match is deemed to be inconclusive.
-    """
+    r"""The match state for a profile"""
 
     watchlist_id: Optional[str] = None
     r"""Indicates the watchlist source for a given match"""

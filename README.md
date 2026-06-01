@@ -512,6 +512,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [create_option_order](docs/sdks/optionorders/README.md#create_option_order) - Create Option Order
 * [get_option_order](docs/sdks/optionorders/README.md#get_option_order) - Get Option Order
 * [cancel_option_order](docs/sdks/optionorders/README.md#cancel_option_order) - Cancel Option Order
+* [set_option_extra_reporting_data](docs/sdks/optionorders/README.md#set_option_extra_reporting_data) - Set Option Extra Reporting Data
 
 ### [orders](docs/sdks/orders/README.md)
 

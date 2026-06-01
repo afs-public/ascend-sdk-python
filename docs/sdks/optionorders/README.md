@@ -8,6 +8,7 @@
 * [create_option_order](#create_option_order) - Create Option Order
 * [get_option_order](#get_option_order) - Get Option Order
 * [cancel_option_order](#cancel_option_order) - Cancel Option Order
+* [set_option_extra_reporting_data](#set_option_extra_reporting_data) - Set Option Extra Reporting Data
 
 ## create_option_order
 
@@ -181,6 +182,66 @@ with SDK(
 ### Response
 
 **[operations.OptionOrderServiceCancelOptionOrderResponse](../../models/operations/optionorderservicecanceloptionorderresponse.md)**
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
+| ------------------ | ------------------ | ------------------ |
+| errors.Status      | 400, 401, 403, 404 | application/json   |
+| errors.Status      | 500, 503           | application/json   |
+| errors.SDKError    | 4XX, 5XX           | \*/\*              |
+
+## set_option_extra_reporting_data
+
+Sets post-cancel reporting data for an option order.
+
+ The option order must be in a canceled or pending_cancel state. Requires the option order resource name and the cancel_confirmed_time. If cancel_confirmed_time has already been set by a prior call, the existing value is preserved and the response reflects the original value.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="OptionOrderService_SetOptionExtraReportingData" method="post" path="/trading/v1/accounts/{account_id}/optionOrders/{optionOrder_id}:setExtraReportingData" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+from ascend_sdk.utils import parse_datetime
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.option_orders.set_option_extra_reporting_data(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", option_order_id="ebb0c9b5-2c74-45c9-a4ab-40596b778706", set_option_extra_reporting_data_request_create={
+        "cancel_confirmed_time": parse_datetime("2025-12-13T15:28:17.262732Z"),
+        "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/optionOrders/ebb0c9b5-2c74-45c9-a4ab-40596b778706",
+    })
+
+    assert res.option_order is not None
+
+    # Handle response
+    print(res.option_order)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                | Example                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                                               | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The account id.                                                                                                            | 01HBRQ5BW6ZAY4BNWP4GWRD80X                                                                                                 |
+| `option_order_id`                                                                                                          | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The optionOrder id.                                                                                                        | ebb0c9b5-2c74-45c9-a4ab-40596b778706                                                                                       |
+| `set_option_extra_reporting_data_request_create`                                                                           | [components.SetOptionExtraReportingDataRequestCreate](../../models/components/setoptionextrareportingdatarequestcreate.md) | :heavy_check_mark:                                                                                                         | N/A                                                                                                                        |                                                                                                                            |
+| `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |                                                                                                                            |
+
+### Response
+
+**[operations.OptionOrderServiceSetOptionExtraReportingDataResponse](../../models/operations/optionorderservicesetoptionextrareportingdataresponse.md)**
 
 ### Errors
 

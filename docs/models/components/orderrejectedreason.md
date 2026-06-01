@@ -45,3 +45,11 @@ When an order has the REJECTED status, this will be populated with a system code
 | `ASSET_NOT_SET_UP_FOR_ROUND_UPS`                            | ASSET_NOT_SET_UP_FOR_ROUND_UPS                              |
 | `BELOW_ROUND_UP_MINIMUM`                                    | BELOW_ROUND_UP_MINIMUM                                      |
 | `STOP_PRICE_BELOW_MARKET_PRICE`                             | STOP_PRICE_BELOW_MARKET_PRICE                               |
+| `POSITION_THRESHOLD_VIOLATION`                              | POSITION_THRESHOLD_VIOLATION                                |
+| `UNSUPPORTED_PRICE_VALUE`                                   | UNSUPPORTED_PRICE_VALUE                                     |
+| `ASSET_NOT_SHORTABLE`                                       | ASSET_NOT_SHORTABLE                                         |
+| `BOX_TRADES_PROHIBITED`                                     | BOX_TRADES_PROHIBITED                                       |
+| `DESK_ORDER_NOT_ALLOWED`                                    | DESK_ORDER_NOT_ALLOWED                                      |
+| `UNSUPPORTED_TRADING_SESSION_FOR_ASSET`                     | UNSUPPORTED_TRADING_SESSION_FOR_ASSET                       |
+| `UNSUPPORTED_ORDER_TYPE_FOR_ASSET`                          | UNSUPPORTED_ORDER_TYPE_FOR_ASSET                            |
+| `UNSUPPORTED_TIME_IN_FORCE_FOR_ASSET`                       | UNSUPPORTED_TIME_IN_FORCE_FOR_ASSET                         |
