@@ -29,6 +29,8 @@ class IdentityVerificationResultCreateTypedDict(TypedDict):
     r"""Attestation that external result and review have verified the supplied investor's Tax ID has been verified in conjunction with other PII"""
     vendor: str
     r"""The name(s) of the vendor(s) used to externally verify and screen a natural person; relates to the identity_verification_result"""
+    client_directly_verified_id_docs: NotRequired[bool]
+    r"""Indicates whether the client has directly verified the identity documents (defaults to false)."""
     identity_verification_document_ids: NotRequired[List[str]]
     r"""System generated document IDs returned after uploading identity documents to the Documents API"""
     raw_vendor_data_document_id: NotRequired[str]
@@ -63,6 +65,9 @@ class IdentityVerificationResultCreate(BaseModel):
 
     vendor: str
     r"""The name(s) of the vendor(s) used to externally verify and screen a natural person; relates to the identity_verification_result"""
+
+    client_directly_verified_id_docs: Optional[bool] = None
+    r"""Indicates whether the client has directly verified the identity documents (defaults to false)."""
 
     identity_verification_document_ids: Optional[List[str]] = None
     r"""System generated document IDs returned after uploading identity documents to the Documents API"""

@@ -568,7 +568,7 @@ class AccountTypedDict(TypedDict):
     parties: NotRequired[List[PartyTypedDict]]
     r"""Parties associated with the account (e.g. custodian)."""
     pattern_day_trader: NotRequired[bool]
-    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days. By default, this is set to `false`."""
+    r"""Deprecated: PDT designation no longer applies. This indicator will always be set to `false`."""
     primary_registered_rep_id: NotRequired[str]
     r"""The primary registered representative for the account"""
     registration_type: NotRequired[RegistrationType]
@@ -694,8 +694,13 @@ class Account(BaseModel):
     parties: Optional[List[Party]] = None
     r"""Parties associated with the account (e.g. custodian)."""
 
-    pattern_day_trader: Optional[bool] = None
-    r"""Indicates if the customer is a PDT; This is set if the account executes four or more day trades (buy and sell the same security intraday) within a period of five business days. By default, this is set to `false`."""
+    pattern_day_trader: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""Deprecated: PDT designation no longer applies. This indicator will always be set to `false`."""
 
     primary_registered_rep_id: Optional[str] = None
     r"""The primary registered representative for the account"""

@@ -495,6 +495,8 @@ class PartyTaxpayerCertificationState(str, Enum, metaclass=utils.OpenEnumMeta):
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
     PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
+    CERTIFIED_WITH_BENEFITS = "CERTIFIED_WITH_BENEFITS"
+    PENDING_CONSENT = "PENDING_CONSENT"
 
 
 class PartyUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -534,6 +536,8 @@ class PartyTaxProfileTypedDict(TypedDict):
     r"""Tax Certification date."""
     taxpayer_certification_state: NotRequired[PartyTaxpayerCertificationState]
     r"""Taxpayer certification status."""
+    treaty_benefits_requested: NotRequired[bool]
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[PartyUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
     withholding_state: NotRequired[PartyWithholdingState]
@@ -577,6 +581,9 @@ class PartyTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
+    treaty_benefits_requested: Optional[bool] = None
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
+
     us_tin_status: Annotated[
         Optional[PartyUsTinStatus], PlainValidator(validate_open_enum(False))
     ] = None
@@ -598,6 +605,7 @@ class PartyTaxProfile(BaseModel):
             "reporting_eligibility",
             "tax_certification_date",
             "taxpayer_certification_state",
+            "treaty_benefits_requested",
             "us_tin_status",
             "withholding_state",
         ]
@@ -1379,6 +1387,10 @@ class PartyIdentityVerificationResultTypedDict(TypedDict):
     r"""Attestation that external result and review have verified the supplied investor's address has been verified in conjunction with other PII"""
     birth_date_verified: NotRequired[bool]
     r"""Attestation that external result and review have verified the supplied investor's date of birth has been verified in conjunction with other PII"""
+    client_directly_verified_document_ids: NotRequired[List[str]]
+    r"""Document IDs for identity documents that were directly verified by the client."""
+    client_directly_verified_id_docs: NotRequired[bool]
+    r"""Indicates whether the client has directly verified the identity documents (defaults to false)."""
     execution_date: NotRequired[Nullable[PartyExecutionDateTypedDict]]
     r"""The datetime external identity verification results were run on a natural person"""
     external_case_id: NotRequired[str]
@@ -1405,6 +1417,12 @@ class PartyIdentityVerificationResult(BaseModel):
 
     birth_date_verified: Optional[bool] = None
     r"""Attestation that external result and review have verified the supplied investor's date of birth has been verified in conjunction with other PII"""
+
+    client_directly_verified_document_ids: Optional[List[str]] = None
+    r"""Document IDs for identity documents that were directly verified by the client."""
+
+    client_directly_verified_id_docs: Optional[bool] = None
+    r"""Indicates whether the client has directly verified the identity documents (defaults to false)."""
 
     execution_date: OptionalNullable[PartyExecutionDate] = UNSET
     r"""The datetime external identity verification results were run on a natural person"""
@@ -1435,6 +1453,8 @@ class PartyIdentityVerificationResult(BaseModel):
         optional_fields = [
             "address_verified",
             "birth_date_verified",
+            "client_directly_verified_document_ids",
+            "client_directly_verified_id_docs",
             "execution_date",
             "external_case_id",
             "identity_verification_document_ids",
@@ -1972,6 +1992,8 @@ class PartyLegalNaturalPersonTaxpayerCertificationState(
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
     PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
+    CERTIFIED_WITH_BENEFITS = "CERTIFIED_WITH_BENEFITS"
+    PENDING_CONSENT = "PENDING_CONSENT"
 
 
 class PartyLegalNaturalPersonUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -2019,6 +2041,8 @@ class PartyLegalNaturalPersonTaxProfileTypedDict(TypedDict):
         PartyLegalNaturalPersonTaxpayerCertificationState
     ]
     r"""Taxpayer certification status."""
+    treaty_benefits_requested: NotRequired[bool]
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[PartyLegalNaturalPersonUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
     withholding_state: NotRequired[PartyLegalNaturalPersonWithholdingState]
@@ -2068,6 +2092,9 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
+    treaty_benefits_requested: Optional[bool] = None
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
+
     us_tin_status: Annotated[
         Optional[PartyLegalNaturalPersonUsTinStatus],
         PlainValidator(validate_open_enum(False)),
@@ -2091,6 +2118,7 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
             "reporting_eligibility",
             "tax_certification_date",
             "taxpayer_certification_state",
+            "treaty_benefits_requested",
             "us_tin_status",
             "withholding_state",
         ]
