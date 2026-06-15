@@ -6,7 +6,8 @@ from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import validate_open_enum
 from enum import Enum
 from pydantic.functional_validators import PlainValidator
-from typing_extensions import Annotated, TypedDict
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FederalTaxClassification(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -51,6 +52,8 @@ class TaxProfileCreateTypedDict(TypedDict):
     r"""Legal tax region must be \"US\" if provided W-9, otherwise must be a non-US country."""
     us_tin_status: UsTinStatus
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
+    treaty_benefits_requested: NotRequired[bool]
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
 
 
 class TaxProfileCreate(BaseModel):
@@ -69,3 +72,6 @@ class TaxProfileCreate(BaseModel):
 
     us_tin_status: Annotated[UsTinStatus, PlainValidator(validate_open_enum(False))]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
+
+    treaty_benefits_requested: Optional[bool] = None
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""

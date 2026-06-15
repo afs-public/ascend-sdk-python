@@ -488,6 +488,8 @@ class LegalEntityTaxpayerCertificationState(str, Enum, metaclass=utils.OpenEnumM
     CERTIFIED = "CERTIFIED"
     UNCERTIFIED = "UNCERTIFIED"
     PENDING_CERTIFICATION = "PENDING_CERTIFICATION"
+    CERTIFIED_WITH_BENEFITS = "CERTIFIED_WITH_BENEFITS"
+    PENDING_CONSENT = "PENDING_CONSENT"
 
 
 class LegalEntityUsTinStatus(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -529,6 +531,8 @@ class LegalEntityTaxProfileTypedDict(TypedDict):
     r"""Tax Certification date."""
     taxpayer_certification_state: NotRequired[LegalEntityTaxpayerCertificationState]
     r"""Taxpayer certification status."""
+    treaty_benefits_requested: NotRequired[bool]
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[LegalEntityUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
     withholding_state: NotRequired[LegalEntityWithholdingState]
@@ -573,6 +577,9 @@ class LegalEntityTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
+    treaty_benefits_requested: Optional[bool] = None
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
+
     us_tin_status: Annotated[
         Optional[LegalEntityUsTinStatus], PlainValidator(validate_open_enum(False))
     ] = None
@@ -594,6 +601,7 @@ class LegalEntityTaxProfile(BaseModel):
             "reporting_eligibility",
             "tax_certification_date",
             "taxpayer_certification_state",
+            "treaty_benefits_requested",
             "us_tin_status",
             "withholding_state",
         ]

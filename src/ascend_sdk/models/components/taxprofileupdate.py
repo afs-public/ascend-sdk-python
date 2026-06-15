@@ -50,6 +50,8 @@ class TaxProfileUpdateTypedDict(TypedDict):
     r"""IRS form type."""
     legal_tax_region_code: NotRequired[str]
     r"""Legal tax region must be \"US\" if provided W-9, otherwise must be a non-US country."""
+    treaty_benefits_requested: NotRequired[bool]
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[TaxProfileUpdateUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
 
@@ -70,6 +72,9 @@ class TaxProfileUpdate(BaseModel):
 
     legal_tax_region_code: Optional[str] = None
     r"""Legal tax region must be \"US\" if provided W-9, otherwise must be a non-US country."""
+
+    treaty_benefits_requested: Optional[bool] = None
+    r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
 
     us_tin_status: Annotated[
         Optional[TaxProfileUpdateUsTinStatus], PlainValidator(validate_open_enum(False))

@@ -25,7 +25,7 @@ class IdentifierCreateTypedDict(TypedDict):
     type: IdentifierCreateType
     r"""The type of identifier"""
     value: str
-    r"""The value of the identifier"""
+    r"""The value of the identifier. Immutable for ORIGINATING_FDID and ORIGINATING_CAT_REPORTER_CRD; may be updated for ORIGINATING_ACCOUNT_ID and CLIENT_ACCOUNT_ID."""
 
 
 class IdentifierCreate(BaseModel):
@@ -35,4 +35,4 @@ class IdentifierCreate(BaseModel):
     r"""The type of identifier"""
 
     value: str
-    r"""The value of the identifier"""
+    r"""The value of the identifier. Immutable for ORIGINATING_FDID and ORIGINATING_CAT_REPORTER_CRD; may be updated for ORIGINATING_ACCOUNT_ID and CLIENT_ACCOUNT_ID."""

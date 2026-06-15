@@ -25,6 +25,8 @@ class IdentifierUpdateTypedDict(TypedDict):
 
     type: NotRequired[IdentifierUpdateType]
     r"""The type of identifier"""
+    value: NotRequired[str]
+    r"""The value of the identifier. Immutable for ORIGINATING_FDID and ORIGINATING_CAT_REPORTER_CRD; may be updated for ORIGINATING_ACCOUNT_ID and CLIENT_ACCOUNT_ID."""
 
 
 class IdentifierUpdate(BaseModel):
@@ -34,3 +36,6 @@ class IdentifierUpdate(BaseModel):
         Optional[IdentifierUpdateType], PlainValidator(validate_open_enum(False))
     ] = None
     r"""The type of identifier"""
+
+    value: Optional[str] = None
+    r"""The value of the identifier. Immutable for ORIGINATING_FDID and ORIGINATING_CAT_REPORTER_CRD; may be updated for ORIGINATING_ACCOUNT_ID and CLIENT_ACCOUNT_ID."""
