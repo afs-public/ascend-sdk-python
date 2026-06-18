@@ -53,6 +53,7 @@ class ActivityAccountMemo(str, Enum, metaclass=utils.OpenEnumMeta):
     PENDING_OUTGOING_ACAT = "PENDING_OUTGOING_ACAT"
     PENDING_DRIP = "PENDING_DRIP"
     PENDING_WITHDRAWAL = "PENDING_WITHDRAWAL"
+    SHORT = "SHORT"
 
 
 class ActivityAccountTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -499,6 +500,97 @@ class ActivityAllocation(BaseModel):
             "yield_records",
         ]
         nullable_fields = ["prevailing_market_price", "price_adjustment_record"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class ActivityCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Trade capacity type"""
+
+    CAPACITY_UNSPECIFIED = "CAPACITY_UNSPECIFIED"
+    AGENCY = "AGENCY"
+    PRINCIPAL = "PRINCIPAL"
+    MIXED = "MIXED"
+
+
+class ActivityOptionContractQuantityTypedDict(TypedDict):
+    r"""Records the number of contracts exercised or assigned"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityOptionContractQuantity(BaseModel):
+    r"""Records the number of contracts exercised or assigned"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityAssignmentTypedDict(TypedDict):
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to assignment. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from the assignment of an options position"""
+
+    capacity: NotRequired[ActivityCapacity]
+    r"""Trade capacity type"""
+    option_asset_id: NotRequired[str]
+    r"""Records the asset_id of the option that was exercised or assigned"""
+    option_contract_quantity: NotRequired[
+        Nullable[ActivityOptionContractQuantityTypedDict]
+    ]
+    r"""Records the number of contracts exercised or assigned"""
+    option_description: NotRequired[str]
+    r"""Records the description of the option the account exercised or assigned"""
+
+
+class ActivityAssignment(BaseModel):
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to assignment. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from the assignment of an options position"""
+
+    capacity: Annotated[
+        Optional[ActivityCapacity], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Trade capacity type"""
+
+    option_asset_id: Optional[str] = None
+    r"""Records the asset_id of the option that was exercised or assigned"""
+
+    option_contract_quantity: OptionalNullable[ActivityOptionContractQuantity] = UNSET
+    r"""Records the number of contracts exercised or assigned"""
+
+    option_description: Optional[str] = None
+    r"""Records the description of the option the account exercised or assigned"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "capacity",
+            "option_asset_id",
+            "option_contract_quantity",
+            "option_description",
+        ]
+        nullable_fields = ["option_contract_quantity"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1817,6 +1909,145 @@ class ActivityExchange(BaseModel):
         return m
 
 
+class ActivityExerciseCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Trade capacity type"""
+
+    CAPACITY_UNSPECIFIED = "CAPACITY_UNSPECIFIED"
+    AGENCY = "AGENCY"
+    PRINCIPAL = "PRINCIPAL"
+    MIXED = "MIXED"
+
+
+class ActivityExerciseType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Exercise type classification"""
+
+    EXERCISE_TYPE_UNSPECIFIED = "EXERCISE_TYPE_UNSPECIFIED"
+    AUTO_EXERCISE = "AUTO_EXERCISE"
+    EARLY_EXERCISE = "EARLY_EXERCISE"
+    EXERCISE_BY_EXCEPTION = "EXERCISE_BY_EXCEPTION"
+
+
+class ActivityExerciseOptionContractQuantityTypedDict(TypedDict):
+    r"""Records the number of contracts exercised or assigned"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityExerciseOptionContractQuantity(BaseModel):
+    r"""Records the number of contracts exercised or assigned"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class ActivityExerciseTypedDict(TypedDict):
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to exercise. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from exercising an options position"""
+
+    capacity: NotRequired[ActivityExerciseCapacity]
+    r"""Trade capacity type"""
+    exercise_type: NotRequired[ActivityExerciseType]
+    r"""Exercise type classification"""
+    option_asset_id: NotRequired[str]
+    r"""Records the asset_id of the option that was exercised or assigned"""
+    option_contract_quantity: NotRequired[
+        Nullable[ActivityExerciseOptionContractQuantityTypedDict]
+    ]
+    r"""Records the number of contracts exercised or assigned"""
+    option_description: NotRequired[str]
+    r"""Records the description of the option the account exercised or assigned"""
+
+
+class ActivityExercise(BaseModel):
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to exercise. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from exercising an options position"""
+
+    capacity: Annotated[
+        Optional[ActivityExerciseCapacity], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Trade capacity type"""
+
+    exercise_type: Annotated[
+        Optional[ActivityExerciseType], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Exercise type classification"""
+
+    option_asset_id: Optional[str] = None
+    r"""Records the asset_id of the option that was exercised or assigned"""
+
+    option_contract_quantity: OptionalNullable[
+        ActivityExerciseOptionContractQuantity
+    ] = UNSET
+    r"""Records the number of contracts exercised or assigned"""
+
+    option_description: Optional[str] = None
+    r"""Records the description of the option the account exercised or assigned"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "capacity",
+            "exercise_type",
+            "option_asset_id",
+            "option_contract_quantity",
+            "option_description",
+        ]
+        nullable_fields = ["option_contract_quantity"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class ActivityMoneyness(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Indicates whether the price of the underlying was above or below the strike price of the option"""
+
+    MONEYNESS_UNSPECIFIED = "MONEYNESS_UNSPECIFIED"
+    IN_THE_MONEY = "IN_THE_MONEY"
+    OUT_OF_THE_MONEY = "OUT_OF_THE_MONEY"
+
+
+class ActivityExpirationTypedDict(TypedDict):
+    r"""Used to record the removal of positions in options assets that have reached or passed their expiration date and expired worthless"""
+
+    do_not_exercise: NotRequired[bool]
+    r"""Indicates that instructions were received by Apex to not exercise an option contract that expired in the money"""
+    moneyness: NotRequired[ActivityMoneyness]
+    r"""Indicates whether the price of the underlying was above or below the strike price of the option"""
+
+
+class ActivityExpiration(BaseModel):
+    r"""Used to record the removal of positions in options assets that have reached or passed their expiration date and expired worthless"""
+
+    do_not_exercise: Optional[bool] = None
+    r"""Indicates that instructions were received by Apex to not exercise an option contract that expired in the money"""
+
+    moneyness: Annotated[
+        Optional[ActivityMoneyness], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Indicates whether the price of the underlying was above or below the strike price of the option"""
+
+
 class ActivityFeeTypedDict(TypedDict):
     r"""Used to record Fees that have been assessed to account and capture details related to the fee"""
 
@@ -3106,6 +3337,35 @@ class NoneTTypedDict(TypedDict):
 
 class NoneT(BaseModel):
     r"""None"""
+
+
+class ActivityOptionAdjustmentTypedDict(TypedDict):
+    r"""Used to record the adjustment of an options position. Usually these adjustments are due to a corporate action event in the underlying asset, though in rare cases, the OCC may make adjustments for other reasons"""
+
+    disbursed_asset_id: NotRequired[str]
+    r"""Asset Id of the new security after the option adjustment was processed"""
+    disbursed_symbol: NotRequired[str]
+    r"""Symbol of the new security after the option adjustment was processed"""
+    target_asset_id: NotRequired[str]
+    r"""Asset Id of the existing security before the option adjustment was processed"""
+    target_symbol: NotRequired[str]
+    r"""Symbol of the existing security before the option adjustment was processed"""
+
+
+class ActivityOptionAdjustment(BaseModel):
+    r"""Used to record the adjustment of an options position. Usually these adjustments are due to a corporate action event in the underlying asset, though in rare cases, the OCC may make adjustments for other reasons"""
+
+    disbursed_asset_id: Optional[str] = None
+    r"""Asset Id of the new security after the option adjustment was processed"""
+
+    disbursed_symbol: Optional[str] = None
+    r"""Symbol of the new security after the option adjustment was processed"""
+
+    target_asset_id: Optional[str] = None
+    r"""Asset Id of the existing security before the option adjustment was processed"""
+
+    target_symbol: Optional[str] = None
+    r"""Symbol of the existing security before the option adjustment was processed"""
 
 
 class ActivityPaymentInKindCorporateActionGeneralInformationTypedDict(TypedDict):
@@ -4578,6 +4838,7 @@ class ActivitySideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
     SHORT_COVER = "SHORT_COVER"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+    COVER = "COVER"
 
 
 class ActivitySpinoffCorporateActionGeneralInformationTypedDict(TypedDict):
@@ -5532,6 +5793,8 @@ class ActivityTradeTypedDict(TypedDict):
     r"""If set to true, indicates the trade should be omitted from client billing"""
     is_writeoff: NotRequired[bool]
     r"""Set on penny-for-the-lot trades"""
+    locate_id: NotRequired[str]
+    r"""Identifier of the stock locate that authorizes a short sale. For easy-to-borrow (ETB) securities the value is \"ETB\". Required when side_modifier is SHORT; omitted for non-short-sale trades."""
     lots: NotRequired[List[LotTypedDict]]
     r"""Repeated record containing information about the tax lots, if specified"""
     order_id: NotRequired[str]
@@ -5609,6 +5872,9 @@ class ActivityTrade(BaseModel):
     is_writeoff: Optional[bool] = None
     r"""Set on penny-for-the-lot trades"""
 
+    locate_id: Optional[str] = None
+    r"""Identifier of the stock locate that authorizes a short sale. For easy-to-borrow (ETB) securities the value is \"ETB\". Required when side_modifier is SHORT; omitted for non-short-sale trades."""
+
     lots: Optional[List[Lot]] = None
     r"""Repeated record containing information about the tax lots, if specified"""
 
@@ -5659,6 +5925,7 @@ class ActivityTrade(BaseModel):
             "gateway_client_order_id",
             "internal_error",
             "is_writeoff",
+            "locate_id",
             "lots",
             "order_id",
             "prevailing_market_price",
@@ -6423,6 +6690,8 @@ class ActivityTypedDict(TypedDict):
     r"""Name of the issuer of a security and additional descriptive information about the particular issue"""
     asset_id: NotRequired[str]
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas Not populated on a currency only movement"""
+    assignment: NotRequired[Nullable[ActivityAssignmentTypedDict]]
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to assignment. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from the assignment of an options position"""
     bond_default: NotRequired[Nullable[ActivityBondDefaultTypedDict]]
     r"""Object containing metadata for bond defaults"""
     capital_gains: NotRequired[Nullable[ActivityCapitalGainsTypedDict]]
@@ -6461,6 +6730,10 @@ class ActivityTypedDict(TypedDict):
     r"""Used to record the settlement/payout of event contracts based on real-world event outcomes"""
     exchange: NotRequired[Nullable[ActivityExchangeTypedDict]]
     r"""Used to record the exchange of certificates for a new security or cash and details related to the exchange"""
+    exercise: NotRequired[Nullable[ActivityExerciseTypedDict]]
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to exercise. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from exercising an options position"""
+    expiration: NotRequired[Nullable[ActivityExpirationTypedDict]]
+    r"""Used to record the removal of positions in options assets that have reached or passed their expiration date and expired worthless"""
     fee: NotRequired[Nullable[ActivityFeeTypedDict]]
     r"""Used to record Fees that have been assessed to account and capture details related to the fee"""
     fees: NotRequired[List[FeeTypedDict]]
@@ -6493,6 +6766,8 @@ class ActivityTypedDict(TypedDict):
     r"""the process date of the next activity(nil if the next_activity_id is an empty string)"""
     none: NotRequired[Nullable[NoneTTypedDict]]
     r"""None"""
+    option_adjustment: NotRequired[Nullable[ActivityOptionAdjustmentTypedDict]]
+    r"""Used to record the adjustment of an options position. Usually these adjustments are due to a corporate action event in the underlying asset, though in rare cases, the OCC may make adjustments for other reasons"""
     originating_resource_name: NotRequired[str]
     r"""The resource name of the API resource that originated this ledger entry or activity. This field enables clients to link ledger activities back to their source transactions for reconciliation purposes. This field will only be populated when the client has direct access to the referenced resource via the Ascend API's."""
     payment_in_kind: NotRequired[Nullable[ActivityPaymentInKindTypedDict]]
@@ -6615,6 +6890,9 @@ class Activity(BaseModel):
     asset_id: Optional[str] = None
     r"""An Apex-provided, global identifier created on a per asset bases which provides connectivity across all areas Not populated on a currency only movement"""
 
+    assignment: OptionalNullable[ActivityAssignment] = UNSET
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to assignment. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from the assignment of an options position"""
+
     bond_default: OptionalNullable[ActivityBondDefault] = UNSET
     r"""Object containing metadata for bond defaults"""
 
@@ -6668,6 +6946,12 @@ class Activity(BaseModel):
     exchange: OptionalNullable[ActivityExchange] = UNSET
     r"""Used to record the exchange of certificates for a new security or cash and details related to the exchange"""
 
+    exercise: OptionalNullable[ActivityExercise] = UNSET
+    r"""When booked with a type of MOVEMENT, this subtype will remove an options position due to exercise. When booked with a type of TRADE, this subtype records the purchase/ sale of the underlying asset from exercising an options position"""
+
+    expiration: OptionalNullable[ActivityExpiration] = UNSET
+    r"""Used to record the removal of positions in options assets that have reached or passed their expiration date and expired worthless"""
+
     fee: OptionalNullable[ActivityFee] = UNSET
     r"""Used to record Fees that have been assessed to account and capture details related to the fee"""
 
@@ -6715,6 +6999,9 @@ class Activity(BaseModel):
 
     none: OptionalNullable[NoneT] = UNSET
     r"""None"""
+
+    option_adjustment: OptionalNullable[ActivityOptionAdjustment] = UNSET
+    r"""Used to record the adjustment of an options position. Usually these adjustments are due to a corporate action event in the underlying asset, though in rare cases, the OCC may make adjustments for other reasons"""
 
     originating_resource_name: Optional[str] = None
     r"""The resource name of the API resource that originated this ledger entry or activity. This field enables clients to link ledger activities back to their source transactions for reconciliation purposes. This field will only be populated when the client has direct access to the referenced resource via the Ascend API's."""
@@ -6851,6 +7138,7 @@ class Activity(BaseModel):
             "allocation",
             "asset_description",
             "asset_id",
+            "assignment",
             "bond_default",
             "capital_gains",
             "cash_dividend",
@@ -6868,6 +7156,8 @@ class Activity(BaseModel):
             "drip",
             "event_contract_settlement",
             "exchange",
+            "exercise",
+            "expiration",
             "fee",
             "fees",
             "fpsl",
@@ -6884,6 +7174,7 @@ class Activity(BaseModel):
             "next_activity_id",
             "next_activity_process_date",
             "none",
+            "option_adjustment",
             "originating_resource_name",
             "payment_in_kind",
             "previous_activity_id",
@@ -6929,6 +7220,7 @@ class Activity(BaseModel):
             "activity_date",
             "activity_time",
             "allocation",
+            "assignment",
             "bond_default",
             "capital_gains",
             "cash_dividend",
@@ -6942,6 +7234,8 @@ class Activity(BaseModel):
             "drip",
             "event_contract_settlement",
             "exchange",
+            "exercise",
+            "expiration",
             "fee",
             "fpsl",
             "gross_amount",
@@ -6954,6 +7248,7 @@ class Activity(BaseModel):
             "net_amount",
             "next_activity_process_date",
             "none",
+            "option_adjustment",
             "payment_in_kind",
             "previous_process_date",
             "price",

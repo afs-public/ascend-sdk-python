@@ -30,7 +30,7 @@ class Ledger(BaseSDK):
         :param account_id: The account id.
         :param page_size: The maximum number of entries to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
         :param page_token: A page token, received from a previous `ListEntries` call. Provide this to retrieve the subsequent page When paginating, all other parameters provided to `ListEntries` must match the call that provided the page token in order to maintain a stable result set
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.   See the CEL Search guide for more information:  https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -162,7 +162,7 @@ class Ledger(BaseSDK):
         :param account_id: The account id.
         :param page_size: The maximum number of entries to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
         :param page_token: A page token, received from a previous `ListEntries` call. Provide this to retrieve the subsequent page When paginating, all other parameters provided to `ListEntries` must match the call that provided the page token in order to maintain a stable result set
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.   See the CEL Search guide for more information:  https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -294,7 +294,7 @@ class Ledger(BaseSDK):
         :param account_id: The account id.
         :param page_size: The maximum number of activities to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
         :param page_token: A page token, received from a previous `ListActivity` call. Provide this to retrieve the subsequent page When paginating, all other parameters provided to `ListActivity` must match the call that provided the page token in order to maintain a stable result set
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.   See the CEL Search guide for more information:  https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -426,7 +426,7 @@ class Ledger(BaseSDK):
         :param account_id: The account id.
         :param page_size: The maximum number of activities to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
         :param page_token: A page token, received from a previous `ListActivity` call. Provide this to retrieve the subsequent page When paginating, all other parameters provided to `ListActivity` must match the call that provided the page token in order to maintain a stable result set
-        :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
+        :param filter_: For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.   See the CEL Search guide for more information:  https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -556,8 +556,8 @@ class Ledger(BaseSDK):
         List positions based on a filter
 
         :param account_id: The account id.
-        :param page_size: The maximum number of positions to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
-        :param page_token: This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent page When paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set
+        :param page_size: The maximum number of positions to return. The service may return fewer than this valueDefault is 100 (subject to change)The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
+        :param page_token: This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent pageWhen paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set
         :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -688,8 +688,8 @@ class Ledger(BaseSDK):
         List positions based on a filter
 
         :param account_id: The account id.
-        :param page_size: The maximum number of positions to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
-        :param page_token: This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent page When paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set
+        :param page_size: The maximum number of positions to return. The service may return fewer than this valueDefault is 100 (subject to change)The maximum is 1000, values exceeding this will be set to 1000 (subject to change)
+        :param page_token: This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent pageWhen paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set
         :param filter_: A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

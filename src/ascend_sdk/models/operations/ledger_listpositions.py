@@ -17,9 +17,9 @@ class LedgerListPositionsRequestTypedDict(TypedDict):
     account_id: str
     r"""The account id."""
     page_size: NotRequired[int]
-    r"""The maximum number of positions to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)"""
+    r"""The maximum number of positions to return. The service may return fewer than this valueDefault is 100 (subject to change)The maximum is 1000, values exceeding this will be set to 1000 (subject to change)"""
     page_token: NotRequired[str]
-    r"""This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent page When paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set"""
+    r"""This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent pageWhen paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set"""
     filter_: NotRequired[str]
     r"""A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;"""
 
@@ -34,13 +34,13 @@ class LedgerListPositionsRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The maximum number of positions to return. The service may return fewer than this value Default is 100 (subject to change) The maximum is 1000, values exceeding this will be set to 1000 (subject to change)"""
+    r"""The maximum number of positions to return. The service may return fewer than this valueDefault is 100 (subject to change)The maximum is 1000, values exceeding this will be set to 1000 (subject to change)"""
 
     page_token: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent page When paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set"""
+    r"""This page token comes from a previous `ListPositions` call; provide this token to retrieve the subsequent pageWhen paginating, all other parameters you include in `ListPositions` must match the call that includes the page token to maintain a stable result set"""
 
     filter_: Annotated[
         Optional[str],

@@ -21,7 +21,11 @@ class LedgerListEntriesRequestTypedDict(TypedDict):
     page_token: NotRequired[str]
     r"""A page token, received from a previous `ListEntries` call. Provide this to retrieve the subsequent page When paginating, all other parameters provided to `ListEntries` must match the call that provided the page token in order to maintain a stable result set"""
     filter_: NotRequired[str]
-    r"""A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;"""
+    r"""For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.
+
+    See the CEL Search guide for more information:
+    https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
+    """
 
 
 class LedgerListEntriesRequest(BaseModel):
@@ -47,7 +51,11 @@ class LedgerListEntriesRequest(BaseModel):
         pydantic.Field(alias="filter"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information;"""
+    r"""For optimal performance, include process_date or activity_date in the CEL expression. Adding asset_id, type, and/or subtype_category further improves query efficiency when applicable. Queries without date fields will have slower response times.
+
+    See the CEL Search guide for more information:
+    https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search
+    """
 
 
 class LedgerListEntriesResponseTypedDict(TypedDict):

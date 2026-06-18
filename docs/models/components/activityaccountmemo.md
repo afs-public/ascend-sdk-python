@@ -13,3 +13,4 @@ Indicates the memo location impacted by an entry
 | `PENDING_OUTGOING_ACAT` | PENDING_OUTGOING_ACAT   |
 | `PENDING_DRIP`          | PENDING_DRIP            |
 | `PENDING_WITHDRAWAL`    | PENDING_WITHDRAWAL      |
+| `SHORT`                 | SHORT                   |

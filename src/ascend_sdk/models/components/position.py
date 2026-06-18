@@ -174,6 +174,20 @@ class Settled(BaseModel):
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
+class ShortTypedDict(TypedDict):
+    r"""Represents the amount of an asset that has been sold short, where shares were borrowed and sold with an obligation to repurchase and return them. This memo distinguishes intentional short sales from other negative position states"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class Short(BaseModel):
+    r"""Represents the amount of an asset that has been sold short, where shares were borrowed and sold with an obligation to repurchase and return them. This memo distinguishes intentional short sales from other negative position states"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
 class PositionTradeTypedDict(TypedDict):
     r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
 
@@ -235,6 +249,8 @@ class PositionTypedDict(TypedDict):
     r"""Represents a chronologically-ordered version identifier that enables efficient position state tracking and event ordering. The system guarantees that positions from earlier dates have smaller version numbers than those from later dates"""
     settled: NotRequired[Nullable[SettledTypedDict]]
     r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
+    short: NotRequired[Nullable[ShortTypedDict]]
+    r"""Represents the amount of an asset that has been sold short, where shares were borrowed and sold with an obligation to repurchase and return them. This memo distinguishes intentional short sales from other negative position states"""
     trade: NotRequired[Nullable[PositionTradeTypedDict]]
     r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
     unrestricted: NotRequired[Nullable[UnrestrictedTypedDict]]
@@ -289,6 +305,9 @@ class Position(BaseModel):
     settled: OptionalNullable[Settled] = UNSET
     r"""This field refers to the quantity of assets that have completed the entire clearing and settlement cycle, where ownership of the securities has been officially transferred and payment has been fully processed. The settled position includes all transactions that have been recorded in the Ledger with process_date, activity_date, and settle_date on or before the date specified in the response."""
 
+    short: OptionalNullable[Short] = UNSET
+    r"""Represents the amount of an asset that has been sold short, where shares were borrowed and sold with an obligation to repurchase and return them. This memo distinguishes intentional short sales from other negative position states"""
+
     trade: OptionalNullable[PositionTrade] = UNSET
     r"""This field represents the total amount of an asset owned by the account including transactions that have been executed but not yet settled, commonly known as the trade date position. It includes all transactions recorded in the Ledger with process_date and activity_date on or before the date in the response, even those with future settle_dates. Unlike the settled position, which only includes completed settlements, the trade position provides a forward-looking view of ownership that accounts for pending settlements"""
 
@@ -313,6 +332,7 @@ class Position(BaseModel):
             "pending_withdrawal",
             "position_version",
             "settled",
+            "short",
             "trade",
             "unrestricted",
         ]
@@ -327,6 +347,7 @@ class Position(BaseModel):
             "pending_outgoing_acat",
             "pending_withdrawal",
             "settled",
+            "short",
             "trade",
             "unrestricted",
         ]

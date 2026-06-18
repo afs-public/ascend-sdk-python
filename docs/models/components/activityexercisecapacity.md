@@ -1,0 +1,13 @@
+# ActivityExerciseCapacity
+
+Trade capacity type
+
+
+## Values
+
+| Name                   | Value                  |
+| ---------------------- | ---------------------- |
+| `CAPACITY_UNSPECIFIED` | CAPACITY_UNSPECIFIED   |
+| `AGENCY`               | AGENCY                 |
+| `PRINCIPAL`            | PRINCIPAL              |
+| `MIXED`                | MIXED                  |
