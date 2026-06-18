@@ -1,0 +1,13 @@
+# OptionAdjustment
+
+Object containing metadata for option adjustments
+
+
+## Fields
+
+| Field                                                                      | Type                                                                       | Required                                                                   | Description                                                                | Example                                                                    |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `disbursed_asset_id`                                                       | *Optional[str]*                                                            | :heavy_minus_sign:                                                         | Asset Id of the new security after the option adjustment was processed     | 1001                                                                       |
+| `disbursed_symbol`                                                         | *Optional[str]*                                                            | :heavy_minus_sign:                                                         | Symbol of the new security after the option adjustment was processed       | AAPL210416C00120000                                                        |
+| `target_asset_id`                                                          | *Optional[str]*                                                            | :heavy_minus_sign:                                                         | N/A                                                                        | 1000                                                                       |
+| `target_symbol`                                                            | *Optional[str]*                                                            | :heavy_minus_sign:                                                         | Symbol of the existing security before the option adjustment was processed | AAPL210416C00120000                                                        |

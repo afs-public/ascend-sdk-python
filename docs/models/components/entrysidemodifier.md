@@ -13,3 +13,4 @@ Indicates whether the trade is opening a new position or closing an existing pos
 | `SHORT_COVER`               | SHORT_COVER                 |
 | `OPEN`                      | OPEN                        |
 | `CLOSE`                     | CLOSE                       |
+| `COVER`                     | COVER                       |
