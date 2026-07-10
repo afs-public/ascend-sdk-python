@@ -93,6 +93,10 @@ from .ordersoptionstradingenrollmentmetadatacreate import (
     OrdersOptionsTradingEnrollmentMetadataCreate,
     OrdersOptionsTradingEnrollmentMetadataCreateTypedDict,
 )
+from .partnershipenrollmentmetadatacreate import (
+    PartnershipEnrollmentMetadataCreate,
+    PartnershipEnrollmentMetadataCreateTypedDict,
+)
 from .soleproprietorshipenrollmentmetadatacreate import (
     SoleProprietorshipEnrollmentMetadataCreate,
     SoleProprietorshipEnrollmentMetadataCreateTypedDict,
@@ -129,6 +133,7 @@ class EnrollmentCreateType(str, Enum, metaclass=utils.OpenEnumMeta):
 
     ENROLLMENT_TYPE_UNSPECIFIED = "ENROLLMENT_TYPE_UNSPECIFIED"
     REGISTRATION_INDIVIDUAL = "REGISTRATION_INDIVIDUAL"
+    LENDING_LIMITED_PURPOSE_MARGIN = "LENDING_LIMITED_PURPOSE_MARGIN"
     LENDING_FULLY_PAID_STOCK_LOAN = "LENDING_FULLY_PAID_STOCK_LOAN"
     BENEFICIARY_DESIGNATION = "BENEFICIARY_DESIGNATION"
     REGISTRATION_JOINT_WROS = "REGISTRATION_JOINT_WROS"
@@ -250,6 +255,10 @@ class EnrollmentCreateTypedDict(TypedDict):
         OrdersOptionsTradingEnrollmentMetadataCreateTypedDict
     ]
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+    partnership_enrollment_metadata: NotRequired[
+        PartnershipEnrollmentMetadataCreateTypedDict
+    ]
+    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
     sole_proprietorship_enrollment_metadata: NotRequired[
         SoleProprietorshipEnrollmentMetadataCreateTypedDict
     ]
@@ -371,6 +380,11 @@ class EnrollmentCreate(BaseModel):
         OrdersOptionsTradingEnrollmentMetadataCreate
     ] = None
     r"""Enrollment metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+
+    partnership_enrollment_metadata: Optional[PartnershipEnrollmentMetadataCreate] = (
+        None
+    )
+    r"""Enrollment metadata for the PARTNERSHIP enrollment type"""
 
     sole_proprietorship_enrollment_metadata: Optional[
         SoleProprietorshipEnrollmentMetadataCreate

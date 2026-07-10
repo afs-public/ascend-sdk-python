@@ -249,6 +249,8 @@ class AcceptTransferResponseState(str, Enum, metaclass=utils.OpenEnumMeta):
     PENDING_BOOKKEEPING = "PENDING_BOOKKEEPING"
     COMPLETED = "COMPLETED"
     PURGED = "PURGED"
+    PENDING_REVIEW_MARGINS = "PENDING_REVIEW_MARGINS"
+    PENDING_SUBMISSION = "PENDING_SUBMISSION"
 
 
 class AcceptTransferResponseTransferType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -265,6 +267,8 @@ class AcceptTransferResponseTransferType(str, Enum, metaclass=utils.OpenEnumMeta
     )
     RECLAIM = "RECLAIM"
     RESIDUAL_CREDIT = "RESIDUAL_CREDIT"
+    SPONSORED_TRANSFER = "SPONSORED_TRANSFER"
+    FREE_RECEIVE = "FREE_RECEIVE"
 
 
 class TransferTypedDict(TypedDict):

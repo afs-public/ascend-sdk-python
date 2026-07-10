@@ -32,3 +32,4 @@ The purpose of the operating account.
 | `WASH`                             | WASH                               |
 | `SETTLEMENT`                       | SETTLEMENT                         |
 | `TRANSFER_LOCATION`                | TRANSFER_LOCATION                  |
+| `CONTROL_DEPOSITORY`               | CONTROL_DEPOSITORY                 |
