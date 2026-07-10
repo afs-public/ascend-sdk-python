@@ -33,7 +33,7 @@ class PushSubscriptionDeliveryTypedDict(TypedDict):
 
     delivery_id: NotRequired[str]
     r"""The unique identifier for the delivery"""
-    duration: NotRequired[str]
+    duration: NotRequired[Nullable[str]]
     r"""The total time spent delivering"""
     event: NotRequired[str]
     r"""The resource name of the event; Format: messages/{message}"""
@@ -55,7 +55,7 @@ class PushSubscriptionDelivery(BaseModel):
     delivery_id: Optional[str] = None
     r"""The unique identifier for the delivery"""
 
-    duration: Optional[str] = None
+    duration: OptionalNullable[str] = UNSET
     r"""The total time spent delivering"""
 
     event: Optional[str] = None
@@ -90,7 +90,7 @@ class PushSubscriptionDelivery(BaseModel):
             "name",
             "result",
         ]
-        nullable_fields = ["event_publish_time", "last_send_time"]
+        nullable_fields = ["duration", "event_publish_time", "last_send_time"]
         null_default_fields = []
 
         serialized = handler(self)

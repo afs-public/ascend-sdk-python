@@ -59,7 +59,7 @@ class PartyCorporateStructure(str, Enum, metaclass=utils.OpenEnumMeta):
 class PartyNegativeNewsTypedDict(TypedDict):
     r"""Information about any negative news against related parties and entities"""
 
-    negative_news_against_related_parties: NotRequired[bool]
+    negative_news_against_related_parties: NotRequired[Nullable[bool]]
     r"""Indicates whether there is negative news against related parties"""
     negative_news_against_related_parties_description: NotRequired[str]
     r"""Description of the negative news against related parties"""
@@ -68,17 +68,50 @@ class PartyNegativeNewsTypedDict(TypedDict):
 class PartyNegativeNews(BaseModel):
     r"""Information about any negative news against related parties and entities"""
 
-    negative_news_against_related_parties: Optional[bool] = None
+    negative_news_against_related_parties: OptionalNullable[bool] = UNSET
     r"""Indicates whether there is negative news against related parties"""
 
     negative_news_against_related_parties_description: Optional[str] = None
     r"""Description of the negative news against related parties"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "negative_news_against_related_parties",
+            "negative_news_against_related_parties_description",
+        ]
+        nullable_fields = ["negative_news_against_related_parties"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
 
 class PartyEntityDueDiligenceTypedDict(TypedDict):
     r"""Due Diligence for Legal Entities"""
 
-    entity_issues_bearer_shares: NotRequired[bool]
+    entity_issues_bearer_shares: NotRequired[Nullable[bool]]
     r"""Indicates whether the entity issues bearer shares"""
     negative_news: NotRequired[Nullable[PartyNegativeNewsTypedDict]]
     r"""Information about any negative news against related parties and entities"""
@@ -87,7 +120,7 @@ class PartyEntityDueDiligenceTypedDict(TypedDict):
 class PartyEntityDueDiligence(BaseModel):
     r"""Due Diligence for Legal Entities"""
 
-    entity_issues_bearer_shares: Optional[bool] = None
+    entity_issues_bearer_shares: OptionalNullable[bool] = UNSET
     r"""Indicates whether the entity issues bearer shares"""
 
     negative_news: OptionalNullable[PartyNegativeNews] = UNSET
@@ -96,7 +129,7 @@ class PartyEntityDueDiligence(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["entity_issues_bearer_shares", "negative_news"]
-        nullable_fields = ["negative_news"]
+        nullable_fields = ["entity_issues_bearer_shares", "negative_news"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -536,7 +569,7 @@ class PartyTaxProfileTypedDict(TypedDict):
     r"""Tax Certification date."""
     taxpayer_certification_state: NotRequired[PartyTaxpayerCertificationState]
     r"""Taxpayer certification status."""
-    treaty_benefits_requested: NotRequired[bool]
+    treaty_benefits_requested: NotRequired[Nullable[bool]]
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[PartyUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
@@ -581,7 +614,7 @@ class PartyTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
-    treaty_benefits_requested: Optional[bool] = None
+    treaty_benefits_requested: OptionalNullable[bool] = UNSET
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
 
     us_tin_status: Annotated[
@@ -613,6 +646,7 @@ class PartyTaxProfile(BaseModel):
             "c_notice_date",
             "first_b_notice_date",
             "tax_certification_date",
+            "treaty_benefits_requested",
         ]
         null_default_fields = []
 
@@ -1278,7 +1312,7 @@ class PartyForeignIdentificationTypedDict(TypedDict):
 
     expiration_date: NotRequired[Nullable[PartyExpirationDateTypedDict]]
     r"""Identification expiration date"""
-    ftin: NotRequired[bool]
+    ftin: NotRequired[Nullable[bool]]
     r"""Denotes if the identification is a tax id or other"""
     identification_number: NotRequired[str]
     r"""Identification number"""
@@ -1301,7 +1335,7 @@ class PartyForeignIdentification(BaseModel):
     expiration_date: OptionalNullable[PartyExpirationDate] = UNSET
     r"""Identification expiration date"""
 
-    ftin: Optional[bool] = None
+    ftin: OptionalNullable[bool] = UNSET
     r"""Denotes if the identification is a tax id or other"""
 
     identification_number: Optional[str] = None
@@ -1328,7 +1362,7 @@ class PartyForeignIdentification(BaseModel):
             "issuing_region_code",
             "type",
         ]
-        nullable_fields = ["expiration_date", "issue_date"]
+        nullable_fields = ["expiration_date", "ftin", "issue_date"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1618,7 +1652,7 @@ class PartyCustomerReferralSource(BaseModel):
 class PartyLegalNaturalPersonNegativeNewsTypedDict(TypedDict):
     r"""Information about any negative news against the client, or any immediate family members, close associates, or related entities"""
 
-    negative_news_against_related_parties: NotRequired[bool]
+    negative_news_against_related_parties: NotRequired[Nullable[bool]]
     r"""Indicates whether there is negative news against related parties"""
     negative_news_against_related_parties_description: NotRequired[str]
     r"""Description of the negative news against related parties"""
@@ -1627,17 +1661,50 @@ class PartyLegalNaturalPersonNegativeNewsTypedDict(TypedDict):
 class PartyLegalNaturalPersonNegativeNews(BaseModel):
     r"""Information about any negative news against the client, or any immediate family members, close associates, or related entities"""
 
-    negative_news_against_related_parties: Optional[bool] = None
+    negative_news_against_related_parties: OptionalNullable[bool] = UNSET
     r"""Indicates whether there is negative news against related parties"""
 
     negative_news_against_related_parties_description: Optional[str] = None
     r"""Description of the negative news against related parties"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "negative_news_against_related_parties",
+            "negative_news_against_related_parties_description",
+        ]
+        nullable_fields = ["negative_news_against_related_parties"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
 
 class PartyOtherSourcesOfWealthTypedDict(TypedDict):
     r"""The applicant's other source of wealth"""
 
-    applicant_has_other_sources_of_wealth: NotRequired[bool]
+    applicant_has_other_sources_of_wealth: NotRequired[Nullable[bool]]
     r"""Indicates whether the applicant has other sources of wealth."""
     other_sources_of_wealth: NotRequired[str]
     r"""The applicant's other source of wealth description. If the applicant has no other sources of wealth, they must specify \"N/A.\" """
@@ -1648,7 +1715,7 @@ class PartyOtherSourcesOfWealthTypedDict(TypedDict):
 class PartyOtherSourcesOfWealth(BaseModel):
     r"""The applicant's other source of wealth"""
 
-    applicant_has_other_sources_of_wealth: Optional[bool] = None
+    applicant_has_other_sources_of_wealth: OptionalNullable[bool] = UNSET
     r"""Indicates whether the applicant has other sources of wealth."""
 
     other_sources_of_wealth: Optional[str] = None
@@ -1656,6 +1723,40 @@ class PartyOtherSourcesOfWealth(BaseModel):
 
     other_sources_of_wealth_verification: Optional[str] = None
     r"""The applicant's other source of wealth verification. If the applicant has no other sources of wealth, they must specify \"N/A.\" """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "applicant_has_other_sources_of_wealth",
+            "other_sources_of_wealth",
+            "other_sources_of_wealth_verification",
+        ]
+        nullable_fields = ["applicant_has_other_sources_of_wealth"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class PartyNaturalPersonFddTypedDict(TypedDict):
@@ -2041,7 +2142,7 @@ class PartyLegalNaturalPersonTaxProfileTypedDict(TypedDict):
         PartyLegalNaturalPersonTaxpayerCertificationState
     ]
     r"""Taxpayer certification status."""
-    treaty_benefits_requested: NotRequired[bool]
+    treaty_benefits_requested: NotRequired[Nullable[bool]]
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[PartyLegalNaturalPersonUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
@@ -2092,7 +2193,7 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
-    treaty_benefits_requested: Optional[bool] = None
+    treaty_benefits_requested: OptionalNullable[bool] = UNSET
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
 
     us_tin_status: Annotated[
@@ -2126,6 +2227,7 @@ class PartyLegalNaturalPersonTaxProfile(BaseModel):
             "c_notice_date",
             "first_b_notice_date",
             "tax_certification_date",
+            "treaty_benefits_requested",
         ]
         null_default_fields = []
 

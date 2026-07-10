@@ -16,3 +16,5 @@ The type of transfer
 | `POSITION_TRANSFER_FUND_FIRM_TO_MUTUAL_FUND_COMPANY_ONLY` | POSITION_TRANSFER_FUND_FIRM_TO_MUTUAL_FUND_COMPANY_ONLY   |
 | `RECLAIM`                                                 | RECLAIM                                                   |
 | `RESIDUAL_CREDIT`                                         | RESIDUAL_CREDIT                                           |
+| `SPONSORED_TRANSFER`                                      | SPONSORED_TRANSFER                                        |
+| `FREE_RECEIVE`                                            | FREE_RECEIVE                                              |

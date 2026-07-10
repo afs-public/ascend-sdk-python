@@ -149,7 +149,7 @@ class OtherAccountsTypedDict(TypedDict):
     r"""Other account names held at Apex"""
     account_numbers: NotRequired[List[str]]
     r"""Other account numbers held at Apex"""
-    owner_has_other_accounts_at_apex: NotRequired[bool]
+    owner_has_other_accounts_at_apex: NotRequired[Nullable[bool]]
     r"""The owner has other accounts at Apex"""
 
 
@@ -162,8 +162,42 @@ class OtherAccounts(BaseModel):
     account_numbers: Optional[List[str]] = None
     r"""Other account numbers held at Apex"""
 
-    owner_has_other_accounts_at_apex: Optional[bool] = None
+    owner_has_other_accounts_at_apex: OptionalNullable[bool] = UNSET
     r"""The owner has other accounts at Apex"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "account_names",
+            "account_numbers",
+            "owner_has_other_accounts_at_apex",
+        ]
+        nullable_fields = ["owner_has_other_accounts_at_apex"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class FinancialProfileTypedDict(TypedDict):
@@ -227,7 +261,7 @@ class FinancialProfile(BaseModel):
 class ForeignBondTradingDetailsTypedDict(TypedDict):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: NotRequired[bool]
+    foreign_bond_trading: NotRequired[Nullable[bool]]
     r"""Does the account anticipate trading in foreign bonds"""
     foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
     r"""The foreign bond trading countries details. If yes, than please provide details"""
@@ -236,11 +270,41 @@ class ForeignBondTradingDetailsTypedDict(TypedDict):
 class ForeignBondTradingDetails(BaseModel):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: Optional[bool] = None
+    foreign_bond_trading: OptionalNullable[bool] = UNSET
     r"""Does the account anticipate trading in foreign bonds"""
 
     foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
     r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["foreign_bond_trading", "foreign_bond_trading_detail"]
+        nullable_fields = ["foreign_bond_trading"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class LowPricedSecuritiesPercentageTypedDict(TypedDict):
@@ -260,7 +324,7 @@ class LowPricedSecuritiesPercentage(BaseModel):
 class LowPricedSecuritiesTypedDict(TypedDict):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: NotRequired[bool]
+    low_priced_securities: NotRequired[Nullable[bool]]
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
     low_priced_securities_percentage: NotRequired[
         Nullable[LowPricedSecuritiesPercentageTypedDict]
@@ -271,7 +335,7 @@ class LowPricedSecuritiesTypedDict(TypedDict):
 class LowPricedSecurities(BaseModel):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: Optional[bool] = None
+    low_priced_securities: OptionalNullable[bool] = UNSET
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
     low_priced_securities_percentage: OptionalNullable[
@@ -282,7 +346,7 @@ class LowPricedSecurities(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
-        nullable_fields = ["low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities", "low_priced_securities_percentage"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -413,7 +477,7 @@ class PlannedActivity(BaseModel):
 class RelatedPepDetailsTypedDict(TypedDict):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: NotRequired[bool]
+    direct_or_indirect_related_peps: NotRequired[Nullable[bool]]
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
     related_peps: NotRequired[List[RelatedPepTypedDict]]
     r"""Related Peps"""
@@ -422,11 +486,41 @@ class RelatedPepDetailsTypedDict(TypedDict):
 class RelatedPepDetails(BaseModel):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: Optional[bool] = None
+    direct_or_indirect_related_peps: OptionalNullable[bool] = UNSET
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
 
     related_peps: Optional[List[RelatedPep]] = None
     r"""Related Peps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["direct_or_indirect_related_peps", "related_peps"]
+        nullable_fields = ["direct_or_indirect_related_peps"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EddAccountEnrollmentMetadataTypedDict(TypedDict):
@@ -841,7 +935,7 @@ class EnrollmentOtherAccountsTypedDict(TypedDict):
     r"""Other account names held at Apex"""
     account_numbers: NotRequired[List[str]]
     r"""Other account numbers held at Apex"""
-    owner_has_other_accounts_at_apex: NotRequired[bool]
+    owner_has_other_accounts_at_apex: NotRequired[Nullable[bool]]
     r"""The owner has other accounts at Apex"""
 
 
@@ -854,8 +948,42 @@ class EnrollmentOtherAccounts(BaseModel):
     account_numbers: Optional[List[str]] = None
     r"""Other account numbers held at Apex"""
 
-    owner_has_other_accounts_at_apex: Optional[bool] = None
+    owner_has_other_accounts_at_apex: OptionalNullable[bool] = UNSET
     r"""The owner has other accounts at Apex"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "account_names",
+            "account_numbers",
+            "owner_has_other_accounts_at_apex",
+        ]
+        nullable_fields = ["owner_has_other_accounts_at_apex"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentFinancialProfileTypedDict(TypedDict):
@@ -919,7 +1047,7 @@ class EnrollmentFinancialProfile(BaseModel):
 class EnrollmentForeignBondTradingDetailsTypedDict(TypedDict):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: NotRequired[bool]
+    foreign_bond_trading: NotRequired[Nullable[bool]]
     r"""Does the account anticipate trading in foreign bonds"""
     foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
     r"""The foreign bond trading countries details. If yes, than please provide details"""
@@ -928,11 +1056,41 @@ class EnrollmentForeignBondTradingDetailsTypedDict(TypedDict):
 class EnrollmentForeignBondTradingDetails(BaseModel):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: Optional[bool] = None
+    foreign_bond_trading: OptionalNullable[bool] = UNSET
     r"""Does the account anticipate trading in foreign bonds"""
 
     foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
     r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["foreign_bond_trading", "foreign_bond_trading_detail"]
+        nullable_fields = ["foreign_bond_trading"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentLowPricedSecuritiesPercentageTypedDict(TypedDict):
@@ -952,7 +1110,7 @@ class EnrollmentLowPricedSecuritiesPercentage(BaseModel):
 class EnrollmentLowPricedSecuritiesTypedDict(TypedDict):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: NotRequired[bool]
+    low_priced_securities: NotRequired[Nullable[bool]]
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
     low_priced_securities_percentage: NotRequired[
         Nullable[EnrollmentLowPricedSecuritiesPercentageTypedDict]
@@ -963,7 +1121,7 @@ class EnrollmentLowPricedSecuritiesTypedDict(TypedDict):
 class EnrollmentLowPricedSecurities(BaseModel):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: Optional[bool] = None
+    low_priced_securities: OptionalNullable[bool] = UNSET
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
     low_priced_securities_percentage: OptionalNullable[
@@ -974,7 +1132,7 @@ class EnrollmentLowPricedSecurities(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
-        nullable_fields = ["low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities", "low_priced_securities_percentage"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1099,7 +1257,7 @@ class EnrollmentPlannedActivity(BaseModel):
 class EnrollmentRelatedPepDetailsTypedDict(TypedDict):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: NotRequired[bool]
+    direct_or_indirect_related_peps: NotRequired[Nullable[bool]]
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
     related_peps: NotRequired[List[RelatedPepTypedDict]]
     r"""Related Peps"""
@@ -1108,11 +1266,41 @@ class EnrollmentRelatedPepDetailsTypedDict(TypedDict):
 class EnrollmentRelatedPepDetails(BaseModel):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: Optional[bool] = None
+    direct_or_indirect_related_peps: OptionalNullable[bool] = UNSET
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
 
     related_peps: Optional[List[RelatedPep]] = None
     r"""Related Peps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["direct_or_indirect_related_peps", "related_peps"]
+        nullable_fields = ["direct_or_indirect_related_peps"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class ForeignNaturalPersonAccountEnrollmentMetadataTypedDict(TypedDict):
@@ -1358,7 +1546,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataOtherAccountsTypedDict(Type
     r"""Other account names held at Apex"""
     account_numbers: NotRequired[List[str]]
     r"""Other account numbers held at Apex"""
-    owner_has_other_accounts_at_apex: NotRequired[bool]
+    owner_has_other_accounts_at_apex: NotRequired[Nullable[bool]]
     r"""The owner has other accounts at Apex"""
 
 
@@ -1371,8 +1559,42 @@ class EnrollmentForeignJointAccountEnrollmentMetadataOtherAccounts(BaseModel):
     account_numbers: Optional[List[str]] = None
     r"""Other account numbers held at Apex"""
 
-    owner_has_other_accounts_at_apex: Optional[bool] = None
+    owner_has_other_accounts_at_apex: OptionalNullable[bool] = UNSET
     r"""The owner has other accounts at Apex"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "account_names",
+            "account_numbers",
+            "owner_has_other_accounts_at_apex",
+        ]
+        nullable_fields = ["owner_has_other_accounts_at_apex"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentForeignJointAccountEnrollmentMetadataFinancialProfileTypedDict(
@@ -1444,7 +1666,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetailsTy
 ):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: NotRequired[bool]
+    foreign_bond_trading: NotRequired[Nullable[bool]]
     r"""Does the account anticipate trading in foreign bonds"""
     foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
     r"""The foreign bond trading countries details. If yes, than please provide details"""
@@ -1455,11 +1677,41 @@ class EnrollmentForeignJointAccountEnrollmentMetadataForeignBondTradingDetails(
 ):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: Optional[bool] = None
+    foreign_bond_trading: OptionalNullable[bool] = UNSET
     r"""Does the account anticipate trading in foreign bonds"""
 
     foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
     r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["foreign_bond_trading", "foreign_bond_trading_detail"]
+        nullable_fields = ["foreign_bond_trading"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict(
@@ -1485,7 +1737,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesTypedDic
 ):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: NotRequired[bool]
+    low_priced_securities: NotRequired[Nullable[bool]]
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
     low_priced_securities_percentage: NotRequired[
         Nullable[
@@ -1498,7 +1750,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecuritiesTypedDic
 class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecurities(BaseModel):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: Optional[bool] = None
+    low_priced_securities: OptionalNullable[bool] = UNSET
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
     low_priced_securities_percentage: OptionalNullable[
@@ -1509,7 +1761,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataLowPricedSecurities(BaseMod
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
-        nullable_fields = ["low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities", "low_priced_securities_percentage"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1656,7 +1908,7 @@ class EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetailsTypedDict(
 ):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: NotRequired[bool]
+    direct_or_indirect_related_peps: NotRequired[Nullable[bool]]
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
     related_peps: NotRequired[List[RelatedPepTypedDict]]
     r"""Related Peps"""
@@ -1665,11 +1917,41 @@ class EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetailsTypedDict(
 class EnrollmentForeignJointAccountEnrollmentMetadataRelatedPepDetails(BaseModel):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: Optional[bool] = None
+    direct_or_indirect_related_peps: OptionalNullable[bool] = UNSET
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
 
     related_peps: Optional[List[RelatedPep]] = None
     r"""Related Peps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["direct_or_indirect_related_peps", "related_peps"]
+        nullable_fields = ["direct_or_indirect_related_peps"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentForeignNaturalPersonAccountEnrollmentMetadataTypedDict(TypedDict):
@@ -1879,49 +2161,49 @@ class EnrollmentFuturesInvestmentObjective(str, Enum, metaclass=utils.OpenEnumMe
 class FuturesEnrollmentMetadataTypedDict(TypedDict):
     r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
 
-    ctfc_nfa_registered: NotRequired[bool]
+    ctfc_nfa_registered: NotRequired[Nullable[bool]]
     r"""Indicates whether the account is registered with the CFTC NFA"""
-    exchange_member: NotRequired[bool]
+    exchange_member: NotRequired[Nullable[bool]]
     r"""Indicates whether the account owner is a member of any exchanges"""
-    fcm_owned_or_controlled: NotRequired[bool]
+    fcm_owned_or_controlled: NotRequired[Nullable[bool]]
     r"""Indicates whether the futures account is owned or controlled by a FCM"""
-    funds_owned_by_account_owner: NotRequired[bool]
+    funds_owned_by_account_owner: NotRequired[Nullable[bool]]
     r"""Indicates whether the funds in the futures account are owned by the account owner"""
-    futures_experience: NotRequired[bool]
+    futures_experience: NotRequired[Nullable[bool]]
     r"""Indicates whether the account owner has prior experience trading futures"""
     futures_investment_objective: NotRequired[EnrollmentFuturesInvestmentObjective]
     r"""The primary investment objective for the futures account"""
-    investment_retired_funds: NotRequired[bool]
+    investment_retired_funds: NotRequired[Nullable[bool]]
     r"""Indicates whether the account will trade investment retired funds"""
-    options_experience: NotRequired[bool]
+    options_experience: NotRequired[Nullable[bool]]
     r"""Indicates whether the account owner has experience with various trading options and strategies"""
-    understand_futures_risks: NotRequired[bool]
+    understand_futures_risks: NotRequired[Nullable[bool]]
     r"""Indicates whether the account owner understands the risks associated with trading futures"""
-    understand_loss_beyond_funds: NotRequired[bool]
+    understand_loss_beyond_funds: NotRequired[Nullable[bool]]
     r"""Indicates whether the account owner understands that losses can exceed deposited funds"""
 
 
 class FuturesEnrollmentMetadata(BaseModel):
     r"""Metadata for the REGISTRATION_FUTURES enrollment type"""
 
-    ctfc_nfa_registered: Optional[bool] = None
+    ctfc_nfa_registered: OptionalNullable[bool] = UNSET
     r"""Indicates whether the account is registered with the CFTC NFA"""
 
-    exchange_member: Optional[bool] = None
+    exchange_member: OptionalNullable[bool] = UNSET
     r"""Indicates whether the account owner is a member of any exchanges"""
 
-    fcm_owned_or_controlled: Optional[bool] = None
+    fcm_owned_or_controlled: OptionalNullable[bool] = UNSET
     r"""Indicates whether the futures account is owned or controlled by a FCM"""
 
-    funds_owned_by_account_owner: Optional[bool] = None
+    funds_owned_by_account_owner: OptionalNullable[bool] = UNSET
     r"""Indicates whether the funds in the futures account are owned by the account owner"""
 
     futures_experience: Annotated[
-        Optional[bool],
+        OptionalNullable[bool],
         pydantic.Field(
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
-    ] = None
+    ] = UNSET
     r"""Indicates whether the account owner has prior experience trading futures"""
 
     futures_investment_objective: Annotated[
@@ -1931,31 +2213,82 @@ class FuturesEnrollmentMetadata(BaseModel):
     r"""The primary investment objective for the futures account"""
 
     investment_retired_funds: Annotated[
-        Optional[bool],
+        OptionalNullable[bool],
         pydantic.Field(
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
-    ] = None
+    ] = UNSET
     r"""Indicates whether the account will trade investment retired funds"""
 
     options_experience: Annotated[
-        Optional[bool],
+        OptionalNullable[bool],
         pydantic.Field(
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
-    ] = None
+    ] = UNSET
     r"""Indicates whether the account owner has experience with various trading options and strategies"""
 
-    understand_futures_risks: Optional[bool] = None
+    understand_futures_risks: OptionalNullable[bool] = UNSET
     r"""Indicates whether the account owner understands the risks associated with trading futures"""
 
     understand_loss_beyond_funds: Annotated[
-        Optional[bool],
+        OptionalNullable[bool],
         pydantic.Field(
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
-    ] = None
+    ] = UNSET
     r"""Indicates whether the account owner understands that losses can exceed deposited funds"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "ctfc_nfa_registered",
+            "exchange_member",
+            "fcm_owned_or_controlled",
+            "funds_owned_by_account_owner",
+            "futures_experience",
+            "futures_investment_objective",
+            "investment_retired_funds",
+            "options_experience",
+            "understand_futures_risks",
+            "understand_loss_beyond_funds",
+        ]
+        nullable_fields = [
+            "ctfc_nfa_registered",
+            "exchange_member",
+            "fcm_owned_or_controlled",
+            "funds_owned_by_account_owner",
+            "futures_experience",
+            "investment_retired_funds",
+            "options_experience",
+            "understand_futures_risks",
+            "understand_loss_beyond_funds",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentIndividualEnrollmentMetadataDividendReinvestmentPlan(
@@ -2098,7 +2431,7 @@ class IraBeneficiaryEnrollmentMetadataTypedDict(TypedDict):
     r"""The death date of the owner from whom the account is inherited"""
     inherited_from_owner_name: NotRequired[str]
     r"""The name of the owner from whom the account is inherited"""
-    inheritor_is_decedents_spouse: NotRequired[bool]
+    inheritor_is_decedents_spouse: NotRequired[Nullable[bool]]
     r"""Indicates if the customer is the spouse of the decedent"""
 
 
@@ -2130,7 +2463,7 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
     inherited_from_owner_name: Optional[str] = None
     r"""The name of the owner from whom the account is inherited"""
 
-    inheritor_is_decedents_spouse: Optional[bool] = None
+    inheritor_is_decedents_spouse: OptionalNullable[bool] = UNSET
     r"""Indicates if the customer is the spouse of the decedent"""
 
     @model_serializer(mode="wrap")
@@ -2146,6 +2479,7 @@ class IraBeneficiaryEnrollmentMetadata(BaseModel):
         nullable_fields = [
             "inherited_from_owner_birth_date",
             "inherited_from_owner_death_date",
+            "inheritor_is_decedents_spouse",
         ]
         null_default_fields = []
 
@@ -2842,7 +3176,7 @@ class EnrollmentLlcEnrollmentMetadataOtherAccountsTypedDict(TypedDict):
     r"""Other account names held at Apex"""
     account_numbers: NotRequired[List[str]]
     r"""Other account numbers held at Apex"""
-    owner_has_other_accounts_at_apex: NotRequired[bool]
+    owner_has_other_accounts_at_apex: NotRequired[Nullable[bool]]
     r"""The owner has other accounts at Apex"""
 
 
@@ -2855,8 +3189,42 @@ class EnrollmentLlcEnrollmentMetadataOtherAccounts(BaseModel):
     account_numbers: Optional[List[str]] = None
     r"""Other account numbers held at Apex"""
 
-    owner_has_other_accounts_at_apex: Optional[bool] = None
+    owner_has_other_accounts_at_apex: OptionalNullable[bool] = UNSET
     r"""The owner has other accounts at Apex"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "account_names",
+            "account_numbers",
+            "owner_has_other_accounts_at_apex",
+        ]
+        nullable_fields = ["owner_has_other_accounts_at_apex"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentLlcEnrollmentMetadataFinancialProfileTypedDict(TypedDict):
@@ -2924,7 +3292,7 @@ class EnrollmentLlcEnrollmentMetadataFinancialProfile(BaseModel):
 class EnrollmentLlcEnrollmentMetadataForeignBondTradingDetailsTypedDict(TypedDict):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: NotRequired[bool]
+    foreign_bond_trading: NotRequired[Nullable[bool]]
     r"""Does the account anticipate trading in foreign bonds"""
     foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
     r"""The foreign bond trading countries details. If yes, than please provide details"""
@@ -2933,11 +3301,41 @@ class EnrollmentLlcEnrollmentMetadataForeignBondTradingDetailsTypedDict(TypedDic
 class EnrollmentLlcEnrollmentMetadataForeignBondTradingDetails(BaseModel):
     r"""The foreign bond trading countries details"""
 
-    foreign_bond_trading: Optional[bool] = None
+    foreign_bond_trading: OptionalNullable[bool] = UNSET
     r"""Does the account anticipate trading in foreign bonds"""
 
     foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
     r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["foreign_bond_trading", "foreign_bond_trading_detail"]
+        nullable_fields = ["foreign_bond_trading"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentLlcEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict(TypedDict):
@@ -2957,7 +3355,7 @@ class EnrollmentLlcEnrollmentMetadataLowPricedSecuritiesPercentage(BaseModel):
 class EnrollmentLlcEnrollmentMetadataLowPricedSecuritiesTypedDict(TypedDict):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: NotRequired[bool]
+    low_priced_securities: NotRequired[Nullable[bool]]
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
     low_priced_securities_percentage: NotRequired[
         Nullable[EnrollmentLlcEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict]
@@ -2968,7 +3366,7 @@ class EnrollmentLlcEnrollmentMetadataLowPricedSecuritiesTypedDict(TypedDict):
 class EnrollmentLlcEnrollmentMetadataLowPricedSecurities(BaseModel):
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
-    low_priced_securities: Optional[bool] = None
+    low_priced_securities: OptionalNullable[bool] = UNSET
     r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
 
     low_priced_securities_percentage: OptionalNullable[
@@ -2979,7 +3377,7 @@ class EnrollmentLlcEnrollmentMetadataLowPricedSecurities(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
-        nullable_fields = ["low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities", "low_priced_securities_percentage"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -3116,7 +3514,7 @@ class EnrollmentLlcEnrollmentMetadataPlannedActivity(BaseModel):
 class EnrollmentLlcEnrollmentMetadataRelatedPepDetailsTypedDict(TypedDict):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: NotRequired[bool]
+    direct_or_indirect_related_peps: NotRequired[Nullable[bool]]
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
     related_peps: NotRequired[List[RelatedPepTypedDict]]
     r"""Related Peps"""
@@ -3125,11 +3523,41 @@ class EnrollmentLlcEnrollmentMetadataRelatedPepDetailsTypedDict(TypedDict):
 class EnrollmentLlcEnrollmentMetadataRelatedPepDetails(BaseModel):
     r"""Information about the related politically exposed persons"""
 
-    direct_or_indirect_related_peps: Optional[bool] = None
+    direct_or_indirect_related_peps: OptionalNullable[bool] = UNSET
     r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
 
     related_peps: Optional[List[RelatedPep]] = None
     r"""Related Peps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["direct_or_indirect_related_peps", "related_peps"]
+        nullable_fields = ["direct_or_indirect_related_peps"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EnrollmentEddAccountEnrollmentMetadataTypedDict(TypedDict):
@@ -3359,6 +3787,7 @@ class EnrollmentOperatingPurpose(str, Enum, metaclass=utils.OpenEnumMeta):
     WASH = "WASH"
     SETTLEMENT = "SETTLEMENT"
     TRANSFER_LOCATION = "TRANSFER_LOCATION"
+    CONTROL_DEPOSITORY = "CONTROL_DEPOSITORY"
 
 
 class EnrollmentTaxAuthority(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3456,6 +3885,8 @@ class OperatingEnrollmentMetadataTypedDict(TypedDict):
 
     operating_purpose: NotRequired[EnrollmentOperatingPurpose]
     r"""The purpose of the operating account."""
+    represents_foreign_entity: NotRequired[bool]
+    r"""Indicates whether the depository is foreign (true) or domestic (false). Used for CONTROL_DEPOSITORY operating purpose to determine FINRA COA code."""
     subtitle: NotRequired[str]
     r"""Optional subtitle for the operating purpose"""
     tax_withholding_metadata: NotRequired[Nullable[TaxWithholdingMetadataTypedDict]]
@@ -3470,6 +3901,9 @@ class OperatingEnrollmentMetadata(BaseModel):
     ] = None
     r"""The purpose of the operating account."""
 
+    represents_foreign_entity: Optional[bool] = None
+    r"""Indicates whether the depository is foreign (true) or domestic (false). Used for CONTROL_DEPOSITORY operating purpose to determine FINRA COA code."""
+
     subtitle: Optional[str] = None
     r"""Optional subtitle for the operating purpose"""
 
@@ -3478,7 +3912,12 @@ class OperatingEnrollmentMetadata(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["operating_purpose", "subtitle", "tax_withholding_metadata"]
+        optional_fields = [
+            "operating_purpose",
+            "represents_foreign_entity",
+            "subtitle",
+            "tax_withholding_metadata",
+        ]
         nullable_fields = ["tax_withholding_metadata"]
         null_default_fields = []
 
@@ -3603,6 +4042,706 @@ class OrdersOptionsTradingEnrollmentMetadata(BaseModel):
             "total_years_options_trading_experience",
         ]
         nullable_fields = ["investment_vehicle_experience"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED = (
+        "AUTO_ENROLL_DIVIDEND_REINVESTMENT_UNSPECIFIED"
+    )
+    DIVIDEND_REINVESTMENT_ENROLL = "DIVIDEND_REINVESTMENT_ENROLL"
+    DIVIDEND_REINVESTMENT_DECLINE = "DIVIDEND_REINVESTMENT_DECLINE"
+
+
+class EnrollmentPartnershipEnrollmentMetadataInitialDepositAmountTypedDict(TypedDict):
+    r"""The initial deposit amount in USD"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataInitialDepositAmount(BaseModel):
+    r"""The initial deposit amount in USD"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataDepositedFundsTypedDict(TypedDict):
+    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
+
+    initial_deposit_amount: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataInitialDepositAmountTypedDict]
+    ]
+    r"""The initial deposit amount in USD"""
+    initial_deposit_source: NotRequired[str]
+    r"""The source of the initial deposit"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataDepositedFunds(BaseModel):
+    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
+
+    initial_deposit_amount: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataInitialDepositAmount
+    ] = UNSET
+    r"""The initial deposit amount in USD"""
+
+    initial_deposit_source: Optional[str] = None
+    r"""The source of the initial deposit"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["initial_deposit_amount", "initial_deposit_source"]
+        nullable_fields = ["initial_deposit_amount"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""The client determined account risk rating of the entity customer"""
+
+    DETERMINED_ACCOUNT_RISK_RATING_UNSPECIFIED = (
+        "DETERMINED_ACCOUNT_RISK_RATING_UNSPECIFIED"
+    )
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+
+
+class EnrollmentPartnershipEnrollmentMetadataOtherAccountsTypedDict(TypedDict):
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    account_names: NotRequired[List[str]]
+    r"""Other account names held at Apex"""
+    account_numbers: NotRequired[List[str]]
+    r"""Other account numbers held at Apex"""
+    owner_has_other_accounts_at_apex: NotRequired[Nullable[bool]]
+    r"""The owner has other accounts at Apex"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataOtherAccounts(BaseModel):
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    account_names: Optional[List[str]] = None
+    r"""Other account names held at Apex"""
+
+    account_numbers: Optional[List[str]] = None
+    r"""Other account numbers held at Apex"""
+
+    owner_has_other_accounts_at_apex: OptionalNullable[bool] = UNSET
+    r"""The owner has other accounts at Apex"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "account_names",
+            "account_numbers",
+            "owner_has_other_accounts_at_apex",
+        ]
+        nullable_fields = ["owner_has_other_accounts_at_apex"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataFinancialProfileTypedDict(TypedDict):
+    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    banking_relationships: NotRequired[List[str]]
+    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
+    other_accounts: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataOtherAccountsTypedDict]
+    ]
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+    primary_source_of_deposited_funds: NotRequired[str]
+    r"""The primary source of funds that will be deposited to this account"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataFinancialProfile(BaseModel):
+    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    banking_relationships: Optional[List[str]] = None
+    r"""Bank names with whom the entity maintains a relationship with (e.g., accounts held with the bank)"""
+
+    other_accounts: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataOtherAccounts
+    ] = UNSET
+    r"""A customer-disclosed list of other Apex-held accounts owned by the Entity applicant at the time of this account's application; expressed as zero, one, or many account numbers"""
+
+    primary_source_of_deposited_funds: Optional[str] = None
+    r"""The primary source of funds that will be deposited to this account"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "banking_relationships",
+            "other_accounts",
+            "primary_source_of_deposited_funds",
+        ]
+        nullable_fields = ["other_accounts"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetailsTypedDict(
+    TypedDict
+):
+    r"""The foreign bond trading countries details"""
+
+    foreign_bond_trading: NotRequired[Nullable[bool]]
+    r"""Does the account anticipate trading in foreign bonds"""
+    foreign_bond_trading_detail: NotRequired[List[ForeignBondTradingDetailTypedDict]]
+    r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetails(BaseModel):
+    r"""The foreign bond trading countries details"""
+
+    foreign_bond_trading: OptionalNullable[bool] = UNSET
+    r"""Does the account anticipate trading in foreign bonds"""
+
+    foreign_bond_trading_detail: Optional[List[ForeignBondTradingDetail]] = None
+    r"""The foreign bond trading countries details. If yes, than please provide details"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["foreign_bond_trading", "foreign_bond_trading_detail"]
+        nullable_fields = ["foreign_bond_trading"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict(
+    TypedDict
+):
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    value: NotRequired[str]
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentage(BaseModel):
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    value: Optional[str] = None
+    r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesTypedDict(TypedDict):
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities: NotRequired[Nullable[bool]]
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+    low_priced_securities_percentage: NotRequired[
+        Nullable[
+            EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentageTypedDict
+        ]
+    ]
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataLowPricedSecurities(BaseModel):
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities: OptionalNullable[bool] = UNSET
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    low_priced_securities_percentage: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesPercentage
+    ] = UNSET
+    r"""The percentage, by volume, of the account's trades which will involve low priced securities"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["low_priced_securities", "low_priced_securities_percentage"]
+        nullable_fields = ["low_priced_securities", "low_priced_securities_percentage"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""The primary account activity type"""
+
+    PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED = (
+        "PRIMARY_ACCOUNT_ACTIVITY_TYPE_UNSPECIFIED"
+    )
+    ACTIVE_TRADING = "ACTIVE_TRADING"
+    SHORT_TERM_INVESTING = "SHORT_TERM_INVESTING"
+    LONG_TERM_INVESTING = "LONG_TERM_INVESTING"
+
+
+class EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+    WITHDRAWAL_FREQUENCY_UNSPECIFIED = "WITHDRAWAL_FREQUENCY_UNSPECIFIED"
+    FREQUENT = "FREQUENT"
+    OCCASIONAL = "OCCASIONAL"
+    RARE = "RARE"
+
+
+class EnrollmentPartnershipEnrollmentMetadataPlannedActivityTypedDict(TypedDict):
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    foreign_bond_trading_details: NotRequired[
+        Nullable[
+            EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetailsTypedDict
+        ]
+    ]
+    r"""The foreign bond trading countries details"""
+    low_priced_securities: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataLowPricedSecuritiesTypedDict]
+    ]
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+    primary_account_activity_type: NotRequired[
+        EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType
+    ]
+    r"""The primary account activity type"""
+    withdrawal_frequency: NotRequired[
+        EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency
+    ]
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataPlannedActivity(BaseModel):
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    foreign_bond_trading_details: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataForeignBondTradingDetails
+    ] = UNSET
+    r"""The foreign bond trading countries details"""
+
+    low_priced_securities: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataLowPricedSecurities
+    ] = UNSET
+    r"""The account anticipates trading in securities trading for less than $5 per share and are typically traded over-the-counter (OTC) or through pink sheets"""
+
+    primary_account_activity_type: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataPrimaryAccountActivityType],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The primary account activity type"""
+
+    withdrawal_frequency: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataWithdrawalFrequency],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The frequency by which cash is anticipated to be withdrawn from the account"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "foreign_bond_trading_details",
+            "low_priced_securities",
+            "primary_account_activity_type",
+            "withdrawal_frequency",
+        ]
+        nullable_fields = ["foreign_bond_trading_details", "low_priced_securities"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataRelatedPepDetailsTypedDict(TypedDict):
+    r"""Information about the related politically exposed persons"""
+
+    direct_or_indirect_related_peps: NotRequired[Nullable[bool]]
+    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
+    related_peps: NotRequired[List[RelatedPepTypedDict]]
+    r"""Related Peps"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataRelatedPepDetails(BaseModel):
+    r"""Information about the related politically exposed persons"""
+
+    direct_or_indirect_related_peps: OptionalNullable[bool] = UNSET
+    r"""Indication as to whether or not an account has direct or indirect related politically exposed persons"""
+
+    related_peps: Optional[List[RelatedPep]] = None
+    r"""Related Peps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["direct_or_indirect_related_peps", "related_peps"]
+        nullable_fields = ["direct_or_indirect_related_peps"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadataTypedDict(
+    TypedDict
+):
+    r"""Enrollment metadata for entity accounts"""
+
+    deposited_funds: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataDepositedFundsTypedDict]
+    ]
+    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
+    determined_account_risk_rating: NotRequired[
+        EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating
+    ]
+    r"""The client determined account risk rating of the entity customer"""
+    financial_profile: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataFinancialProfileTypedDict]
+    ]
+    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+    planned_activity: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataPlannedActivityTypedDict]
+    ]
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+    related_pep_details: NotRequired[
+        Nullable[EnrollmentPartnershipEnrollmentMetadataRelatedPepDetailsTypedDict]
+    ]
+    r"""Information about the related politically exposed persons"""
+    scope_of_business: NotRequired[str]
+    r"""The scope of the business for the entity customer"""
+
+
+class EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadata(BaseModel):
+    r"""Enrollment metadata for entity accounts"""
+
+    deposited_funds: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataDepositedFunds
+    ] = UNSET
+    r"""The initial amount of money placed into the account by the customer upon or after the account's establishment."""
+
+    determined_account_risk_rating: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataDeterminedAccountRiskRating],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""The client determined account risk rating of the entity customer"""
+
+    financial_profile: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataFinancialProfile
+    ] = UNSET
+    r"""Disclosure of the account owner's financial relationships and source of brokerage funds; facilitates the creation of the overall customer risk profile"""
+
+    planned_activity: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataPlannedActivity
+    ] = UNSET
+    r"""Details the customer's intended trading and banking-related activities at the time of account application; informs risk checks and forms a baseline for anomalous activity detection"""
+
+    related_pep_details: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataRelatedPepDetails
+    ] = UNSET
+    r"""Information about the related politically exposed persons"""
+
+    scope_of_business: Optional[str] = None
+    r"""The scope of the business for the entity customer"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "deposited_funds",
+            "determined_account_risk_rating",
+            "financial_profile",
+            "planned_activity",
+            "related_pep_details",
+            "scope_of_business",
+        ]
+        nullable_fields = [
+            "deposited_funds",
+            "financial_profile",
+            "planned_activity",
+            "related_pep_details",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class EnrollmentPartnershipEnrollmentMetadataFdicCashSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED = "AUTO_ENROLL_FDIC_CASH_SWEEP_UNSPECIFIED"
+    FDIC_CASH_SWEEP_ENROLL = "FDIC_CASH_SWEEP_ENROLL"
+    FDIC_CASH_SWEEP_DECLINE = "FDIC_CASH_SWEEP_DECLINE"
+
+
+class EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED = (
+        "AUTO_ENROLL_MONEY_MARKET_FUND_SWEEP_UNSPECIFIED"
+    )
+    MONEY_MARKET_FUND_SWEEP_ENROLL = "MONEY_MARKET_FUND_SWEEP_ENROLL"
+    MONEY_MARKET_FUND_SWEEP_DECLINE = "MONEY_MARKET_FUND_SWEEP_DECLINE"
+
+
+class PartnershipEnrollmentMetadataTypedDict(TypedDict):
+    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
+
+    dividend_reinvestment_plan: NotRequired[
+        EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan
+    ]
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+    edd_account_enrollment_metadata: NotRequired[
+        Nullable[
+            EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadataTypedDict
+        ]
+    ]
+    r"""Enrollment metadata for entity accounts"""
+    fdic_cash_sweep: NotRequired[EnrollmentPartnershipEnrollmentMetadataFdicCashSweep]
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+    money_market_fund_sweep: NotRequired[
+        EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep
+    ]
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+
+class PartnershipEnrollmentMetadata(BaseModel):
+    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
+
+    dividend_reinvestment_plan: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataDividendReinvestmentPlan],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Dividend Reinvestment; defaults to DIVIDEND_REINVESTMENT_ENROLL"""
+
+    edd_account_enrollment_metadata: OptionalNullable[
+        EnrollmentPartnershipEnrollmentMetadataEddAccountEnrollmentMetadata
+    ] = UNSET
+    r"""Enrollment metadata for entity accounts"""
+
+    fdic_cash_sweep: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataFdicCashSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in FDIC cash sweep; defaults to FDIC_CASH_SWEEP_ENROLL"""
+
+    money_market_fund_sweep: Annotated[
+        Optional[EnrollmentPartnershipEnrollmentMetadataMoneyMarketFundSweep],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
+    r"""Option to auto-enroll in Money Market Fund Sweep; defaults to MONEY_MARKET_FUND_SWEEP_ENROLL"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "dividend_reinvestment_plan",
+            "edd_account_enrollment_metadata",
+            "fdic_cash_sweep",
+            "money_market_fund_sweep",
+        ]
+        nullable_fields = ["edd_account_enrollment_metadata"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -3808,6 +4947,7 @@ class EnrollmentType1(str, Enum, metaclass=utils.OpenEnumMeta):
 
     ENROLLMENT_TYPE_UNSPECIFIED = "ENROLLMENT_TYPE_UNSPECIFIED"
     REGISTRATION_INDIVIDUAL = "REGISTRATION_INDIVIDUAL"
+    LENDING_LIMITED_PURPOSE_MARGIN = "LENDING_LIMITED_PURPOSE_MARGIN"
     LENDING_FULLY_PAID_STOCK_LOAN = "LENDING_FULLY_PAID_STOCK_LOAN"
     BENEFICIARY_DESIGNATION = "BENEFICIARY_DESIGNATION"
     REGISTRATION_JOINT_WROS = "REGISTRATION_JOINT_WROS"
@@ -3956,6 +5096,10 @@ class EnrollmentTypedDict(TypedDict):
         Nullable[OrdersOptionsTradingEnrollmentMetadataTypedDict]
     ]
     r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
+    partnership_enrollment_metadata: NotRequired[
+        Nullable[PartnershipEnrollmentMetadataTypedDict]
+    ]
+    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
     principal_approver_id: NotRequired[str]
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
     sole_proprietorship_enrollment_metadata: NotRequired[
@@ -4092,6 +5236,11 @@ class Enrollment(BaseModel):
     ] = UNSET
     r"""Metadata for the ORDERS_OPTIONS_TRADING enrollment type"""
 
+    partnership_enrollment_metadata: OptionalNullable[PartnershipEnrollmentMetadata] = (
+        UNSET
+    )
+    r"""Metadata for the REGISTRATION_PARTNERSHIP enrollment type"""
+
     principal_approver_id: Optional[str] = None
     r"""The ULID is associated with the approver of a given enrollment. The approver you create will contain the CRD Number issued to the person by FINRA. As an RIA, you should use the ULID associated with Apex's approver."""
 
@@ -4151,6 +5300,7 @@ class Enrollment(BaseModel):
             "name",
             "operating_enrollment_metadata",
             "orders_options_trading_enrollment_metadata",
+            "partnership_enrollment_metadata",
             "principal_approver_id",
             "sole_proprietorship_enrollment_metadata",
             "state",
@@ -4184,6 +5334,7 @@ class Enrollment(BaseModel):
             "llc_enrollment_metadata",
             "operating_enrollment_metadata",
             "orders_options_trading_enrollment_metadata",
+            "partnership_enrollment_metadata",
             "sole_proprietorship_enrollment_metadata",
             "trust_enrollment_metadata",
             "unenrollment_time",

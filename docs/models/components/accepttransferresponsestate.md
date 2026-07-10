@@ -20,3 +20,5 @@ The transfer state
 | `PENDING_BOOKKEEPING`     | PENDING_BOOKKEEPING       |
 | `COMPLETED`               | COMPLETED                 |
 | `PURGED`                  | PURGED                    |
+| `PENDING_REVIEW_MARGINS`  | PENDING_REVIEW_MARGINS    |
+| `PENDING_SUBMISSION`      | PENDING_SUBMISSION        |

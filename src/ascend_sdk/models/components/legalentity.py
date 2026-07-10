@@ -52,7 +52,7 @@ class LegalEntityCorporateStructure(str, Enum, metaclass=utils.OpenEnumMeta):
 class LegalEntityNegativeNewsTypedDict(TypedDict):
     r"""Information about any negative news against related parties and entities"""
 
-    negative_news_against_related_parties: NotRequired[bool]
+    negative_news_against_related_parties: NotRequired[Nullable[bool]]
     r"""Indicates whether there is negative news against related parties"""
     negative_news_against_related_parties_description: NotRequired[str]
     r"""Description of the negative news against related parties"""
@@ -61,17 +61,50 @@ class LegalEntityNegativeNewsTypedDict(TypedDict):
 class LegalEntityNegativeNews(BaseModel):
     r"""Information about any negative news against related parties and entities"""
 
-    negative_news_against_related_parties: Optional[bool] = None
+    negative_news_against_related_parties: OptionalNullable[bool] = UNSET
     r"""Indicates whether there is negative news against related parties"""
 
     negative_news_against_related_parties_description: Optional[str] = None
     r"""Description of the negative news against related parties"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "negative_news_against_related_parties",
+            "negative_news_against_related_parties_description",
+        ]
+        nullable_fields = ["negative_news_against_related_parties"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
 
 class EntityDueDiligenceTypedDict(TypedDict):
     r"""Due Diligence for Legal Entities"""
 
-    entity_issues_bearer_shares: NotRequired[bool]
+    entity_issues_bearer_shares: NotRequired[Nullable[bool]]
     r"""Indicates whether the entity issues bearer shares"""
     negative_news: NotRequired[Nullable[LegalEntityNegativeNewsTypedDict]]
     r"""Information about any negative news against related parties and entities"""
@@ -80,7 +113,7 @@ class EntityDueDiligenceTypedDict(TypedDict):
 class EntityDueDiligence(BaseModel):
     r"""Due Diligence for Legal Entities"""
 
-    entity_issues_bearer_shares: Optional[bool] = None
+    entity_issues_bearer_shares: OptionalNullable[bool] = UNSET
     r"""Indicates whether the entity issues bearer shares"""
 
     negative_news: OptionalNullable[LegalEntityNegativeNews] = UNSET
@@ -89,7 +122,7 @@ class EntityDueDiligence(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["entity_issues_bearer_shares", "negative_news"]
-        nullable_fields = ["negative_news"]
+        nullable_fields = ["entity_issues_bearer_shares", "negative_news"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -531,7 +564,7 @@ class LegalEntityTaxProfileTypedDict(TypedDict):
     r"""Tax Certification date."""
     taxpayer_certification_state: NotRequired[LegalEntityTaxpayerCertificationState]
     r"""Taxpayer certification status."""
-    treaty_benefits_requested: NotRequired[bool]
+    treaty_benefits_requested: NotRequired[Nullable[bool]]
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
     us_tin_status: NotRequired[LegalEntityUsTinStatus]
     r"""United States Individual Taxpayer Identification Number (ITIN) status."""
@@ -577,7 +610,7 @@ class LegalEntityTaxProfile(BaseModel):
     ] = None
     r"""Taxpayer certification status."""
 
-    treaty_benefits_requested: Optional[bool] = None
+    treaty_benefits_requested: OptionalNullable[bool] = UNSET
     r"""Whether treaty benefits are requested. Only applicable for W_8BEN and W_8BEN_E form types."""
 
     us_tin_status: Annotated[
@@ -609,6 +642,7 @@ class LegalEntityTaxProfile(BaseModel):
             "c_notice_date",
             "first_b_notice_date",
             "tax_certification_date",
+            "treaty_benefits_requested",
         ]
         null_default_fields = []
 

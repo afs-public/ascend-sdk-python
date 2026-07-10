@@ -9,6 +9,7 @@ Describes the name of the enrollment; Expressed as an enum
 | ------------------------------------------ | ------------------------------------------ |
 | `ENROLLMENT_TYPE_UNSPECIFIED`              | ENROLLMENT_TYPE_UNSPECIFIED                |
 | `REGISTRATION_INDIVIDUAL`                  | REGISTRATION_INDIVIDUAL                    |
+| `LENDING_LIMITED_PURPOSE_MARGIN`           | LENDING_LIMITED_PURPOSE_MARGIN             |
 | `LENDING_FULLY_PAID_STOCK_LOAN`            | LENDING_FULLY_PAID_STOCK_LOAN              |
 | `BENEFICIARY_DESIGNATION`                  | BENEFICIARY_DESIGNATION                    |
 | `REGISTRATION_JOINT_WROS`                  | REGISTRATION_JOINT_WROS                    |

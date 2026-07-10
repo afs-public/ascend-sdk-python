@@ -42,6 +42,7 @@ class OperatingPurpose(str, Enum, metaclass=utils.OpenEnumMeta):
     WASH = "WASH"
     SETTLEMENT = "SETTLEMENT"
     TRANSFER_LOCATION = "TRANSFER_LOCATION"
+    CONTROL_DEPOSITORY = "CONTROL_DEPOSITORY"
 
 
 class OperatingEnrollmentMetadataCreateTypedDict(TypedDict):
@@ -49,6 +50,8 @@ class OperatingEnrollmentMetadataCreateTypedDict(TypedDict):
 
     operating_purpose: OperatingPurpose
     r"""The purpose of the operating account."""
+    represents_foreign_entity: NotRequired[bool]
+    r"""Indicates whether the depository is foreign (true) or domestic (false). Used for CONTROL_DEPOSITORY operating purpose to determine FINRA COA code."""
     subtitle: NotRequired[str]
     r"""Optional subtitle for the operating purpose"""
     tax_withholding_metadata: NotRequired[TaxWithholdingMetadataCreateTypedDict]
@@ -62,6 +65,9 @@ class OperatingEnrollmentMetadataCreate(BaseModel):
         OperatingPurpose, PlainValidator(validate_open_enum(False))
     ]
     r"""The purpose of the operating account."""
+
+    represents_foreign_entity: Optional[bool] = None
+    r"""Indicates whether the depository is foreign (true) or domestic (false). Used for CONTROL_DEPOSITORY operating purpose to determine FINRA COA code."""
 
     subtitle: Optional[str] = None
     r"""Optional subtitle for the operating purpose"""
