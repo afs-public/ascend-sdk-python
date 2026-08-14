@@ -7,13 +7,13 @@ from pydantic import model_serializer
 from typing_extensions import TypedDict
 
 
-class SetExtraReportingDataRequestCreateTypedDict(TypedDict):
+class TradingSetExtraReportingDataRequestCreateTypedDict(TypedDict):
     cancel_confirmed_time: Nullable[datetime]
     name: str
     r"""Format: accounts/{account_id}/orders/{order_id}"""
 
 
-class SetExtraReportingDataRequestCreate(BaseModel):
+class TradingSetExtraReportingDataRequestCreate(BaseModel):
     cancel_confirmed_time: Nullable[datetime]
 
     name: str

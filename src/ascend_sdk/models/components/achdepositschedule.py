@@ -92,7 +92,7 @@ class AchDepositScheduleRetirementContributionType(
 class AchDepositScheduleRetirementContributionTypedDict(TypedDict):
     r"""The contribution info for a retirement account"""
 
-    tax_year: NotRequired[Nullable[int]]
+    tax_year: NotRequired[int]
     r"""An explicit tax year value. The current year is always valid; and the prior year is valid only before the tax deadline. Must be in \"YYYY\" format."""
     temporal_tax_year: NotRequired[AchDepositScheduleTemporalTaxYear]
     r"""A temporal tax year value. This will always evaluate to a year based on the date the transfer was initiated."""
@@ -103,7 +103,7 @@ class AchDepositScheduleRetirementContributionTypedDict(TypedDict):
 class AchDepositScheduleRetirementContribution(BaseModel):
     r"""The contribution info for a retirement account"""
 
-    tax_year: OptionalNullable[int] = UNSET
+    tax_year: Optional[int] = None
     r"""An explicit tax year value. The current year is always valid; and the prior year is valid only before the tax deadline. Must be in \"YYYY\" format."""
 
     temporal_tax_year: Annotated[
@@ -117,36 +117,6 @@ class AchDepositScheduleRetirementContribution(BaseModel):
         PlainValidator(validate_open_enum(False)),
     ] = None
     r"""The type of retirement contribution."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["tax_year", "temporal_tax_year", "type"]
-        nullable_fields = ["tax_year"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class AchDepositScheduleAmountTypedDict(TypedDict):

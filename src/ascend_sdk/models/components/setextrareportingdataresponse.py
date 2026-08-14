@@ -62,12 +62,14 @@ class SetExtraReportingDataResponseExtraReportingDataTypedDict(TypedDict):
     r"""Any reporting data provided by the SetExtraReportingData endpoint."""
 
     cancel_confirmed_time: NotRequired[Nullable[datetime]]
+    r"""The time the client has confirmed a cancel confirmation in their own system"""
 
 
 class SetExtraReportingDataResponseExtraReportingData(BaseModel):
     r"""Any reporting data provided by the SetExtraReportingData endpoint."""
 
     cancel_confirmed_time: OptionalNullable[datetime] = UNSET
+    r"""The time the client has confirmed a cancel confirmation in their own system"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: b750c4a970e6410a16b46a900ffcf771
-  docVersion: v1:20260710:uat:0c2ab6cbe347
+  docChecksum: 4c8f2212b727219781a18b2fcc74f8f0
+  docVersion: v1:20260814:uat:c54c9dbed75d
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.8.12
-  configChecksum: 92b8b182bf69f52de43704eb36d9ff20
+  releaseVersion: 1.8.13
+  configChecksum: 8030ad7de27cacf461dfb27ded00c4a6
 features:
   python:
     additionalDependencies: 1.0.0
@@ -483,6 +483,7 @@ generatedFiles:
   - docs/models/components/baskettradingexecutedpricetype.md
   - docs/models/components/baskettradingexecutions.md
   - docs/models/components/baskettradingexecutionsquantity.md
+  - docs/models/components/baskettradingsetextrareportingdatarequestcreate.md
   - docs/models/components/batchcreateuploadlinksrequestcreate.md
   - docs/models/components/batchcreateuploadlinksresponse.md
   - docs/models/components/beneficiary.md
@@ -2049,7 +2050,6 @@ generatedFiles:
   - docs/models/components/serviceaccountcreds.md
   - docs/models/components/setaccountaccreditationtyperequestcreate.md
   - docs/models/components/setaccountaccreditationtyperequestcreateaccreditationtype.md
-  - docs/models/components/setextrareportingdatarequestcreate.md
   - docs/models/components/setextrareportingdataresponse.md
   - docs/models/components/setextrareportingdataresponseassettype.md
   - docs/models/components/setextrareportingdataresponsebasketorder.md
@@ -2189,6 +2189,7 @@ generatedFiles:
   - docs/models/components/tradingfeeamount.md
   - docs/models/components/tradingfeetype.md
   - docs/models/components/tradingsession.md
+  - docs/models/components/tradingsetextrareportingdatarequestcreate.md
   - docs/models/components/transfer.md
   - docs/models/components/transferaccountcreate.md
   - docs/models/components/transfercreate.md
@@ -2945,6 +2946,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/basketordercreate.py
   - src/ascend_sdk/models/components/baskettradingexecutedprice.py
   - src/ascend_sdk/models/components/baskettradingexecutions.py
+  - src/ascend_sdk/models/components/baskettradingsetextrareportingdatarequestcreate.py
   - src/ascend_sdk/models/components/batchcreateuploadlinksrequestcreate.py
   - src/ascend_sdk/models/components/batchcreateuploadlinksresponse.py
   - src/ascend_sdk/models/components/beneficiary.py
@@ -3302,7 +3304,6 @@ generatedFiles:
   - src/ascend_sdk/models/components/searchcashjournalschedulesresponse.py
   - src/ascend_sdk/models/components/security.py
   - src/ascend_sdk/models/components/setaccountaccreditationtyperequestcreate.py
-  - src/ascend_sdk/models/components/setextrareportingdatarequestcreate.py
   - src/ascend_sdk/models/components/setextrareportingdataresponse.py
   - src/ascend_sdk/models/components/setoptionextrareportingdatarequestcreate.py
   - src/ascend_sdk/models/components/settlealternativeorderrequestcreate.py
@@ -3323,6 +3324,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/tradingexecutedprice.py
   - src/ascend_sdk/models/components/tradingexecutions.py
   - src/ascend_sdk/models/components/tradingfee.py
+  - src/ascend_sdk/models/components/tradingsetextrareportingdatarequestcreate.py
   - src/ascend_sdk/models/components/transferaccountcreate.py
   - src/ascend_sdk/models/components/transfercreate.py
   - src/ascend_sdk/models/components/transfersbeneficiarycreate.py
@@ -6319,7 +6321,7 @@ examples:
           correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
           basket_id: "fffd326-72fa-4d2b-bd1f-45384fe5d521"
       requestBody:
-        application/json: {"cancel_confirmed_time": "2025-12-13T15:28:17.262732Z", "name": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X/orders/ebb0c9b5-2c74-45c9-a4ab-40596b778706"}
+        application/json: {"client_order_id": "4cff908e-aaed-401d-8ec9-929e3eb18cbc", "name": "correspondents/01HPMZZM6RKMVZA1JQ63RQKJRP/baskets/fffd326-72fa-4d2b-bd1f-45384fe5d521"}
       responses:
         "200":
           application/json: {}

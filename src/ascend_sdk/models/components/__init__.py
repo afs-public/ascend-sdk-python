@@ -967,6 +967,10 @@ if TYPE_CHECKING:
         BasketTradingExecutionsQuantityTypedDict,
         BasketTradingExecutionsTypedDict,
     )
+    from .baskettradingsetextrareportingdatarequestcreate import (
+        BasketTradingSetExtraReportingDataRequestCreate,
+        BasketTradingSetExtraReportingDataRequestCreateTypedDict,
+    )
     from .batchcreateuploadlinksrequestcreate import (
         BatchCreateUploadLinksRequestCreate,
         BatchCreateUploadLinksRequestCreateTypedDict,
@@ -4084,10 +4088,6 @@ if TYPE_CHECKING:
         SetAccountAccreditationTypeRequestCreateAccreditationType,
         SetAccountAccreditationTypeRequestCreateTypedDict,
     )
-    from .setextrareportingdatarequestcreate import (
-        SetExtraReportingDataRequestCreate,
-        SetExtraReportingDataRequestCreateTypedDict,
-    )
     from .setextrareportingdataresponse import (
         SetExtraReportingDataResponse,
         SetExtraReportingDataResponseAssetType,
@@ -4258,6 +4258,10 @@ if TYPE_CHECKING:
         TradingFeeAmountTypedDict,
         TradingFeeType,
         TradingFeeTypedDict,
+    )
+    from .tradingsetextrareportingdatarequestcreate import (
+        TradingSetExtraReportingDataRequestCreate,
+        TradingSetExtraReportingDataRequestCreateTypedDict,
     )
     from .transferaccountcreate import (
         TransferAccountCreate,
@@ -5336,6 +5340,8 @@ __all__ = [
     "BasketTradingExecutionsQuantity",
     "BasketTradingExecutionsQuantityTypedDict",
     "BasketTradingExecutionsTypedDict",
+    "BasketTradingSetExtraReportingDataRequestCreate",
+    "BasketTradingSetExtraReportingDataRequestCreateTypedDict",
     "BasketTypedDict",
     "BatchCreateUploadLinksRequestCreate",
     "BatchCreateUploadLinksRequestCreateTypedDict",
@@ -7910,8 +7916,6 @@ __all__ = [
     "SetAccountAccreditationTypeRequestCreate",
     "SetAccountAccreditationTypeRequestCreateAccreditationType",
     "SetAccountAccreditationTypeRequestCreateTypedDict",
-    "SetExtraReportingDataRequestCreate",
-    "SetExtraReportingDataRequestCreateTypedDict",
     "SetExtraReportingDataResponse",
     "SetExtraReportingDataResponseAssetType",
     "SetExtraReportingDataResponseBasketOrder",
@@ -8122,6 +8126,8 @@ __all__ = [
     "TradingFeeType",
     "TradingFeeTypedDict",
     "TradingSession",
+    "TradingSetExtraReportingDataRequestCreate",
+    "TradingSetExtraReportingDataRequestCreateTypedDict",
     "Transfer",
     "TransferAccountCreate",
     "TransferAccountCreateTypedDict",
@@ -9265,6 +9271,8 @@ _dynamic_imports: dict[str, str] = {
     "BasketTradingExecutionsQuantity": ".baskettradingexecutions",
     "BasketTradingExecutionsQuantityTypedDict": ".baskettradingexecutions",
     "BasketTradingExecutionsTypedDict": ".baskettradingexecutions",
+    "BasketTradingSetExtraReportingDataRequestCreate": ".baskettradingsetextrareportingdatarequestcreate",
+    "BasketTradingSetExtraReportingDataRequestCreateTypedDict": ".baskettradingsetextrareportingdatarequestcreate",
     "BatchCreateUploadLinksRequestCreate": ".batchcreateuploadlinksrequestcreate",
     "BatchCreateUploadLinksRequestCreateTypedDict": ".batchcreateuploadlinksrequestcreate",
     "BatchCreateUploadLinksResponse": ".batchcreateuploadlinksresponse",
@@ -11813,8 +11821,6 @@ _dynamic_imports: dict[str, str] = {
     "SetAccountAccreditationTypeRequestCreate": ".setaccountaccreditationtyperequestcreate",
     "SetAccountAccreditationTypeRequestCreateAccreditationType": ".setaccountaccreditationtyperequestcreate",
     "SetAccountAccreditationTypeRequestCreateTypedDict": ".setaccountaccreditationtyperequestcreate",
-    "SetExtraReportingDataRequestCreate": ".setextrareportingdatarequestcreate",
-    "SetExtraReportingDataRequestCreateTypedDict": ".setextrareportingdatarequestcreate",
     "SetExtraReportingDataResponse": ".setextrareportingdataresponse",
     "SetExtraReportingDataResponseAssetType": ".setextrareportingdataresponse",
     "SetExtraReportingDataResponseBasketOrder": ".setextrareportingdataresponse",
@@ -11952,6 +11958,8 @@ _dynamic_imports: dict[str, str] = {
     "TradingFeeAmountTypedDict": ".tradingfee",
     "TradingFeeType": ".tradingfee",
     "TradingFeeTypedDict": ".tradingfee",
+    "TradingSetExtraReportingDataRequestCreate": ".tradingsetextrareportingdatarequestcreate",
+    "TradingSetExtraReportingDataRequestCreateTypedDict": ".tradingsetextrareportingdatarequestcreate",
     "TransferAccountCreate": ".transferaccountcreate",
     "TransferAccountCreateTypedDict": ".transferaccountcreate",
     "TransferCreate": ".transfercreate",

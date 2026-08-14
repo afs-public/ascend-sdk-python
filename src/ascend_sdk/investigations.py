@@ -536,9 +536,9 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.InvestigationServiceListInvestigationsResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.InvestigationServiceListInvestigationsResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -670,9 +670,9 @@ class Investigations(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.InvestigationServiceListInvestigationsResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.InvestigationServiceListInvestigationsResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
