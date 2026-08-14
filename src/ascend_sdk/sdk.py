@@ -211,9 +211,9 @@ class SDK(BaseSDK):
             client = httpx.Client()
             client_supplied = False
 
-        assert issubclass(type(client), HttpClient), (
-            "The provided client must implement the HttpClient protocol."
-        )
+        assert issubclass(
+            type(client), HttpClient
+        ), "The provided client must implement the HttpClient protocol."
 
         async_client_supplied = True
         if async_client is None:
@@ -223,9 +223,9 @@ class SDK(BaseSDK):
         if debug_logger is None:
             debug_logger = get_default_logger()
 
-        assert issubclass(type(async_client), AsyncHttpClient), (
-            "The provided async_client must implement the AsyncHttpClient protocol."
-        )
+        assert issubclass(
+            type(async_client), AsyncHttpClient
+        ), "The provided async_client must implement the AsyncHttpClient protocol."
 
         if server_url is not None:
             if url_params is not None:

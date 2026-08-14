@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 from ascend_sdk.models.components import (
+    baskettradingsetextrareportingdatarequestcreate as components_baskettradingsetextrareportingdatarequestcreate,
     httpmetadata as components_httpmetadata,
-    setextrareportingdatarequestcreate as components_setextrareportingdatarequestcreate,
     setextrareportingdataresponse as components_setextrareportingdataresponse,
     status as components_status,
 )
@@ -19,7 +19,7 @@ class BasketOrdersServiceSetExtraReportingDataRequestTypedDict(TypedDict):
     r"""The correspondent id."""
     basket_id: str
     r"""The basket id."""
-    set_extra_reporting_data_request_create: components_setextrareportingdatarequestcreate.SetExtraReportingDataRequestCreateTypedDict
+    basket_trading_set_extra_reporting_data_request_create: components_baskettradingsetextrareportingdatarequestcreate.BasketTradingSetExtraReportingDataRequestCreateTypedDict
 
 
 class BasketOrdersServiceSetExtraReportingDataRequest(BaseModel):
@@ -33,8 +33,8 @@ class BasketOrdersServiceSetExtraReportingDataRequest(BaseModel):
     ]
     r"""The basket id."""
 
-    set_extra_reporting_data_request_create: Annotated[
-        components_setextrareportingdatarequestcreate.SetExtraReportingDataRequestCreate,
+    basket_trading_set_extra_reporting_data_request_create: Annotated[
+        components_baskettradingsetextrareportingdatarequestcreate.BasketTradingSetExtraReportingDataRequestCreate,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
 

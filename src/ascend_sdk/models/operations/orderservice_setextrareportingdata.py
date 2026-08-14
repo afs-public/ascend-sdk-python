@@ -4,8 +4,8 @@ from __future__ import annotations
 from ascend_sdk.models.components import (
     httpmetadata as components_httpmetadata,
     order as components_order,
-    setextrareportingdatarequestcreate as components_setextrareportingdatarequestcreate,
     status as components_status,
+    tradingsetextrareportingdatarequestcreate as components_tradingsetextrareportingdatarequestcreate,
 )
 from ascend_sdk.types import BaseModel
 from ascend_sdk.utils import FieldMetadata, PathParamMetadata, RequestMetadata
@@ -19,7 +19,7 @@ class OrderServiceSetExtraReportingDataRequestTypedDict(TypedDict):
     r"""The account id."""
     order_id: str
     r"""The order id."""
-    set_extra_reporting_data_request_create: components_setextrareportingdatarequestcreate.SetExtraReportingDataRequestCreateTypedDict
+    trading_set_extra_reporting_data_request_create: components_tradingsetextrareportingdatarequestcreate.TradingSetExtraReportingDataRequestCreateTypedDict
 
 
 class OrderServiceSetExtraReportingDataRequest(BaseModel):
@@ -33,8 +33,8 @@ class OrderServiceSetExtraReportingDataRequest(BaseModel):
     ]
     r"""The order id."""
 
-    set_extra_reporting_data_request_create: Annotated[
-        components_setextrareportingdatarequestcreate.SetExtraReportingDataRequestCreate,
+    trading_set_extra_reporting_data_request_create: Annotated[
+        components_tradingsetextrareportingdatarequestcreate.TradingSetExtraReportingDataRequestCreate,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
 

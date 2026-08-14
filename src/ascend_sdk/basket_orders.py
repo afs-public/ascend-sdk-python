@@ -1038,9 +1038,9 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.BasketOrdersServiceListBasketOrdersResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListBasketOrdersResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1175,9 +1175,9 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.BasketOrdersServiceListBasketOrdersResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListBasketOrdersResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1316,9 +1316,9 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.BasketOrdersServiceListCompressedOrdersResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1454,9 +1454,9 @@ class BasketOrders(BaseSDK):
             retry_config=retry_config,
         )
 
-        def next_func() -> Optional[
-            operations.BasketOrdersServiceListCompressedOrdersResponse
-        ]:
+        def next_func() -> (
+            Optional[operations.BasketOrdersServiceListCompressedOrdersResponse]
+        ):
             body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.next_page_token").parse(body)
 
@@ -1760,9 +1760,9 @@ class BasketOrders(BaseSDK):
         *,
         correspondent_id: str,
         basket_id: str,
-        set_extra_reporting_data_request_create: Union[
-            components.SetExtraReportingDataRequestCreate,
-            components.SetExtraReportingDataRequestCreateTypedDict,
+        basket_trading_set_extra_reporting_data_request_create: Union[
+            components.BasketTradingSetExtraReportingDataRequestCreate,
+            components.BasketTradingSetExtraReportingDataRequestCreateTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1775,7 +1775,7 @@ class BasketOrders(BaseSDK):
 
         :param correspondent_id: The correspondent id.
         :param basket_id: The basket id.
-        :param set_extra_reporting_data_request_create:
+        :param basket_trading_set_extra_reporting_data_request_create:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1794,9 +1794,9 @@ class BasketOrders(BaseSDK):
         request = operations.BasketOrdersServiceSetExtraReportingDataRequest(
             correspondent_id=correspondent_id,
             basket_id=basket_id,
-            set_extra_reporting_data_request_create=utils.get_pydantic_model(
-                set_extra_reporting_data_request_create,
-                components.SetExtraReportingDataRequestCreate,
+            basket_trading_set_extra_reporting_data_request_create=utils.get_pydantic_model(
+                basket_trading_set_extra_reporting_data_request_create,
+                components.BasketTradingSetExtraReportingDataRequestCreate,
             ),
         )
 
@@ -1814,11 +1814,11 @@ class BasketOrders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.set_extra_reporting_data_request_create,
+                request.basket_trading_set_extra_reporting_data_request_create,
                 False,
                 False,
                 "json",
-                components.SetExtraReportingDataRequestCreate,
+                components.BasketTradingSetExtraReportingDataRequestCreate,
             ),
             timeout_ms=timeout_ms,
         )
@@ -1883,9 +1883,9 @@ class BasketOrders(BaseSDK):
         *,
         correspondent_id: str,
         basket_id: str,
-        set_extra_reporting_data_request_create: Union[
-            components.SetExtraReportingDataRequestCreate,
-            components.SetExtraReportingDataRequestCreateTypedDict,
+        basket_trading_set_extra_reporting_data_request_create: Union[
+            components.BasketTradingSetExtraReportingDataRequestCreate,
+            components.BasketTradingSetExtraReportingDataRequestCreateTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1898,7 +1898,7 @@ class BasketOrders(BaseSDK):
 
         :param correspondent_id: The correspondent id.
         :param basket_id: The basket id.
-        :param set_extra_reporting_data_request_create:
+        :param basket_trading_set_extra_reporting_data_request_create:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1917,9 +1917,9 @@ class BasketOrders(BaseSDK):
         request = operations.BasketOrdersServiceSetExtraReportingDataRequest(
             correspondent_id=correspondent_id,
             basket_id=basket_id,
-            set_extra_reporting_data_request_create=utils.get_pydantic_model(
-                set_extra_reporting_data_request_create,
-                components.SetExtraReportingDataRequestCreate,
+            basket_trading_set_extra_reporting_data_request_create=utils.get_pydantic_model(
+                basket_trading_set_extra_reporting_data_request_create,
+                components.BasketTradingSetExtraReportingDataRequestCreate,
             ),
         )
 
@@ -1937,11 +1937,11 @@ class BasketOrders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.set_extra_reporting_data_request_create,
+                request.basket_trading_set_extra_reporting_data_request_create,
                 False,
                 False,
                 "json",
-                components.SetExtraReportingDataRequestCreate,
+                components.BasketTradingSetExtraReportingDataRequestCreate,
             ),
             timeout_ms=timeout_ms,
         )

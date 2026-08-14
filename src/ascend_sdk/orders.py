@@ -919,9 +919,9 @@ class Orders(BaseSDK):
         *,
         account_id: str,
         order_id: str,
-        set_extra_reporting_data_request_create: Union[
-            components.SetExtraReportingDataRequestCreate,
-            components.SetExtraReportingDataRequestCreateTypedDict,
+        trading_set_extra_reporting_data_request_create: Union[
+            components.TradingSetExtraReportingDataRequestCreate,
+            components.TradingSetExtraReportingDataRequestCreateTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -934,7 +934,7 @@ class Orders(BaseSDK):
 
         :param account_id: The account id.
         :param order_id: The order id.
-        :param set_extra_reporting_data_request_create:
+        :param trading_set_extra_reporting_data_request_create:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -953,9 +953,9 @@ class Orders(BaseSDK):
         request = operations.OrderServiceSetExtraReportingDataRequest(
             account_id=account_id,
             order_id=order_id,
-            set_extra_reporting_data_request_create=utils.get_pydantic_model(
-                set_extra_reporting_data_request_create,
-                components.SetExtraReportingDataRequestCreate,
+            trading_set_extra_reporting_data_request_create=utils.get_pydantic_model(
+                trading_set_extra_reporting_data_request_create,
+                components.TradingSetExtraReportingDataRequestCreate,
             ),
         )
 
@@ -973,11 +973,11 @@ class Orders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.set_extra_reporting_data_request_create,
+                request.trading_set_extra_reporting_data_request_create,
                 False,
                 False,
                 "json",
-                components.SetExtraReportingDataRequestCreate,
+                components.TradingSetExtraReportingDataRequestCreate,
             ),
             timeout_ms=timeout_ms,
         )
@@ -1040,9 +1040,9 @@ class Orders(BaseSDK):
         *,
         account_id: str,
         order_id: str,
-        set_extra_reporting_data_request_create: Union[
-            components.SetExtraReportingDataRequestCreate,
-            components.SetExtraReportingDataRequestCreateTypedDict,
+        trading_set_extra_reporting_data_request_create: Union[
+            components.TradingSetExtraReportingDataRequestCreate,
+            components.TradingSetExtraReportingDataRequestCreateTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1055,7 +1055,7 @@ class Orders(BaseSDK):
 
         :param account_id: The account id.
         :param order_id: The order id.
-        :param set_extra_reporting_data_request_create:
+        :param trading_set_extra_reporting_data_request_create:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1074,9 +1074,9 @@ class Orders(BaseSDK):
         request = operations.OrderServiceSetExtraReportingDataRequest(
             account_id=account_id,
             order_id=order_id,
-            set_extra_reporting_data_request_create=utils.get_pydantic_model(
-                set_extra_reporting_data_request_create,
-                components.SetExtraReportingDataRequestCreate,
+            trading_set_extra_reporting_data_request_create=utils.get_pydantic_model(
+                trading_set_extra_reporting_data_request_create,
+                components.TradingSetExtraReportingDataRequestCreate,
             ),
         )
 
@@ -1094,11 +1094,11 @@ class Orders(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.set_extra_reporting_data_request_create,
+                request.trading_set_extra_reporting_data_request_create,
                 False,
                 False,
                 "json",
-                components.SetExtraReportingDataRequestCreate,
+                components.TradingSetExtraReportingDataRequestCreate,
             ),
             timeout_ms=timeout_ms,
         )
