@@ -1,6 +1,7 @@
 import datetime
 import os
 import random
+import time
 import uuid
 from typing import Optional
 import pytest
@@ -10,6 +11,35 @@ import pytz
 from typing import Optional
 from ascend_sdk import SDK
 from ascend_sdk.models import components
+from ascend_sdk.utils import RetryConfig
+
+
+# Dedicated alternative-investments test account. Created 2026-08 (after the
+# Monark update that routes SPV orders through Apex when the correspondent
+# isn't registered for the SPV), funded, and accredited. Pre-update accounts
+# like the shared withdrawal account get their SPV orders rejected by Monark.
+ALTS_ACCOUNT_ID = os.getenv("ALTS_ACCOUNT_ID", "01M0DMB41SQR6SYZDQYZN3CJY2")
+
+# An alternative order placed on ALTS_ACCOUNT_ID, used by get/settle tests.
+ALTS_ORDER_ID = os.getenv("ALTS_ORDER_ID", "01M0DMH6QGPHZGFD4T1CJMABEM")
+
+
+def retry_on_transient_error(op, max_attempts=20, delay_seconds=2):
+    """Retries op on any error.
+
+    A resource is occasionally not yet mutable/queryable for a window
+    immediately after creation against the real UAT environment, so this
+    retries on any exception rather than pattern-matching a specific error.
+    """
+    last_error = None
+    for attempt in range(max_attempts):
+        try:
+            return op()
+        except Exception as e:
+            last_error = e
+            if attempt < max_attempts - 1:
+                time.sleep(delay_seconds)
+    raise last_error
 
 
 @pytest.fixture
@@ -46,7 +76,10 @@ def correspondent_id() -> Optional[str]:
 
 @pytest.fixture(scope="module")
 def create_legal_natural_person_id(create_sdk):
-    s = create_sdk
+    return make_legal_natural_person_id(create_sdk)
+
+
+def make_legal_natural_person_id(s):
     legal_natural_person_request = components.LegalNaturalPersonCreate(
         birth_date=components.DateCreate(
             year="1981",
@@ -184,14 +217,16 @@ def account_group_id() -> Optional[str]:
 
 @pytest.fixture(scope="module")
 def create_account_id(create_sdk, create_legal_natural_person_id):
-    s = create_sdk
+    return make_account_id(create_sdk, create_legal_natural_person_id)
 
+
+def make_account_id(s, legal_natural_person_id):
     request = components.AccountRequestCreate(
         account_group_id=os.getenv("ACCOUNT_GROUP_ID"),
         correspondent_id=os.getenv("CORRESPONDENT_ID"),
         parties=[
             components.PartyRequestCreate(
-                legal_natural_person_id=create_legal_natural_person_id,
+                legal_natural_person_id=legal_natural_person_id,
                 relation_type=components.RelationType.PRIMARY_OWNER,
                 email_address="mail@example.com",
                 phone_number=components.PhoneNumberCreate(
@@ -218,8 +253,10 @@ def create_account_id(create_sdk, create_legal_natural_person_id):
 
 @pytest.fixture(scope="module")
 def enroll_account_ids(create_sdk, create_account_id):
-    s = create_sdk
+    return make_enrollment_agreement_ids(create_sdk, create_account_id)
 
+
+def make_enrollment_agreement_ids(s, account_id):
     enroll_account_request = components.EnrollAccountRequestCreate(
         enrollment=components.EnrollmentCreate(
             principal_approver_id="01HMESE8WMDNTTWJ2BAEG3TZWA",
@@ -231,7 +268,7 @@ def enroll_account_ids(create_sdk, create_account_id):
     )
 
     res = s.enrollments_and_agreements.enroll_account(
-        account_id=create_account_id,
+        account_id=account_id,
         enroll_account_request_create=enroll_account_request,
     )
     if res.http_meta.response.status_code == 200:
@@ -243,20 +280,42 @@ def enroll_account_ids(create_sdk, create_account_id):
 
 @pytest.fixture(scope="module")
 def enrolled_account_id(create_sdk, create_account_id, enroll_account_ids):
-    s = create_sdk
+    return affirm_and_wait_open(create_sdk, create_account_id, enroll_account_ids)
 
+
+def create_enrolled_account(s):
+    """Creates an LNP, account, enrollment, affirmation, and waits for OPEN --
+    the plain-function equivalent of the enrolled_account_id fixture chain,
+    for tests that need an extra account beyond the module-scoped one."""
+    lnp_id = make_legal_natural_person_id(s)
+    account_id = make_account_id(s, lnp_id)
+    agreement_ids = make_enrollment_agreement_ids(s, account_id)
+    return affirm_and_wait_open(s, account_id, agreement_ids)
+
+
+def affirm_and_wait_open(s, account_id, agreement_ids):
     affirm_agreements_request = components.AffirmAgreementsRequestCreate(
-        account_agreement_ids=enroll_account_ids
+        account_agreement_ids=agreement_ids
     )
 
     res = s.enrollments_and_agreements.affirm_agreements(
-        account_id=create_account_id,
+        account_id=account_id,
         affirm_agreements_request_create=affirm_agreements_request,
     )
-    if res.http_meta.response.status_code == 200:
-        return create_account_id
-    else:
+    if res.http_meta.response.status_code != 200:
         return None
+
+    # A new account can take tens of seconds to reach OPEN against the real
+    # UAT environment, and downstream resources (micro deposits, transfers)
+    # misbehave until it does. Fail loudly on exhaustion -- returning a
+    # non-OPEN account just moves the failure downstream where it is
+    # misattributed to whatever fixture touches the account next.
+    for _ in range(20):
+        account = s.account_creation.get_account(account_id=account_id)
+        if account.account.state == components.AccountState.OPEN:
+            return account_id
+        time.sleep(2)
+    pytest.fail(f"account {account_id} never reached OPEN state")
 
 
 @pytest.fixture(scope="module")
@@ -290,8 +349,15 @@ def verified_bank_relationship_id(
 ):
     s = create_sdk
 
-    res = s.test_simulation.get_micro_deposit_amounts(
-        account_id=enrolled_account_id, bank_relationship_id=create_bank_relationship_id
+    # 40 attempts x 2s: the default 20x2s window was observed intermittently
+    # to be insufficient for micro deposits against the real UAT environment.
+    res = retry_on_transient_error(
+        lambda: s.test_simulation.get_micro_deposit_amounts(
+            account_id=enrolled_account_id,
+            bank_relationship_id=create_bank_relationship_id,
+            retries=RetryConfig("none", None, False),
+        ),
+        max_attempts=40,
     )
 
     micro_deposits_request = components.VerifyMicroDepositsRequestCreate(
@@ -306,10 +372,12 @@ def verified_bank_relationship_id(
         name=f"accounts/{enrolled_account_id}/bankRelationships/{create_bank_relationship_id}",
     )
 
-    res = s.bank_relationships.verify_micro_deposits(
-        account_id=enrolled_account_id,
-        bank_relationship_id=create_bank_relationship_id,
-        verify_micro_deposits_request_create=micro_deposits_request,
+    res = retry_on_transient_error(
+        lambda: s.bank_relationships.verify_micro_deposits(
+            account_id=enrolled_account_id,
+            bank_relationship_id=create_bank_relationship_id,
+            verify_micro_deposits_request_create=micro_deposits_request,
+        )
     )
     if res.http_meta.response.status_code == 200:
         return create_bank_relationship_id

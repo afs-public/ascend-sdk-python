@@ -24,7 +24,12 @@ def test_data_retrieval_snapshots_list_snapshots():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.data_retrieval.list_snapshots(filter_="", page_size=25, page_token="")
+        # An unfiltered list forces the service onto its slow GCS/BQ scan
+        # path, which exceeds the 55s gateway timeout (504) in UAT; a
+        # snapshot_type filter keeps it on the fast path (~3s).
+        res = sdk.data_retrieval.list_snapshots(
+            filter_='snapshot_type=="daily_accounts"', page_size=25, page_token=""
+        )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
         assert res.http_meta.response.status_code == 200

@@ -6,7 +6,10 @@ import uuid
 from datetime import date
 
 from ascend_sdk.models import components
+from ascend_sdk.utils import RetryConfig
 import pytest
+
+from tests.conftest import create_enrolled_account, retry_on_transient_error
 
 
 @pytest.fixture(scope="module")
@@ -25,38 +28,22 @@ def wire_deposit_id():
 
 
 @pytest.fixture(scope="module")
-def completed_withdrawal_id(create_sdk, withdrawal_account_id):
+def completed_withdrawal_account_id(create_sdk):
+    # A fresh enrolled account, not the shared enrolled_account_id -- that
+    # fixture is module-scoped and accumulates bank relationships from every
+    # other test in the module that also depends on it, and its micro
+    # deposit amounts were observed to never become queryable (not just
+    # delayed) even after extended retries, likely due to degraded
+    # propagation on an account with that much history. A genuinely fresh
+    # account with a single bank relationship doesn't hit this.
+    return create_enrolled_account(create_sdk)
+
+
+@pytest.fixture(scope="module")
+def completed_withdrawal_id(create_sdk, completed_withdrawal_account_id):
     s = create_sdk
+    account_id = completed_withdrawal_account_id
 
-    # Cancel any approved relationships
-    res = s.bank_relationships.list_bank_relationships(account_id=withdrawal_account_id)
-    max_relationships = len(res.list_bank_relationships_response.bank_relationships)
-    attempt_counts = 0
-    while attempt_counts < max_relationships:
-        if (
-            res.list_bank_relationships_response.bank_relationships[
-                attempt_counts
-            ].state.state
-            == "APPROVED"
-            or "REJECTED"
-        ):
-            cancel_bank_relationship_id = (
-                res.list_bank_relationships_response.bank_relationships[
-                    attempt_counts
-                ].name.split("/")[-1]
-            )
-            request = components.CancelBankRelationshipRequestCreate(
-                name=f"accounts/{withdrawal_account_id}/bankRelationships/{cancel_bank_relationship_id}",
-                comment="Canceling Bank User Request",
-            )
-            s.bank_relationships.cancel_bank_relationship(
-                account_id=withdrawal_account_id,
-                bank_relationship_id=cancel_bank_relationship_id,
-                cancel_bank_relationship_request_create=request,
-            )
-        attempt_counts += 1
-
-    # Create a new bank relationship
     bank_relationship_request = components.BankRelationshipCreate(
         bank_account=components.BankAccountCreate(
             account_number=str(random.randint(10000000, 99999999)),
@@ -69,13 +56,20 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
     )
 
     res = s.bank_relationships.create_bank_relationship(
-        account_id=withdrawal_account_id,
+        account_id=account_id,
         bank_relationship_create=bank_relationship_request,
     )
     bank_relationship_id = res.bank_relationship.name.split("/")[-1]
 
-    res = s.test_simulation.get_micro_deposit_amounts(
-        account_id=withdrawal_account_id, bank_relationship_id=bank_relationship_id
+    # 40 attempts x 2s: the default 20x2s window was observed intermittently
+    # to be insufficient for micro deposits against the real UAT environment.
+    res = retry_on_transient_error(
+        lambda: s.test_simulation.get_micro_deposit_amounts(
+            account_id=account_id,
+            bank_relationship_id=bank_relationship_id,
+            retries=RetryConfig("none", None, False),
+        ),
+        max_attempts=40,
     )
 
     micro_deposits_request = components.VerifyMicroDepositsRequestCreate(
@@ -87,18 +81,20 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
                 value=res.micro_deposit_amounts.amount2.value
             ),
         ),
-        name=f"accounts/{withdrawal_account_id}/bankRelationships/{bank_relationship_id}",
+        name=f"accounts/{account_id}/bankRelationships/{bank_relationship_id}",
     )
 
-    s.bank_relationships.verify_micro_deposits(
-        account_id=withdrawal_account_id,
-        bank_relationship_id=bank_relationship_id,
-        verify_micro_deposits_request_create=micro_deposits_request,
+    retry_on_transient_error(
+        lambda: s.bank_relationships.verify_micro_deposits(
+            account_id=account_id,
+            bank_relationship_id=bank_relationship_id,
+            verify_micro_deposits_request_create=micro_deposits_request,
+        )
     )
 
     ach_withdrawal_request = components.AchWithdrawalCreate(
         bank_relationship="accounts/"
-        + withdrawal_account_id
+        + account_id
         + "/bankRelationships/"
         + bank_relationship_id,
         amount=components.DecimalCreate(value="0.01"),
@@ -108,7 +104,7 @@ def completed_withdrawal_id(create_sdk, withdrawal_account_id):
     )
 
     res = s.ach_transfers.create_ach_withdrawal(
-        account_id=withdrawal_account_id, ach_withdrawal_create=ach_withdrawal_request
+        account_id=account_id, ach_withdrawal_create=ach_withdrawal_request
     )
     if res.http_meta.response.status_code == 200:
         return res.ach_withdrawal.name.split("/")[3]
@@ -122,8 +118,13 @@ def get_failed_micro_deposit_amounts(
 ):
     s = create_sdk
 
-    res = s.test_simulation.get_micro_deposit_amounts(
-        account_id=enrolled_account_id, bank_relationship_id=create_bank_relationship_id
+    res = retry_on_transient_error(
+        lambda: s.test_simulation.get_micro_deposit_amounts(
+            account_id=enrolled_account_id,
+            bank_relationship_id=create_bank_relationship_id,
+            retries=RetryConfig("none", None, False),
+        ),
+        max_attempts=40,
     )
     if res.http_meta.response.status_code == 200:
         return (
@@ -140,8 +141,13 @@ def get_correct_micro_deposit_amounts(
 ):
     s = create_sdk
 
-    res = s.test_simulation.get_micro_deposit_amounts(
-        account_id=enrolled_account_id, bank_relationship_id=create_bank_relationship_id
+    res = retry_on_transient_error(
+        lambda: s.test_simulation.get_micro_deposit_amounts(
+            account_id=enrolled_account_id,
+            bank_relationship_id=create_bank_relationship_id,
+            retries=RetryConfig("none", None, False),
+        ),
+        max_attempts=40,
     )
     if res.http_meta.response.status_code == 200:
         return (
@@ -584,17 +590,19 @@ def create_wire_withdrawal_id(create_sdk, withdrawal_account_id):
 
 
 @pytest.fixture
-def create_cash_journal_id(create_sdk, deceased_account_id, withdrawal_account_id):
+def create_cash_journal_id(create_sdk, enrolled_account_id, withdrawal_account_id):
     s = create_sdk
 
     cash_journal_request = components.CashJournalCreate(
         client_transfer_id=str(uuid.uuid4()),
-        destination_account=deceased_account_id,
+        destination_account=f"accounts/{enrolled_account_id}",
         amount=components.DecimalCreate(value="500001.00"),
-        source_account=withdrawal_account_id,
+        source_account=f"accounts/{withdrawal_account_id}",
     )
 
-    res = s.journals.create_cash_journal(request=cash_journal_request)
+    res = retry_on_transient_error(
+        lambda: s.journals.create_cash_journal(request=cash_journal_request)
+    )
 
     if res.http_meta.response.status_code == 200:
         return res.cash_journal.name.split("/")[1]
@@ -695,7 +703,11 @@ def create_position_journal_id(create_sdk, enrolled_account_id, withdrawal_accou
         description="Stock reward for testing",
     )
 
-    res = s.position_journals.create_position_journal(request=position_journal_request)
+    res = retry_on_transient_error(
+        lambda: s.position_journals.create_position_journal(
+            request=position_journal_request
+        )
+    )
     if res.http_meta.response.status_code == 200:
         return res.position_journal.name.split("/")[-1]
     else:
@@ -718,7 +730,11 @@ def pending_position_journal_id(create_sdk, enrolled_account_id, withdrawal_acco
         description="Stock reward for force approve/reject testing",
     )
 
-    res = s.position_journals.create_position_journal(request=position_journal_request)
+    res = retry_on_transient_error(
+        lambda: s.position_journals.create_position_journal(
+            request=position_journal_request
+        )
+    )
     if res.http_meta.response.status_code == 200:
         return res.position_journal.name.split("/")[-1]
     else:

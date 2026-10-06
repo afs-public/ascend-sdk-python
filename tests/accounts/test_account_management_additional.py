@@ -12,7 +12,7 @@ def test_account_management_accounts_update_account_group_update_account_group1(
     assert s is not None
 
     request = components.UpdateAccountGroupRequestUpdate(
-        account_group_id=os.getenv("ACCOUNT_GROUP_ID"),
+        account_group_id=os.getenv("SECOND_ACCOUNT_GROUP_ID"),
     )
 
     res = s.account_management.update_account_group(

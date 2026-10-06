@@ -4,6 +4,7 @@ from ascend_sdk import SDK
 from ascend_sdk.models import components
 import os
 from tests.test_client import create_test_http_client
+from tests.conftest import ALTS_ACCOUNT_ID
 
 
 def test_alternative_account_accreditation_account_accreditation_get_account_accreditation():
@@ -26,8 +27,18 @@ def test_alternative_account_accreditation_account_accreditation_get_account_acc
     ) as sdk:
         assert sdk is not None
 
+        # UAT data churn periodically wipes the accreditation resource, so set
+        # it before reading rather than depending on state from earlier runs.
+        sdk.alternative_account_accreditation.set_account_accreditation_type(
+            account_id=ALTS_ACCOUNT_ID,
+            set_account_accreditation_type_request_create={
+                "accreditation_type": components.SetAccountAccreditationTypeRequestCreateAccreditationType.NET_WORTH_GT_1_M,
+                "name": f"accounts/{ALTS_ACCOUNT_ID}/accreditation",
+            },
+        )
+
         res = sdk.alternative_account_accreditation.get_account_accreditation(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT"
+            account_id=ALTS_ACCOUNT_ID
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -55,10 +66,10 @@ def test_alternative_account_accreditation_account_accreditation_set_account_acc
         assert sdk is not None
 
         res = sdk.alternative_account_accreditation.set_account_accreditation_type(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            account_id=ALTS_ACCOUNT_ID,
             set_account_accreditation_type_request_create={
                 "accreditation_type": components.SetAccountAccreditationTypeRequestCreateAccreditationType.NET_WORTH_GT_1_M,
-                "name": "accounts/01JHGTEPC6ZTAHCFRH2MD3VJJT/accreditation",
+                "name": f"accounts/{ALTS_ACCOUNT_ID}/accreditation",
             },
         )
         assert res.http_meta is not None

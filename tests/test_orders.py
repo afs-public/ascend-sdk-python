@@ -28,7 +28,7 @@ def test_orders_create_order_set_extra_reporting_data():
         res = sdk.orders.set_extra_reporting_data(
             account_id="01K6P14WKCJT0G38KKHY52M4BQ",
             order_id="a73f4471-832c-4ff2-9b14-f44420592a67",
-            set_extra_reporting_data_request_create={
+            trading_set_extra_reporting_data_request_create={
                 "cancel_confirmed_time": parse_datetime("2025-12-13T15:28:17.262732Z"),
                 "name": "accounts/01K6P14WKCJT0G38KKHY52M4BQ/orders/a73f4471-832c-4ff2-9b14-f44420592a67",
             },

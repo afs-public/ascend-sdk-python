@@ -1,9 +1,12 @@
 import os
 
 from ascend_sdk.models import components
+from ascend_sdk.models import errors
 from datetime import datetime
 
 import pytest
+
+from tests.conftest import retry_on_transient_error
 
 
 @pytest.fixture(scope="module")
@@ -45,38 +48,79 @@ def subscriber_id(create_sdk):
         return None
 
 
+def find_subscription_delivery(s):
+    """Atomically picks a subscription that has deliveries with its first
+    delivery id. Callers that read a delivery should re-pick through this on
+    failure: a concurrently running suite can delete the picked subscription
+    between the pick and the read."""
+    response = s.subscriber.list_push_subscriptions()
+    if response.http_meta.response.status_code != 200:
+        return None
+    subscriptions = response.list_push_subscriptions_response.push_subscriptions or []
+    for subscription in subscriptions:
+        try:
+            res = s.subscriber.list_push_subscription_deliveries(
+                subscription_id=subscription.subscription_id
+            )
+        except errors.Status:
+            continue
+        deliveries = (
+            res.list_push_subscription_deliveries_response.push_subscription_deliveries
+        )
+        if res.http_meta.response.status_code == 200 and deliveries:
+            return (subscription.subscription_id, deliveries[0].delivery_id)
+    return None
+
+
 @pytest.fixture(scope="module")
 def test_subscriber_id(create_sdk):
     s = create_sdk
 
     response = s.subscriber.list_push_subscriptions()
-    subscriptions = response.list_push_subscriptions_response.push_subscriptions
-    if (
-        response.http_meta.response.status_code == 200
-        and response.list_push_subscriptions_response.push_subscriptions is not None
-    ):
-        return subscriptions[0].subscription_id
-    else:
+    if response.http_meta.response.status_code != 200:
         return None
+    subscriptions = response.list_push_subscriptions_response.push_subscriptions
+    if not subscriptions:
+        return None
+
+    # The first listed subscription can be a freshly created one with no
+    # delivery history (e.g. from a concurrently running suite's create
+    # test); prefer a subscription that already has deliveries. A concurrent
+    # suite can also delete its subscription between the list and the
+    # per-subscription read, so a NOT_FOUND here just means skip it.
+    for subscription in subscriptions:
+        try:
+            res = s.subscriber.list_push_subscription_deliveries(
+                subscription_id=subscription.subscription_id
+            )
+        except errors.Status:
+            continue
+        deliveries = (
+            res.list_push_subscription_deliveries_response.push_subscription_deliveries
+        )
+        if res.http_meta.response.status_code == 200 and deliveries:
+            return subscription.subscription_id
+    return subscriptions[0].subscription_id
 
 
 @pytest.fixture(scope="module")
 def delivery_id(create_sdk, test_subscriber_id):
     s = create_sdk
 
-    res = s.subscriber.list_push_subscription_deliveries(
-        subscription_id=test_subscriber_id
-    )
-
-    if (
-        res.http_meta.response.status_code == 200
-        and res.list_push_subscription_deliveries_response.push_subscription_deliveries
-        is not None
-    ):
-        return (
-            res.list_push_subscription_deliveries_response.push_subscription_deliveries[
-                0
-            ].delivery_id
+    # Event deliveries are recorded asynchronously after the subscription's
+    # first event fires; poll rather than reading once.
+    def first_delivery_id():
+        res = s.subscriber.list_push_subscription_deliveries(
+            subscription_id=test_subscriber_id
         )
-    else:
+        deliveries = (
+            res.list_push_subscription_deliveries_response.push_subscription_deliveries
+        )
+        if res.http_meta.response.status_code == 200 and deliveries:
+            return deliveries[0].delivery_id
+        raise LookupError("no deliveries recorded yet")
+
+    try:
+        return retry_on_transient_error(first_delivery_id)
+    except Exception:
         return None

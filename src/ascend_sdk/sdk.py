@@ -36,6 +36,7 @@ if TYPE_CHECKING:
     from ascend_sdk.buying_power import BuyingPower
     from ascend_sdk.cash_balances import CashBalances
     from ascend_sdk.checks import Checks
+    from ascend_sdk.cost_basis_service import CostBasisService
     from ascend_sdk.data_retrieval import DataRetrieval
     from ascend_sdk.enrollments_and_agreements import EnrollmentsAndAgreements
     from ascend_sdk.fees_and_credits import FeesAndCredits
@@ -109,6 +110,7 @@ class SDK(BaseSDK):
     investor_docs: "InvestorDocs"
     data_retrieval: "DataRetrieval"
     option_instructions: "OptionInstructions"
+    cost_basis_service: "CostBasisService"
     _sub_sdk_map = {
         "authentication": ("ascend_sdk.authentication", "Authentication"),
         "reader": ("ascend_sdk.reader", "Reader"),
@@ -179,6 +181,7 @@ class SDK(BaseSDK):
         "investor_docs": ("ascend_sdk.investor_docs", "InvestorDocs"),
         "data_retrieval": ("ascend_sdk.data_retrieval", "DataRetrieval"),
         "option_instructions": ("ascend_sdk.option_instructions", "OptionInstructions"),
+        "cost_basis_service": ("ascend_sdk.cost_basis_service", "CostBasisService"),
     }
 
     def __init__(

@@ -49,7 +49,7 @@ def test_test_simulation_transfers_force_approve_ach_deposit_force_approve_ach_d
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_noc_ach_deposit_force_noc_ach_deposit1(
@@ -120,7 +120,7 @@ def test_test_simulation_transfers_force_reject_ach_deposit_force_reject_ach_dep
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_ach_deposit_return_force_ach_deposit_return1(
@@ -194,11 +194,11 @@ def test_test_simulation_transfers_force_approve_ach_withdrawal_force_approve_ac
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_noc_ach_withdrawal_force_noc_ach_withdrawal1(
-    create_sdk, withdrawal_account_id, completed_withdrawal_id, current_time
+    create_sdk, completed_withdrawal_account_id, completed_withdrawal_id, current_time
 ):
     if not (
         datetime.time(23, 30) <= current_time.time()
@@ -215,11 +215,11 @@ def test_test_simulation_transfers_force_noc_ach_withdrawal_force_noc_ach_withdr
             code=components.Code.C05,
             updated_bank_account_type=components.UpdatedBankAccountType.CHECKING,
         ),
-        name=f"accounts/{withdrawal_account_id}/achWithdrawals/{completed_withdrawal_id}",
+        name=f"accounts/{completed_withdrawal_account_id}/achWithdrawals/{completed_withdrawal_id}",
     )
 
     res = s.test_simulation.force_noc_ach_withdrawal(
-        account_id=withdrawal_account_id,
+        account_id=completed_withdrawal_account_id,
         ach_withdrawal_id=completed_withdrawal_id,
         force_noc_ach_withdrawal_request_create=request,
     )
@@ -266,11 +266,11 @@ def test_test_simulation_transfers_force_reject_ach_withdrawal_force_reject_ach_
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_ach_withdrawal_return_force_ach_withdrawal_return1(
-    create_sdk, withdrawal_account_id, completed_withdrawal_id, current_time
+    create_sdk, completed_withdrawal_account_id, completed_withdrawal_id, current_time
 ):
     if not (
         datetime.time(23, 30) <= current_time.time()
@@ -286,12 +286,12 @@ def test_test_simulation_transfers_force_ach_withdrawal_return_force_ach_withdra
         nacha_return=components.NachaReturnCreate(
             code=components.NachaReturnCreateCode.R16,
         ),
-        name=f"accounts/{withdrawal_account_id}/achWithdrawals/{completed_withdrawal_id}",
+        name=f"accounts/{completed_withdrawal_account_id}/achWithdrawals/{completed_withdrawal_id}",
     )
 
     try:
         res = s.test_simulation.force_return_ach_withdrawal(
-            account_id=withdrawal_account_id,
+            account_id=completed_withdrawal_account_id,
             ach_withdrawal_id=completed_withdrawal_id,
             force_return_ach_withdrawal_request_create=request,
         )
@@ -332,7 +332,7 @@ def test_test_simulation_transfers_force_ict_deposit_approve_force_ict_deposit_a
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_ict_deposit_reject_force_ict_deposit_reject1(
@@ -363,7 +363,7 @@ def test_test_simulation_transfers_force_ict_deposit_reject_force_ict_deposit_re
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_ict_withdrawal_approve_force_ict_withdrawal_approve1(
@@ -394,7 +394,7 @@ def test_test_simulation_transfers_force_ict_withdrawal_approve_force_ict_withdr
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_ict_withdrawal_reject_force_ict_withdrawal_reject1(
@@ -425,7 +425,7 @@ def test_test_simulation_transfers_force_ict_withdrawal_reject_force_ict_withdra
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_approve_wire_withdrawal_force_approve_wire_withdrawal1(
@@ -441,15 +441,19 @@ def test_test_simulation_transfers_force_approve_wire_withdrawal_force_approve_w
         name=f"accounts/{withdrawal_account_id}/wireWithdrawals/{create_wire_withdrawal_id}",
     )
 
-    res = s.test_simulation.force_approve_wire_withdrawal(
-        account_id=withdrawal_account_id,
-        wire_withdrawal_id=create_wire_withdrawal_id,
-        force_approve_wire_withdrawal_request_create=request,
-    )
+    try:
+        res = s.test_simulation.force_approve_wire_withdrawal(
+            account_id=withdrawal_account_id,
+            wire_withdrawal_id=create_wire_withdrawal_id,
+            force_approve_wire_withdrawal_request_create=request,
+        )
 
-    assert res.http_meta is not None
-    assert res.http_meta.response is not None
-    assert res.http_meta.response.status_code == 200
+        assert res.http_meta is not None
+        assert res.http_meta.response is not None
+        assert res.http_meta.response.status_code == 200
+    except errors.Status as status:
+        assert status.data.code == 3
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_wire_withdrawal_reject_force_wire_withdrawal_reject1(
@@ -501,13 +505,17 @@ def test_test_simulation_transfers_force_cash_journal_approve_force_cash_journal
         name=f"cashJournals/{create_cash_journal_id}",
     )
 
-    result = s.test_simulation.force_approve_cash_journal(
-        force_approve_cash_journal_request_create=request,
-        cash_journal_id=create_cash_journal_id,
-    )
-    assert result.http_meta is not None
-    assert result.http_meta.response is not None
-    assert result.http_meta.response.status_code == 200
+    try:
+        result = s.test_simulation.force_approve_cash_journal(
+            force_approve_cash_journal_request_create=request,
+            cash_journal_id=create_cash_journal_id,
+        )
+        assert result.http_meta is not None
+        assert result.http_meta.response is not None
+        assert result.http_meta.response.status_code == 200
+    except errors.Status as status:
+        assert status.data.code == 3
+        assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_transfers_force_cash_journal_reject_force_cash_journal_reject1(

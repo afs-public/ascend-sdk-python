@@ -3,8 +3,10 @@
 from ascend_sdk import SDK
 import uuid
 from ascend_sdk.models import components
+from ascend_sdk.models import errors
 import os
 from tests.test_client import create_test_http_client
+from tests.conftest import ALTS_ACCOUNT_ID, ALTS_ORDER_ID
 
 
 def test_alternative_orders_alternative_orders_create_alternative_order():
@@ -28,13 +30,13 @@ def test_alternative_orders_alternative_orders_create_alternative_order():
         assert sdk is not None
 
         res = sdk.alternative_orders.create_alternative_order(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            account_id=ALTS_ACCOUNT_ID,
             alternative_order_create=components.AlternativeOrderCreate(
                 client_order_id=str(uuid.uuid4()),
-                identifier="6684398",
+                identifier="13607391",
                 identifier_type=components.AlternativeOrderCreateIdentifierType.ASSET_ID,
                 notional_value=components.DecimalCreate(
-                    value="10000",
+                    value="15000",
                 ),
                 side=components.AlternativeOrderCreateSide.BUY,
             ),
@@ -65,7 +67,7 @@ def test_alternative_orders_alternative_orders_list_alternative_orders():
         assert sdk is not None
 
         res = sdk.alternative_orders.list_alternative_orders(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+            account_id=ALTS_ACCOUNT_ID,
             page_size=25,
             page_token="",
             filter_="",
@@ -94,8 +96,8 @@ def test_alternative_orders_alternative_orders_get_alternative_order():
         assert sdk is not None
 
         res = sdk.alternative_orders.get_alternative_order(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
-            alternative_order_id="01KHYEFHKS7VM17YC8BQC6A8PV",
+            account_id=ALTS_ACCOUNT_ID,
+            alternative_order_id=ALTS_ORDER_ID,
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -123,8 +125,8 @@ def test_alternative_orders_alternative_orders_retrieve_pending_investor_actions
         assert sdk is not None
 
         res = sdk.alternative_orders.retrieve_pending_investor_actions(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
-            alternative_order_id="01KHYEFHKS7VM17YC8BQC6A8PV",
+            account_id=ALTS_ACCOUNT_ID,
+            alternative_order_id=ALTS_ORDER_ID,
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None
@@ -151,14 +153,21 @@ def test_alternative_orders_alternative_orders_settle_alternative_order():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.alternative_orders.settle_alternative_order(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
-            alternative_order_id="01KHYEFHKS7VM17YC8BQC6A8PV",
-            settle_alternative_order_request_create={
-                "name": "accounts/01JHGTEPC6ZTAHCFRH2MD3VJJT/alternativeOrders/01KHYEFHKS7VM17YC8BQC6A8PV",
-                "order_settlement_target": components.OrderSettlementTarget.FILLED,
-            },
-        )
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 400
+        # This hardcoded order is already FILLED, so settling it again is expected
+        # to fail with a SETTLEMENT_POST_FAILURE precondition error -- but accept
+        # a genuine 200 too, in case the order's state ever changes.
+        try:
+            res = sdk.alternative_orders.settle_alternative_order(
+                account_id=ALTS_ACCOUNT_ID,
+                alternative_order_id=ALTS_ORDER_ID,
+                settle_alternative_order_request_create={
+                    "name": f"accounts/{ALTS_ACCOUNT_ID}/alternativeOrders/{ALTS_ORDER_ID}",
+                    "order_settlement_target": components.OrderSettlementTarget.FILLED,
+                },
+            )
+            assert res.http_meta is not None
+            assert res.http_meta.response is not None
+            assert res.http_meta.response.status_code == 200
+        except errors.Status as status:
+            assert status.data.code == 9
+            assert "SETTLEMENT_POST_FAILURE" in status.data.message

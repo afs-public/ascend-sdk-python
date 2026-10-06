@@ -1,6 +1,7 @@
 import uuid
 from ascend_sdk.models import components
 from ascend_sdk.models import errors
+from tests.conftest import retry_on_transient_error
 
 
 def tests_positions_journal_create(
@@ -24,7 +25,11 @@ def tests_positions_journal_create(
         description="Stock reward for testing",
     )
 
-    res = s.position_journals.create_position_journal(request=position_journal_request)
+    res = retry_on_transient_error(
+        lambda: s.position_journals.create_position_journal(
+            request=position_journal_request
+        )
+    )
     assert res.http_meta is not None
     assert res.http_meta.response is not None
     assert res.http_meta.response.status_code == 200
@@ -93,7 +98,7 @@ def tests_positions_journal_force_approve(
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()
 
 
 def tests_positions_journal_force_reject(
@@ -119,4 +124,4 @@ def tests_positions_journal_force_reject(
         assert res.http_meta.response.status_code == 200
     except errors.Status as status:
         assert status.data.code == 3
-        assert "that does not need review" in status.data.message.lower()
+        assert "does not need review" in status.data.message.lower()

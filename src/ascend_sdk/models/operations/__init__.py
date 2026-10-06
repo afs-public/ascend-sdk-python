@@ -846,6 +846,18 @@ if TYPE_CHECKING:
         CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse,
         CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponseTypedDict,
     )
+    from .costbasisservice_searchclosedlots import (
+        CostBasisServiceSearchClosedLotsRequest,
+        CostBasisServiceSearchClosedLotsRequestTypedDict,
+        CostBasisServiceSearchClosedLotsResponse,
+        CostBasisServiceSearchClosedLotsResponseTypedDict,
+    )
+    from .costbasisservice_searchopenlots import (
+        CostBasisServiceSearchOpenLotsRequest,
+        CostBasisServiceSearchOpenLotsRequestTypedDict,
+        CostBasisServiceSearchOpenLotsResponse,
+        CostBasisServiceSearchOpenLotsResponseTypedDict,
+    )
     from .credits_cancelcredit import (
         CreditsCancelCreditRequest,
         CreditsCancelCreditRequestTypedDict,
@@ -1948,6 +1960,14 @@ __all__ = [
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleRequestTypedDict",
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse",
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponseTypedDict",
+    "CostBasisServiceSearchClosedLotsRequest",
+    "CostBasisServiceSearchClosedLotsRequestTypedDict",
+    "CostBasisServiceSearchClosedLotsResponse",
+    "CostBasisServiceSearchClosedLotsResponseTypedDict",
+    "CostBasisServiceSearchOpenLotsRequest",
+    "CostBasisServiceSearchOpenLotsRequestTypedDict",
+    "CostBasisServiceSearchOpenLotsResponse",
+    "CostBasisServiceSearchOpenLotsResponseTypedDict",
     "CreditsCancelCreditRequest",
     "CreditsCancelCreditRequestTypedDict",
     "CreditsCancelCreditResponse",
@@ -2875,6 +2895,14 @@ _dynamic_imports: dict[str, str] = {
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleRequestTypedDict": ".checkwithdrawalschedules_updatecheckwithdrawalschedule",
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponse": ".checkwithdrawalschedules_updatecheckwithdrawalschedule",
     "CheckWithdrawalSchedulesUpdateCheckWithdrawalScheduleResponseTypedDict": ".checkwithdrawalschedules_updatecheckwithdrawalschedule",
+    "CostBasisServiceSearchClosedLotsRequest": ".costbasisservice_searchclosedlots",
+    "CostBasisServiceSearchClosedLotsRequestTypedDict": ".costbasisservice_searchclosedlots",
+    "CostBasisServiceSearchClosedLotsResponse": ".costbasisservice_searchclosedlots",
+    "CostBasisServiceSearchClosedLotsResponseTypedDict": ".costbasisservice_searchclosedlots",
+    "CostBasisServiceSearchOpenLotsRequest": ".costbasisservice_searchopenlots",
+    "CostBasisServiceSearchOpenLotsRequestTypedDict": ".costbasisservice_searchopenlots",
+    "CostBasisServiceSearchOpenLotsResponse": ".costbasisservice_searchopenlots",
+    "CostBasisServiceSearchOpenLotsResponseTypedDict": ".costbasisservice_searchopenlots",
     "CreditsCancelCreditRequest": ".credits_cancelcredit",
     "CreditsCancelCreditRequestTypedDict": ".credits_cancelcredit",
     "CreditsCancelCreditResponse": ".credits_cancelcredit",
