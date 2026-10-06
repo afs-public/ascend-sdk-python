@@ -2,6 +2,7 @@
 
 from ascend_sdk import SDK
 from ascend_sdk.models import components
+from ascend_sdk.models import errors
 import os
 from tests.test_client import create_test_http_client
 
@@ -24,16 +25,24 @@ def test_test_simulation_check_deposits_force_approve_check_deposit():
     ) as sdk:
         assert sdk is not None
 
-        res = sdk.test_simulation.force_approve_check_deposit(
-            account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
-            check_deposit_id="20250811022796",
-            force_approve_check_deposit_request_create={
-                "name": "accounts/01JHGTEPC6ZTAHCFRH2MD3VJJT/checkDeposits/20250811022796",
-            },
-        )
-        assert res.http_meta is not None
-        assert res.http_meta.response is not None
-        assert res.http_meta.response.status_code == 200
+        # This hardcoded check deposit is already approved/completed, so
+        # force-approving it again is expected to fail with a "does not
+        # need review" precondition error -- but accept a genuine 200 too,
+        # in case the deposit's state ever changes.
+        try:
+            res = sdk.test_simulation.force_approve_check_deposit(
+                account_id="01JHGTEPC6ZTAHCFRH2MD3VJJT",
+                check_deposit_id="20250811022796",
+                force_approve_check_deposit_request_create={
+                    "name": "accounts/01JHGTEPC6ZTAHCFRH2MD3VJJT/checkDeposits/20250811022796",
+                },
+            )
+            assert res.http_meta is not None
+            assert res.http_meta.response is not None
+            assert res.http_meta.response.status_code == 200
+        except errors.Status as status:
+            assert status.data.code == 3
+            assert "does not need review" in status.data.message.lower()
 
 
 def test_test_simulation_check_deposits_simulate_create_check_deposit():

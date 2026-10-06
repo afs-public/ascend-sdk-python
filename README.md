@@ -428,6 +428,11 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 * [get_check_deposit](docs/sdks/checks/README.md#get_check_deposit) - Get Check Deposit
 
+### [cost_basis_service](docs/sdks/costbasisservice/README.md)
+
+* [search_closed_lots](docs/sdks/costbasisservice/README.md#search_closed_lots) - Search Closed Lots
+* [search_open_lots](docs/sdks/costbasisservice/README.md#search_open_lots) - Search Open Lots
+
 ### [data_retrieval](docs/sdks/dataretrieval/README.md)
 
 * [list_snapshots](docs/sdks/dataretrieval/README.md#list_snapshots) - List Snapshots
@@ -787,29 +792,5 @@ logging.basicConfig(level=logging.DEBUG)
 s = SDK(debug_logger=logging.getLogger("ascend_sdk"))
 ```
 <!-- End Debugging [debug] -->
-
-## Qase TestOps Integration
-
-Test results can be automatically reported to [Qase TestOps](https://app.qase.io/project/CDX) for centralized visibility.
-
-### Environment Variables
-
-| Variable | Description |
-| --- | --- |
-| `QASE_MODE` | Set to `testops` to enable reporting (default: off) |
-| `QASE_TESTOPS_API_TOKEN` | Qase API token for authentication |
-| `QASE_TESTOPS_PROJECT` | Qase project code (default: `CDX`) |
-
-### Running Tests with Qase Reporting
-
-```bash
-# Without Qase (default)
-.venv/bin/pytest tests/ -v
-
-# With Qase reporting enabled
-QASE_MODE=testops QASE_TESTOPS_API_TOKEN=<token> .venv/bin/pytest tests/ -v
-```
-
-Qase reporting is disabled by default via `addopts = "--qase-mode=off"` in `pyproject.toml`. Setting `QASE_MODE=testops` as an environment variable overrides this.
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->

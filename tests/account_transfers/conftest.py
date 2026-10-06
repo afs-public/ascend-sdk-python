@@ -5,6 +5,8 @@ import pytest
 import os
 import uuid
 
+from tests.conftest import retry_on_transient_error
+
 
 @pytest.fixture(scope="module")
 def account_number(create_sdk, enrolled_account_id):
@@ -48,10 +50,14 @@ def create_account_transfer_id(
             ),
         ),
     )
-    res = s.account_transfers.create_transfer(
-        correspondent_id=os.getenv("CORRESPONDENT_ID"),
-        account_id=withdrawal_account_id,
-        transfer_create=request,
+    # The funding credit created just above posts asynchronously; until it
+    # lands the API rejects the transfer for insufficient cash.
+    res = retry_on_transient_error(
+        lambda: s.account_transfers.create_transfer(
+            correspondent_id=os.getenv("CORRESPONDENT_ID"),
+            account_id=withdrawal_account_id,
+            transfer_create=request,
+        )
     )
     if res.http_meta.response.status_code == 200:
         return res.acats_transfer.name.split("/")[-1]

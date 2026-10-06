@@ -1,0 +1,10 @@
+# CostBasisServiceSearchOpenLotsResponse
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `http_meta`                                                                                      | [components.HTTPMetadata](../../models/components/httpmetadata.md)                               | :heavy_check_mark:                                                                               | N/A                                                                                              |
+| `search_open_lots_response`                                                                      | [Optional[components.SearchOpenLotsResponse]](../../models/components/searchopenlotsresponse.md) | :heavy_minus_sign:                                                                               | OK                                                                                               |
+| `status`                                                                                         | [Optional[components.Status]](../../models/components/status.md)                                 | :heavy_minus_sign:                                                                               | INVALID_ARGUMENT: The request was not well formed. Check the error message for more details.     |

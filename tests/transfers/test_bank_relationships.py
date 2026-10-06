@@ -2,6 +2,8 @@ import time
 
 from ascend_sdk.models import components, errors
 
+from tests.conftest import retry_on_transient_error
+
 
 def test_bank_relationships_transfers_create_bank_relationship_create_bank_relationship1(
     create_bank_relationship_id,
@@ -164,9 +166,11 @@ def test_bank_relationships_transfers_reuse_bank_relationship_reuse_bank_relatio
         source_bank_relationship=f"accounts/{enrolled_account_id}/bankRelationships/{create_bank_relationship_id}",
     )
 
-    res = s.bank_relationships.reuse_bank_relationship(
-        account_id=create_reuse_account_id,
-        reuse_bank_relationship_request_create=request,
+    res = retry_on_transient_error(
+        lambda: s.bank_relationships.reuse_bank_relationship(
+            account_id=create_reuse_account_id,
+            reuse_bank_relationship_request_create=request,
+        )
     )
     assert res.http_meta is not None
     assert res.http_meta.response is not None

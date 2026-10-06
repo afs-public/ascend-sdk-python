@@ -3,11 +3,11 @@
 import importlib.metadata
 
 __title__: str = "ascend-sdk"
-__version__: str = "1.8.13"
-__openapi_doc_version__: str = "v1:20260814:uat:c54c9dbed75d"
+__version__: str = "1.8.14"
+__openapi_doc_version__: str = "v1:20261005:uat:400dff6391e1"
 __gen_version__: str = "2.691.6"
 __user_agent__: str = (
-    "speakeasy-sdk/python 1.8.13 2.691.6 v1:20260814:uat:c54c9dbed75d ascend-sdk"
+    "speakeasy-sdk/python 1.8.14 2.691.6 v1:20261005:uat:400dff6391e1 ascend-sdk"
 )
 
 try:
