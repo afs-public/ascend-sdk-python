@@ -13,3 +13,4 @@ Side modifier for the trade.
 | `SHORT_COVER`               | SHORT_COVER                 |
 | `OPEN`                      | OPEN                        |
 | `CLOSE`                     | CLOSE                       |
+| `COVER`                     | COVER                       |

@@ -6,6 +6,7 @@ from .extrareportingdatacreate import (
     ExtraReportingDataCreate,
     ExtraReportingDataCreateTypedDict,
 )
+from .lotcreate import LotCreate, LotCreateTypedDict
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -97,6 +98,8 @@ class BasketOrderCreateTypedDict(TypedDict):
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
     extra_reporting_data: NotRequired[ExtraReportingDataCreateTypedDict]
     r"""Any extra reporting data provided by the client for an order"""
+    lot_matching_instructions: NotRequired[List[LotCreateTypedDict]]
+    r"""Specifies instructions for how to match tax lots to the order. Only applicable for SELL orders. Maximum 100 instructions per order. Each instruction must include quantity. When id is specified, trade_date and price must not be specified. When id is not specified, trade_date is required and price is optional."""
     max_sell_quantity: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -168,6 +171,9 @@ class BasketOrderCreate(BaseModel):
     extra_reporting_data: Optional[ExtraReportingDataCreate] = None
     r"""Any extra reporting data provided by the client for an order"""
 
+    lot_matching_instructions: Optional[List[LotCreate]] = None
+    r"""Specifies instructions for how to match tax lots to the order. Only applicable for SELL orders. Maximum 100 instructions per order. Each instruction must include quantity. When id is specified, trade_date and price must not be specified. When id is not specified, trade_date is required and price is optional."""
+
     max_sell_quantity: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -208,6 +214,7 @@ class BasketOrderCreate(BaseModel):
             "client_order_received_time",
             "currency_code",
             "extra_reporting_data",
+            "lot_matching_instructions",
             "max_sell_quantity",
             "notional_value",
             "quantity",

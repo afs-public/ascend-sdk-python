@@ -42,7 +42,7 @@ class BookingLotMoneyPrice(BaseModel):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class BookingLotMoneyTypedDict(TypedDict):
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     currency_code: NotRequired[str]
     price: NotRequired[Nullable[BookingLotMoneyPriceTypedDict]]
@@ -52,7 +52,7 @@ class BookingLotMoneyTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class BookingLotMoney(BaseModel):
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     currency_code: Optional[str] = None
 
@@ -147,7 +147,7 @@ class BookingLotTypedDict(TypedDict):
     id: NotRequired[str]
     r"""User-specified ID for the lot"""
     money: NotRequired[Nullable[BookingLotMoneyTypedDict]]
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
     price: NotRequired[Nullable[BookingLotPriceTypedDict]]
     r"""Lot price in the same currency as the trade price"""
     quantity: NotRequired[Nullable[BookingLotQuantityTypedDict]]
@@ -168,7 +168,7 @@ class BookingLot(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = UNSET
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     price: OptionalNullable[BookingLotPrice] = UNSET
     r"""Lot price in the same currency as the trade price"""

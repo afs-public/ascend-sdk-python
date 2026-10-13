@@ -13,3 +13,4 @@ Side modifier for the trade allocation.
 | `SHORT_COVER`               | SHORT_COVER                 |
 | `OPEN`                      | OPEN                        |
 | `CLOSE`                     | CLOSE                       |
+| `COVER`                     | COVER                       |

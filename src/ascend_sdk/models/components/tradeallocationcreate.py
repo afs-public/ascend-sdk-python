@@ -54,6 +54,7 @@ class TradeAllocationCreateSideModifier(str, Enum, metaclass=utils.OpenEnumMeta)
     SHORT_COVER = "SHORT_COVER"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+    COVER = "COVER"
 
 
 class TradeAllocationCreateSpecialInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -104,6 +105,7 @@ class TradeAllocationCreateSpecialInstructions(str, Enum, metaclass=utils.OpenEn
     SUPPRESS_SEC_FEE = "SUPPRESS_SEC_FEE"
     SUPPRESS_TAF_FEE = "SUPPRESS_TAF_FEE"
     DIVIDEND_REINVESTMENT = "DIVIDEND_REINVESTMENT"
+    REPORT_MSRB = "REPORT_MSRB"
 
 
 class ToSide(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -177,6 +179,8 @@ class TradeAllocationCreateTypedDict(TypedDict):
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
+    executing_broker: NotRequired[str]
+    r"""Executing broker of the trade allocation."""
     fees: NotRequired[List[BookingFeeCreateTypedDict]]
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
     gross_amount: NotRequired[DecimalCreateTypedDict]
@@ -201,6 +205,8 @@ class TradeAllocationCreateTypedDict(TypedDict):
     """
     price_adjustment: NotRequired[PriceAdjustmentCreateTypedDict]
     r"""Price adjustment that will be applied to the net price of the security."""
+    prime: NotRequired[bool]
+    r"""RIA Trade Away indicator."""
     settlement_date: NotRequired[DateCreateTypedDict]
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
 
@@ -293,6 +299,9 @@ class TradeAllocationCreate(BaseModel):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
 
+    executing_broker: Optional[str] = None
+    r"""Executing broker of the trade allocation."""
+
     fees: Optional[List[BookingFeeCreate]] = None
     r"""Client calculated fees that will only be applied to the to_account_id. Regulatory fees will be calculated automatically if they are not explicitly overwritten or suppressed."""
 
@@ -323,6 +332,9 @@ class TradeAllocationCreate(BaseModel):
 
     price_adjustment: Optional[PriceAdjustmentCreate] = None
     r"""Price adjustment that will be applied to the net price of the security."""
+
+    prime: Optional[bool] = None
+    r"""RIA Trade Away indicator."""
 
     settlement_date: Optional[DateCreate] = None
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
@@ -362,6 +374,7 @@ class TradeAllocationCreate(BaseModel):
             "bond_yield",
             "client_order_id",
             "commission_amount",
+            "executing_broker",
             "fees",
             "gross_amount",
             "issuing_region_code",
@@ -369,6 +382,7 @@ class TradeAllocationCreate(BaseModel):
             "memo",
             "prevailing_market_price",
             "price_adjustment",
+            "prime",
             "settlement_date",
             "side_modifier",
             "special_instructions",

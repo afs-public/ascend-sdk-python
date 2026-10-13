@@ -26,3 +26,4 @@ Describes the contents of a document and how it is used
 | `FPSL_NEGATIVE_CONSENT_FORM`         | FPSL_NEGATIVE_CONSENT_FORM           |
 | `CRS_FORM`                           | CRS_FORM                             |
 | `FPSL_CONFIRMATION`                  | FPSL_CONFIRMATION                    |
+| `EVENT_CONTRACT_STATEMENT_DAILY`     | EVENT_CONTRACT_STATEMENT_DAILY       |

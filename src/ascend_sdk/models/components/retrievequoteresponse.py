@@ -87,7 +87,7 @@ class BidQuantity(BaseModel):
 
 
 class RetrieveQuoteResponseBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -138,7 +138,7 @@ class RetrieveQuoteResponseTypedDict(TypedDict):
     bid_quantity: NotRequired[Nullable[BidQuantityTypedDict]]
     r"""The best bid quantity. This will be absent if no bid information is available"""
     broker_capacity: NotRequired[RetrieveQuoteResponseBrokerCapacity]
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
     identifier: NotRequired[str]
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
     identifier_type: NotRequired[RetrieveQuoteResponseIdentifierType]
@@ -186,7 +186,7 @@ class RetrieveQuoteResponse(BaseModel):
         Optional[RetrieveQuoteResponseBrokerCapacity],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     identifier: Optional[str] = None
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""

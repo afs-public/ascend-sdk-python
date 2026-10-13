@@ -125,6 +125,7 @@ class CancelTradeResponseSideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
     SHORT_COVER = "SHORT_COVER"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+    COVER = "COVER"
 
 
 class CancelTradeResponseSpecialInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -175,6 +176,7 @@ class CancelTradeResponseSpecialInstructions(str, Enum, metaclass=utils.OpenEnum
     SUPPRESS_SEC_FEE = "SUPPRESS_SEC_FEE"
     SUPPRESS_TAF_FEE = "SUPPRESS_TAF_FEE"
     DIVIDEND_REINVESTMENT = "DIVIDEND_REINVESTMENT"
+    REPORT_MSRB = "REPORT_MSRB"
 
 
 class CancelTradeResponseVenue(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -258,6 +260,10 @@ class CancelTradeResponseTradeTypedDict(TypedDict):
     r"""State of this trade's completeness in filling. True: trade is not done filling and can append more executions onto the trade False: trade is done filling and cannot append more executions onto the trade By default, trades are closed when they are created. An open trade can later be closed by calling the CompleteTrade endpoint. Additional executions can be appended to an open trade by calling the CreateExecution endpoint. Trades that are left open will be automatically closed nightly before Ledger's EOD."""
     order_id: NotRequired[str]
     r"""Street-level order id, unique by day per broker."""
+    originating_resource_name: NotRequired[str]
+    r"""The resource name of the API resource that originated this trade, for example the order that produced it. Set by the system; any value supplied by the caller is ignored. Lets a client walk a Ledger activity to its trade and on to the originating order using only originating_resource_name fields."""
+    prime: NotRequired[bool]
+    r"""RIA Trade Away indicator."""
     route_type: NotRequired[CancelTradeResponseRouteType]
     r"""Route type for the trade."""
     settlement_date: NotRequired[Nullable[CancelTradeResponseSettlementDateTypedDict]]
@@ -349,6 +355,12 @@ class CancelTradeResponseTrade(BaseModel):
     order_id: Optional[str] = None
     r"""Street-level order id, unique by day per broker."""
 
+    originating_resource_name: Optional[str] = None
+    r"""The resource name of the API resource that originated this trade, for example the order that produced it. Set by the system; any value supplied by the caller is ignored. Lets a client walk a Ledger activity to its trade and on to the originating order using only originating_resource_name fields."""
+
+    prime: Optional[bool] = None
+    r"""RIA Trade Away indicator."""
+
     route_type: Annotated[
         Optional[CancelTradeResponseRouteType],
         PlainValidator(validate_open_enum(False)),
@@ -418,6 +430,8 @@ class CancelTradeResponseTrade(BaseModel):
             "name",
             "open",
             "order_id",
+            "originating_resource_name",
+            "prime",
             "route_type",
             "settlement_date",
             "side",

@@ -48,14 +48,14 @@ class CancelExecutionResponseCommissionAmount(BaseModel):
 
 
 class CancelExecutionResponseGrossAmountTypedDict(TypedDict):
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class CancelExecutionResponseGrossAmount(BaseModel):
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -219,7 +219,7 @@ class CancelExecutionResponseExecutionTypedDict(TypedDict):
     external_id: NotRequired[str]
     r"""Used to generate execution_id, should be unique on the day for each source_application caller."""
     gross_amount: NotRequired[Nullable[CancelExecutionResponseGrossAmountTypedDict]]
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
     memo: NotRequired[str]
     r"""Caller provided but can be used for booking-service to note original trade details when booking into the error account or using the error asset."""
     name: NotRequired[str]
@@ -271,7 +271,7 @@ class CancelExecutionResponseExecution(BaseModel):
     r"""Used to generate execution_id, should be unique on the day for each source_application caller."""
 
     gross_amount: OptionalNullable[CancelExecutionResponseGrossAmount] = UNSET
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     memo: Optional[str] = None
     r"""Caller provided but can be used for booking-service to note original trade details when booking into the error account or using the error asset."""

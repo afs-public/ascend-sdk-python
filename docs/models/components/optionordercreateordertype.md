@@ -9,3 +9,4 @@ The execution type of this option order.
 | ------------------------ | ------------------------ |
 | `ORDER_TYPE_UNSPECIFIED` | ORDER_TYPE_UNSPECIFIED   |
 | `LIMIT`                  | LIMIT                    |
+| `MARKET`                 | MARKET                   |

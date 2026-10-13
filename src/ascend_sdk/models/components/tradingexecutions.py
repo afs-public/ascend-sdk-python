@@ -44,14 +44,14 @@ class GrossCreditAmount(BaseModel):
 
 
 class PrevailingMarketPriceTypedDict(TypedDict):
-    r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
+    r"""The prevailing market price of the asset, without fees or commissions, up to 8 decimal places. Will only be present for orders of Fixed Income assets."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class PrevailingMarketPrice(BaseModel):
-    r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
+    r"""The prevailing market price of the asset, without fees or commissions, up to 8 decimal places. Will only be present for orders of Fixed Income assets."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -77,7 +77,17 @@ class TradingExecutionsTypedDict(TypedDict):
     accrued_interest_amount: NotRequired[Nullable[AccruedInterestAmountTypedDict]]
     r"""The amount of accrued interest exchanged in this execution. Will only be present for orders of Fixed Income assets."""
     executed_prices: NotRequired[List[TradingExecutedPriceTypedDict]]
-    r"""The prices at which the order was executed. For Equities: there will be one price measured in PRICE_PER_UNIT (using the order currency). For Fixed Income assets: there will always be an entry measured in the PERCENTAGE_OF_PAR (100 X cost / total par value), and there may be additional entries measured in yield."""
+    r"""The prices at which the order was executed.
+
+    Returned values depend on asset_type:
+    - EQUITY: exactly one ExecutedPrice element of type PRICE_PER_UNIT in the order currency (up to 8 decimal places).
+    - MUTUAL_FUND: exactly one ExecutedPrice element of type PRICE_PER_UNIT in the order currency (up to 5 decimal places).
+    - FIXED_INCOME: may contain multiple elements with different types other than PRICE_PER_UNIT;
+    there will always be an entry measured in PERCENTAGE_OF_PAR (100 X cost / total par value),
+    and there may be additional entries measured in yield. Yield types (YIELD_TO_*) support up to
+    7 decimal places, other price types support up to 8 decimal places.
+    - Other asset types: supports up to 5 decimal places.
+    """
     executed_time: NotRequired[Nullable[datetime]]
     r"""The timestamp that this fill was transacted at the market"""
     execution_id: NotRequired[str]
@@ -85,7 +95,7 @@ class TradingExecutionsTypedDict(TypedDict):
     gross_credit_amount: NotRequired[Nullable[GrossCreditAmountTypedDict]]
     r"""The net currency amount exchanged in this transaction, in the order currency. Will only be present for orders of Fixed Income assets."""
     prevailing_market_price: NotRequired[Nullable[PrevailingMarketPriceTypedDict]]
-    r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
+    r"""The prevailing market price of the asset, without fees or commissions, up to 8 decimal places. Will only be present for orders of Fixed Income assets."""
     quantity: NotRequired[Nullable[TradingExecutionsQuantityTypedDict]]
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""
 
@@ -97,7 +107,17 @@ class TradingExecutions(BaseModel):
     r"""The amount of accrued interest exchanged in this execution. Will only be present for orders of Fixed Income assets."""
 
     executed_prices: Optional[List[TradingExecutedPrice]] = None
-    r"""The prices at which the order was executed. For Equities: there will be one price measured in PRICE_PER_UNIT (using the order currency). For Fixed Income assets: there will always be an entry measured in the PERCENTAGE_OF_PAR (100 X cost / total par value), and there may be additional entries measured in yield."""
+    r"""The prices at which the order was executed.
+
+    Returned values depend on asset_type:
+    - EQUITY: exactly one ExecutedPrice element of type PRICE_PER_UNIT in the order currency (up to 8 decimal places).
+    - MUTUAL_FUND: exactly one ExecutedPrice element of type PRICE_PER_UNIT in the order currency (up to 5 decimal places).
+    - FIXED_INCOME: may contain multiple elements with different types other than PRICE_PER_UNIT;
+    there will always be an entry measured in PERCENTAGE_OF_PAR (100 X cost / total par value),
+    and there may be additional entries measured in yield. Yield types (YIELD_TO_*) support up to
+    7 decimal places, other price types support up to 8 decimal places.
+    - Other asset types: supports up to 5 decimal places.
+    """
 
     executed_time: OptionalNullable[datetime] = UNSET
     r"""The timestamp that this fill was transacted at the market"""
@@ -109,7 +129,7 @@ class TradingExecutions(BaseModel):
     r"""The net currency amount exchanged in this transaction, in the order currency. Will only be present for orders of Fixed Income assets."""
 
     prevailing_market_price: OptionalNullable[PrevailingMarketPrice] = UNSET
-    r"""The prevailing market price of the asset, without fees or commissions. Will only be present for orders of Fixed Income assets."""
+    r"""The prevailing market price of the asset, without fees or commissions, up to 8 decimal places. Will only be present for orders of Fixed Income assets."""
 
     quantity: OptionalNullable[TradingExecutionsQuantity] = UNSET
     r"""The quantity of the order. For Equities: measured in shares. For Fixed Income assets: measured in the face value of the currency of the order."""

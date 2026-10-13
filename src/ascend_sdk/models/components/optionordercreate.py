@@ -35,6 +35,7 @@ class OptionOrderCreateOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
 
     ORDER_TYPE_UNSPECIFIED = "ORDER_TYPE_UNSPECIFIED"
     LIMIT = "LIMIT"
+    MARKET = "MARKET"
 
 
 class PriceDirection(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -77,6 +78,7 @@ class OptionOrderCreateSpecialReportingInstructions(
     ROUND_UP = "ROUND_UP"
     CAT_PARENT_ALGO = "CAT_PARENT_ALGO"
     CAT_PARENT_GTC = "CAT_PARENT_GTC"
+    MANUAL_ORDER = "MANUAL_ORDER"
 
 
 class OptionOrderCreateTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -97,13 +99,6 @@ class OptionOrderCreateTypedDict(TypedDict):
     r"""Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
     legs: List[OptionOrderLegCreateTypedDict]
     r"""The legs of this option order. Only a single leg is allowed to be specified, and it must be for an OPTION security."""
-    limit_price: DecimalCreateTypedDict
-    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
-
-    [BigDecimal]:
-    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
-    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
-    """
     order_date: DateCreateTypedDict
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
 
@@ -125,15 +120,22 @@ class OptionOrderCreateTypedDict(TypedDict):
     time_in_force: OptionOrderCreateTimeInForce
     r"""Must be the value \"DAY\". Regulatory requirements dictate the system captures the intended time_in_force, which is why this a mandatory field."""
     client_received_time: NotRequired[Nullable[datetime]]
-    r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    r"""Required for any client who is having Apex do CAT reporting on their behalf. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
     client_sent_time: NotRequired[Nullable[datetime]]
     r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
     fees: NotRequired[List[FeeCreateTypedDict]]
     r"""Fees that will be applied to this option order."""
+    limit_price: NotRequired[DecimalCreateTypedDict]
+    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
+
+    [BigDecimal]:
+    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
+    """
     special_reporting_instructions: NotRequired[
         List[OptionOrderCreateSpecialReportingInstructions]
     ]
-    r"""Special Reporting Instructions to be applied to this option order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this option order. Only CAT_PARENT_ALGO and MANUAL_ORDER are supported for option orders; any other value is rejected. CAT_PARENT_ALGO is only allowed on LIMIT orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
 
 
 class OptionOrderCreate(BaseModel):
@@ -152,14 +154,6 @@ class OptionOrderCreate(BaseModel):
 
     legs: List[OptionOrderLegCreate]
     r"""The legs of this option order. Only a single leg is allowed to be specified, and it must be for an OPTION security."""
-
-    limit_price: DecimalCreate
-    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
-
-    [BigDecimal]:
-    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
-    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
-    """
 
     order_date: DateCreate
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
@@ -193,13 +187,21 @@ class OptionOrderCreate(BaseModel):
     r"""Must be the value \"DAY\". Regulatory requirements dictate the system captures the intended time_in_force, which is why this a mandatory field."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
-    r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    r"""Required for any client who is having Apex do CAT reporting on their behalf. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
 
     client_sent_time: OptionalNullable[datetime] = UNSET
     r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
 
     fees: Optional[List[FeeCreate]] = None
     r"""Fees that will be applied to this option order."""
+
+    limit_price: Optional[DecimalCreate] = None
+    r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
+
+    [BigDecimal]:
+    https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+    [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
+    """
 
     special_reporting_instructions: Optional[
         List[
@@ -209,7 +211,7 @@ class OptionOrderCreate(BaseModel):
             ]
         ]
     ] = None
-    r"""Special Reporting Instructions to be applied to this option order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this option order. Only CAT_PARENT_ALGO and MANUAL_ORDER are supported for option orders; any other value is rejected. CAT_PARENT_ALGO is only allowed on LIMIT orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -217,6 +219,7 @@ class OptionOrderCreate(BaseModel):
             "client_received_time",
             "client_sent_time",
             "fees",
+            "limit_price",
             "special_reporting_instructions",
         ]
         nullable_fields = ["client_received_time", "client_sent_time"]

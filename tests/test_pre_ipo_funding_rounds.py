@@ -27,7 +27,7 @@ def test_pre_ipo_funding_rounds_pre_ipo_company_funding_rounds_list_pre_ipo_comp
         assert sdk is not None
 
         res = sdk.pre_ipo_funding_rounds.list_pre_ipo_company_funding_rounds(
-            pre_ipo_company_id="a6c63e95-fe8a-4703-a74a-f2a90c0a9c6d",
+            pre_ipo_company_id="74c41a5b-b5e0-4509-964f-ca2de584c052",
             page_size=25,
             page_token="",
         )
@@ -57,7 +57,7 @@ def test_pre_ipo_funding_rounds_pre_ipo_company_funding_rounds_get_pre_ipo_compa
         assert sdk is not None
 
         res = sdk.pre_ipo_funding_rounds.get_pre_ipo_company_funding_round(
-            pre_ipo_company_id="a6c63e95-fe8a-4703-a74a-f2a90c0a9c6d",
+            pre_ipo_company_id="74c41a5b-b5e0-4509-964f-ca2de584c052",
             funding_round_id="019c6a2b-6801-7759-9e1d-3d5aaa64bc2a",
         )
         assert res.http_meta is not None

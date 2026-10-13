@@ -290,6 +290,10 @@ if TYPE_CHECKING:
         AccountTransfersListTransfersResponse,
         AccountTransfersListTransfersResponseTypedDict,
     )
+    from .accounttransfers_previewtransfer import (
+        AccountTransfersPreviewTransferResponse,
+        AccountTransfersPreviewTransferResponseTypedDict,
+    )
     from .accounttransfers_rejecttransfer import (
         AccountTransfersRejectTransferRequest,
         AccountTransfersRejectTransferRequestTypedDict,
@@ -876,6 +880,12 @@ if TYPE_CHECKING:
         CreditsGetCreditResponse,
         CreditsGetCreditResponseTypedDict,
     )
+    from .customeridentificationresultservice_createcustomeridentification import (
+        CustomerIdentificationResultServiceCreateCustomerIdentificationRequest,
+        CustomerIdentificationResultServiceCreateCustomerIdentificationRequestTypedDict,
+        CustomerIdentificationResultServiceCreateCustomerIdentificationResponse,
+        CustomerIdentificationResultServiceCreateCustomerIdentificationResponseTypedDict,
+    )
     from .customeridentificationresultservice_getcustomeridentification import (
         CustomerIdentificationResultServiceGetCustomerIdentificationQueryParamView,
         CustomerIdentificationResultServiceGetCustomerIdentificationRequest,
@@ -1009,6 +1019,12 @@ if TYPE_CHECKING:
         InvestigationServiceGetInvestigationRequestTypedDict,
         InvestigationServiceGetInvestigationResponse,
         InvestigationServiceGetInvestigationResponseTypedDict,
+    )
+    from .investigationservice_linkcustomeridentification import (
+        InvestigationServiceLinkCustomerIdentificationRequest,
+        InvestigationServiceLinkCustomerIdentificationRequestTypedDict,
+        InvestigationServiceLinkCustomerIdentificationResponse,
+        InvestigationServiceLinkCustomerIdentificationResponseTypedDict,
     )
     from .investigationservice_linkdocuments import (
         InvestigationServiceLinkDocumentsRequest,
@@ -1430,6 +1446,8 @@ __all__ = [
     "AccountTransfersListTransfersRequestTypedDict",
     "AccountTransfersListTransfersResponse",
     "AccountTransfersListTransfersResponseTypedDict",
+    "AccountTransfersPreviewTransferResponse",
+    "AccountTransfersPreviewTransferResponseTypedDict",
     "AccountTransfersRejectTransferRequest",
     "AccountTransfersRejectTransferRequestTypedDict",
     "AccountTransfersRejectTransferResponse",
@@ -1980,6 +1998,10 @@ __all__ = [
     "CreditsGetCreditRequestTypedDict",
     "CreditsGetCreditResponse",
     "CreditsGetCreditResponseTypedDict",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationRequest",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationRequestTypedDict",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationResponse",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationResponseTypedDict",
     "CustomerIdentificationResultServiceGetCustomerIdentificationQueryParamView",
     "CustomerIdentificationResultServiceGetCustomerIdentificationRequest",
     "CustomerIdentificationResultServiceGetCustomerIdentificationRequestTypedDict",
@@ -2069,6 +2091,10 @@ __all__ = [
     "InvestigationServiceGetInvestigationRequestTypedDict",
     "InvestigationServiceGetInvestigationResponse",
     "InvestigationServiceGetInvestigationResponseTypedDict",
+    "InvestigationServiceLinkCustomerIdentificationRequest",
+    "InvestigationServiceLinkCustomerIdentificationRequestTypedDict",
+    "InvestigationServiceLinkCustomerIdentificationResponse",
+    "InvestigationServiceLinkCustomerIdentificationResponseTypedDict",
     "InvestigationServiceLinkDocumentsRequest",
     "InvestigationServiceLinkDocumentsRequestTypedDict",
     "InvestigationServiceLinkDocumentsResponse",
@@ -2525,6 +2551,8 @@ _dynamic_imports: dict[str, str] = {
     "AccountTransfersListTransfersRequestTypedDict": ".accounttransfers_listtransfers",
     "AccountTransfersListTransfersResponse": ".accounttransfers_listtransfers",
     "AccountTransfersListTransfersResponseTypedDict": ".accounttransfers_listtransfers",
+    "AccountTransfersPreviewTransferResponse": ".accounttransfers_previewtransfer",
+    "AccountTransfersPreviewTransferResponseTypedDict": ".accounttransfers_previewtransfer",
     "AccountTransfersRejectTransferRequest": ".accounttransfers_rejecttransfer",
     "AccountTransfersRejectTransferRequestTypedDict": ".accounttransfers_rejecttransfer",
     "AccountTransfersRejectTransferResponse": ".accounttransfers_rejecttransfer",
@@ -2915,6 +2943,10 @@ _dynamic_imports: dict[str, str] = {
     "CreditsGetCreditRequestTypedDict": ".credits_getcredit",
     "CreditsGetCreditResponse": ".credits_getcredit",
     "CreditsGetCreditResponseTypedDict": ".credits_getcredit",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationRequest": ".customeridentificationresultservice_createcustomeridentification",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationRequestTypedDict": ".customeridentificationresultservice_createcustomeridentification",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationResponse": ".customeridentificationresultservice_createcustomeridentification",
+    "CustomerIdentificationResultServiceCreateCustomerIdentificationResponseTypedDict": ".customeridentificationresultservice_createcustomeridentification",
     "CustomerIdentificationResultServiceGetCustomerIdentificationQueryParamView": ".customeridentificationresultservice_getcustomeridentification",
     "CustomerIdentificationResultServiceGetCustomerIdentificationRequest": ".customeridentificationresultservice_getcustomeridentification",
     "CustomerIdentificationResultServiceGetCustomerIdentificationRequestTypedDict": ".customeridentificationresultservice_getcustomeridentification",
@@ -3005,6 +3037,10 @@ _dynamic_imports: dict[str, str] = {
     "InvestigationServiceGetInvestigationRequestTypedDict": ".investigationservice_getinvestigation",
     "InvestigationServiceGetInvestigationResponse": ".investigationservice_getinvestigation",
     "InvestigationServiceGetInvestigationResponseTypedDict": ".investigationservice_getinvestigation",
+    "InvestigationServiceLinkCustomerIdentificationRequest": ".investigationservice_linkcustomeridentification",
+    "InvestigationServiceLinkCustomerIdentificationRequestTypedDict": ".investigationservice_linkcustomeridentification",
+    "InvestigationServiceLinkCustomerIdentificationResponse": ".investigationservice_linkcustomeridentification",
+    "InvestigationServiceLinkCustomerIdentificationResponseTypedDict": ".investigationservice_linkcustomeridentification",
     "InvestigationServiceLinkDocumentsRequest": ".investigationservice_linkdocuments",
     "InvestigationServiceLinkDocumentsRequestTypedDict": ".investigationservice_linkdocuments",
     "InvestigationServiceLinkDocumentsResponse": ".investigationservice_linkdocuments",

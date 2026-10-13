@@ -32,3 +32,4 @@
 | `ROUND_UP`                                   | ROUND_UP                                     |
 | `CAT_PARENT_ALGO`                            | CAT_PARENT_ALGO                              |
 | `CAT_PARENT_GTC`                             | CAT_PARENT_GTC                               |
+| `MANUAL_ORDER`                               | MANUAL_ORDER                                 |

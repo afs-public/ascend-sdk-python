@@ -15,14 +15,14 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class OptionOrderLegExecutionPriceTypedDict(TypedDict):
-    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities."""
+    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities. Supports up to 8 decimal places."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class OptionOrderLegExecutionPrice(BaseModel):
-    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities."""
+    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities. Supports up to 8 decimal places."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -48,7 +48,7 @@ class OptionOrderLegExecutionTypedDict(TypedDict):
     executed_time: NotRequired[Nullable[datetime]]
     r"""The market-reported timestamp of the execution."""
     price: NotRequired[Nullable[OptionOrderLegExecutionPriceTypedDict]]
-    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities."""
+    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities. Supports up to 8 decimal places."""
     quantity: NotRequired[Nullable[OptionOrderLegExecutionQuantityTypedDict]]
     r"""The number of shares or contracts transacted in this execution."""
 
@@ -60,7 +60,7 @@ class OptionOrderLegExecution(BaseModel):
     r"""The market-reported timestamp of the execution."""
 
     price: OptionalNullable[OptionOrderLegExecutionPrice] = UNSET
-    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities."""
+    r"""The price for this security, which is reported as the price-per-share for EQUITY type securities, or as the price-per-contract for OPTION type securities. Supports up to 8 decimal places."""
 
     quantity: OptionalNullable[OptionOrderLegExecutionQuantity] = UNSET
     r"""The number of shares or contracts transacted in this execution."""

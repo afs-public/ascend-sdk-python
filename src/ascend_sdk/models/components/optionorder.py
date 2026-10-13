@@ -78,12 +78,14 @@ class OptionOrderExtraReportingDataTypedDict(TypedDict):
     r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
 
     cancel_confirmed_time: NotRequired[Nullable[datetime]]
+    r"""Correspondent-side timestamp when the cancellation was confirmed. Maps to CAT CANCEL_CONFIRM_TIME."""
 
 
 class OptionOrderExtraReportingData(BaseModel):
     r"""Post-cancel reporting data provided via the SetOptionExtraReportingData endpoint."""
 
     cancel_confirmed_time: OptionalNullable[datetime] = UNSET
+    r"""Correspondent-side timestamp when the cancellation was confirmed. Maps to CAT CANCEL_CONFIRM_TIME."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -117,14 +119,24 @@ class OptionOrderExtraReportingData(BaseModel):
 
 
 class OptionOrderLimitPriceTypedDict(TypedDict):
-    r"""The limit price for this option order. For single-leg option orders, this is the price per contract which the filled order must match or beat. For multi-leg orders, this represents the amortized \"price per unit\" that must be matched or beat. (E.g. with a limit price of a $4 DEBIT, and an order with 2 legs that includes one leg buy 100 shares of SBX and another leg to sell 1 contract of SBX, then the fills will be guaranteed to result in no more than a $400--4 USD X 100 shares/contract--total debit against the ordering account.)"""
+    r"""**Field Dependencies:**
+
+    Required if `order_type` is `LIMIT`.
+
+    Otherwise, must be empty.
+    """
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class OptionOrderLimitPrice(BaseModel):
-    r"""The limit price for this option order. For single-leg option orders, this is the price per contract which the filled order must match or beat. For multi-leg orders, this represents the amortized \"price per unit\" that must be matched or beat. (E.g. with a limit price of a $4 DEBIT, and an order with 2 legs that includes one leg buy 100 shares of SBX and another leg to sell 1 contract of SBX, then the fills will be guaranteed to result in no more than a $400--4 USD X 100 shares/contract--total debit against the ordering account.)"""
+    r"""**Field Dependencies:**
+
+    Required if `order_type` is `LIMIT`.
+
+    Otherwise, must be empty.
+    """
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -218,6 +230,7 @@ class OptionOrderOrderType(str, Enum, metaclass=utils.OpenEnumMeta):
 
     ORDER_TYPE_UNSPECIFIED = "ORDER_TYPE_UNSPECIFIED"
     LIMIT = "LIMIT"
+    MARKET = "MARKET"
 
 
 class OptionOrderPriceDirection(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -272,6 +285,7 @@ class OptionOrderSpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnu
     ROUND_UP = "ROUND_UP"
     CAT_PARENT_ALGO = "CAT_PARENT_ALGO"
     CAT_PARENT_GTC = "CAT_PARENT_GTC"
+    MANUAL_ORDER = "MANUAL_ORDER"
 
 
 class OptionOrderTimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -291,7 +305,7 @@ class OptionOrderTypedDict(TypedDict):
     cancel_initiator: NotRequired[OptionOrderCancelInitiator]
     r"""Whether the cancel was initiated by the correspondent firm (FIRM) or the customer (CLIENT). Populated from the CancelOptionOrderRequest."""
     cancel_reason: NotRequired[str]
-    r"""Used to explain why an option order is canceled"""
+    r"""Used to explain why an option order is canceled. Unused: reserved for future use. This field is not currently populated."""
     cancel_rejected_reason: NotRequired[OptionOrderCancelRejectedReason]
     r"""Used to denote when a cancel request has been rejected."""
     client_cancel_received_time: NotRequired[Nullable[datetime]]
@@ -301,7 +315,7 @@ class OptionOrderTypedDict(TypedDict):
     client_order_id: NotRequired[str]
     r"""User-supplied unique option order ID. Cannot be more than 40 characters long."""
     client_received_time: NotRequired[Nullable[datetime]]
-    r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    r"""Required for any client who is having Apex do CAT reporting on their behalf. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
     client_sent_time: NotRequired[Nullable[datetime]]
     r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
     create_time: NotRequired[Nullable[datetime]]
@@ -323,7 +337,12 @@ class OptionOrderTypedDict(TypedDict):
     legs: NotRequired[List[OptionOrderLegTypedDict]]
     r"""The legs of this option order. Only a single leg is allowed to be specified, and it must be for an OPTION security."""
     limit_price: NotRequired[Nullable[OptionOrderLimitPriceTypedDict]]
-    r"""The limit price for this option order. For single-leg option orders, this is the price per contract which the filled order must match or beat. For multi-leg orders, this represents the amortized \"price per unit\" that must be matched or beat. (E.g. with a limit price of a $4 DEBIT, and an order with 2 legs that includes one leg buy 100 shares of SBX and another leg to sell 1 contract of SBX, then the fills will be guaranteed to result in no more than a $400--4 USD X 100 shares/contract--total debit against the ordering account.)"""
+    r"""**Field Dependencies:**
+
+    Required if `order_type` is `LIMIT`.
+
+    Otherwise, must be empty.
+    """
     name: NotRequired[str]
     r"""System generated name of the option order."""
     option_order_id: NotRequired[str]
@@ -343,7 +362,7 @@ class OptionOrderTypedDict(TypedDict):
     special_reporting_instructions: NotRequired[
         List[OptionOrderSpecialReportingInstructions]
     ]
-    r"""Special Reporting Instructions to be applied to this option order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this option order. Only CAT_PARENT_ALGO and MANUAL_ORDER are supported for option orders; any other value is rejected. CAT_PARENT_ALGO is only allowed on LIMIT orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
     time_in_force: NotRequired[OptionOrderTimeInForce]
     r"""Must be the value \"DAY\". Regulatory requirements dictate the system captures the intended time_in_force, which is why this a mandatory field."""
 
@@ -365,7 +384,7 @@ class OptionOrder(BaseModel):
     r"""Whether the cancel was initiated by the correspondent firm (FIRM) or the customer (CLIENT). Populated from the CancelOptionOrderRequest."""
 
     cancel_reason: Optional[str] = None
-    r"""Used to explain why an option order is canceled"""
+    r"""Used to explain why an option order is canceled. Unused: reserved for future use. This field is not currently populated."""
 
     cancel_rejected_reason: Annotated[
         Optional[OptionOrderCancelRejectedReason],
@@ -383,7 +402,7 @@ class OptionOrder(BaseModel):
     r"""User-supplied unique option order ID. Cannot be more than 40 characters long."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
-    r"""Required for any client who is having Apex do CAT reporting on their behalf."""
+    r"""Required for any client who is having Apex do CAT reporting on their behalf. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
 
     client_sent_time: OptionalNullable[datetime] = UNSET
     r"""The time the correspondent sent the original order to Apex. Set at order creation and cannot be modified. Required for correspondents using Apex CAT reporting services."""
@@ -418,7 +437,12 @@ class OptionOrder(BaseModel):
     r"""The legs of this option order. Only a single leg is allowed to be specified, and it must be for an OPTION security."""
 
     limit_price: OptionalNullable[OptionOrderLimitPrice] = UNSET
-    r"""The limit price for this option order. For single-leg option orders, this is the price per contract which the filled order must match or beat. For multi-leg orders, this represents the amortized \"price per unit\" that must be matched or beat. (E.g. with a limit price of a $4 DEBIT, and an order with 2 legs that includes one leg buy 100 shares of SBX and another leg to sell 1 contract of SBX, then the fills will be guaranteed to result in no more than a $400--4 USD X 100 shares/contract--total debit against the ordering account.)"""
+    r"""**Field Dependencies:**
+
+    Required if `order_type` is `LIMIT`.
+
+    Otherwise, must be empty.
+    """
 
     name: Optional[str] = None
     r"""System generated name of the option order."""
@@ -461,7 +485,7 @@ class OptionOrder(BaseModel):
             ]
         ]
     ] = None
-    r"""Special Reporting Instructions to be applied to this option order. Can include multiple Instructions."""
+    r"""Special Reporting Instructions to be applied to this option order. Only CAT_PARENT_ALGO and MANUAL_ORDER are supported for option orders; any other value is rejected. CAT_PARENT_ALGO is only allowed on LIMIT orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
 
     time_in_force: Annotated[
         Optional[OptionOrderTimeInForce], PlainValidator(validate_open_enum(False))

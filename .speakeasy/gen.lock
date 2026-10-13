@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8e79a215-74e9-4072-aeb8-5d65f586ae9a
 management:
-  docChecksum: 4823f23e792e1f9b384b0a52cfe0385c
-  docVersion: v1:20261005:uat:400dff6391e1
+  docChecksum: 70882cf5942133b64adb100535aa74e7
+  docVersion: v1:20261012:uat:fb5b9d92ca9a
   speakeasyVersion: 1.608.0
   generationVersion: 2.691.6
-  releaseVersion: 1.8.14
-  configChecksum: 2150fe053e54d6452fed5a7940ea750f
+  releaseVersion: 1.8.15
+  configChecksum: b664c9a87ab5d2badd4c02cd72de6c9b
 features:
   python:
     additionalDependencies: 1.0.0
@@ -37,11 +37,19 @@ generatedFiles:
   - .vscode/settings.json
   - USAGE.md
   - docs/models/components/acatsasset.md
+  - docs/models/components/acatsassetfailure.md
+  - docs/models/components/acatsassetfailurereason.md
   - docs/models/components/acatsassetposition.md
   - docs/models/components/acatsassetquantity.md
   - docs/models/components/acatsassettype.md
+  - docs/models/components/acatsholdingassettype.md
+  - docs/models/components/acatsineligibleholdingholding.md
+  - docs/models/components/acatsineligibleholdingholdingquantity.md
   - docs/models/components/acatspendingout.md
+  - docs/models/components/acatspreviewtransferexternalaccount.md
   - docs/models/components/acatstransfer.md
+  - docs/models/components/acatstransfercondition.md
+  - docs/models/components/acatstransferconditionreason.md
   - docs/models/components/acatstransferdirection.md
   - docs/models/components/acatstransferexternalaccount.md
   - docs/models/components/acatstransferstate.md
@@ -778,6 +786,9 @@ generatedFiles:
   - docs/models/components/custodialirarothenrollmentmetadatacreatefdiccashsweep.md
   - docs/models/components/customeridentification.md
   - docs/models/components/customeridentificationbirthdate.md
+  - docs/models/components/customeridentificationcreate.md
+  - docs/models/components/customeridentificationcreatechecktypes.md
+  - docs/models/components/customeridentificationidentitycreate.md
   - docs/models/components/customeridentificationlegaladdress.md
   - docs/models/components/customeridentificationresult.md
   - docs/models/components/customerprofile.md
@@ -1258,6 +1269,8 @@ generatedFiles:
   - docs/models/components/giftindicator.md
   - docs/models/components/grossamount.md
   - docs/models/components/grosscreditamount.md
+  - docs/models/components/holding.md
+  - docs/models/components/holdingquantity.md
   - docs/models/components/holdingstartdate.md
   - docs/models/components/httpcallback.md
   - docs/models/components/httpmetadata.md
@@ -1324,6 +1337,8 @@ generatedFiles:
   - docs/models/components/identifierupdatetype.md
   - docs/models/components/identity.md
   - docs/models/components/identityidentification.md
+  - docs/models/components/identityidentificationcreate.md
+  - docs/models/components/identityidentificationcreatetype.md
   - docs/models/components/identityidentificationtype.md
   - docs/models/components/identitylookup.md
   - docs/models/components/identitylookupbirthdate.md
@@ -1353,6 +1368,7 @@ generatedFiles:
   - docs/models/components/individualenrollmentmetadatacreatefdiccashsweep.md
   - docs/models/components/individualoriginatingparty.md
   - docs/models/components/individualrecipientparty.md
+  - docs/models/components/ineligibleholding.md
   - docs/models/components/inheritedfromownerbirthdate.md
   - docs/models/components/inheritedfromownerdeathdate.md
   - docs/models/components/inheritedindicator.md
@@ -1505,6 +1521,7 @@ generatedFiles:
   - docs/models/components/limitprice.md
   - docs/models/components/limitpricecreate.md
   - docs/models/components/limitpricecreatetype.md
+  - docs/models/components/linkcustomeridentificationrequestcreate.md
   - docs/models/components/linkdocumentsrequestcreate.md
   - docs/models/components/linkdocumentsresponse.md
   - docs/models/components/liquidation.md
@@ -1564,6 +1581,10 @@ generatedFiles:
   - docs/models/components/lookupresult.md
   - docs/models/components/lot.md
   - docs/models/components/lotcreate.md
+  - docs/models/components/lotmatchinginstruction.md
+  - docs/models/components/lotmatchinginstructioncreate.md
+  - docs/models/components/lotmatchinginstructionprice.md
+  - docs/models/components/lotmatchinginstructionquantity.md
   - docs/models/components/lotmoney.md
   - docs/models/components/lotprice.md
   - docs/models/components/lotquantity.md
@@ -1893,6 +1914,8 @@ generatedFiles:
   - docs/models/components/preipocompanyresearchdocumenttype.md
   - docs/models/components/preipocompanytype.md
   - docs/models/components/prevailingmarketprice.md
+  - docs/models/components/previewtransferrequestcreate.md
+  - docs/models/components/previewtransferresponse.md
   - docs/models/components/previousprocessdate.md
   - docs/models/components/previousyeardeadline.md
   - docs/models/components/price.md
@@ -2238,6 +2261,11 @@ generatedFiles:
   - docs/models/components/tradecreateside.md
   - docs/models/components/tradecreatesidemodifier.md
   - docs/models/components/tradedate.md
+  - docs/models/components/tradelot.md
+  - docs/models/components/tradelotmoney.md
+  - docs/models/components/tradelotmoneyprice.md
+  - docs/models/components/tradelotprice.md
+  - docs/models/components/tradelotquantity.md
   - docs/models/components/tradevaluemultiplier.md
   - docs/models/components/tradingexecutedprice.md
   - docs/models/components/tradingexecutedpricetype.md
@@ -2246,8 +2274,10 @@ generatedFiles:
   - docs/models/components/tradingfee.md
   - docs/models/components/tradingfeeamount.md
   - docs/models/components/tradingfeetype.md
+  - docs/models/components/tradinglotmatchinginstructiontradedate.md
   - docs/models/components/tradingsession.md
   - docs/models/components/tradingsetextrareportingdatarequestcreate.md
+  - docs/models/components/tradingtradelottradedate.md
   - docs/models/components/transfer.md
   - docs/models/components/transferaccountcreate.md
   - docs/models/components/transfercreate.md
@@ -2496,6 +2526,7 @@ generatedFiles:
   - docs/models/operations/accounttransfersgettransferresponse.md
   - docs/models/operations/accounttransferslisttransfersrequest.md
   - docs/models/operations/accounttransferslisttransfersresponse.md
+  - docs/models/operations/accounttransferspreviewtransferresponse.md
   - docs/models/operations/accounttransfersrejecttransferrequest.md
   - docs/models/operations/accounttransfersrejecttransferresponse.md
   - docs/models/operations/achdepositscancelachdepositrequest.md
@@ -2690,6 +2721,8 @@ generatedFiles:
   - docs/models/operations/creditscreatecreditresponse.md
   - docs/models/operations/creditsgetcreditrequest.md
   - docs/models/operations/creditsgetcreditresponse.md
+  - docs/models/operations/customeridentificationresultservicecreatecustomeridentificationrequest.md
+  - docs/models/operations/customeridentificationresultservicecreatecustomeridentificationresponse.md
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationqueryparamview.md
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationrequest.md
   - docs/models/operations/customeridentificationresultservicegetcustomeridentificationresponse.md
@@ -2735,6 +2768,8 @@ generatedFiles:
   - docs/models/operations/identitylookupserviceverifyidentitylookupresponse.md
   - docs/models/operations/investigationservicegetinvestigationrequest.md
   - docs/models/operations/investigationservicegetinvestigationresponse.md
+  - docs/models/operations/investigationservicelinkcustomeridentificationrequest.md
+  - docs/models/operations/investigationservicelinkcustomeridentificationresponse.md
   - docs/models/operations/investigationservicelinkdocumentsrequest.md
   - docs/models/operations/investigationservicelinkdocumentsresponse.md
   - docs/models/operations/investigationservicelistinvestigationsrequest.md
@@ -2956,7 +2991,14 @@ generatedFiles:
   - src/ascend_sdk/models/__init__.py
   - src/ascend_sdk/models/components/__init__.py
   - src/ascend_sdk/models/components/acatsasset.py
+  - src/ascend_sdk/models/components/acatsassetfailure.py
+  - src/ascend_sdk/models/components/acatsassetfailurereason.py
+  - src/ascend_sdk/models/components/acatsholdingassettype.py
+  - src/ascend_sdk/models/components/acatsineligibleholdingholding.py
+  - src/ascend_sdk/models/components/acatspreviewtransferexternalaccount.py
   - src/ascend_sdk/models/components/acatstransfer.py
+  - src/ascend_sdk/models/components/acatstransfercondition.py
+  - src/ascend_sdk/models/components/acatstransferconditionreason.py
   - src/ascend_sdk/models/components/accepttransferrequestcreate.py
   - src/ascend_sdk/models/components/accepttransferresponse.py
   - src/ascend_sdk/models/components/account.py
@@ -3083,7 +3125,9 @@ generatedFiles:
   - src/ascend_sdk/models/components/custodialenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/custodialirarothenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/customeridentification.py
+  - src/ascend_sdk/models/components/customeridentification_identitycreate.py
   - src/ascend_sdk/models/components/customeridentification_result.py
+  - src/ascend_sdk/models/components/customeridentificationcreate.py
   - src/ascend_sdk/models/components/customerprofilecreate.py
   - src/ascend_sdk/models/components/customerprofileupdate.py
   - src/ascend_sdk/models/components/customerreferralsourcecreate.py
@@ -3159,6 +3203,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/fpslenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/futuresenrollmentmetadatacreate.py
   - src/ascend_sdk/models/components/generateserviceaccounttokenrequestcreate.py
+  - src/ascend_sdk/models/components/holding.py
   - src/ascend_sdk/models/components/httpmetadata.py
   - src/ascend_sdk/models/components/httppushcallbackcreate.py
   - src/ascend_sdk/models/components/httppushcallbackupdate.py
@@ -3176,6 +3221,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/identifiercreate.py
   - src/ascend_sdk/models/components/identifierupdate.py
   - src/ascend_sdk/models/components/identity_identification.py
+  - src/ascend_sdk/models/components/identity_identificationcreate.py
   - src/ascend_sdk/models/components/identitylookup.py
   - src/ascend_sdk/models/components/identitylookupcreate.py
   - src/ascend_sdk/models/components/identityverificationresult.py
@@ -3184,6 +3230,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/immediatefamilymember.py
   - src/ascend_sdk/models/components/immediatefamilymembercreate.py
   - src/ascend_sdk/models/components/individualenrollmentmetadatacreate.py
+  - src/ascend_sdk/models/components/ineligibleholding.py
   - src/ascend_sdk/models/components/institutioncreate.py
   - src/ascend_sdk/models/components/interestedparty.py
   - src/ascend_sdk/models/components/interestedpartycreate.py
@@ -3216,6 +3263,7 @@ generatedFiles:
   - src/ascend_sdk/models/components/legalnaturalpersonupdate.py
   - src/ascend_sdk/models/components/letterofintentcreate.py
   - src/ascend_sdk/models/components/limitpricecreate.py
+  - src/ascend_sdk/models/components/linkcustomeridentificationrequestcreate.py
   - src/ascend_sdk/models/components/linkdocumentsrequestcreate.py
   - src/ascend_sdk/models/components/linkdocumentsresponse.py
   - src/ascend_sdk/models/components/listaccountordersresponse.py
@@ -3264,6 +3312,8 @@ generatedFiles:
   - src/ascend_sdk/models/components/locateictreportresponse.py
   - src/ascend_sdk/models/components/lot.py
   - src/ascend_sdk/models/components/lotcreate.py
+  - src/ascend_sdk/models/components/lotmatchinginstruction.py
+  - src/ascend_sdk/models/components/lotmatchinginstructioncreate.py
   - src/ascend_sdk/models/components/lowpricedsecuritiescreate.py
   - src/ascend_sdk/models/components/markprice.py
   - src/ascend_sdk/models/components/microdepositamounts.py
@@ -3322,6 +3372,8 @@ generatedFiles:
   - src/ascend_sdk/models/components/preipocompanynewsevent.py
   - src/ascend_sdk/models/components/preipocompanynewsevent_article.py
   - src/ascend_sdk/models/components/preipocompanyresearchdocument.py
+  - src/ascend_sdk/models/components/previewtransferrequestcreate.py
+  - src/ascend_sdk/models/components/previewtransferresponse.py
   - src/ascend_sdk/models/components/priceadjustmentcreate.py
   - src/ascend_sdk/models/components/pushsubscription.py
   - src/ascend_sdk/models/components/pushsubscriptioncreate.py
@@ -3392,10 +3444,13 @@ generatedFiles:
   - src/ascend_sdk/models/components/tradeallocation.py
   - src/ascend_sdk/models/components/tradeallocationcreate.py
   - src/ascend_sdk/models/components/tradecreate.py
+  - src/ascend_sdk/models/components/tradelot.py
   - src/ascend_sdk/models/components/tradingexecutedprice.py
   - src/ascend_sdk/models/components/tradingexecutions.py
   - src/ascend_sdk/models/components/tradingfee.py
+  - src/ascend_sdk/models/components/tradinglotmatchinginstructiontradedate.py
   - src/ascend_sdk/models/components/tradingsetextrareportingdatarequestcreate.py
+  - src/ascend_sdk/models/components/tradingtradelottradedate.py
   - src/ascend_sdk/models/components/transferaccountcreate.py
   - src/ascend_sdk/models/components/transfercreate.py
   - src/ascend_sdk/models/components/transfersbeneficiarycreate.py
@@ -3487,6 +3542,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/accounttransfers_createtransfer.py
   - src/ascend_sdk/models/operations/accounttransfers_gettransfer.py
   - src/ascend_sdk/models/operations/accounttransfers_listtransfers.py
+  - src/ascend_sdk/models/operations/accounttransfers_previewtransfer.py
   - src/ascend_sdk/models/operations/accounttransfers_rejecttransfer.py
   - src/ascend_sdk/models/operations/achdeposits_cancelachdeposit.py
   - src/ascend_sdk/models/operations/achdeposits_createachdeposit.py
@@ -3585,6 +3641,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/credits_cancelcredit.py
   - src/ascend_sdk/models/operations/credits_createcredit.py
   - src/ascend_sdk/models/operations/credits_getcredit.py
+  - src/ascend_sdk/models/operations/customeridentificationresultservice_createcustomeridentification.py
   - src/ascend_sdk/models/operations/customeridentificationresultservice_getcustomeridentification.py
   - src/ascend_sdk/models/operations/exerciseservice_canceloptioninstruction.py
   - src/ascend_sdk/models/operations/exerciseservice_createoptioninstruction.py
@@ -3607,6 +3664,7 @@ generatedFiles:
   - src/ascend_sdk/models/operations/identitylookupservice_createidentitylookup.py
   - src/ascend_sdk/models/operations/identitylookupservice_verifyidentitylookup.py
   - src/ascend_sdk/models/operations/investigationservice_getinvestigation.py
+  - src/ascend_sdk/models/operations/investigationservice_linkcustomeridentification.py
   - src/ascend_sdk/models/operations/investigationservice_linkdocuments.py
   - src/ascend_sdk/models/operations/investigationservice_listinvestigations.py
   - src/ascend_sdk/models/operations/investigationservice_updateinvestigation.py
@@ -5630,7 +5688,7 @@ examples:
         path:
           account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_date": {}, "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}
+        application/json: {"asset_type": "EQUITY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "identifier": "SBUX", "identifier_type": "SYMBOL", "order_type": "MARKET", "side": "BUY", "time_in_force": "DAY"}
       responses:
         "200":
           application/json: {}
@@ -5676,9 +5734,9 @@ examples:
     speakeasy-default-order-price-service-preview-order-cost:
       parameters:
         path:
-          account_id: "<id>"
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "limit_price": {"price": {}, "type": "PRICE_PER_UNIT"}, "parent": "<value>", "quantity": {}}
+        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "limit_price": {"price": {}, "type": "PRICE_PER_UNIT"}, "parent": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X", "quantity": {}}
       responses:
         "200":
           application/json: {}
@@ -5692,9 +5750,9 @@ examples:
     speakeasy-default-order-price-service-retrieve-quote:
       parameters:
         path:
-          account_id: "<id>"
+          account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "parent": "<value>"}
+        application/json: {"asset_type": "FIXED_INCOME", "identifier": "037833100", "identifier_type": "CUSIP", "parent": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X"}
       responses:
         "200":
           application/json: {}
@@ -5708,9 +5766,9 @@ examples:
     speakeasy-default-order-price-service-retrieve-fixed-income-marks:
       parameters:
         path:
-          correspondent_id: "<id>"
+          correspondent_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"parent": "<value>", "security_identifiers": [{"identifier": "US0378331005", "identifier_type": "ISIN"}, {"identifier": "38259P508", "identifier_type": "CUSIP"}]}
+        application/json: {"parent": "correspondents/01HBRQ5BW6ZAY4BNWP4GWRD80X", "security_identifiers": [{"identifier": "US0378331005", "identifier_type": "ISIN"}, {"identifier": "38259P508", "identifier_type": "CUSIP"}]}
       responses:
         "200":
           application/json: {}
@@ -5904,7 +5962,7 @@ examples:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
           trade_id: "01FAKETRADEIDPROVIDEDFROMCREATETRADE"
       requestBody:
-        application/json: {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}
+        application/json: {"execution_time": "2024-07-17T12:00:00.000Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}
       responses:
         "200":
           application/json: {}
@@ -5956,7 +6014,7 @@ examples:
           trade_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
           execution_id: "02G0XX2KDN3M9QKFKRE2HYSCMY"
       requestBody:
-        application/json: {"execution": {"execution_time": "2024-07-17T12:00:00Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}, "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM/executions/02G0XX2KDN3M9QKFKRE2HYSCMY"}
+        application/json: {"execution": {"execution_time": "2024-07-17T12:00:00.000Z", "external_id": "0H06HAP3A3Y", "price": {}, "quantity": {}}, "name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/trades/01J0XX2KDN3M9QKFKRE2HYSCQM/executions/02G0XX2KDN3M9QKFKRE2HYSCMY"}
       responses:
         "200":
           application/json: {}
@@ -5972,7 +6030,7 @@ examples:
         path:
           account_id: "01FAKEACCOUNT1TYKWEYRH8S2K"
       requestBody:
-        application/json: {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
+        application/json: {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00.000Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}
       responses:
         "200":
           application/json: {}
@@ -6021,7 +6079,7 @@ examples:
           account_id: "02HASWB2DTMRT3DAM45P56J2T2"
           tradeAllocation_id: "01J0XX2KDN3M9QKFKRE2HYSCQM"
       requestBody:
-        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
+        application/json: {"name": "accounts/02HASWB2DTMRT3DAM45P56J2T2/tradeAllocations/01J0XX2KDN3M9QKFKRE2HYSCQM", "request_id": "8a0d35c0-428c-439e-9b03-b611530fe06f", "trade_allocation": {"asset_type": "EQUITY", "broker_capacity": "AGENCY", "execution_time": "2024-07-17T12:00:00.000Z", "from_account_id": "01HASWB2DTMRT3DAM45P56J2H3", "identifier": "AAPL", "identifier_type": "SYMBOL", "price": {}, "quantity": {}, "source_application": "Trading-App", "to_account_id": "02HASWB2DTMRT3DAM45P56J2T2", "to_side": "BUY"}}
       responses:
         "200":
           application/json: {}
@@ -6620,7 +6678,7 @@ examples:
         path:
           account_id: "01HBRQ5BW6ZAY4BNWP4GWRD80X"
       requestBody:
-        application/json: {"broker_capacity": "AGENCY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "currency_code": "USD", "legs": [], "limit_price": {}, "order_date": {}, "order_type": "LIMIT", "price_direction": "CREDIT", "quantity": {}, "time_in_force": "DAY"}
+        application/json: {"broker_capacity": "AGENCY", "client_order_id": "a6d5258b-6b23-478a-8145-98e79d60427a", "currency_code": "USD", "legs": [], "order_date": {}, "order_type": "LIMIT", "price_direction": "CREDIT", "quantity": {}, "time_in_force": "DAY"}
       responses:
         "200":
           application/json: {}
@@ -7103,6 +7161,51 @@ examples:
           account_id: "01J71HKJ1K1GX5C0EWZ4BCPACB"
       requestBody:
         application/json: {"parent": "accounts/01J71HKJ1K1GX5C0EWZ4BCPACB"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  InvestigationService_LinkCustomerIdentification:
+    speakeasy-default-investigation-service-link-customer-identification:
+      parameters:
+        path:
+          investigation_id: "01HEWVF4ZSNKYRP293J53ASJCJ"
+      requestBody:
+        application/json: {"customer_identification_id": "01HEWVF4ZSNKYRP293J53ASJCJ"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  CustomerIdentificationResultService_CreateCustomerIdentification:
+    speakeasy-default-customer-identification-result-service-create-customer-identification:
+      parameters:
+        path:
+          correspondent_id: "01HPMZZM6RKMVZA1JQ63RQKJRP"
+      requestBody:
+        application/json: {"check_types": ["DATABASE"]}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {}
+        "500":
+          application/json: {}
+        default:
+          application/json: {}
+  AccountTransfers_PreviewTransfer:
+    speakeasy-default-account-transfers-preview-transfer:
+      requestBody:
+        application/json: {}
       responses:
         "200":
           application/json: {}

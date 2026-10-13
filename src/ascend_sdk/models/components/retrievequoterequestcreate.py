@@ -18,7 +18,7 @@ class RetrieveQuoteRequestCreateAssetType(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RetrieveQuoteRequestCreateBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -45,7 +45,7 @@ class RetrieveQuoteRequestCreateTypedDict(TypedDict):
     parent: str
     r"""The parent resource where this order will be created. Format: accounts/{account_id}"""
     broker_capacity: NotRequired[RetrieveQuoteRequestCreateBrokerCapacity]
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
     minimum_quantity: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -79,7 +79,7 @@ class RetrieveQuoteRequestCreate(BaseModel):
         Optional[RetrieveQuoteRequestCreateBrokerCapacity],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Capacity used in determining bid and ask prices. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining bid and ask prices. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     minimum_quantity: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].

@@ -15,7 +15,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class InvestorCommunicationServiceListDocumentsRequestTypedDict(TypedDict):
     page_size: NotRequired[int]
-    r"""The maximum number of items to return; The service may return fewer than this value"""
+    r"""The maximum number of items to return; The service may return fewer than this value; If unspecified, zero, or negative, at most 20 items will be returned; The maximum allowed value is 200; if a larger value is requested, the page size will be overridden to 200"""
     page_token: NotRequired[str]
     r"""Token used to get a specific page of results"""
     filter_: NotRequired[str]
@@ -27,7 +27,7 @@ class InvestorCommunicationServiceListDocumentsRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The maximum number of items to return; The service may return fewer than this value"""
+    r"""The maximum number of items to return; The service may return fewer than this value; If unspecified, zero, or negative, at most 20 items will be returned; The maximum allowed value is 200; if a larger value is requested, the page size will be overridden to 200"""
 
     page_token: Annotated[
         Optional[str],
