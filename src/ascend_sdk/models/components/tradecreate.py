@@ -71,6 +71,7 @@ class TradeCreateSideModifier(str, Enum, metaclass=utils.OpenEnumMeta):
     SHORT_COVER = "SHORT_COVER"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+    COVER = "COVER"
 
 
 class SpecialInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -121,6 +122,7 @@ class SpecialInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
     SUPPRESS_SEC_FEE = "SUPPRESS_SEC_FEE"
     SUPPRESS_TAF_FEE = "SUPPRESS_TAF_FEE"
     DIVIDEND_REINVESTMENT = "DIVIDEND_REINVESTMENT"
+    REPORT_MSRB = "REPORT_MSRB"
 
 
 class Venue(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -209,6 +211,8 @@ class TradeCreateTypedDict(TypedDict):
     r"""State of this trade's completeness in filling. True: trade is not done filling and can append more executions onto the trade False: trade is done filling and cannot append more executions onto the trade By default, trades are closed when they are created. An open trade can later be closed by calling the CompleteTrade endpoint. Additional executions can be appended to an open trade by calling the CreateExecution endpoint. Trades that are left open will be automatically closed nightly before Ledger's EOD."""
     order_id: NotRequired[str]
     r"""Street-level order id, unique by day per broker."""
+    prime: NotRequired[bool]
+    r"""RIA Trade Away indicator."""
     settlement_date: NotRequired[DateCreateTypedDict]
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
 
@@ -299,6 +303,9 @@ class TradeCreate(BaseModel):
 
     order_id: Optional[str] = None
     r"""Street-level order id, unique by day per broker."""
+
+    prime: Optional[bool] = None
+    r"""RIA Trade Away indicator."""
 
     settlement_date: Optional[DateCreate] = None
     r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:

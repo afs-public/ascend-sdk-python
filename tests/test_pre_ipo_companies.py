@@ -49,7 +49,7 @@ def test_pre_ipo_companies_pre_ipo_companies_get_pre_ipo_company():
         assert sdk is not None
 
         res = sdk.pre_ipo_companies.get_pre_ipo_company(
-            pre_ipo_company_id="a6c63e95-fe8a-4703-a74a-f2a90c0a9c6d"
+            pre_ipo_company_id="74c41a5b-b5e0-4509-964f-ca2de584c052"
         )
         assert res.http_meta is not None
         assert res.http_meta.response is not None

@@ -33,7 +33,7 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.fixed_income_pricing.preview_order_cost(account_id="<id>", order_cost_preview_request_create=components.OrderCostPreviewRequestCreate(
+    res = sdk.fixed_income_pricing.preview_order_cost(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", order_cost_preview_request_create=components.OrderCostPreviewRequestCreate(
         asset_type=components.OrderCostPreviewRequestCreateAssetType.FIXED_INCOME,
         identifier="037833100",
         identifier_type=components.OrderCostPreviewRequestCreateIdentifierType.CUSIP,
@@ -41,7 +41,7 @@ with SDK(
             price=components.DecimalCreate(),
             type=components.LimitPriceCreateType.PRICE_PER_UNIT,
         ),
-        parent="<value>",
+        parent="accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X",
         quantity=components.DecimalCreate(),
     ))
 
@@ -54,11 +54,11 @@ with SDK(
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `account_id`                                                                                         | *str*                                                                                                | :heavy_check_mark:                                                                                   | The account id.                                                                                      |
-| `order_cost_preview_request_create`                                                                  | [components.OrderCostPreviewRequestCreate](../../models/components/ordercostpreviewrequestcreate.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
-| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |
+| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          | Example                                                                                              |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                         | *str*                                                                                                | :heavy_check_mark:                                                                                   | The account id.                                                                                      | 01HBRQ5BW6ZAY4BNWP4GWRD80X                                                                           |
+| `order_cost_preview_request_create`                                                                  | [components.OrderCostPreviewRequestCreate](../../models/components/ordercostpreviewrequestcreate.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |                                                                                                      |
+| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |                                                                                                      |
 
 ### Response
 
@@ -96,11 +96,11 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.fixed_income_pricing.retrieve_quote(account_id="<id>", retrieve_quote_request_create={
+    res = sdk.fixed_income_pricing.retrieve_quote(account_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", retrieve_quote_request_create={
         "asset_type": components.RetrieveQuoteRequestCreateAssetType.FIXED_INCOME,
         "identifier": "037833100",
         "identifier_type": components.RetrieveQuoteRequestCreateIdentifierType.CUSIP,
-        "parent": "<value>",
+        "parent": "accounts/01HBRQ5BW6ZAY4BNWP4GWRD80X",
     })
 
     assert res.retrieve_quote_response is not None
@@ -112,11 +112,11 @@ with SDK(
 
 ### Parameters
 
-| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
-| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `account_id`                                                                                   | *str*                                                                                          | :heavy_check_mark:                                                                             | The account id.                                                                                |
-| `retrieve_quote_request_create`                                                                | [components.RetrieveQuoteRequestCreate](../../models/components/retrievequoterequestcreate.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |
-| `retries`                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                               | :heavy_minus_sign:                                                                             | Configuration to override the default retry behavior of the client.                            |
+| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    | Example                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `account_id`                                                                                   | *str*                                                                                          | :heavy_check_mark:                                                                             | The account id.                                                                                | 01HBRQ5BW6ZAY4BNWP4GWRD80X                                                                     |
+| `retrieve_quote_request_create`                                                                | [components.RetrieveQuoteRequestCreate](../../models/components/retrievequoterequestcreate.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |                                                                                                |
+| `retries`                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                               | :heavy_minus_sign:                                                                             | Configuration to override the default retry behavior of the client.                            |                                                                                                |
 
 ### Response
 
@@ -154,8 +154,8 @@ with SDK(
     ),
 ) as sdk:
 
-    res = sdk.fixed_income_pricing.retrieve_fixed_income_marks(correspondent_id="<id>", retrieve_fixed_income_marks_request_create={
-        "parent": "<value>",
+    res = sdk.fixed_income_pricing.retrieve_fixed_income_marks(correspondent_id="01HBRQ5BW6ZAY4BNWP4GWRD80X", retrieve_fixed_income_marks_request_create={
+        "parent": "correspondents/01HBRQ5BW6ZAY4BNWP4GWRD80X",
         "security_identifiers": [
             {
                 "identifier": "US0378331005",
@@ -177,11 +177,11 @@ with SDK(
 
 ### Parameters
 
-| Parameter                                                                                                            | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          |
-| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `correspondent_id`                                                                                                   | *str*                                                                                                                | :heavy_check_mark:                                                                                                   | The correspondent id.                                                                                                |
-| `retrieve_fixed_income_marks_request_create`                                                                         | [components.RetrieveFixedIncomeMarksRequestCreate](../../models/components/retrievefixedincomemarksrequestcreate.md) | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  |
-| `retries`                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                     | :heavy_minus_sign:                                                                                                   | Configuration to override the default retry behavior of the client.                                                  |
+| Parameter                                                                                                            | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          | Example                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                                                   | *str*                                                                                                                | :heavy_check_mark:                                                                                                   | The correspondent id.                                                                                                | 01HBRQ5BW6ZAY4BNWP4GWRD80X                                                                                           |
+| `retrieve_fixed_income_marks_request_create`                                                                         | [components.RetrieveFixedIncomeMarksRequestCreate](../../models/components/retrievefixedincomemarksrequestcreate.md) | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  |                                                                                                                      |
+| `retries`                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                     | :heavy_minus_sign:                                                                                                   | Configuration to override the default retry behavior of the client.                                                  |                                                                                                                      |
 
 ### Response
 

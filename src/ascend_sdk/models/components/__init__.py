@@ -16,6 +16,19 @@ if TYPE_CHECKING:
         AcatsAssetTypedDict,
         AssetCategory,
     )
+    from .acatsassetfailure import AcatsAssetFailure, AcatsAssetFailureTypedDict
+    from .acatsassetfailurereason import AcatsAssetFailureReason
+    from .acatsholdingassettype import AcatsHoldingAssetType
+    from .acatsineligibleholdingholding import (
+        AcatsIneligibleHoldingHolding,
+        AcatsIneligibleHoldingHoldingQuantity,
+        AcatsIneligibleHoldingHoldingQuantityTypedDict,
+        AcatsIneligibleHoldingHoldingTypedDict,
+    )
+    from .acatspreviewtransferexternalaccount import (
+        AcatsPreviewTransferExternalAccount,
+        AcatsPreviewTransferExternalAccountTypedDict,
+    )
     from .acatstransfer import (
         AcatsTransfer,
         AcatsTransferDirection,
@@ -33,6 +46,11 @@ if TYPE_CHECKING:
         RejectCode,
         TransferType,
     )
+    from .acatstransfercondition import (
+        AcatsTransferCondition,
+        AcatsTransferConditionTypedDict,
+    )
+    from .acatstransferconditionreason import AcatsTransferConditionReason
     from .accepttransferrequestcreate import (
         AcceptTransferRequestCreate,
         AcceptTransferRequestCreateTypedDict,
@@ -1617,6 +1635,10 @@ if TYPE_CHECKING:
         Identity,
         IdentityTypedDict,
     )
+    from .customeridentification_identitycreate import (
+        CustomerIdentificationIdentityCreate,
+        CustomerIdentificationIdentityCreateTypedDict,
+    )
     from .customeridentification_result import (
         BirthDateVerified,
         CustomerIdentificationResult,
@@ -1631,6 +1653,11 @@ if TYPE_CHECKING:
         NameVerified,
         PhoneNumberVerified,
         SelfieVerified,
+    )
+    from .customeridentificationcreate import (
+        CustomerIdentificationCreate,
+        CustomerIdentificationCreateCheckTypes,
+        CustomerIdentificationCreateTypedDict,
     )
     from .customerprofilecreate import (
         AnnualIncomeRangeUsd,
@@ -2625,6 +2652,12 @@ if TYPE_CHECKING:
         GenerateServiceAccountTokenRequestCreate,
         GenerateServiceAccountTokenRequestCreateTypedDict,
     )
+    from .holding import (
+        Holding,
+        HoldingQuantity,
+        HoldingQuantityTypedDict,
+        HoldingTypedDict,
+    )
     from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
     from .httppushcallbackcreate import (
         HTTPPushCallbackCreate,
@@ -2771,6 +2804,11 @@ if TYPE_CHECKING:
         IdentityIdentificationType,
         IdentityIdentificationTypedDict,
     )
+    from .identity_identificationcreate import (
+        IdentityIdentificationCreate,
+        IdentityIdentificationCreateType,
+        IdentityIdentificationCreateTypedDict,
+    )
     from .identitylookup import (
         DeviceMetadata,
         DeviceMetadataTypedDict,
@@ -2827,6 +2865,7 @@ if TYPE_CHECKING:
         IndividualEnrollmentMetadataCreateFdicCashSweep,
         IndividualEnrollmentMetadataCreateTypedDict,
     )
+    from .ineligibleholding import IneligibleHolding, IneligibleHoldingTypedDict
     from .institutioncreate import InstitutionCreate, InstitutionCreateTypedDict
     from .interestedparty import (
         CftcDocumentDeliveryPreference,
@@ -3096,6 +3135,10 @@ if TYPE_CHECKING:
         LimitPriceCreateType,
         LimitPriceCreateTypedDict,
     )
+    from .linkcustomeridentificationrequestcreate import (
+        LinkCustomerIdentificationRequestCreate,
+        LinkCustomerIdentificationRequestCreateTypedDict,
+    )
     from .linkdocumentsrequestcreate import (
         LinkDocumentsRequestCreate,
         LinkDocumentsRequestCreateTypedDict,
@@ -3290,6 +3333,18 @@ if TYPE_CHECKING:
         LotTypedDict,
     )
     from .lotcreate import LotCreate, LotCreateTypedDict, Money, MoneyTypedDict
+    from .lotmatchinginstruction import (
+        LotMatchingInstruction,
+        LotMatchingInstructionPrice,
+        LotMatchingInstructionPriceTypedDict,
+        LotMatchingInstructionQuantity,
+        LotMatchingInstructionQuantityTypedDict,
+        LotMatchingInstructionTypedDict,
+    )
+    from .lotmatchinginstructioncreate import (
+        LotMatchingInstructionCreate,
+        LotMatchingInstructionCreateTypedDict,
+    )
     from .lowpricedsecuritiescreate import (
         LowPricedSecuritiesCreate,
         LowPricedSecuritiesCreateTypedDict,
@@ -3843,6 +3898,14 @@ if TYPE_CHECKING:
         PublishDateTypedDict,
         Relation,
     )
+    from .previewtransferrequestcreate import (
+        PreviewTransferRequestCreate,
+        PreviewTransferRequestCreateTypedDict,
+    )
+    from .previewtransferresponse import (
+        PreviewTransferResponse,
+        PreviewTransferResponseTypedDict,
+    )
     from .priceadjustmentcreate import (
         PriceAdjustmentCreate,
         PriceAdjustmentCreateTypedDict,
@@ -4342,6 +4405,18 @@ if TYPE_CHECKING:
         Venue,
         WhenIssued,
     )
+    from .tradelot import (
+        TradeLot,
+        TradeLotMoney,
+        TradeLotMoneyPrice,
+        TradeLotMoneyPriceTypedDict,
+        TradeLotMoneyTypedDict,
+        TradeLotPrice,
+        TradeLotPriceTypedDict,
+        TradeLotQuantity,
+        TradeLotQuantityTypedDict,
+        TradeLotTypedDict,
+    )
     from .tradingexecutedprice import (
         Price,
         PriceTypedDict,
@@ -4368,9 +4443,17 @@ if TYPE_CHECKING:
         TradingFeeType,
         TradingFeeTypedDict,
     )
+    from .tradinglotmatchinginstructiontradedate import (
+        TradingLotMatchingInstructionTradeDate,
+        TradingLotMatchingInstructionTradeDateTypedDict,
+    )
     from .tradingsetextrareportingdatarequestcreate import (
         TradingSetExtraReportingDataRequestCreate,
         TradingSetExtraReportingDataRequestCreateTypedDict,
+    )
+    from .tradingtradelottradedate import (
+        TradingTradeLotTradeDate,
+        TradingTradeLotTradeDateTypedDict,
     )
     from .transferaccountcreate import (
         TransferAccountCreate,
@@ -4686,15 +4769,28 @@ if TYPE_CHECKING:
 
 __all__ = [
     "AcatsAsset",
+    "AcatsAssetFailure",
+    "AcatsAssetFailureReason",
+    "AcatsAssetFailureTypedDict",
     "AcatsAssetPosition",
     "AcatsAssetPositionTypedDict",
     "AcatsAssetQuantity",
     "AcatsAssetQuantityTypedDict",
     "AcatsAssetType",
     "AcatsAssetTypedDict",
+    "AcatsHoldingAssetType",
+    "AcatsIneligibleHoldingHolding",
+    "AcatsIneligibleHoldingHoldingQuantity",
+    "AcatsIneligibleHoldingHoldingQuantityTypedDict",
+    "AcatsIneligibleHoldingHoldingTypedDict",
     "AcatsPendingOut",
     "AcatsPendingOutTypedDict",
+    "AcatsPreviewTransferExternalAccount",
+    "AcatsPreviewTransferExternalAccountTypedDict",
     "AcatsTransfer",
+    "AcatsTransferCondition",
+    "AcatsTransferConditionReason",
+    "AcatsTransferConditionTypedDict",
     "AcatsTransferDirection",
     "AcatsTransferExternalAccount",
     "AcatsTransferExternalAccountTypedDict",
@@ -5933,6 +6029,11 @@ __all__ = [
     "CustomerIdentification",
     "CustomerIdentificationBirthDate",
     "CustomerIdentificationBirthDateTypedDict",
+    "CustomerIdentificationCreate",
+    "CustomerIdentificationCreateCheckTypes",
+    "CustomerIdentificationCreateTypedDict",
+    "CustomerIdentificationIdentityCreate",
+    "CustomerIdentificationIdentityCreateTypedDict",
     "CustomerIdentificationLegalAddress",
     "CustomerIdentificationLegalAddressTypedDict",
     "CustomerIdentificationResult",
@@ -6745,8 +6846,12 @@ __all__ = [
     "HTTPPushCallbackCreateTypedDict",
     "HTTPPushCallbackUpdate",
     "HTTPPushCallbackUpdateTypedDict",
+    "Holding",
+    "HoldingQuantity",
+    "HoldingQuantityTypedDict",
     "HoldingStartDate",
     "HoldingStartDateTypedDict",
+    "HoldingTypedDict",
     "IDDocument",
     "IDDocumentTypedDict",
     "IDDocumentUploadRequestCreate",
@@ -6874,6 +6979,9 @@ __all__ = [
     "IdentifierUpdateTypedDict",
     "Identity",
     "IdentityIdentification",
+    "IdentityIdentificationCreate",
+    "IdentityIdentificationCreateType",
+    "IdentityIdentificationCreateTypedDict",
     "IdentityIdentificationType",
     "IdentityIdentificationTypedDict",
     "IdentityLookup",
@@ -6923,6 +7031,8 @@ __all__ = [
     "IndividualOriginatingPartyTypedDict",
     "IndividualRecipientParty",
     "IndividualRecipientPartyTypedDict",
+    "IneligibleHolding",
+    "IneligibleHoldingTypedDict",
     "InheritedFromOwnerBirthDate",
     "InheritedFromOwnerBirthDateTypedDict",
     "InheritedFromOwnerDeathDate",
@@ -7141,6 +7251,8 @@ __all__ = [
     "LimitPriceCreateType",
     "LimitPriceCreateTypedDict",
     "LimitPriceTypedDict",
+    "LinkCustomerIdentificationRequestCreate",
+    "LinkCustomerIdentificationRequestCreateTypedDict",
     "LinkDocumentsRequestCreate",
     "LinkDocumentsRequestCreateTypedDict",
     "LinkDocumentsResponse",
@@ -7246,6 +7358,14 @@ __all__ = [
     "Lot",
     "LotCreate",
     "LotCreateTypedDict",
+    "LotMatchingInstruction",
+    "LotMatchingInstructionCreate",
+    "LotMatchingInstructionCreateTypedDict",
+    "LotMatchingInstructionPrice",
+    "LotMatchingInstructionPriceTypedDict",
+    "LotMatchingInstructionQuantity",
+    "LotMatchingInstructionQuantityTypedDict",
+    "LotMatchingInstructionTypedDict",
     "LotMoney",
     "LotMoneyTypedDict",
     "LotPrice",
@@ -7773,6 +7893,10 @@ __all__ = [
     "PreIpoCompanyTypedDict",
     "PrevailingMarketPrice",
     "PrevailingMarketPriceTypedDict",
+    "PreviewTransferRequestCreate",
+    "PreviewTransferRequestCreateTypedDict",
+    "PreviewTransferResponse",
+    "PreviewTransferResponseTypedDict",
     "PreviousProcessDate",
     "PreviousProcessDateTypedDict",
     "PreviousYearDeadline",
@@ -8314,6 +8438,16 @@ __all__ = [
     "TradeCreateTypedDict",
     "TradeDate",
     "TradeDateTypedDict",
+    "TradeLot",
+    "TradeLotMoney",
+    "TradeLotMoneyPrice",
+    "TradeLotMoneyPriceTypedDict",
+    "TradeLotMoneyTypedDict",
+    "TradeLotPrice",
+    "TradeLotPriceTypedDict",
+    "TradeLotQuantity",
+    "TradeLotQuantityTypedDict",
+    "TradeLotTypedDict",
     "TradeTypedDict",
     "TradeValueMultiplier",
     "TradeValueMultiplierTypedDict",
@@ -8329,9 +8463,13 @@ __all__ = [
     "TradingFeeAmountTypedDict",
     "TradingFeeType",
     "TradingFeeTypedDict",
+    "TradingLotMatchingInstructionTradeDate",
+    "TradingLotMatchingInstructionTradeDateTypedDict",
     "TradingSession",
     "TradingSetExtraReportingDataRequestCreate",
     "TradingSetExtraReportingDataRequestCreateTypedDict",
+    "TradingTradeLotTradeDate",
+    "TradingTradeLotTradeDateTypedDict",
     "Transfer",
     "TransferAccountCreate",
     "TransferAccountCreateTypedDict",
@@ -8606,6 +8744,16 @@ _dynamic_imports: dict[str, str] = {
     "AcatsAssetType": ".acatsasset",
     "AcatsAssetTypedDict": ".acatsasset",
     "AssetCategory": ".acatsasset",
+    "AcatsAssetFailure": ".acatsassetfailure",
+    "AcatsAssetFailureTypedDict": ".acatsassetfailure",
+    "AcatsAssetFailureReason": ".acatsassetfailurereason",
+    "AcatsHoldingAssetType": ".acatsholdingassettype",
+    "AcatsIneligibleHoldingHolding": ".acatsineligibleholdingholding",
+    "AcatsIneligibleHoldingHoldingQuantity": ".acatsineligibleholdingholding",
+    "AcatsIneligibleHoldingHoldingQuantityTypedDict": ".acatsineligibleholdingholding",
+    "AcatsIneligibleHoldingHoldingTypedDict": ".acatsineligibleholdingholding",
+    "AcatsPreviewTransferExternalAccount": ".acatspreviewtransferexternalaccount",
+    "AcatsPreviewTransferExternalAccountTypedDict": ".acatspreviewtransferexternalaccount",
     "AcatsTransfer": ".acatstransfer",
     "AcatsTransferDirection": ".acatstransfer",
     "AcatsTransferExternalAccount": ".acatstransfer",
@@ -8621,6 +8769,9 @@ _dynamic_imports: dict[str, str] = {
     "ReceiverTypedDict": ".acatstransfer",
     "RejectCode": ".acatstransfer",
     "TransferType": ".acatstransfer",
+    "AcatsTransferCondition": ".acatstransfercondition",
+    "AcatsTransferConditionTypedDict": ".acatstransfercondition",
+    "AcatsTransferConditionReason": ".acatstransferconditionreason",
     "AcceptTransferRequestCreate": ".accepttransferrequestcreate",
     "AcceptTransferRequestCreateTypedDict": ".accepttransferrequestcreate",
     "AcceptTransferResponse": ".accepttransferresponse",
@@ -9993,6 +10144,8 @@ _dynamic_imports: dict[str, str] = {
     "CustomerIdentificationTypedDict": ".customeridentification",
     "Identity": ".customeridentification",
     "IdentityTypedDict": ".customeridentification",
+    "CustomerIdentificationIdentityCreate": ".customeridentification_identitycreate",
+    "CustomerIdentificationIdentityCreateTypedDict": ".customeridentification_identitycreate",
     "BirthDateVerified": ".customeridentification_result",
     "CustomerIdentificationResult": ".customeridentification_result",
     "CustomerIdentificationResultTypedDict": ".customeridentification_result",
@@ -10006,6 +10159,9 @@ _dynamic_imports: dict[str, str] = {
     "NameVerified": ".customeridentification_result",
     "PhoneNumberVerified": ".customeridentification_result",
     "SelfieVerified": ".customeridentification_result",
+    "CustomerIdentificationCreate": ".customeridentificationcreate",
+    "CustomerIdentificationCreateCheckTypes": ".customeridentificationcreate",
+    "CustomerIdentificationCreateTypedDict": ".customeridentificationcreate",
     "AnnualIncomeRangeUsd": ".customerprofilecreate",
     "CustomerProfileCreate": ".customerprofilecreate",
     "CustomerProfileCreateTypedDict": ".customerprofilecreate",
@@ -10887,6 +11043,10 @@ _dynamic_imports: dict[str, str] = {
     "FuturesInvestmentObjective": ".futuresenrollmentmetadatacreate",
     "GenerateServiceAccountTokenRequestCreate": ".generateserviceaccounttokenrequestcreate",
     "GenerateServiceAccountTokenRequestCreateTypedDict": ".generateserviceaccounttokenrequestcreate",
+    "Holding": ".holding",
+    "HoldingQuantity": ".holding",
+    "HoldingQuantityTypedDict": ".holding",
+    "HoldingTypedDict": ".holding",
     "HTTPMetadata": ".httpmetadata",
     "HTTPMetadataTypedDict": ".httpmetadata",
     "HTTPPushCallbackCreate": ".httppushcallbackcreate",
@@ -11010,6 +11170,9 @@ _dynamic_imports: dict[str, str] = {
     "IdentityIdentification": ".identity_identification",
     "IdentityIdentificationType": ".identity_identification",
     "IdentityIdentificationTypedDict": ".identity_identification",
+    "IdentityIdentificationCreate": ".identity_identificationcreate",
+    "IdentityIdentificationCreateType": ".identity_identificationcreate",
+    "IdentityIdentificationCreateTypedDict": ".identity_identificationcreate",
     "DeviceMetadata": ".identitylookup",
     "DeviceMetadataTypedDict": ".identitylookup",
     "Geolocation": ".identitylookup",
@@ -11050,6 +11213,8 @@ _dynamic_imports: dict[str, str] = {
     "IndividualEnrollmentMetadataCreateDividendReinvestmentPlan": ".individualenrollmentmetadatacreate",
     "IndividualEnrollmentMetadataCreateFdicCashSweep": ".individualenrollmentmetadatacreate",
     "IndividualEnrollmentMetadataCreateTypedDict": ".individualenrollmentmetadatacreate",
+    "IneligibleHolding": ".ineligibleholding",
+    "IneligibleHoldingTypedDict": ".ineligibleholding",
     "InstitutionCreate": ".institutioncreate",
     "InstitutionCreateTypedDict": ".institutioncreate",
     "CftcDocumentDeliveryPreference": ".interestedparty",
@@ -11270,6 +11435,8 @@ _dynamic_imports: dict[str, str] = {
     "LimitPriceCreate": ".limitpricecreate",
     "LimitPriceCreateType": ".limitpricecreate",
     "LimitPriceCreateTypedDict": ".limitpricecreate",
+    "LinkCustomerIdentificationRequestCreate": ".linkcustomeridentificationrequestcreate",
+    "LinkCustomerIdentificationRequestCreateTypedDict": ".linkcustomeridentificationrequestcreate",
     "LinkDocumentsRequestCreate": ".linkdocumentsrequestcreate",
     "LinkDocumentsRequestCreateTypedDict": ".linkdocumentsrequestcreate",
     "LinkDocumentsResponse": ".linkdocumentsresponse",
@@ -11382,6 +11549,14 @@ _dynamic_imports: dict[str, str] = {
     "LotCreateTypedDict": ".lotcreate",
     "Money": ".lotcreate",
     "MoneyTypedDict": ".lotcreate",
+    "LotMatchingInstruction": ".lotmatchinginstruction",
+    "LotMatchingInstructionPrice": ".lotmatchinginstruction",
+    "LotMatchingInstructionPriceTypedDict": ".lotmatchinginstruction",
+    "LotMatchingInstructionQuantity": ".lotmatchinginstruction",
+    "LotMatchingInstructionQuantityTypedDict": ".lotmatchinginstruction",
+    "LotMatchingInstructionTypedDict": ".lotmatchinginstruction",
+    "LotMatchingInstructionCreate": ".lotmatchinginstructioncreate",
+    "LotMatchingInstructionCreateTypedDict": ".lotmatchinginstructioncreate",
     "LowPricedSecuritiesCreate": ".lowpricedsecuritiescreate",
     "LowPricedSecuritiesCreateTypedDict": ".lowpricedsecuritiescreate",
     "MarkPrice": ".markprice",
@@ -11855,6 +12030,10 @@ _dynamic_imports: dict[str, str] = {
     "PublishDate": ".preipocompanyresearchdocument",
     "PublishDateTypedDict": ".preipocompanyresearchdocument",
     "Relation": ".preipocompanyresearchdocument",
+    "PreviewTransferRequestCreate": ".previewtransferrequestcreate",
+    "PreviewTransferRequestCreateTypedDict": ".previewtransferrequestcreate",
+    "PreviewTransferResponse": ".previewtransferresponse",
+    "PreviewTransferResponseTypedDict": ".previewtransferresponse",
     "PriceAdjustmentCreate": ".priceadjustmentcreate",
     "PriceAdjustmentCreateTypedDict": ".priceadjustmentcreate",
     "PriceAdjustmentType": ".priceadjustmentcreate",
@@ -12241,6 +12420,16 @@ _dynamic_imports: dict[str, str] = {
     "TradeCreateTypedDict": ".tradecreate",
     "Venue": ".tradecreate",
     "WhenIssued": ".tradecreate",
+    "TradeLot": ".tradelot",
+    "TradeLotMoney": ".tradelot",
+    "TradeLotMoneyPrice": ".tradelot",
+    "TradeLotMoneyPriceTypedDict": ".tradelot",
+    "TradeLotMoneyTypedDict": ".tradelot",
+    "TradeLotPrice": ".tradelot",
+    "TradeLotPriceTypedDict": ".tradelot",
+    "TradeLotQuantity": ".tradelot",
+    "TradeLotQuantityTypedDict": ".tradelot",
+    "TradeLotTypedDict": ".tradelot",
     "Price": ".tradingexecutedprice",
     "PriceTypedDict": ".tradingexecutedprice",
     "TradingExecutedPrice": ".tradingexecutedprice",
@@ -12261,8 +12450,12 @@ _dynamic_imports: dict[str, str] = {
     "TradingFeeAmountTypedDict": ".tradingfee",
     "TradingFeeType": ".tradingfee",
     "TradingFeeTypedDict": ".tradingfee",
+    "TradingLotMatchingInstructionTradeDate": ".tradinglotmatchinginstructiontradedate",
+    "TradingLotMatchingInstructionTradeDateTypedDict": ".tradinglotmatchinginstructiontradedate",
     "TradingSetExtraReportingDataRequestCreate": ".tradingsetextrareportingdatarequestcreate",
     "TradingSetExtraReportingDataRequestCreateTypedDict": ".tradingsetextrareportingdatarequestcreate",
+    "TradingTradeLotTradeDate": ".tradingtradelottradedate",
+    "TradingTradeLotTradeDateTypedDict": ".tradingtradelottradedate",
     "TransferAccountCreate": ".transferaccountcreate",
     "TransferAccountCreateTypedDict": ".transferaccountcreate",
     "TransferCreate": ".transfercreate",

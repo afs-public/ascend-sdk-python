@@ -10,6 +10,7 @@
 * [accept_transfer](#accept_transfer) - Accept Transfer
 * [reject_transfer](#reject_transfer) - Reject Transfer
 * [get_transfer](#get_transfer) - Get Transfer
+* [preview_transfer](#preview_transfer) - Preview Transfer
 
 ## create_transfer
 
@@ -290,4 +291,56 @@ with SDK(
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Status    | 400, 403, 404    | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## preview_transfer
+
+Previews what an ACATS transfer of a linked account's holdings would look like: the holdings sorted into eligible and ineligible (with reasons), plus any transfer- or account-level conditions. The linked account comes from a Data Aggregator Connect connection (see [Create Connection](https://developer.apexclearing.com/apex-beta/v1-dev/reference/dacservice_createconnection)); ACATS resolves the holdings from it internally.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="AccountTransfers_PreviewTransfer" method="post" path="/acats/v1/transfers:preview" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.account_transfers.preview_transfer(request={})
+
+    assert res.preview_transfer_response is not None
+
+    # Handle response
+    print(res.preview_transfer_response)
+
+```
+
+### Parameters
+
+| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `request`                                                                                          | [components.PreviewTransferRequestCreate](../../models/components/previewtransferrequestcreate.md) | :heavy_check_mark:                                                                                 | The request object to use for the request.                                                         |
+| `retries`                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                   | :heavy_minus_sign:                                                                                 | Configuration to override the default retry behavior of the client.                                |
+
+### Response
+
+**[operations.AccountTransfersPreviewTransferResponse](../../models/operations/accounttransferspreviewtransferresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500              | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |

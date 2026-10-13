@@ -358,7 +358,7 @@ with SDK(
 ) as sdk:
 
     res = sdk.trade_booking.create_execution(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_id="01FAKETRADEIDPROVIDEDFROMCREATETRADE", execution_create=components.ExecutionCreate(
-        execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+        execution_time=parse_datetime("2024-07-17T12:00:00.000Z"),
         external_id="0H06HAP3A3Y",
         price=components.DecimalCreate(),
         quantity=components.DecimalCreate(),
@@ -536,7 +536,7 @@ with SDK(
 
     res = sdk.trade_booking.rebook_execution(account_id="02HASWB2DTMRT3DAM45P56J2T2", trade_id="01J0XX2KDN3M9QKFKRE2HYSCQM", execution_id="02G0XX2KDN3M9QKFKRE2HYSCMY", rebook_execution_request_create=components.RebookExecutionRequestCreate(
         execution=components.ExecutionCreate(
-            execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+            execution_time=parse_datetime("2024-07-17T12:00:00.000Z"),
             external_id="0H06HAP3A3Y",
             price=components.DecimalCreate(),
             quantity=components.DecimalCreate(),

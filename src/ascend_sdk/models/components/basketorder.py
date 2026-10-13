@@ -9,6 +9,7 @@ from .baskettradingexecutions import (
     BasketTradingExecutions,
     BasketTradingExecutionsTypedDict,
 )
+from .tradelot import TradeLot, TradeLotTypedDict
 from ascend_sdk import utils
 from ascend_sdk.types import (
     BaseModel,
@@ -301,6 +302,8 @@ class BasketOrderTypedDict(TypedDict):
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported"""
     last_update_time: NotRequired[Nullable[datetime]]
     r"""Time of the last order update"""
+    lot_matching_instructions: NotRequired[List[TradeLotTypedDict]]
+    r"""Specifies instructions for how to match tax lots to the order. Only applicable for SELL orders. Maximum 100 instructions per order. Each instruction must include quantity. When id is specified, trade_date and price must not be specified. When id is not specified, trade_date is required and price is optional."""
     max_sell_quantity: NotRequired[Nullable[BasketOrderMaxSellQuantityTypedDict]]
     r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
 
@@ -399,6 +402,9 @@ class BasketOrder(BaseModel):
     last_update_time: OptionalNullable[datetime] = UNSET
     r"""Time of the last order update"""
 
+    lot_matching_instructions: Optional[List[TradeLot]] = None
+    r"""Specifies instructions for how to match tax lots to the order. Only applicable for SELL orders. Maximum 100 instructions per order. Each instruction must include quantity. When id is specified, trade_date and price must not be specified. When id is not specified, trade_date is required and price is optional."""
+
     max_sell_quantity: OptionalNullable[BasketOrderMaxSellQuantity] = UNSET
     r"""The maximum number of shares to be sold if this is a notional SELL order of an Equity asset type. (Prohibited for other side or asset_type inputs.)
 
@@ -472,6 +478,7 @@ class BasketOrder(BaseModel):
             "identifier",
             "identifier_type",
             "last_update_time",
+            "lot_matching_instructions",
             "max_sell_quantity",
             "name",
             "notional_value",

@@ -43,7 +43,6 @@ with SDK(
         client_order_id="a6d5258b-6b23-478a-8145-98e79d60427a",
         currency_code="USD",
         legs=[],
-        limit_price=components.DecimalCreate(),
         order_date=components.DateCreate(),
         order_type=components.OptionOrderCreateOrderType.LIMIT,
         price_direction=components.PriceDirection.CREDIT,

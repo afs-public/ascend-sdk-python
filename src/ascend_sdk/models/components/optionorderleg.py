@@ -29,14 +29,14 @@ class OptionOrderLegAssetType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class AveragePriceTypedDict(TypedDict):
-    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices."""
+    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices. Supports up to 8 decimal places."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class AveragePrice(BaseModel):
-    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices."""
+    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices. Supports up to 8 decimal places."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -81,7 +81,7 @@ class OptionOrderLegTypedDict(TypedDict):
     asset_type: NotRequired[OptionOrderLegAssetType]
     r"""The type of the asset in this option order leg. Orders with only a single leg may only contain an OPTION asset type. Orders with multiple legs must contain at least one OPTION leg, and no more than one EQUITY leg."""
     average_price: NotRequired[Nullable[AveragePriceTypedDict]]
-    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices."""
+    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices. Supports up to 8 decimal places."""
     direction: NotRequired[OptionOrderLegDirection]
     r"""The computed direction for this leg. When `side` is BUY, `direction` will be DEBIT. When `side` is SELL, `direction` will be CREDIT."""
     executions: NotRequired[List[OptionOrderLegExecutionTypedDict]]
@@ -110,7 +110,7 @@ class OptionOrderLeg(BaseModel):
     r"""The type of the asset in this option order leg. Orders with only a single leg may only contain an OPTION asset type. Orders with multiple legs must contain at least one OPTION leg, and no more than one EQUITY leg."""
 
     average_price: OptionalNullable[AveragePrice] = UNSET
-    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices."""
+    r"""The computed average price for this leg, which is a weighted average (by quantity) of the executed prices. Supports up to 8 decimal places."""
 
     direction: Annotated[
         Optional[OptionOrderLegDirection], PlainValidator(validate_open_enum(False))

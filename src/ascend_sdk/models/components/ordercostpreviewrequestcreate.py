@@ -21,7 +21,7 @@ class OrderCostPreviewRequestCreateAssetType(str, Enum, metaclass=utils.OpenEnum
 class OrderCostPreviewRequestCreateBrokerCapacity(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -59,7 +59,7 @@ class OrderCostPreviewRequestCreateTypedDict(TypedDict):
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
     broker_capacity: NotRequired[OrderCostPreviewRequestCreateBrokerCapacity]
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
 
 class OrderCostPreviewRequestCreate(BaseModel):
@@ -98,4 +98,4 @@ class OrderCostPreviewRequestCreate(BaseModel):
         Optional[OrderCostPreviewRequestCreateBrokerCapacity],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""

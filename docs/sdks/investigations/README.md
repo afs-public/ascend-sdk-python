@@ -10,7 +10,9 @@
 * [list_investigations](#list_investigations) - List Investigations
 * [link_documents](#link_documents) - Link Documents
 * [get_watchlist_item](#get_watchlist_item) - Get Watchlist Item
+* [link_customer_identification](#link_customer_identification) - Link Customer Identification to an Investigation
 * [get_customer_identification](#get_customer_identification) - Get Identity Verification
+* [create_customer_identification](#create_customer_identification) - Create Identity Verification
 * [create_identity_lookup](#create_identity_lookup) - Create Identity Lookup
 * [verify_identity_lookup](#verify_identity_lookup) - Verify Identity Lookup
 
@@ -161,6 +163,7 @@ with SDK(
 | `page_token`                                                                                                                                                                                                                                                                                                                                                                                | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                          | The page token used to request a specific page of the search results                                                                                                                                                                                                                                                                                                                        |                                                                                                                                                                                                                                                                                                                                                                                             |
 | `filter_`                                                                                                                                                                                                                                                                                                                                                                                   | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                          | A CEL string to filter results; See the [CEL Search](https://developer.apexclearing.com/apex-fintech-solutions/docs/cel-search) page in Guides for more information; Filter options include:<br/> ListInvestigationStatesResponse.investigation_states                                                                                                                                      | person.given_name == 'Jane' && person.family_name == 'Dough'                                                                                                                                                                                                                                                                                                                                |
 | `order_by`                                                                                                                                                                                                                                                                                                                                                                                  | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                          | The order in which investigations are listed. Only one field and direction can be specified. Supported fields (followed by 'asc' or 'desc'; 'asc' is default if left blank):<br/>  - investigation_request_state<br/>  - correspondent_id<br/>  - scope<br/>  - identity_verification<br/>  - watchlist_screen<br/>  - person.given_name<br/>  - person.family_name<br/>  - entity.legal_name<br/>  - created_at<br/>  - updated_at | person.given_name desc                                                                                                                                                                                                                                                                                                                                                                      |
+| `include_total_size`                                                                                                                                                                                                                                                                                                                                                                        | *Optional[bool]*                                                                                                                                                                                                                                                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                          | Include the total size of the collection specified by this query in the response (this may incur a performance penalty)<br/><br/>**Field Dependencies:**<br/><br/>When include_total_size is explicitly set to false, total_size in the response will be 0.<br/><br/>Must be empty if `total_size` is `false`.                                                                              |                                                                                                                                                                                                                                                                                                                                                                                             |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                                                                                                                                                             |
 
 ### Response
@@ -285,6 +288,61 @@ with SDK(
 | errors.Status    | 500, 503         | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
 
+## link_customer_identification
+
+Use this endpoint to link a customer identification to an investigation Upon linking a CustomerIdentification, the Investigation.IdentityVerificationState will be re-evaluated based on the CustomerIdentification.Result The CustomerIdentification must exist, and CustomerIdentification.Result.completed must be true The CustomerIdentification.Identity.given_name must match the Investigation.Person.given_name The CustomerIdentification.Identity.family_name must match the Investigation.Person.family_name The CustomerIdentification.Identity.birth_date must match the Investigation.Person.birth_date If the above validations are not met, the service will return a FAILED_PRECONDITION error status with the incorrect fields
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="InvestigationService_LinkCustomerIdentification" method="post" path="/investigations/v1/investigations/{investigation_id}:linkCustomerIdentification" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.investigations.link_customer_identification(investigation_id="01HEWVF4ZSNKYRP293J53ASJCJ", link_customer_identification_request_create={
+        "customer_identification_id": "01HEWVF4ZSNKYRP293J53ASJCJ",
+    })
+
+    assert res.investigation is not None
+
+    # Handle response
+    print(res.investigation)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              | Example                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `investigation_id`                                                                                                       | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The investigation id.                                                                                                    | 01HEWVF4ZSNKYRP293J53ASJCJ                                                                                               |
+| `link_customer_identification_request_create`                                                                            | [components.LinkCustomerIdentificationRequestCreate](../../models/components/linkcustomeridentificationrequestcreate.md) | :heavy_check_mark:                                                                                                       | N/A                                                                                                                      |                                                                                                                          |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |                                                                                                                          |
+
+### Response
+
+**[operations.InvestigationServiceLinkCustomerIdentificationResponse](../../models/operations/investigationservicelinkcustomeridentificationresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
 ## get_customer_identification
 
 Gets a CustomerIdentification by CustomerIdentification ID.
@@ -336,6 +394,63 @@ with SDK(
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Status    | 400, 403, 404    | application/json |
+| errors.Status    | 500, 503         | application/json |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |
+
+## create_customer_identification
+
+Request a new CustomerIdentificationCheck
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="CustomerIdentificationResultService_CreateCustomerIdentification" method="post" path="/cip/v1/correspondents/{correspondent_id}/customerIdentifications" -->
+```python
+from ascend_sdk import SDK
+from ascend_sdk.models import components
+
+
+with SDK(
+    security=components.Security(
+        api_key="ABCDEFGHIJ0123456789abcdefghij0123456789",
+        service_account_creds=components.ServiceAccountCreds(
+            private_key="-----BEGIN PRIVATE KEY--{OMITTED FOR BREVITY}",
+            name="FinFirm",
+            organization="correspondents/00000000-0000-0000-0000-000000000000",
+            type="serviceAccount",
+        ),
+    ),
+) as sdk:
+
+    res = sdk.investigations.create_customer_identification(correspondent_id="01HPMZZM6RKMVZA1JQ63RQKJRP", customer_identification_create={
+        "check_types": [
+            components.CustomerIdentificationCreateCheckTypes.DATABASE,
+        ],
+    })
+
+    assert res.customer_identification is not None
+
+    # Handle response
+    print(res.customer_identification)
+
+```
+
+### Parameters
+
+| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        | Example                                                                                            |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `correspondent_id`                                                                                 | *str*                                                                                              | :heavy_check_mark:                                                                                 | The correspondent id.                                                                              | 01HPMZZM6RKMVZA1JQ63RQKJRP                                                                         |
+| `customer_identification_create`                                                                   | [components.CustomerIdentificationCreate](../../models/components/customeridentificationcreate.md) | :heavy_check_mark:                                                                                 | N/A                                                                                                |                                                                                                    |
+| `retries`                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                   | :heavy_minus_sign:                                                                                 | Configuration to override the default retry behavior of the client.                                |                                                                                                    |
+
+### Response
+
+**[operations.CustomerIdentificationResultServiceCreateCustomerIdentificationResponse](../../models/operations/customeridentificationresultservicecreatecustomeridentificationresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Status    | 400, 403         | application/json |
 | errors.Status    | 500, 503         | application/json |
 | errors.SDKError  | 4XX, 5XX         | \*/\*            |
 

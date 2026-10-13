@@ -30,7 +30,7 @@ class OrderCostPreviewResponseAssetType(str, Enum, metaclass=utils.OpenEnumMeta)
 
 
 class OrderCostPreviewResponseBrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -199,7 +199,7 @@ class OrderCostPreviewResponseTypedDict(TypedDict):
     asset_type: NotRequired[OrderCostPreviewResponseAssetType]
     r"""The type of asset referenced by the security identifier"""
     broker_capacity: NotRequired[OrderCostPreviewResponseBrokerCapacity]
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""
     estimated_accrued_interest: NotRequired[Nullable[EstimatedAccruedInterestTypedDict]]
     r"""The estimated total of accrued interest that would be exchanged in an order of the given quantity"""
     estimated_gross_amount: NotRequired[Nullable[EstimatedGrossAmountTypedDict]]
@@ -241,7 +241,7 @@ class OrderCostPreviewResponse(BaseModel):
         Optional[OrderCostPreviewResponseBrokerCapacity],
         PlainValidator(validate_open_enum(False)),
     ] = None
-    r"""Capacity used in determining the order cost. Defaults to \"AGENCY\" if no value specified."""
+    r"""Capacity used in determining the order cost. If not specified, defaults to the capacity configured for the correspondent by Apex."""
 
     estimated_accrued_interest: OptionalNullable[EstimatedAccruedInterest] = UNSET
     r"""The estimated total of accrued interest that would be exchanged in an order of the given quantity"""

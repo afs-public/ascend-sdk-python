@@ -7,6 +7,10 @@ from .decimalcreate import DecimalCreate, DecimalCreateTypedDict
 from .feecreate import FeeCreate, FeeCreateTypedDict
 from .letterofintentcreate import LetterOfIntentCreate, LetterOfIntentCreateTypedDict
 from .limitpricecreate import LimitPriceCreate, LimitPriceCreateTypedDict
+from .lotmatchinginstructioncreate import (
+    LotMatchingInstructionCreate,
+    LotMatchingInstructionCreateTypedDict,
+)
 from .rightsofaccumulationcreate import (
     RightsOfAccumulationCreate,
     RightsOfAccumulationCreateTypedDict,
@@ -41,7 +45,7 @@ class AssetType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class BrokerCapacity(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
+    r"""Defaults to \"AGENCY\" for all asset types except Fixed Income. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  If not specified, defaults to the capacity configured for  the correspondent by Apex. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     BROKER_CAPACITY_UNSPECIFIED = "BROKER_CAPACITY_UNSPECIFIED"
     AGENCY = "AGENCY"
@@ -104,6 +108,7 @@ class SpecialReportingInstructions(str, Enum, metaclass=utils.OpenEnumMeta):
     ROUND_UP = "ROUND_UP"
     CAT_PARENT_ALGO = "CAT_PARENT_ALGO"
     CAT_PARENT_GTC = "CAT_PARENT_GTC"
+    MANUAL_ORDER = "MANUAL_ORDER"
 
 
 class TimeInForce(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -141,13 +146,6 @@ class OrderCreateTypedDict(TypedDict):
     r"""Identifier of the asset (of the type specified in `identifier_type`)."""
     identifier_type: OrderCreateIdentifierType
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
-    order_date: DateCreateTypedDict
-    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
-
-    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
-
-    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
-    """
     order_type: OrderType
     r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
     side: Side
@@ -155,15 +153,17 @@ class OrderCreateTypedDict(TypedDict):
     time_in_force: TimeInForce
     r"""For Equities: Either \"DAY\" or \"GOOD_TILL_DATE\" are allowed. For Mutual Funds: Only \"DAY\" is allowed. For Fixed Income: Only \"DAY\" is allowed. For Event Contracts: Either \"DAY\", \"GOOD_TILL_DATE\", \"GOOD_TILL_CANCELED\", \"IMMEDIATE_OR_CANCEL\", or \"FILL_OR_KILL\" are allowed."""
     broker_capacity: NotRequired[BrokerCapacity]
-    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
+    r"""Defaults to \"AGENCY\" for all asset types except Fixed Income. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  If not specified, defaults to the capacity configured for  the correspondent by Apex. For Event Contracts: Only \"AGENCY\" is allowed."""
     client_received_time: NotRequired[Nullable[datetime]]
-    r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+    r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
     client_sent_time: NotRequired[Nullable[datetime]]
     r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
     commission: NotRequired[CommissionCreateTypedDict]
     r"""A custom commission applied to an order"""
     currency_code: NotRequired[str]
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+    desk_handling_requested: NotRequired[bool]
+    r"""Request that the order be handled by a desk trader. Only available for Equity orders. When omitted, treated as false."""
     fees: NotRequired[List[FeeCreateTypedDict]]
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
     identifier_issuing_region_code: NotRequired[str]
@@ -172,6 +172,8 @@ class OrderCreateTypedDict(TypedDict):
     r"""Letter of Intent (LOI). An LOI allows investors to receive sales charge discounts based on a commitment to buy a specified monetary amount of shares over a period of time, usually 13 months."""
     limit_price: NotRequired[LimitPriceCreateTypedDict]
     r"""A limit price definition"""
+    lot_matching_instructions: NotRequired[List[LotMatchingInstructionCreateTypedDict]]
+    r"""Tax lot matching instructions specifying which lots to sell. Maximum 100 instructions per order."""
     max_sell_quantity: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -186,6 +188,13 @@ class OrderCreateTypedDict(TypedDict):
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
     """
+    order_date: NotRequired[DateCreateTypedDict]
+    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
+
+    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
+
+    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
+    """
     quantity: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -196,7 +205,7 @@ class OrderCreateTypedDict(TypedDict):
     rights_of_accumulation: NotRequired[RightsOfAccumulationCreateTypedDict]
     r"""Rights of Accumulation (ROA). An ROA allows an investor to aggregate their own fund shares with the holdings of certain related parties toward achieving the investment thresholds at which sales charge discounts become available."""
     special_reporting_instructions: NotRequired[List[SpecialReportingInstructions]]
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
+    r"""Special Reporting Instructions to be applied to this order. Can include up to 5 Instructions. Supported for Equity orders only; must be omitted for Mutual Fund, Fixed Income, and Event Contract orders. BROKER_DEALER_ORDER and FULLY_REGISTERED are not supported. CAT_PARENT_ALGO is only allowed on LIMIT orders; CAT_PARENT_GTC is only allowed on GOOD_TILL_DATE orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
     stop_price: NotRequired[StopPriceCreateTypedDict]
     r"""A stop price definition"""
     time_in_force_expiration_date: NotRequired[DateCreateTypedDict]
@@ -229,14 +238,6 @@ class OrderCreate(BaseModel):
     ]
     r"""The identifier type of the asset being ordered. For Equities: only SYMBOL is supported For Mutual Funds: only SYMBOL and CUSIP are supported For Fixed Income: only CUSIP and ISIN are supported For Event Contracts: only SYMBOL and ASSET_ID are supported"""
 
-    order_date: DateCreate
-    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
-
-    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
-
-    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
-    """
-
     order_type: Annotated[OrderType, PlainValidator(validate_open_enum(False))]
     r"""The execution type of this order. For Equities: MARKET, LIMIT, STOP and MARKET_IF_TOUCHED are supported. For Mutual Funds: only MARKET is supported. For Fixed Income: only LIMIT is supported. For Event Contracts: only MARKET and LIMIT are supported."""
 
@@ -249,10 +250,10 @@ class OrderCreate(BaseModel):
     broker_capacity: Annotated[
         Optional[BrokerCapacity], PlainValidator(validate_open_enum(False))
     ] = None
-    r"""Defaults to \"AGENCY\" if not specified, except for Fixed Income orders from RIA correspondents which default to \"PRINCIPAL\" when not specified. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  - RIA correspondents: Defaults to \"PRINCIPAL\" if not specified.  - Other correspondents: Defaults to \"AGENCY\" if not specified. For Event Contracts: Only \"AGENCY\" is allowed."""
+    r"""Defaults to \"AGENCY\" for all asset types except Fixed Income. For Equities: Only \"AGENCY\" is allowed. For Mutual Funds: Only \"AGENCY\" is allowed. For Fixed Income: Either \"AGENCY\" or \"PRINCIPAL\" are allowed.  If not specified, defaults to the capacity configured for  the correspondent by Apex. For Event Contracts: Only \"AGENCY\" is allowed."""
 
     client_received_time: OptionalNullable[datetime] = UNSET
-    r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
+    r"""Required for Equity Orders for any client who is having Apex do CAT reporting on their behalf. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed. When special_reporting_instructions includes MANUAL_ORDER, this is also reported to CAT as the time the order was manually received from the customer."""
 
     client_sent_time: OptionalNullable[datetime] = UNSET
     r"""Only relevant for CAT reporting when clients have Apex do CAT reporting on their behalf. Denotes the time the client sent the order to Apex. A value may be provided for non-Equity orders, and will be remembered, but valid timestamps will have no impact on how they are processed."""
@@ -262,6 +263,9 @@ class OrderCreate(BaseModel):
 
     currency_code: Optional[str] = None
     r"""Defaults to \"USD\". Only \"USD\" is supported. Full list of currency codes is defined at: https://en.wikipedia.org/wiki/ISO_4217"""
+
+    desk_handling_requested: Optional[bool] = None
+    r"""Request that the order be handled by a desk trader. Only available for Equity orders. When omitted, treated as false."""
 
     fees: Optional[List[FeeCreate]] = None
     r"""Fees that will be applied to this order. Only the BROKER_FEE type is supported."""
@@ -274,6 +278,9 @@ class OrderCreate(BaseModel):
 
     limit_price: Optional[LimitPriceCreate] = None
     r"""A limit price definition"""
+
+    lot_matching_instructions: Optional[List[LotMatchingInstructionCreate]] = None
+    r"""Tax lot matching instructions specifying which lots to sell. Maximum 100 instructions per order."""
 
     max_sell_quantity: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
@@ -289,6 +296,14 @@ class OrderCreate(BaseModel):
     [BigDecimal]:
     https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
     [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
+    """
+
+    order_date: Optional[DateCreate] = None
+    r"""Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
+
+    * A full date, with non-zero year, month, and day values * A month and day value, with a zero year, such as an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, such as a credit card expiration date
+
+    Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and `google.protobuf.Timestamp`.
     """
 
     quantity: Optional[DecimalCreate] = None
@@ -309,7 +324,7 @@ class OrderCreate(BaseModel):
             ]
         ]
     ] = None
-    r"""Special Reporting Instructions to be applied to this order. Can include multiple Instructions. Only available for Equity, Mutual Fund, and Fixed Income orders."""
+    r"""Special Reporting Instructions to be applied to this order. Can include up to 5 Instructions. Supported for Equity orders only; must be omitted for Mutual Fund, Fixed Income, and Event Contract orders. BROKER_DEALER_ORDER and FULLY_REGISTERED are not supported. CAT_PARENT_ALGO is only allowed on LIMIT orders; CAT_PARENT_GTC is only allowed on GOOD_TILL_DATE orders. MANUAL_ORDER marks the order as manually received from the customer for CAT reporting; client_received_time should then be set to the time the order was received."""
 
     stop_price: Optional[StopPriceCreate] = None
     r"""A stop price definition"""
@@ -335,12 +350,15 @@ class OrderCreate(BaseModel):
             "client_sent_time",
             "commission",
             "currency_code",
+            "desk_handling_requested",
             "fees",
             "identifier_issuing_region_code",
             "letter_of_intent",
             "limit_price",
+            "lot_matching_instructions",
             "max_sell_quantity",
             "notional_value",
+            "order_date",
             "quantity",
             "rights_of_accumulation",
             "special_reporting_instructions",

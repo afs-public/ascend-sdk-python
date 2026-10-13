@@ -8,13 +8,19 @@ from typing_extensions import TypedDict
 
 
 class TradingSetExtraReportingDataRequestCreateTypedDict(TypedDict):
+    r"""The message to request setting extra reporting data on an existing order."""
+
     cancel_confirmed_time: Nullable[datetime]
+    r"""Correspondent-side timestamp when the cancellation was confirmed. Maps to CAT CANCEL_CONFIRM_TIME."""
     name: str
     r"""Format: accounts/{account_id}/orders/{order_id}"""
 
 
 class TradingSetExtraReportingDataRequestCreate(BaseModel):
+    r"""The message to request setting extra reporting data on an existing order."""
+
     cancel_confirmed_time: Nullable[datetime]
+    r"""Correspondent-side timestamp when the cancellation was confirmed. Maps to CAT CANCEL_CONFIRM_TIME."""
 
     name: str
     r"""Format: accounts/{account_id}/orders/{order_id}"""

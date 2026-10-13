@@ -35,6 +35,15 @@ class InvestigationServiceListInvestigationsRequestTypedDict(TypedDict):
     - created_at
     - updated_at
     """
+    include_total_size: NotRequired[bool]
+    r"""Include the total size of the collection specified by this query in the response (this may incur a performance penalty)
+
+    **Field Dependencies:**
+
+    When include_total_size is explicitly set to false, total_size in the response will be 0.
+
+    Must be empty if `total_size` is `false`.
+    """
 
 
 class InvestigationServiceListInvestigationsRequest(BaseModel):
@@ -74,6 +83,19 @@ class InvestigationServiceListInvestigationsRequest(BaseModel):
     - entity.legal_name
     - created_at
     - updated_at
+    """
+
+    include_total_size: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Include the total size of the collection specified by this query in the response (this may incur a performance penalty)
+
+    **Field Dependencies:**
+
+    When include_total_size is explicitly set to false, total_size in the response will be 0.
+
+    Must be empty if `total_size` is `false`.
     """
 
 

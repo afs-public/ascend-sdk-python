@@ -266,7 +266,7 @@ class InvestorDocs(BaseSDK):
 
         List documents that match search parameters.
 
-        :param page_size: The maximum number of items to return; The service may return fewer than this value
+        :param page_size: The maximum number of items to return; The service may return fewer than this value; If unspecified, zero, or negative, at most 20 items will be returned; The maximum allowed value is 200; if a larger value is requested, the page size will be overridden to 200
         :param page_token: Token used to get a specific page of results
         :param filter_: CEL filter to be applied against the documents; Providing a correspondent to search for is required; Only one correspondent can be searched at a time
         :param retries: Override the default retry configuration for this method
@@ -396,7 +396,7 @@ class InvestorDocs(BaseSDK):
 
         List documents that match search parameters.
 
-        :param page_size: The maximum number of items to return; The service may return fewer than this value
+        :param page_size: The maximum number of items to return; The service may return fewer than this value; If unspecified, zero, or negative, at most 20 items will be returned; The maximum allowed value is 200; if a larger value is requested, the page size will be overridden to 200
         :param page_token: Token used to get a specific page of results
         :param filter_: CEL filter to be applied against the documents; Providing a correspondent to search for is required; Only one correspondent can be searched at a time
         :param retries: Override the default retry configuration for this method

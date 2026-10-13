@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict, deprecated
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class MoneyTypedDict(TypedDict):
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     currency_code: NotRequired[str]
     price: NotRequired[DecimalCreateTypedDict]
@@ -29,7 +29,7 @@ class MoneyTypedDict(TypedDict):
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
 class Money(BaseModel):
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     currency_code: Optional[str] = None
 
@@ -48,7 +48,7 @@ class LotCreateTypedDict(TypedDict):
     id: NotRequired[str]
     r"""User-specified ID for the lot"""
     money: NotRequired[MoneyTypedDict]
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
     price: NotRequired[DecimalCreateTypedDict]
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].
 
@@ -84,7 +84,7 @@ class LotCreate(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
     ] = None
-    r"""Deprecated; use the price field instead"""
+    r"""Deprecated: use the price field instead"""
 
     price: Optional[DecimalCreate] = None
     r"""A representation of a decimal value, such as 2.5. Clients may convert values into language-native decimal formats, such as Java's [BigDecimal][] or Python's [decimal.Decimal][].

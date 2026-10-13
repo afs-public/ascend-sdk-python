@@ -245,6 +245,8 @@ class AcatsTransferState(str, Enum, metaclass=utils.OpenEnumMeta):
     PURGED = "PURGED"
     PENDING_REVIEW_MARGINS = "PENDING_REVIEW_MARGINS"
     PENDING_SUBMISSION = "PENDING_SUBMISSION"
+    RESPONSE_OVERDUE = "RESPONSE_OVERDUE"
+    PENDING_CORRECTION = "PENDING_CORRECTION"
 
 
 class TransferType(str, Enum, metaclass=utils.OpenEnumMeta):

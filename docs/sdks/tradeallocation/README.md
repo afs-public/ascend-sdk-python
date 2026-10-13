@@ -40,7 +40,7 @@ with SDK(
     res = sdk.trade_allocation.create_trade_allocation(account_id="01FAKEACCOUNT1TYKWEYRH8S2K", trade_allocation_create=components.TradeAllocationCreate(
         asset_type=components.TradeAllocationCreateAssetType.EQUITY,
         broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
-        execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+        execution_time=parse_datetime("2024-07-17T12:00:00.000Z"),
         from_account_id="01HASWB2DTMRT3DAM45P56J2H3",
         identifier="AAPL",
         identifier_type=components.TradeAllocationCreateIdentifierType.SYMBOL,
@@ -225,7 +225,7 @@ with SDK(
         trade_allocation=components.TradeAllocationCreate(
             asset_type=components.TradeAllocationCreateAssetType.EQUITY,
             broker_capacity=components.TradeAllocationCreateBrokerCapacity.AGENCY,
-            execution_time=parse_datetime("2024-07-17T12:00:00Z"),
+            execution_time=parse_datetime("2024-07-17T12:00:00.000Z"),
             from_account_id="01HASWB2DTMRT3DAM45P56J2H3",
             identifier="AAPL",
             identifier_type=components.TradeAllocationCreateIdentifierType.SYMBOL,

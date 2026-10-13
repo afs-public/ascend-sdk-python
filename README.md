@@ -342,6 +342,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [accept_transfer](docs/sdks/accounttransfers/README.md#accept_transfer) - Accept Transfer
 * [reject_transfer](docs/sdks/accounttransfers/README.md#reject_transfer) - Reject Transfer
 * [get_transfer](docs/sdks/accounttransfers/README.md#get_transfer) - Get Transfer
+* [preview_transfer](docs/sdks/accounttransfers/README.md#preview_transfer) - Preview Transfer
 
 ### [ach_transfers](docs/sdks/achtransfers/README.md)
 
@@ -480,7 +481,9 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 * [list_investigations](docs/sdks/investigations/README.md#list_investigations) - List Investigations
 * [link_documents](docs/sdks/investigations/README.md#link_documents) - Link Documents
 * [get_watchlist_item](docs/sdks/investigations/README.md#get_watchlist_item) - Get Watchlist Item
+* [link_customer_identification](docs/sdks/investigations/README.md#link_customer_identification) - Link Customer Identification to an Investigation
 * [get_customer_identification](docs/sdks/investigations/README.md#get_customer_identification) - Get Identity Verification
+* [create_customer_identification](docs/sdks/investigations/README.md#create_customer_identification) - Create Identity Verification
 * [create_identity_lookup](docs/sdks/investigations/README.md#create_identity_lookup) - Create Identity Lookup
 * [verify_identity_lookup](docs/sdks/investigations/README.md#verify_identity_lookup) - Verify Identity Lookup
 

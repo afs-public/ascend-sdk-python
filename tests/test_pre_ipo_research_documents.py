@@ -27,7 +27,7 @@ def test_pre_ipo_research_documents_pre_ipo_company_research_documents_list_pre_
         assert sdk is not None
 
         res = sdk.pre_ipo_research_documents.list_pre_ipo_company_research_documents(
-            pre_ipo_company_id="a6c63e95-fe8a-4703-a74a-f2a90c0a9c6d",
+            pre_ipo_company_id="74c41a5b-b5e0-4509-964f-ca2de584c052",
             page_size=25,
             page_token="",
             filter_="",

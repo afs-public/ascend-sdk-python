@@ -69,14 +69,14 @@ class CancelTradeAllocationResponseCommissionAmount(BaseModel):
 
 
 class CancelTradeAllocationResponseGrossAmountTypedDict(TypedDict):
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     value: NotRequired[str]
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
 
 
 class CancelTradeAllocationResponseGrossAmount(BaseModel):
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     value: Optional[str] = None
     r"""The decimal value, as a string; Refer to [Google’s Decimal type protocol buffer](https://github.com/googleapis/googleapis/blob/40203ca1880849480bbff7b8715491060bbccdf1/google/type/decimal.proto#L33) for details"""
@@ -252,6 +252,7 @@ class CancelTradeAllocationResponseSideModifier(
     SHORT_COVER = "SHORT_COVER"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+    COVER = "COVER"
 
 
 class CancelTradeAllocationResponseSpecialInstructions(
@@ -304,6 +305,7 @@ class CancelTradeAllocationResponseSpecialInstructions(
     SUPPRESS_SEC_FEE = "SUPPRESS_SEC_FEE"
     SUPPRESS_TAF_FEE = "SUPPRESS_TAF_FEE"
     DIVIDEND_REINVESTMENT = "DIVIDEND_REINVESTMENT"
+    REPORT_MSRB = "REPORT_MSRB"
 
 
 class CancelTradeAllocationResponseState(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -356,6 +358,8 @@ class CancelTradeAllocationResponseTradeAllocationTypedDict(TypedDict):
         Nullable[CancelTradeAllocationResponseCommissionAmountTypedDict]
     ]
     r"""Commission amount of the trade allocation that will only be applied to the to_account_id."""
+    executing_broker: NotRequired[str]
+    r"""Executing broker of the trade allocation."""
     execution_time: NotRequired[Nullable[datetime]]
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
     fees: NotRequired[List[BookingFeeTypedDict]]
@@ -367,7 +371,7 @@ class CancelTradeAllocationResponseTradeAllocationTypedDict(TypedDict):
     gross_amount: NotRequired[
         Nullable[CancelTradeAllocationResponseGrossAmountTypedDict]
     ]
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
     identifier: NotRequired[str]
     r"""Identifier (of the type specified in `identifier_type`). Responses will supply the originally requested identifier."""
     identifier_type: NotRequired[CancelTradeAllocationResponseIdentifierType]
@@ -390,6 +394,8 @@ class CancelTradeAllocationResponseTradeAllocationTypedDict(TypedDict):
         Nullable[CancelTradeAllocationResponsePriceAdjustmentTypedDict]
     ]
     r"""Price adjustment that will be applied to the net price of the security."""
+    prime: NotRequired[bool]
+    r"""RIA Trade Away indicator."""
     quantity: NotRequired[Nullable[CancelTradeAllocationResponseQuantityTypedDict]]
     r"""Quantity with requirement of 12 or less integral number and 5 or less fractional precision."""
     settlement_date: NotRequired[
@@ -452,6 +458,9 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
     ] = UNSET
     r"""Commission amount of the trade allocation that will only be applied to the to_account_id."""
 
+    executing_broker: Optional[str] = None
+    r"""Executing broker of the trade allocation."""
+
     execution_time: OptionalNullable[datetime] = UNSET
     r"""Timestamp of when the trade allocation took place. If settlement_date is not provided, this field will be converted into Eastern Time and used to calculate settlement_date."""
 
@@ -465,7 +474,7 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
     r"""The current activity_id of the trade allocation that positions will be moved from in the Ledger."""
 
     gross_amount: OptionalNullable[CancelTradeAllocationResponseGrossAmount] = UNSET
-    r"""Gross amount is calculated by the Booking service by multiplying price and quantity and fixing it to 2 fractional precision. Optionally specifiable. If present, will override the gross_amount calculated above."""
+    r"""Gross amount is calculated by the Booking service by multiplying price, quantity, and security_type specific multiplier and round half up to 2 decimal point. Requirement of 11 or less integral number and 2 or less fractional precision. Optionally specifiable for FIXED_INCOME trades. Not allowed for trades of other instrument types. If present, will override the gross_amount calculated above."""
 
     identifier: Optional[str] = None
     r"""Identifier (of the type specified in `identifier_type`). Responses will supply the originally requested identifier."""
@@ -500,6 +509,9 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
         UNSET
     )
     r"""Price adjustment that will be applied to the net price of the security."""
+
+    prime: Optional[bool] = None
+    r"""RIA Trade Away indicator."""
 
     quantity: OptionalNullable[CancelTradeAllocationResponseQuantity] = UNSET
     r"""Quantity with requirement of 12 or less integral number and 5 or less fractional precision."""
@@ -565,6 +577,7 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
             "broker_capacity",
             "client_order_id",
             "commission_amount",
+            "executing_broker",
             "execution_time",
             "fees",
             "from_account_id",
@@ -579,6 +592,7 @@ class CancelTradeAllocationResponseTradeAllocation(BaseModel):
             "prevailing_market_price",
             "price",
             "price_adjustment",
+            "prime",
             "quantity",
             "settlement_date",
             "side_modifier",

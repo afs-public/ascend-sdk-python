@@ -27,7 +27,7 @@ def test_pre_ipo_news_events_pre_ipo_company_news_events_list_pre_ipo_company_ne
         assert sdk is not None
 
         res = sdk.pre_ipo_news_events.list_pre_ipo_company_news_events(
-            pre_ipo_company_id="a6c63e95-fe8a-4703-a74a-f2a90c0a9c6d",
+            pre_ipo_company_id="74c41a5b-b5e0-4509-964f-ca2de584c052",
             page_size=25,
             page_token="",
         )
